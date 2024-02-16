@@ -274,7 +274,7 @@ namespace PhoneShop.Controllers
             List<CartItemModel> CartItems = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); ///gio hang khong co sp thi tra ve
 
             if(CartItems.Count == 0) {
-                ViewBag.msgErorr = "Giỏ hàng rỗng không thể thanh toán";
+                ViewBag.msgErorr = "Giỏ hàng rỗng không thể thanh toán!";
                 return RedirectToRoute("Cart");
 
             }

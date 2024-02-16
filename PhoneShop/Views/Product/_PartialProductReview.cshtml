@@ -1,0 +1,21 @@
+﻿@using PhoneShop.Models
+
+@model List<Product_Review>
+
+@if (Model != null && Model.Count() > 0)
+{
+
+    foreach (var item in Model)
+    {
+        <div class="comment-container">
+            <span class="comment-author">@item.UserName:</span>
+            <p class="comment-content">@item.Content</p>
+        </div>
+
+    
+
+
+    }
+}
+
+

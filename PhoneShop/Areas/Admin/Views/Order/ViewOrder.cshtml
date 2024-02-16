@@ -1,0 +1,180 @@
+﻿@model IEnumerable<PhoneShop.Models.Order_Details>
+@using PhoneShop.Models
+@using System.Globalization;
+@{
+    ViewData["Title"] = "ViewOrder";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    List<Product> ListItem = ViewBag.iProductOrder; 
+
+    //format tien
+
+    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
+    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
+                           ?? CultureInfo.CurrentCulture;
+    string NameOrder = "" ;
+    string Phone = "";
+    string Address = "";
+    string Order_Id = "";
+   
+
+
+
+    foreach(var i in Model)
+    {
+        NameOrder = i.Order_Name;
+        Phone = i.Phone;
+        Address = i.Address;
+        Order_Id = i.OrderId;
+       
+    };
+
+    decimal SumTotal(int Quantity, decimal Price)
+    {
+        return Quantity * Price;
+    };
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý đơn hàng</a>
+        </li>
+    </ul>
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý đơn hàng</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Đơn hàng</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Chi tiết đơn hàng</h3>
+
+
+        </div>
+        <div class="card-body">
+
+            <p>Tên khách hàng: @NameOrder</p>
+            <p>Số điện thoại: @Phone</p>
+            <p>Địa chỉ: @Address</p>
+           
+            <p>Tổng tiền:
+
+                @{
+                    string formattedPriceOrder = @ViewBag.SumPriceOrder.ToString("C", culture); // "C" là định dạng tiền tệ
+
+                }
+                @formattedPriceOrder
+            </p>
+
+            @if (@ViewBag.PaymentMethodOrder == 1)
+            {
+                <a href="/#" class="btn btn-outline-success">Quá trình giao hàng</a>
+            }
+            else
+            {
+                <a href="/Order/repository_payment-@Order_Id" class="btn btn-outline-success">Xem thông tin thanh toán trực tuyến</a>
+            }
+
+           
+            
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Tên sản phẩm
+                        </th>
+                        <th>
+                           Hinh
+                        </th>
+                        <th>So luong</th>
+                        <th>
+                            Giá tiền
+                        </th> 
+                        <th>
+                           Thành tiền
+                        </th>
+                       
+                       
+                    </tr>
+                </thead>
+               
+                <tbody>
+                   
+                    @foreach (var item in Model)
+                    {
+                    <tr id="trow_@item.Id">
+
+                        <td>@item.Product.Title</td>
+                        <td> <img src="~/images/Product/@item.Product.ImageDefaultName" width="100" height="100" style="border: solid 1px " /></td>
+                        <td>@item.Quantity</td>
+                        <td>
+                                @{
+                                    string formattedPrice = @item.Product.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+
+                                }
+                                @formattedPrice
+                            
+                         </td>
+                            <td>
+
+                                @{
+                                    string formattedPrice1 = @SumTotal(item.Quantity, item.Product.Price).ToString("C", culture); // "C" là định dạng tiền tệ
+
+                                }
+                                @formattedPrice1
+                                
+                            </td>
+
+                            
+
+                           
+
+                    </tr>
+
+
+                        
+                    }
+                  
+                    
+                </tbody>
+            </table>
+            
+
+
+
+        </div>
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+

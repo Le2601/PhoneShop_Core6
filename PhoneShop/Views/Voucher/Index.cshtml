@@ -1,0 +1,134 @@
+﻿@model IEnumerable<PhoneShop.Models.Voucher>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    //format tien
+
+    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
+    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
+                           ?? CultureInfo.CurrentCulture;
+
+   
+}
+<style>
+    .voucher-item {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .voucher-code {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .voucher-discount {
+        font-size: 24px;
+        color: red;
+    }
+
+    .voucher-expiry {
+        font-size: 14px;
+        color: #888;
+    }
+</style>
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>Voucher</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="container" style="min-height:600px">
+    <div class="row">
+       
+
+        @foreach(var item in Model)
+        {
+            <div class="col-md-6 col-sm-12">
+                <div class="voucher-item">
+                    <div class="voucher-code">@item.Code</div>
+                    <div class="voucher-discount">
+                        @{
+
+
+
+                            string DiscountAmount = item.DiscountAmount.ToString("C", culture); // "C" là định dạng tiền tệ
+
+
+
+
+                        }
+                        Giảm: @DiscountAmount
+                    </div>
+
+                    <div class="voucher-discount">
+                        @{
+
+
+
+                            string DiscountConditions = item.DiscountConditions.ToString("C", culture); // "C" là định dạng tiền tệ
+
+
+
+
+                        }
+                        Điều kiện: @DiscountConditions
+                    </div>
+                    <div class="voucher-expiry">Ngày hết hạn: @item.ExpiryDate</div>
+                        <a class="btn btn-success voucher" data-id="@item.Id">Lưu</a>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.voucher', function () {
+                var id = $(this).data('id');
+                          
+                var conf = confirm("Lấy phiếu giảm giá này")
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Voucher/Add',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                alert("Them thanh cong");
+
+                                location.reload();
+                            }
+                            else {
+                                alert("Them that bai");
+
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+}

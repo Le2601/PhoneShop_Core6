@@ -1,0 +1,288 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .container {
+        display: flex;
+    }
+
+    .left-column {
+        width: 1253px;
+    }
+
+    .right-column {
+        flex-grow: 1;
+    }
+</style>
+
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thống kê doanh thu</a>
+        </li>
+    </ul>
+}
+
+
+
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thống kê doanh thu</h3>
+
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="left-column" style="width:660px" >
+                    <p>Thống kê trong ngày</p>
+                    <div style="width: 600px; height: 300px;">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <p>Danh sách đơn hàng</p>
+                    <div style="overflow-y: scroll; height: 300px;">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Lợi nhuận</th>
+                                        <th>Ngày đặt</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="load_data_day">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="left-column" style="width:660px">
+                    <p>Thống kê 7 ngày qua</p>
+                    <div style="width: 600px; height: 300px;">
+                        <canvas id="myChart1"></canvas>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <p>.</p>
+                    <div style="overflow-y: scroll; height: 300px;">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Lợi nhuận</th>
+                                        <th>Ngày đặt</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="load_data">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            
+
+
+           
+
+
+
+        </div>
+       
+       
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+
+
+@section scripts{
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetChartDataCurrentDate", "Statistical")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (chartData) {
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: [chartData.ngayhientai],
+                            datasets: [
+                                {
+                                    label: "Doanh thu",
+                                    data: [chartData.doanhthu],
+                                    backgroundColor: "rgba(75, 192, 192, 0.8)"
+                                },
+                                {
+                                    label: "Lợi nhuận",
+                                    data: [chartData.loinhuan],
+                                    backgroundColor: "rgba(255, 99, 132, 0.8)"
+                                }
+                                
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+
+
+            //tuan trc
+
+            $.ajax({
+                url: '@Url.Action("GetChartDataLastWeek", "Statistical")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (chartData) {
+                    var ctx = document.getElementById('myChart1').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: chartData.date,
+                            datasets: [
+                                {
+                                    label: "Doanh thu",
+                                    data: chartData.doanhthu,
+                                    backgroundColor: "rgba(75, 192, 192, 0.8)"
+                                },
+                                {
+                                    label: "Lợi nhuận",
+                                    data: chartData.loinhuan,
+                                    backgroundColor: "rgba(255, 99, 132, 0.8)"
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    
+
+                   
+
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+
+
+
+            $.ajax({
+                url: '/admin/Statistical/GetListOrdeLastWeek',
+                type: 'GET',
+                success: function (data) {
+                    // Khi nhận được dữ liệu từ controller, thực hiện xử lý và cập nhật phần tử <tbody> tương ứng.
+                    var tbody = $('#load_data');
+                    tbody.empty(); // Xóa nội dung hiện tại của <tbody>
+
+                    // Xử lý dữ liệu và thêm các hàng vào <tbody>
+                    $.each(data, function (index, order) {
+                        console.log(data);
+                        console.log(data.Id_Order);
+                     
+                        var tr = $('<tr>');
+                        tr.append($('<td>').text(order.id_Order));
+                        tr.append($('<td>').text(order.total_Order.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })));
+                        tr.append($('<td>').text(order.profit.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })));
+                        //format dd/mm/yyyy
+                        var formattedDate = moment(order.order_Date).format('DD/MM/YYYY');
+                        tr.append($('<td>').text(formattedDate));
+                       
+
+                        tbody.append(tr); 
+                    });
+                }
+            });
+
+            //ngay hien tai
+            $.ajax({
+                url: '/admin/Statistical/GetListOrderCurrentDate',
+                type: 'GET',
+                success: function (data) {
+                    // Khi nhận được dữ liệu từ controller, thực hiện xử lý và cập nhật phần tử <tbody> tương ứng.
+                    var tbody = $('#load_data_day');
+                    tbody.empty(); // Xóa nội dung hiện tại của <tbody>
+
+                    // Xử lý dữ liệu và thêm các hàng vào <tbody>
+                    $.each(data, function (index, order) {
+                        console.log(data);
+                        console.log(data.Id_Order);
+
+                        var tr = $('<tr>');
+                        tr.append($('<td>').text(order.id_Order));
+                        tr.append($('<td>').text(order.total_Order.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })));
+                        tr.append($('<td>').text(order.profit.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })));
+                        //format dd/mm/yyyy
+                        var formattedDate = moment(order.order_Date).format('DD/MM/YYYY');
+                        tr.append($('<td>').text(formattedDate));
+
+
+                        tbody.append(tr);
+                    });
+                }
+            });
+
+
+        });
+    </script>
+
+    
+
+
+}

@@ -1,0 +1,243 @@
+﻿@model IEnumerable<PhoneShop.Models.Order>
+@using System.Globalization;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    List<ImageProduct> IsCourseContents = ViewBag.imageproduct;
+
+    //format tien
+
+    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
+    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
+                           ?? CultureInfo.CurrentCulture;
+
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý đơn hàng</a>
+        </li>
+    </ul>
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý đơn hàng</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Đơn hàng</li>
+                    <li><a href="/admin/Order/ThongkeNgay">Thống kê ngày</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách đơn hàng</h3>
+
+           
+        </div>
+        <div class="card-body">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Mã đơn hàng
+                        </th>
+                        <th>
+                            Ngày đặt
+                        </th>
+                        <th>
+                            Phương thức thanh toán
+                        </th>
+                        <th>
+                            Trạng thái
+                        </th>
+                        <th>
+                           Tổng tiền
+                        </th>
+                        <th>Tổng giá nhập</th>
+                        <th>Lợi nhuận</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr id="trow_@item.Id_Order">
+
+                               
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id_Order)
+                                </td>
+                                <td>
+                                    @item.Order_Date
+                                </td>
+                               
+                                    @{
+                                        if(item.PaymentMethod == 2)
+                                        {
+                                        <td>Thanh toán trực tuyến</td>
+                                        }
+                                        else
+                                        {
+                                        <td>COD</td>
+                                        }
+                                    }
+
+                                @{
+                                    if (item.Order_Status == 0)
+                                    {
+                                        <td><a class="btn btn-success btnView" data-id="@item.Id_Order" href="#">Chưa xác nhận</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td>Đã xác nhận</td>
+                                    }
+                                }
+                                
+                                <td>
+                                    @{
+                                        string formattedPrice = item.Total_Order.ToString("C", culture); // "C" là định dạng tiền tệ
+
+                                    }
+                                    @formattedPrice
+                                </td>
+
+                                <td>
+                                    @{
+                                        string tonggianhap = item.Profit.ToString("C", culture); // "C" là định dạng tiền tệ
+
+                                    }
+                                    @tonggianhap
+                                </td>
+
+                                <td>
+                                    @{
+                                        decimal loiN = item.Total_Order - item.Profit;
+                                        string loinhuan = loiN.ToString("C", culture); // "C" là định dạng tiền tệ
+
+                                    }
+                                    @loinhuan
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" href="/admin/Order/ViewOrder/@item.Id_Order">Xem</a>
+                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id_Order" href="#">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>Chưa có bảng ghi</td>
+
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+
+
+        </div>
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+
+
+
+
+
+
+<!-- /.content -->
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnView', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Bạn muốn xác nhận đơn hàng chứ ");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Order/ComfirmStatus',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Bạn muốn xoa chứ ");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Order/delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+}
+
+
+

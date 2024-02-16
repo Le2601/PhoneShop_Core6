@@ -1,0 +1,37 @@
+﻿@model IEnumerable<PhoneShop.Models.ImageProduct>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+}
+
+@* <h1>Index</h1>
+<button id="openDialogButton">Open Dialog</button>
+<div id="dialog" title="Dialog Title">
+    <p>This is the content of the dialog.</p>
+</div> *@
+
+
+ @if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        
+
+       <img src="~/images/Product/@item.DataName" width="200px" height="200px" style="border: solid 1px " />
+
+
+
+    }
+}
+@section scripts{
+
+
+    <script>
+        $(document).ready(function () {
+            $("#openDialogButton").click(function () {
+                $("#dialog").dialog(); // Hiển thị dialog
+            });
+        });
+    </script>
+
+}

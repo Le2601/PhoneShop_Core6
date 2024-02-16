@@ -1,0 +1,403 @@
+﻿@model PhoneShop.ModelViews.ProductViewModel
+@using PhoneShop.Models
+@using PhoneShop.ModelViews
+
+@{
+    ViewData["Title"] = "Details_Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<ImageProduct> IsImage = ViewBag.getListImage;
+
+    List<Product_Review> IsReview = ViewBag.ListReview;
+
+    specifications Ispecifi = ViewBag.GetSpecifi;
+
+
+    List<ProductViewModel> IsRelatedProduct = ViewBag.RelatedProduct;
+
+    List<ProductViewModel> IsSuggestProduct = ViewBag.SuggestProduct;
+
+
+
+}
+@{
+
+
+   
+    //format tien
+
+    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
+    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
+                           ?? CultureInfo.CurrentCulture;
+
+    int tienO = 0;
+}
+
+<style>
+    .comment-container {
+        background-color: #f4f4f4;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .comment-author {
+        font-weight: bold;
+    }
+
+    .comment-content {
+        margin-top: 5px;
+    }
+
+    /* CSS cho thanh cuộn */
+    #comment-section {
+        height: 200px;
+        overflow-y: scroll;
+    }
+
+    #load-more-comments {
+        display: none;
+        text-align: center;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+  
+  
+</style>
+
+
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>Shop</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="single-sidebar">
+                    <h2 class="sidebar-title">Search Products</h2>
+                    <form action="">
+                        <input type="text" placeholder="Search products..." list="items" id="searchInput">
+
+                        <datalist id="items">
+
+                            
+                            @{
+                                var summ = 0;
+                                foreach (var i in IsSuggestProduct)
+                                {
+                                    <option  id="@i.Id">@i.Title</option>
+
+                                   
+
+
+
+                                }
+                            }
+                           
+
+                        </datalist>
+
+                        <input type="submit" value="Search">
+                    </form>
+                </div>
+
+                <div class="single-sidebar">
+                    <h2 class="sidebar-title">Products</h2>
+                    <div class="thubmnail-recent">
+                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
+                        <h2><a href="">Sony Smart TV - 2015</a></h2>
+                        <div class="product-sidebar-price">
+                            <ins>$700.00</ins> <del>$100.00</del>
+                        </div>
+                    </div>
+                    <div class="thubmnail-recent">
+                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
+                        <h2><a href="">Sony Smart TV - 2015</a></h2>
+                        <div class="product-sidebar-price">
+                            <ins>$700.00</ins> <del>$100.00</del>
+                        </div>
+                    </div>
+                    <div class="thubmnail-recent">
+                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
+                        <h2><a href="">Sony Smart TV - 2015</a></h2>
+                        <div class="product-sidebar-price">
+                            <ins>$700.00</ins> <del>$100.00</del>
+                        </div>
+                    </div>
+                    <div class="thubmnail-recent">
+                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
+                        <h2><a href="">Sony Smart TV - 2015</a></h2>
+                        <div class="product-sidebar-price">
+                            <ins>$700.00</ins> <del>$100.00</del>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="single-sidebar">
+                    <h2 class="sidebar-title">Recent Posts</h2>
+                    <ul>
+                        <li><a href="">Sony Smart TV - 2015</a></li>
+                        <li><a href="">Sony Smart TV - 2015</a></li>
+                        <li><a href="">Sony Smart TV - 2015</a></li>
+                        <li><a href="">Sony Smart TV - 2015</a></li>
+                        <li><a href="">Sony Smart TV - 2015</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="product-content-right">
+                    <div class="product-breadcroumb">
+                        <a href="">Home</a>
+                        <a href="">@ViewBag.getCategory</a>
+                        <a href="">@Model.Title</a>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="product-images">
+                                <div class="product-main-img">
+                                    <img src="~/images/Product/@Model.ImageProductDefault" alt="">
+                                </div>
+
+                              
+
+                                <div class="product-gallery">
+
+                                    @await Html.PartialAsync("_PartialListImage",IsImage)
+                                    
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="product-inner">
+                                <h2 class="product-name">@Model.Title</h2>
+                                <div class="product-inner-price">
+                                
+
+
+                                    @{
+                                        if (Model.Discount == 0 || Model.Discount == null || Model.Discount is string)
+                                        {
+                                            <ins>
+                                                @{
+
+
+
+                                                    string formattedPrice = Model.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+
+
+
+
+                                                }
+                                                @formattedPrice
+                                            </ins>
+                                        }
+                                        else
+                                        {
+                                            <ins>
+                                                @{
+
+
+
+                                                    string formattedPrice = Model.Discount.ToString("C", culture); // "C" là định dạng tiền tệ
+
+
+
+
+                                                }
+                                                @formattedPrice
+                                            </ins>
+                                        }
+                                    }
+
+                                    <del>
+                                        @{
+                                            string formattedPrice2;
+                                            if (Model.Discount > 0)
+                                            {
+                                                formattedPrice2 = Model.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                            }
+                                            else
+                                            {
+
+                                                formattedPrice2 = tienO.ToString("C", culture); // "C" là định dạng tiền tệ
+                                            }
+
+
+                                        }
+                                        @formattedPrice2
+
+
+
+
+                                    </del>
+                                </div>
+
+                              
+                                    <div class="quantity">
+                                        <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
+                                    </div>
+                                <button class="'btn btn-success"> <a class="confirmAdd" data-id="@Model.Id">Add to cart</a></button>
+                                
+
+                                <div class="product-inner-category">
+                                    <p>Hãng: <a href="">@ViewBag.getCategory</a></p>
+                                </div>
+
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#tab1">Mô tả</a></li>
+                                    <li><a data-toggle="tab" href="#tab2">Thông số</a></li>
+                                </ul>
+                                    
+                                <div class="tab-content" style="overflow-y: auto;">
+                                    <div id="tab1" class="tab-pane fade in active" style="max-height: 200px; overflow-y: auto;">
+                                        <p>@Html.Raw(Model.Description)</p>
+
+                                        
+                                    </div>
+                                    <div id="tab2" class="tab-pane fade" style="max-height: 200px; overflow-y: auto;">
+                                        <p><strong style="color:black">Camera:</strong> @Ispecifi.Camera</p>
+                                        <p><strong style="color:black">Bộ xử lý:</strong> @Ispecifi.Processor</p>
+                                        <p><strong style="color:black">Pin:</strong> @Ispecifi.Battery</p>
+                                        <p><strong style="color:black">Kết nối:</strong> @Ispecifi.Connectivity</p>
+                                        <p><strong style="color:black">Kích thước:</strong> @Ispecifi.DimensionsAndeight</p>
+                                        <p><strong style="color:black">Display:</strong> @Ispecifi.Display</p>
+                                        <p><strong style="color:black">Lưu trữ:</strong> @Ispecifi.InternalStorage</p>
+                                        <p><strong style="color:black">Hệ điều hành:</strong> @Ispecifi.OperatingSystem</p>                                      
+                                        <p><strong style="color:black">Chống nước:</strong> @Ispecifi.WaterResistance</p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                              <!--  binh luan-->
+
+                    <h1>Bình luận sản phẩm</h1>
+
+                    <div id="comment-section">
+                        @await Html.PartialAsync("_PartialProductReview",IsReview)
+
+                        <div id="load-more-comments">Xem thêm bình luận</div>
+                    </div>
+
+                          <!-- Form bình luận -->
+                          <form id="comment-form" asp-action="Review_Product" asp-controller="Product" asp-route-id="@Model.Id" method="post">
+
+                              <br />
+
+                                 <textarea id="comment" name="content" placeholder="Nhập bình luận của bạn..." style="width: 750px;resize: none;" required></textarea>
+
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
+                                {
+                                    <input type="submit" value="Gửi bình luận">
+                                }
+                                else
+                                {
+                                    <a href="/Login.html" style="color:red">Cần đăng nhập</a>
+                                }
+
+                          </form>
+
+                          <!--  end binh luan-->
+                    @await Html.PartialAsync("_PartialDetail_ProductRelated",IsRelatedProduct)
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.confirmAdd', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Muon them vao gio hang");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Cart/Add',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                alert("Them thanh cong");
+                                // alert(rs.msg);
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+
+           
+        });
+    </script>
+
+   @*  <script>
+        var searchInput = document.getElementById('searchInput');
+        var items = document.getElementById('items');
+        var options = [];
+        // Xóa tất cả các tùy chọn hiện có
+        while (items.firstChild) {
+            items.removeChild(items.firstChild);
+        }
+        // Lưu danh sách tùy chọn vào một mảng JavaScript
+        @foreach (var i in IsSuggestProduct)
+        {
+            @:options.push("@i.Title");
+        }
+
+            searchInput.addEventListener('input', function () {
+                var keyword = searchInput.value.toLowerCase();
+
+                // Xóa tất cả các tùy chọn hiện có
+                while (items.firstChild) {
+                    items.removeChild(items.firstChild);
+                }
+
+                // Hiển thị gợi ý nếu từ khóa khớp với các tùy chọn
+                options.forEach(function (option) {
+                    if (option.toLowerCase().includes(keyword)) {
+                        var optionElement = document.createElement('option');
+                        optionElement.value = option;
+                        items.appendChild(optionElement);
+                    }
+                });
+
+               
+            });
+        // Xóa tất cả các tùy chọn hiện có
+        while (items.firstChild) {
+            items.removeChild(items.firstChild);
+        }
+    </script> *@
+
+}

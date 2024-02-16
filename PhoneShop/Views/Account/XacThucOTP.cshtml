@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "XacThucOTP";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+
+
+
+
+
+  
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Xác thực OTP</h4>
+            </div>
+            <div class="modal-body">
+                <form asp-action="XacThucOTP" asp-controller="Account" method="post">
+
+                    <input name="xacthucOTP" type="text" placeholder="Nhập mã OTP" />
+
+                    <input name="otpramdom" value="@ViewBag.otpramdom" type="text" />
+
+                    <button type="submit" class="btn btn-primary btn-lg">Xác nhận</button>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="goBack()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section ScriptsLogin{
+
+    <script>
+        $(document).ready(function () {
+            $('#myModal').modal('show');
+        });
+    </script>
+
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+
+}
+   
+
+
+
+
+
+
+
+

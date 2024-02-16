@@ -1,0 +1,71 @@
+﻿@{
+
+
+   
+    //format tien
+
+    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
+    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
+                           ?? CultureInfo.CurrentCulture;
+
+    
+}
+
+
+<div class="site-branding-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="logo">
+                    <h1><a href="./"><img style="height:64px; width:176px" src="~/images/z5081071622409_00f78bf27f16bdb5817f5a3d8672b7a0.jpg"></a></h1>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="shopping-item">
+                    <a href="cart.html">
+                        Cart - <span class="cart-amunt">
+                            @{
+                                string formattedPrice2;
+
+                                formattedPrice2 = @ViewBag.GrandTotal.ToString("C", culture); // "C" là định dạng tiền tệ
+                                
+                              
+
+
+                            }
+                            @formattedPrice2
+                        </span> <i class="fa fa-shopping-cart"></i> <span class="product-count">@ViewBag.CountCart</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End site branding area -->
+
+<div class="mainmenu-area">
+    <div class="container">
+        <div class="row">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">Home</a></li>
+                   
+                    
+                    
+                    <li><a href="/voucher.html">Voucher</a></li>
+                    <li><a href="/support.html">Support</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> <!-- End mainmenu area -->

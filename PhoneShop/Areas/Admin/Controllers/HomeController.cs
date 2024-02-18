@@ -44,5 +44,11 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             return View();
         }
+
+        public IActionResult NotFoundApp()
+        {
+
+            return View();
+        }
     }
 }

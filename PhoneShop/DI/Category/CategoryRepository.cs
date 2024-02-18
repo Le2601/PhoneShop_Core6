@@ -32,10 +32,11 @@ namespace PhoneShop.DI.Category
         {
 
             var items = await _dbContext.Categories.FindAsync(id);
-            if(items == null)
+            if (items == null)
             {
-                return StatusCode(404, "Không tìm thấy");
+                return null;
             }
+          
 
 
             var ItemData = new CategoryModelView
@@ -51,7 +52,6 @@ namespace PhoneShop.DI.Category
 
 
         }
-
 
         public async Task<IEnumerable<PhoneShop.Models.Category>> GetAll()
         {

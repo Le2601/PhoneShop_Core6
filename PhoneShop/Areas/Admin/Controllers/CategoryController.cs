@@ -108,6 +108,8 @@ namespace PhoneShop.Areas.Admin.Controllers
         {
             var GetById = await _CategoryRepository.GetById(id);
 
+            if (GetById == null) return RedirectToAction("NotFoundApp", "Home");
+
 
             return View(GetById);
         }
@@ -164,7 +166,11 @@ namespace PhoneShop.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
 
-            var GetById = await _dbContext.Categories.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var GetById = await _CategoryRepository.GetById(id);
+
+            if (GetById == null) return RedirectToAction("NotFoundApp", "Home");
+
+            //var GetById = await _dbContext.Categories.Where(x => x.Id == id).FirstOrDefaultAsync();
 
             string pathimg = "/Category/" + GetById.Image!;
             //xoa hinh anh trong folder

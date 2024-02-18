@@ -37,13 +37,13 @@ namespace PhoneShop.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(SupportDirectoryData model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 return View(model);
-                
+
             }
             model.Alias = PhoneShop.Helpper.Utilities.SEOUrl(model.Title);
-            var Create = _repository.Create(model);
+             _repository.Create(model);
 
             return RedirectToAction("Index");
 

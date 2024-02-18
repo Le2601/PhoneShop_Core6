@@ -16,13 +16,10 @@ namespace PhoneShop.DI.SupportDirectory
             _context = context;
         }
 
-        public SupportDirectoryViewModel Create(SupportDirectoryData model)
+        public void Create(SupportDirectoryData model)
         {
 
-            if(model == null)
-            {
-                return null;
-            }
+          
 
             var newSpDir = new Models.SupportDirectory {
                     
@@ -36,13 +33,14 @@ namespace PhoneShop.DI.SupportDirectory
 
             _context.SaveChanges();
 
-            var createdViewModel = new SupportDirectoryViewModel
-            {
-                Id = newSpDir.Id,
-                Title = newSpDir.Title,
-                Alias = newSpDir.Alias
-            };
-            return createdViewModel;
+            //var createdViewModel = new SupportDirectoryViewModel
+            //{
+            //    Id = newSpDir.Id,
+            //    Title = newSpDir.Title,
+            //    Alias = newSpDir.Alias
+            //};
+           
+            //return model;
              
         }
 

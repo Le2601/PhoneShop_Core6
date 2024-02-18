@@ -13,7 +13,7 @@ namespace PhoneShop.DI.SupportDirectory
 
         SupportDirectoryViewModel GetById(int id);
 
-        SupportDirectoryViewModel Create(SupportDirectoryData model);
+        void Create(SupportDirectoryData model);
 
 
 

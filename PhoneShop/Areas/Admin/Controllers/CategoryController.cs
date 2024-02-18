@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PhoneShop.Helpper;
 using System.IO;
+using PhoneShop.Areas.Admin.Data;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -54,15 +55,15 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category model, Microsoft.AspNetCore.Http.IFormFile img)
+        public async Task<IActionResult> Create(CategoryData model, Microsoft.AspNetCore.Http.IFormFile img)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
 
 
 
                 //kiem tra neu trung ten
-                var CheckTitle = _dbContext.Categories.Where(x => x.Title == model.Title).ToList();
+                var CheckTitle = _dbContext.Categories.Where(x => x.Title == model.Title).ToList();              
                 if (CheckTitle.Any())
                 {
                     return View(model);
@@ -72,9 +73,11 @@ namespace PhoneShop.Areas.Admin.Controllers
                     //xu ly hinh anh
                     if (img != null)
                     {
+                        
+
 
                         string extension = Path.GetExtension(img.FileName);
-                        string imageName = Utilities.SEOUrl(model.Title) + extension;
+                        string imageName = Utilities.SEOUrl(model.Title!) + extension;
 
                         model.Image = await Utilities.UploadFile(img, @"Category", imageName.ToLower());
 
@@ -89,9 +92,9 @@ namespace PhoneShop.Areas.Admin.Controllers
 
 
 
-                model.Alias = Helpper.Utilities.SEOUrl(model.Title);
+                model.Alias = Helpper.Utilities.SEOUrl(model.Title!);
 
-                var CreateI = await _CategoryRepository.Create(model);
+                _CategoryRepository.Create(model);
 
                 return RedirectToAction("index");
 
@@ -100,13 +103,70 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var GetById = await _CategoryRepository.GetById(id);
+
+
+            return View(GetById);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PhoneShop.Models.Category model, Microsoft.AspNetCore.Http.IFormFile img, IFormCollection form)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}         
+            int IdCategory = Convert.ToInt32(form["IdCategory"]);
+            var GetById = await _CategoryRepository.GetById(IdCategory);
+
+            //xu ly hinh anh
+            if (img != null)
+            {
+                 //xoa hinh anh cu
+                string pathimg = "/Category/" + GetById.Image!;
+                //xoa hinh anh trong folder
+                string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Category/" + GetById.Image);
+                if (System.IO.File.Exists(pathFile))
+                {
+                    // Xóa hình ảnh
+                    System.IO.File.Delete(pathFile);
+
+                }
+                //end xoa hinh anh cu
+
+
+
+                string extension = Path.GetExtension(img.FileName);
+                string imageName = Utilities.SEOUrl(model.Title!) + extension;
+
+                model.Image = await Utilities.UploadFile(img, @"Category", imageName.ToLower());
+
+
+            }
+            else
+            {
+                model.Image = GetById.Image;
+            }
+
+           
+
+            model.Alias = Helpper.Utilities.SEOUrl(model.Title!);
+
+            await _CategoryRepository.Update(model);
+
+            return RedirectToAction("index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
 
             var GetById = await _dbContext.Categories.Where(x => x.Id == id).FirstOrDefaultAsync();
 
-            string pathimg = "/Category/" + GetById.Image;
+            string pathimg = "/Category/" + GetById.Image!;
             //xoa hinh anh trong folder
             string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Category/" + GetById.Image);
             if (System.IO.File.Exists(pathFile))
@@ -116,7 +176,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             }
 
-            var DeleteItem = await _CategoryRepository.Delete(id);
+            _CategoryRepository.Delete(id);
 
             return Json(new { success = true });
         }

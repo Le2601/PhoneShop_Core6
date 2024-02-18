@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using PhoneShop.ModelViews;
+using PhoneShop.Areas.Admin.Data;
 
 namespace PhoneShop.DI.Category
 {
@@ -27,9 +28,28 @@ namespace PhoneShop.DI.Category
           
         }
 
-        public async Task<PhoneShop.Models.Category> GetById(int id)
+        public async Task<CategoryModelView> GetById(int id)
         {
-            return await _dbContext.Categories.FindAsync(id);
+
+            var items = await _dbContext.Categories.FindAsync(id);
+            if(items == null)
+            {
+                return StatusCode(404, "Không tìm thấy");
+            }
+
+
+            var ItemData = new CategoryModelView
+            {
+                Id = items.Id,
+                Title = items.Title!,
+                Alias = items.Alias!,
+                Image = items.Image!
+            };
+
+            return ItemData;
+
+
+
         }
 
 
@@ -38,20 +58,23 @@ namespace PhoneShop.DI.Category
             return await _dbContext.Categories.OrderBy(x => x.Id).ToListAsync();
         }
 
-        public async Task<PhoneShop.Models.Category> Create(PhoneShop.Models.Category model)
+        public void Create(CategoryData model)
         {
 
-            if (model == null)
+            var item = new PhoneShop.Models.Category
             {
+                Id= model.Id,
+                Title   =model.Title,
+                Alias = model.Alias,
+                Image = model.Image,
+                
+            };
+         
+            _dbContext.Categories.Add(item);
 
-                return model;
+             _dbContext.SaveChanges();
 
-            }
-            _dbContext.Categories.Add(model);
-
-            await _dbContext.SaveChangesAsync();
-
-            return model;
+          
 
 
         }
@@ -59,36 +82,36 @@ namespace PhoneShop.DI.Category
         public async Task<PhoneShop.Models.Category> Update(PhoneShop.Models.Category model)
         {
 
-
-
-            if (model == null)
+            var item = _dbContext.Categories.SingleOrDefault(x => x.Id == model.Id);
+            if(item == null)
             {
-                return model;
+                return null;
             }
+            item.Title = model.Title;
+            item.Alias = model.Alias;
+            item.Image = model.Image;
 
-            _dbContext.Categories.Update(model);
 
-            await _dbContext.SaveChangesAsync();
+           
+
+             _dbContext.SaveChanges();
 
             return model;
 
+           
+
         }
 
-        public async Task<PhoneShop.Models.Category> Delete(int id)
+        public void Delete(int id)
         {
-            var item = await _dbContext.Categories.FindAsync(id);
-
-            if (item == null)
-            {
-
-                return StatusCode(404, "Không tìm thấy");
-            }
+            var item =  _dbContext.Categories.Find(id)!;
+         
 
             _dbContext.Categories.Remove(item);
 
-            await _dbContext.SaveChangesAsync();
+             _dbContext.SaveChanges();
 
-            return item;
+           
         }
 
 
@@ -108,7 +131,7 @@ namespace PhoneShop.DI.Category
             return items;
         }
 
-        private Models.Category StatusCode(int v1, string v2)
+        private CategoryModelView StatusCode(int v1, string v2)
         {
             throw new NotImplementedException();
         }

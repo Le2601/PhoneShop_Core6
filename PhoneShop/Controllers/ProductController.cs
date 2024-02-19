@@ -41,7 +41,7 @@ namespace PhoneShop.Controllers
                 Description = item.Description,
                 Price = item.Price,
                 Discount = item.Discount,
-                ImageProductDefault = item.ImageDefaultName,
+                ImageDefaultName = item.ImageDefaultName,
                 CategoryId = item.CategoryId,
                 
 
@@ -77,7 +77,7 @@ namespace PhoneShop.Controllers
                 Title = x.Title,               
                 Price = x.Price,
                 Discount = x.Discount,
-                ImageProductDefault = x.ImageDefaultName,
+                ImageDefaultName = x.ImageDefaultName,
                 Alias = x.Alias,
             }).ToList();
 
@@ -154,7 +154,7 @@ namespace PhoneShop.Controllers
             {
                 Id = x.Id,
                 Title = x.Title,
-                ImageProductDefault = x.ImageDefaultName,
+                ImageDefaultName = x.ImageDefaultName,
                 Price = x.Price,
                 Discount = x.Discount,
                 Alias = x.Alias,

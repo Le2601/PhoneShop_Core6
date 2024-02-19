@@ -1,6 +1,7 @@
 ﻿using PhoneShop.Areas.Admin.Data;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
+using Stripe;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -98,7 +99,7 @@ namespace PhoneShop.DI.Product
                 Description = x.Description,
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
-                ImageProductDefault = x.ImageDefaultName
+                ImageDefaultName = x.ImageDefaultName
             };
             return itemVM;
 
@@ -119,7 +120,7 @@ namespace PhoneShop.DI.Product
                 Description = x.Description,
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
-                ImageProductDefault = x.ImageDefaultName
+                ImageDefaultName = x.ImageDefaultName
             }).Take(5).ToList() ;
 
             return item ;
@@ -156,6 +157,87 @@ namespace PhoneShop.DI.Product
             _context.SaveChanges();
 
 
+
+        }
+
+        public void UpdateProduct(PhoneShop.Models.Product model)
+        {
+
+            var item = _context.Products.SingleOrDefault(x => x.Id == model.Id);
+
+            if(item == null)
+            {
+                //
+            }
+            item.CategoryId = model.CategoryId;
+            item.Title = model.Title;
+            item.Alias = model.Alias;
+            item.Price = model.Price;
+            item.Discount = model.Discount;
+            item.Quantity = model.Quantity;
+            item.Description = model.Description;
+            item.Create_at = model.Create_at;
+            item.Update_at = model.Update_at;
+            item.ImageDefaultName = model.ImageDefaultName;
+
+            _context.SaveChanges();
+
+
+
+        }
+
+        public List<SpecificationsViewModel> GetSpecificationByIdProduct(int id)
+        {
+           
+
+            var item = _context.specifications.Where(x=> x.ProductId == id).Select(x=> new SpecificationsViewModel
+            {
+                
+                ProductId = x.ProductId,
+                Display = x.Display,
+                Model = x.Model,
+                OperatingSystem = x.OperatingSystem,
+                Processor = x.Processor,
+                InternalStorage = x.InternalStorage,
+                Camera = x.Camera,
+                RandomAccessMemory = x.RandomAccessMemory,
+                Battery = x.Battery,
+                WaterResistance = x.WaterResistance,
+                DimensionsAndeight = x.DimensionsAndeight,
+                Color = x.Color,
+                Connectivity = x.Connectivity,
+                Id = x.Id,
+
+            }).ToList();
+
+
+            return item;
+
+        }
+
+        public void UpdateSpecificationByIdProduct(int IdProduct, SpecificationsData model)
+        {
+            var item = _context.specifications.Where(x => x.ProductId == IdProduct).FirstOrDefault();
+
+
+
+           
+            item.Display = model.Display;
+            item.Model = model.Model;
+            item.OperatingSystem = model.OperatingSystem;
+            item.Processor = model.Processor;
+            item.InternalStorage = model.InternalStorage;
+            item.Camera = model.Camera;
+            item.RandomAccessMemory = model.RandomAccessMemory;
+            item.Battery = model.Battery;
+            item.WaterResistance = model.WaterResistance;
+            item.DimensionsAndeight = model.DimensionsAndeight;
+            item.Color = model.Color;
+            item.Connectivity = model.Connectivity;
+           
+
+            _context.SaveChanges();
+           
 
         }
     }

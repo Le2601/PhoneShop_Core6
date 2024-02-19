@@ -29,7 +29,7 @@ namespace PhoneShop.ModelViews
         public int Quantity { get; set; }
 
 
-        public string ImageProductDefault { get; set; }
+        public string ImageDefaultName { get; set; }
 
 
         public string Description { get; set; }

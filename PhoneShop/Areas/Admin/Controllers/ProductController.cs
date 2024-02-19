@@ -252,11 +252,11 @@ namespace PhoneShop.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
 
-            var item = _context.Products.Find(id);
+            var item = _productRepository.GetByIdVM(id);
 
             ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Title");
 
-            var itemThongSo = _context.specifications.Where(x=> x.ProductId == item.Id).ToList();
+            var itemThongSo = _productRepository.GetSpecificationByIdProduct(item.Id);
 
             ViewBag.itemThongSo = itemThongSo;
 
@@ -287,31 +287,38 @@ namespace PhoneShop.Areas.Admin.Controllers
 
                                     model.Update_at = DateTime.Now;
 
-                                    _context.Products.Update(model);
-                                    await _context.SaveChangesAsync();
+                                      _productRepository.UpdateProduct(model);
 
 
                                 //add thong so ky thuat
 
-                                var itemNewspecifications = _context.specifications.Where(x => x.ProductId == model.Id).FirstOrDefault();
+                                //var itemNewspecifications = _context.specifications.Where(x => x.ProductId == model.Id).FirstOrDefault();
 
-                                if (itemNewspecifications != null)
-                                {
-                                    itemNewspecifications.Display = form["Display"];
-                                    itemNewspecifications.OperatingSystem = form["OperatingSystem"];
-                                    itemNewspecifications.Processor = form["Processor"];
-                                    itemNewspecifications.InternalStorage = form["InternalStorage"];
-                                    itemNewspecifications.RandomAccessMemory = form["RandomAccessMemory"];
-                                    itemNewspecifications.Camera = form["Camera"];
-                                    itemNewspecifications.Battery = form["Battery"];
-                                    itemNewspecifications.WaterResistance = form["WaterResistance"];
-                                    itemNewspecifications.DimensionsAndeight = form["DimensionsAndeight"];
-                                    itemNewspecifications.Color = form["Color"];
-                                    itemNewspecifications.Connectivity = form["Connectivity"];
+                                    var UpdateSpecification = new SpecificationsData
+                                    {                                      
+                                        Display =  form["Display"],
+                                        Model = model.Title,
+                                        OperatingSystem = form["OperatingSystem"],
+                                     Processor = form["Processor"],
+                                        InternalStorage = form["InternalStorage"],
+                                        Camera = form["Camera"],
+                                        RandomAccessMemory =  form["RandomAccessMemory"],
+                                        Battery =  form["Battery"],
+                                        WaterResistance = form["WaterResistance"], 
+                                        DimensionsAndeight =form["DimensionsAndeight"],
+                                        Color = form["Color"],
+                                        Connectivity =form["Connectivity"],
+                                    };
 
-                                    _context.specifications.Update(itemNewspecifications);
-                                    await _context.SaveChangesAsync();
-                                }
+
+                                
+
+                                    //_context.specifications.Update(itemNewspecifications!);
+                                    //await _context.SaveChangesAsync();
+
+                                    _productRepository.UpdateSpecificationByIdProduct(model.Id, UpdateSpecification);
+                                    
+                                
 
 
 
@@ -364,33 +371,40 @@ namespace PhoneShop.Areas.Admin.Controllers
 
                                 model.Update_at = DateTime.Now;
 
-                                _context.Products.Update(model);
-                                await _context.SaveChangesAsync();
+                                _productRepository.UpdateProduct(model);
 
 
 
-                                var itemNewspecifications = _context.specifications.Where(x => x.ProductId == model.Id).FirstOrDefault();
+                                //add thong so ky thuat
 
-                                if (itemNewspecifications != null)
+                                //var itemNewspecifications = _context.specifications.Where(x => x.ProductId == model.Id).FirstOrDefault();
+
+                                var UpdateSpecification = new SpecificationsData
                                 {
-                                    itemNewspecifications.Display = form["Display"];
-                                    itemNewspecifications.OperatingSystem = form["OperatingSystem"];
-                                    itemNewspecifications.Processor = form["Processor"];
-                                    itemNewspecifications.InternalStorage = form["InternalStorage"];
-                                    itemNewspecifications.RandomAccessMemory = form["RandomAccessMemory"];
-                                    itemNewspecifications.Camera = form["Camera"];
-                                    itemNewspecifications.Battery = form["Battery"];
-                                    itemNewspecifications.WaterResistance = form["WaterResistance"];
-                                    itemNewspecifications.DimensionsAndeight = form["DimensionsAndeight"];
-                                    itemNewspecifications.Color = form["Color"];
-                                    itemNewspecifications.Connectivity = form["Connectivity"];
-
-                                    _context.specifications.Update(itemNewspecifications);
-                                    await _context.SaveChangesAsync();
-                                }
+                                    Display = form["Display"],
+                                    Model = model.Title,
+                                    OperatingSystem = form["OperatingSystem"],
+                                    Processor = form["Processor"],
+                                    InternalStorage = form["InternalStorage"],
+                                    Camera = form["Camera"],
+                                    RandomAccessMemory = form["RandomAccessMemory"],
+                                    Battery = form["Battery"],
+                                    WaterResistance = form["WaterResistance"],
+                                    DimensionsAndeight = form["DimensionsAndeight"],
+                                    Color = form["Color"],
+                                    Connectivity = form["Connectivity"],
+                                };
 
 
-                        }
+
+
+                                //_context.specifications.Update(itemNewspecifications!);
+                                //await _context.SaveChangesAsync();
+
+                                _productRepository.UpdateSpecificationByIdProduct(model.Id, UpdateSpecification);
+
+
+                }
 
 
 

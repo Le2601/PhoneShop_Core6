@@ -16,13 +16,22 @@ namespace PhoneShop.DI.Product
 
         public int Create(ProductData model);
 
+        void UpdateProduct(PhoneShop.Models.Product model);
+
         void DeleteProduct(int id);
 
 
         //end product
 
-
+        //Specifications
         void CreateSpecifications(SpecificationsData model);
+        public List<SpecificationsViewModel> GetSpecificationByIdProduct(int id);
+
+        void UpdateSpecificationByIdProduct(int IdProduct, SpecificationsData model);
+
+
+
+        //end Specifications
 
         //image
         void CreateImageProduct(ImageProductData model);

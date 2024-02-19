@@ -1,9 +1,9 @@
-﻿@model PhoneShop.Models.Product
-@using PhoneShop.Models
+﻿@model PhoneShop.ModelViews.ProductViewModel
+@using PhoneShop.ModelViews
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-    List<specifications> itemThongSo = ViewBag.itemThongSo;
+    List<SpecificationsViewModel> itemThongSo = ViewBag.itemThongSo;
 }
 
 <!-- include libraries(jQuery, bootstrap) -->
@@ -80,9 +80,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label asp-for="InputPrice" class="control-label"></label>
+                                        @* <label asp-for="InputPrice" class="control-label"></label>
                                         <input asp-for="InputPrice" class="form-control" />
-                                        <span asp-validation-for="InputPrice" class="text-danger"></span>
+                                        <span asp-validation-for="InputPrice" class="text-danger"></span> *@
                                     </div>
 
                                     <div class="form-group">

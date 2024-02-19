@@ -12,6 +12,7 @@ namespace PhoneShop.ModelViews
             this.ImageProducts = new HashSet<ImageProduct>();
 
         }
+      
         public int Id { get; set; }
       
         public string Title { get; set; }

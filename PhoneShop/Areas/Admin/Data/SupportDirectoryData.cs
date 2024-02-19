@@ -13,6 +13,6 @@ namespace PhoneShop.Areas.Admin.Data
 
         public string Alias { get; set; }
 
-        public virtual ICollection<SupportContent> SupportContents { get; set; }
+        //public virtual ICollection<SupportContent> SupportContents { get; set; }
     }
 }

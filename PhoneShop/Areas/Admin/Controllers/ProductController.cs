@@ -14,6 +14,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PhoneShop.Helpper;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PhoneShop.DI.Product;
+using PhoneShop.Areas.Admin.Data;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -23,10 +26,11 @@ namespace PhoneShop.Areas.Admin.Controllers
     {
         private readonly ShopPhoneDbContext _context;
 
+        private readonly IProductRepository _productRepository;
 
-
-        public ProductController(ShopPhoneDbContext context)
+        public ProductController(ShopPhoneDbContext context, IProductRepository productRepository)
         {
+            _productRepository = productRepository;
             _context = context;
 
         }
@@ -56,9 +60,10 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product model, List<Microsoft.AspNetCore.Http.IFormFile> files, IFormCollection form)
+        public async Task<IActionResult> Create(ProductData model, List<Microsoft.AspNetCore.Http.IFormFile> files, IFormCollection form)
         {
-           
+
+            var GetIdProduct = 0;
                 //kiem tra neu trung ten
                 var CheckTitle = _context.Products.Where(x => x.Title == model.Title).ToList();
                 if (CheckTitle.Any())
@@ -89,10 +94,11 @@ namespace PhoneShop.Areas.Admin.Controllers
                             model.Create_at = DateTime.Now;
                             model.Update_at = DateTime.Now;
                             model.ImageDefaultName = imageName;
-                            await _context.Products.AddAsync(model);
-                            await _context.SaveChangesAsync();
+                            //await _context.Products.AddAsync(model);
+                            //await _context.SaveChangesAsync();
 
-
+                           var CreateProduct = _productRepository.Create(model);
+                            GetIdProduct = CreateProduct;
                             //add thong so ky thuat
 
                             string Display = form["Display"];
@@ -108,9 +114,9 @@ namespace PhoneShop.Areas.Admin.Controllers
                             string Color = form["Color"];
                             string Connectivity = form["Connectivity"];
 
-                            var newspecifications = new specifications
+                            var newspecifications = new SpecificationsData
                             {
-                                ProductId = model.Id,
+                                ProductId = CreateProduct,
                                 Display = Display,
                                 Model = model.Title,
                                 OperatingSystem = OperatingSystem,
@@ -124,8 +130,11 @@ namespace PhoneShop.Areas.Admin.Controllers
                                 Color = Color,
                                 Connectivity = Connectivity
                             };
-                            await _context.specifications.AddAsync(newspecifications);
-                            await _context.SaveChangesAsync();
+
+                            _productRepository.CreateSpecifications(newspecifications);
+
+                            //await _context.specifications.AddAsync(newspecifications);
+                            //await _context.SaveChangesAsync();
 
 
 
@@ -140,7 +149,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                    
 
                     var iSum = 0;
-
+               
                     if (files.Count > 0)
                     {
                         foreach (var img in files)
@@ -157,17 +166,17 @@ namespace PhoneShop.Areas.Admin.Controllers
                                     var mol_Image = await Utilities.UploadFile(img, @"Product", imageName.ToLower());
 
 
-                                    var AddImages = new ImageProduct
+                                    var AddImages = new ImageProductData
                                     {
-                                        ProductId = model.Id,
+                                        ProductId = GetIdProduct,
                                         DataName = mol_Image,
                                         Create_at = DateTime.Now,
                                         IsDefault = true
 
                                     };
 
-                                    await _context.ImageProducts.AddAsync(AddImages);
-                                    await _context.SaveChangesAsync();
+
+                                     _productRepository.CreateImageProduct(AddImages);
                                 }
                                 else
                                 {
@@ -177,18 +186,17 @@ namespace PhoneShop.Areas.Admin.Controllers
                                     var mol_Image = await Utilities.UploadFile(img, @"Product", imageName.ToLower());
 
 
-                                    var AddImages = new ImageProduct
+                                    var AddImages = new ImageProductData
                                     {
-                                        ProductId = model.Id,
+                                        ProductId = GetIdProduct,
                                         DataName = mol_Image,
                                         Create_at = DateTime.Now,
                                         IsDefault = false
 
                                     };
 
-                                    await _context.ImageProducts.AddAsync(AddImages);
-                                    await _context.SaveChangesAsync();
-                                }
+                                _productRepository.CreateImageProduct(AddImages);
+                            }
 
                             }
 
@@ -204,13 +212,13 @@ namespace PhoneShop.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var item = await _context.Products.FindAsync(id);
+            var item = _productRepository.GetByIdVM(id);
             if (item == null)
             {
                 return Json(new {success = false, msg = "San pham khong ton tai"});
 
             }
-            var Del_Image = _context.ImageProducts.Where(x => x.ProductId == item.Id).ToList();
+            var Del_Image = _productRepository.GetListById(item.Id);
 
             if (Del_Image.Count > 0)
             {
@@ -226,14 +234,12 @@ namespace PhoneShop.Areas.Admin.Controllers
 
                     }
 
-                    _context.ImageProducts.Remove(img);
-                    _context.SaveChanges();
+                    _productRepository.DeleteImageProduct(img.Id);
 
                 }
             }
 
-            _context.Products.Remove(item);
-            _context.SaveChanges();
+           _productRepository.DeleteProduct(item.Id);
 
             return Json(new { success = true, msg = "Xoa thanh cong" });
 

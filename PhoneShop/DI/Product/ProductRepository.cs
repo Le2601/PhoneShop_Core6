@@ -1,4 +1,5 @@
-﻿using PhoneShop.Areas.Admin.Data;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PhoneShop.Areas.Admin.Data;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using Stripe;
@@ -239,6 +240,40 @@ namespace PhoneShop.DI.Product
             _context.SaveChanges();
            
 
+        }
+
+        public List<ProductViewModel> GetAllProducts()
+        {
+            var items = _context.Products.Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                CategoryId = x.CategoryId,
+                Title = x.Title,
+                Alias = x.Alias,
+                Price = x.Price,
+                Discount = x.Discount,
+                Quantity = x.Quantity,
+                Description = x.Description,
+                Create_at = x.Create_at,
+                Update_at = x.Update_at,
+                ImageDefaultName = x.ImageDefaultName
+            }).OrderBy(x=> x.Id).ToList();
+
+            return items;
+
+
+        }
+
+        public List<CategoryModelView> GetCategoryList()
+        {
+            var items = _context.Categories.Select(x=> new CategoryModelView
+            {
+                Image = x.Image!
+            }).ToList();
+
+          ;
+
+            return items;
         }
     }
 }

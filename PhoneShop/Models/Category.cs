@@ -24,5 +24,7 @@ namespace PhoneShop.Models
         public string? Image { get; set; }
 
         public virtual ICollection<Product> Product { get; set; }
+
+
     }
 }

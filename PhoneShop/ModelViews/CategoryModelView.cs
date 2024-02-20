@@ -8,5 +8,8 @@ namespace PhoneShop.ModelViews
         public string Title { get; set; }
         public string Alias { get; set; }  
         public string Image { get; set; }
+
+
+        public virtual ICollection<ProductViewModel> Product { get; set; }
     }
 }

@@ -37,8 +37,8 @@ namespace PhoneShop.Areas.Admin.Controllers
         public IActionResult Index()
         {
 
-            ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
-            var items = _context.Products.OrderBy(x => x.Id).ToList();
+            ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Title");
+            var items = _productRepository.GetAllProducts();
 
             if(items == null)
             {
@@ -46,6 +46,8 @@ namespace PhoneShop.Areas.Admin.Controllers
             }
 
             ViewBag.imageproduct =  _context.ImageProducts.ToList();
+
+            ViewBag.ListCategory = _context.Categories.ToList();
 
             return View(items);
         }

@@ -40,6 +40,9 @@ namespace PhoneShop.ModelViews
 
         public DateTime? Update_at { get; set; }
 
+        public virtual Category Category { get; set; }
+
         public virtual ICollection<ImageProduct> ImageProducts { get; set; }
+        
     }
 }

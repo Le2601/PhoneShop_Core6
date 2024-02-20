@@ -10,7 +10,12 @@ namespace PhoneShop.DI.Product
         //product
         List<ProductViewModel> LatestProducts();
 
+        List<ProductViewModel> GetAllProducts();
+
+
         public ProductViewModel GetByIdVM(int id);
+
+        public List<CategoryModelView> GetCategoryList();
 
        
 

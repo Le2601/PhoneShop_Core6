@@ -16,8 +16,14 @@
     foreach (var item in Model)
     {
         
+             <div id="trow_@item.Id">
 
-       <img src="~/images/Product/@item.DataName" width="200px" height="200px" style="border: solid 1px " />
+            <img src="~/images/Product/@item.DataName" width="200px" height="200px" style="border: solid 1px " />
+            <a href="~/delete_Image/@item.Id" class="btn btn-success" >Xoa</a>
+             </div>
+            
+        
+      
 
 
 
@@ -26,12 +32,14 @@
 @section scripts{
 
 
-    <script>
+    @* <script>
         $(document).ready(function () {
             $("#openDialogButton").click(function () {
                 $("#dialog").dialog(); // Hiển thị dialog
             });
         });
-    </script>
+    </script> *@
+
+    
 
 }

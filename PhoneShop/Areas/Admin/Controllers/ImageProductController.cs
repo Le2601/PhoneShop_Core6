@@ -52,5 +52,35 @@ namespace PhoneShop.Areas.Admin.Controllers
             return Json(new { Data = items, success = true, smg = "Không có hình ảnh" });
 
         }
+
+        [Route("/delete_Image/{Id}")]
+        public async Task<IActionResult> DelImage( int Id)
+        {
+            var item = _context.ImageProducts.Where(x=> x.Id == Id).FirstOrDefault();
+
+            if(item == null)
+            {
+
+                return RedirectToAction("NotFoundApp","Home");
+            }
+
+            string pathimg = "/Product/" + item.DataName;
+            //xoa hinh anh trong folder
+            string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Product/" + item.DataName);
+            if (System.IO.File.Exists(pathFile))
+            {
+                // Xóa hình ảnh
+                System.IO.File.Delete(pathFile);
+
+            }
+
+            _context.ImageProducts.Remove(item);
+            await _context.SaveChangesAsync();
+
+
+
+            //giu nguyen trang
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace PhoneShop.DI.Product
 
         public void CreateImageProduct(ImageProductData model)
         {
-            var AddImages = new ImageProduct
+            var AddImages = new PhoneShop.Models.ImageProduct
             {
                 ProductId = model.ProductId,
                 DataName = model.DataName,

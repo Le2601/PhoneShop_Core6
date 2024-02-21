@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PhoneShop.Helpper;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using PhoneShop.DI.ImageProduct;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -24,10 +24,11 @@ namespace PhoneShop.Areas.Admin.Controllers
     {
         private readonly ShopPhoneDbContext _context;
 
+        private readonly IImageProductRepository _imageProductRepository;
 
-
-        public ImageProductController(ShopPhoneDbContext context)
+        public ImageProductController(ShopPhoneDbContext context, IImageProductRepository imageProductRepository)
         {
+            _imageProductRepository = imageProductRepository;
             _context = context;
 
         }
@@ -82,5 +83,25 @@ namespace PhoneShop.Areas.Admin.Controllers
             //giu nguyen trang
             return Redirect(Request.Headers["Referer"].ToString());
         }
+
+        public IActionResult GetDemoString(string xx)
+        {
+            var ccc = "lepro";
+            var Getdemoo = _imageProductRepository.DemoAstract(ccc);
+
+            return Json(Getdemoo);
+        }
+
+        public IActionResult GetDemoInt(int xx)
+        {
+            var ccc = 26;
+            var Getdemoo = _imageProductRepository.DemoAstract(ccc);
+
+            return Json(Getdemoo);
+        }
+
+
+
+
     }
 }

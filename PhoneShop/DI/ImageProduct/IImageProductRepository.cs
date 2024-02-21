@@ -6,6 +6,9 @@ namespace PhoneShop.DI.ImageProduct
     {
         public List<ImageProductData> GetListByIdProduct(int IdProduct);
 
+        public int DemoAstract(int so);
+        public string DemoAstract(string chu);
+
 
     }
 }

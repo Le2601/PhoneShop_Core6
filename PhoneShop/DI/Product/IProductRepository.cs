@@ -25,6 +25,8 @@ namespace PhoneShop.DI.Product
 
         void DeleteProduct(int id);
 
+        public int CheckTitleCreate(string  title);
+
 
         //end product
 

@@ -37,13 +37,9 @@ namespace PhoneShop.Areas.Admin.Controllers
         public IActionResult Index()
         {
 
-            ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Title");
+           
             var items = _productRepository.GetAllProducts();
-
-            if(items == null)
-            {
-                return View("Error");
-            }
+         
 
             ViewBag.imageproduct =  _context.ImageProducts.ToList();
 
@@ -51,6 +47,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             return View(items);
         }
+        //return RedirectToAction("NotFoundApp", "Home");
 
         public IActionResult Create()
         {
@@ -65,10 +62,10 @@ namespace PhoneShop.Areas.Admin.Controllers
         public async Task<IActionResult> Create(ProductData model, List<Microsoft.AspNetCore.Http.IFormFile> files, IFormCollection form)
         {
 
-            var GetIdProduct = 0;
+                var GetIdProduct = 0;
                 //kiem tra neu trung ten
-                var CheckTitle = _context.Products.Where(x => x.Title == model.Title).ToList();
-                if (CheckTitle.Any())
+                var CheckTitle = _productRepository.CheckTitleCreate(model.Title);
+                if (CheckTitle == 0)
                 {
                     return View(model);
                 }
@@ -96,8 +93,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                             model.Create_at = DateTime.Now;
                             model.Update_at = DateTime.Now;
                             model.ImageDefaultName = imageName;
-                            //await _context.Products.AddAsync(model);
-                            //await _context.SaveChangesAsync();
+                            
 
                            var CreateProduct = _productRepository.Create(model);
                             GetIdProduct = CreateProduct;
@@ -135,8 +131,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
                             _productRepository.CreateSpecifications(newspecifications);
 
-                            //await _context.specifications.AddAsync(newspecifications);
-                            //await _context.SaveChangesAsync();
+                            
 
 
 

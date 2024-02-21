@@ -275,5 +275,15 @@ namespace PhoneShop.DI.Product
 
             return items;
         }
+
+        public int CheckTitleCreate(string title)
+        {
+            var item = _context.Products.Where(x=> x.Title == title).FirstOrDefault();
+            if(item != null)
+            {
+                return 0;
+            }
+            return 1;
+        }
     }
 }

@@ -34,14 +34,14 @@ namespace PhoneShop.Areas.Admin.Controllers
         }
         public IActionResult Index(int? id)
         {
-            var items = _context.ImageProducts.Where(x => x.ProductId == id).ToList();
+            var items = _imageProductRepository.GetListByIdProduct(id);
             return View(items);
         }
 
         [HttpGet]
         public IActionResult GetListImage(int id)
         {
-            var items = _context.ImageProducts.Where(x=> x.ProductId == id).ToList();
+            var items = _imageProductRepository.GetListByIdProduct(id);
 
 
 
@@ -57,7 +57,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         [Route("/delete_Image/{Id}")]
         public async Task<IActionResult> DelImage( int Id)
         {
-            var item = _context.ImageProducts.Where(x=> x.Id == Id).FirstOrDefault();
+            var item = _imageProductRepository.GetById(Id);
 
             if(item == null)
             {
@@ -75,30 +75,15 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             }
 
-            _context.ImageProducts.Remove(item);
-            await _context.SaveChangesAsync();
-
+            _imageProductRepository.DeleteImage(item.Id);
+           
 
 
             //giu nguyen trang
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        public IActionResult GetDemoString(string xx)
-        {
-            var ccc = "lepro";
-            var Getdemoo = _imageProductRepository.DemoAstract(ccc);
-
-            return Json(Getdemoo);
-        }
-
-        public IActionResult GetDemoInt(int xx)
-        {
-            var ccc = 26;
-            var Getdemoo = _imageProductRepository.DemoAstract(ccc);
-
-            return Json(Getdemoo);
-        }
+       
 
 
 

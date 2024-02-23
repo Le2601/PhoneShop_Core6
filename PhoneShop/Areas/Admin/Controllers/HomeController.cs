@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PhoneShop.Models;
 using Microsoft.AspNetCore.Http;
 using System;
+using PhoneShop.DI.Account;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -15,11 +16,12 @@ namespace PhoneShop.Areas.Admin.Controllers
     {
         private readonly ShopPhoneDbContext _context;
 
+        private readonly IAccountRepository _accountRepository;
 
-
-        public HomeController(ShopPhoneDbContext context)
+        public HomeController(ShopPhoneDbContext context, IAccountRepository accountRepository)
         {
             _context = context;
+            _accountRepository = accountRepository;
 
         }
 
@@ -32,7 +34,9 @@ namespace PhoneShop.Areas.Admin.Controllers
             int parsedTaikhoanID = int.Parse(taikhoanID);
 
 
-            var GetNameLogin = _context.Accounts.Where(x=> x.Id == parsedTaikhoanID).First();
+
+
+            var GetNameLogin = _accountRepository.GetNameAccount(parsedTaikhoanID);
 
             if(GetNameLogin == null)
             {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PhoneShop.DI.Order;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using System;
@@ -20,13 +21,17 @@ namespace PhoneShop.Areas.Admin.Controllers
         private readonly ShopPhoneDbContext _context;
         private object SqlFunctions;
 
-        public OrderController (ShopPhoneDbContext context)
+        private readonly IOrderRepository _orderRepository;
+
+
+        public OrderController(ShopPhoneDbContext context, IOrderRepository orderRepository)
         {
             _context = context;
+            _orderRepository = orderRepository;
         }
         public IActionResult Index()
         {
-            var ListOrder = _context.Orders.OrderBy(x=> x.Order_Date).ToList();
+            var ListOrder = _orderRepository.GetAll() ;
 
             return View(ListOrder);
         }
@@ -35,7 +40,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         public async Task<IActionResult> ComfirmStatus(string id)
         {
 
-            var item = await _context.Orders.Where(x=> x.Id_Order == id).FirstOrDefaultAsync();
+            var item = _orderRepository.GetById(id);
 
             if (item == null)
             {
@@ -45,8 +50,10 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             item.Order_Status = 1;
 
-            _context.Orders.Update(item);
-             await _context.SaveChangesAsync();
+
+            _orderRepository.ComfirmStatus(item);
+
+           
 
 
 
@@ -61,8 +68,8 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             //lay ra order
 
-            ViewBag.SumPriceOrder = _context.Orders.FirstOrDefault(x=> x.Id_Order == id).Total_Order;
-            ViewBag.PaymentMethodOrder = _context.Orders.FirstOrDefault(x => x.Id_Order == id).PaymentMethod;
+            ViewBag.SumPriceOrder = _context.Orders.FirstOrDefault(x=> x.Id_Order == id)!.Total_Order;
+            ViewBag.PaymentMethodOrder = _context.Orders.FirstOrDefault(x => x.Id_Order == id)!.PaymentMethod;
             ViewBag.Product = new SelectList(_context.Products.ToList(), "Id", "Title");
             ViewBag.Order = new SelectList(_context.Orders.ToList(), "Id_Order", "Total_Order");
 
@@ -137,35 +144,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         
 
-        //public IActionResult ThongkeNgay()
-        //{
-        //    DateTime targetDate = new DateTime(2024, 1, 23); // Ngày cần tìm kiếm
-
-        //    var query = from data in _context.Orders
-        //                where EF.Functions.DateDiffDay(data.Order_Date, targetDate) == 0
-        //                select data;
-
-        //    var items = query.ToList();
-
-        //    decimal doanhthu = 0;
-        //    decimal loinhuan = 0;
-
-        //    foreach (var item in items)
-        //    {
-        //        doanhthu += item.Total_Order;
-        //        loinhuan += item.Profit;
-        //    }
-
-        //    string formattedAmount = doanhthu.ToString("C", CultureInfo.GetCultureInfo("vi-VN"));
-        //    string formattedAmount1 = loinhuan.ToString("C", CultureInfo.GetCultureInfo("vi-VN"));
-
-        //    var strContent = "Doanh thu: " + formattedAmount + "|| lợi nhuận" + formattedAmount1;
-
-
-
-
-        //    return Content(strContent);
-        //}
+        
     }
 
 

@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using PhoneShop.DI.Account;
 using PhoneShop.DI.Category;
 using PhoneShop.DI.ImageProduct;
+using PhoneShop.DI.Order;
 using PhoneShop.DI.Product;
 using PhoneShop.DI.Role;
 using PhoneShop.DI.SupportDirectory;
@@ -35,6 +37,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<ISupportDirectoryRepository, SupportDirectoryRepository>();
 
         builder.Services.AddScoped<IImageProductRepository, ImageProductRepository>();
+        builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+        builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
         builder.Services.AddScoped<IVnPayService, VnPayService>();
       

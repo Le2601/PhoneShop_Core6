@@ -1,8 +1,8 @@
 ﻿using PhoneShop.Models;
 
-namespace PhoneShop.ModelViews
+namespace PhoneShop.Areas.Admin.Data
 {
-    public class Order_DetailsViewModel
+    public class Order_DetailsData
     {
         public int Id { get; set; }
 
@@ -20,11 +20,6 @@ namespace PhoneShop.ModelViews
 
         public string OrderId { get; set; }
 
-        public virtual Order Order { get; set; }
-
-        public virtual ProductViewModel Product { get; set; }
-
-
-
+      
     }
 }

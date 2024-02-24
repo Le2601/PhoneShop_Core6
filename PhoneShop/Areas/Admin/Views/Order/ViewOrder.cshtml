@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "ViewOrder";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-    List<Product> ListItem = ViewBag.iProductOrder; 
+    // List<Product> ListItem = ViewBag.iProductOrder; 
 
     //format tien
 
@@ -16,10 +16,9 @@
     string Phone = "";
     string Address = "";
     string Order_Id = "";
-   
 
 
-
+    List<Product> IsProduct = ViewBag.IsProduct;
     foreach(var i in Model)
     {
         NameOrder = i.Order_Name;

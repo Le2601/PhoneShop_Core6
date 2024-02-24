@@ -43,6 +43,8 @@ namespace PhoneShop.ModelViews
         public virtual Category Category { get; set; }
 
         public virtual ICollection<ImageProduct> ImageProducts { get; set; }
-        
+
+        public virtual ICollection<Order_DetailsViewModel> Order_Details { get; set; }
+
     }
 }

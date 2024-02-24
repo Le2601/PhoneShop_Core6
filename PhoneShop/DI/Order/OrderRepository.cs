@@ -54,5 +54,27 @@ namespace PhoneShop.DI.Order
 
             return x;
         }
+
+        public IEnumerable<Order_Details> GetOrderDetailByOrderId(string orderId)
+        {
+
+            var items = _context.Order_Details.Where(x => x.OrderId == orderId).ToList();
+
+            return items;
+
+
+
+           
+        }
+
+        public List<ProductViewModel> ListProduct()
+        {
+            var item = _context.Products.Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+            }).ToList();
+            return item;
+        }
     }
 }

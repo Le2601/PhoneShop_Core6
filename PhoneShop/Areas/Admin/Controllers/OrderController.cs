@@ -64,16 +64,16 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult ViewOrder(string id)
         {
-            var item = _context.Order_Details.Where(x=> x.OrderId == id).ToList();
-
+            var item = _orderRepository.GetOrderDetailByOrderId(id);
+           
             //lay ra order
 
             ViewBag.SumPriceOrder = _context.Orders.FirstOrDefault(x=> x.Id_Order == id)!.Total_Order;
             ViewBag.PaymentMethodOrder = _context.Orders.FirstOrDefault(x => x.Id_Order == id)!.PaymentMethod;
-            ViewBag.Product = new SelectList(_context.Products.ToList(), "Id", "Title");
-            ViewBag.Order = new SelectList(_context.Orders.ToList(), "Id_Order", "Total_Order");
 
-            
+            ViewBag.Product = new SelectList(_context.Products.ToList(), "Id", "Title");
+
+
 
 
             if (item == null)

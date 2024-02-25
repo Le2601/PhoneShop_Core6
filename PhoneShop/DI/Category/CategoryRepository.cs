@@ -79,13 +79,13 @@ namespace PhoneShop.DI.Category
 
         }
 
-        public async Task<PhoneShop.Models.Category> Update(PhoneShop.Models.Category model)
+        public void Update(CategoryData model)
         {
 
             var item = _dbContext.Categories.SingleOrDefault(x => x.Id == model.Id);
             if(item == null)
             {
-                return null;
+                //
             }
             item.Title = model.Title;
             item.Alias = model.Alias;
@@ -96,7 +96,7 @@ namespace PhoneShop.DI.Category
 
              _dbContext.SaveChanges();
 
-            return model;
+           
 
            
 

@@ -115,7 +115,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(PhoneShop.Models.Category model, Microsoft.AspNetCore.Http.IFormFile img, IFormCollection form)
+        public async Task<IActionResult> Edit(CategoryData model, Microsoft.AspNetCore.Http.IFormFile img, IFormCollection form)
         {
             //if (!ModelState.IsValid)
             //{
@@ -157,7 +157,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             model.Alias = Helpper.Utilities.SEOUrl(model.Title!);
 
-            await _CategoryRepository.Update(model);
+             _CategoryRepository.Update(model);
 
             return RedirectToAction("index");
         }

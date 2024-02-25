@@ -20,7 +20,7 @@ namespace PhoneShop.DI.Category
 
         void Create(CategoryData model);
 
-         Task<PhoneShop.Models.Category> Update(PhoneShop.Models.Category model);
+         void Update(CategoryData model);
 
 
         void Delete(int id);

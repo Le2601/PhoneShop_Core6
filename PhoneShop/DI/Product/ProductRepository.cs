@@ -107,25 +107,7 @@ namespace PhoneShop.DI.Product
         }
 
        
-        public List<ProductViewModel> LatestProducts()
-        {
-            var item = _context.Products.Select(x => new ProductViewModel
-            {
-                Id = x.Id,
-                CategoryId = x.CategoryId,
-                Title = x.Title,
-                Alias = x.Alias,
-                Price = x.Price,
-                Discount = x.Discount,
-                Quantity = x.Quantity,
-                Description = x.Description,
-                Create_at = x.Create_at,
-                Update_at = x.Update_at,
-                ImageDefaultName = x.ImageDefaultName
-            }).Take(5).ToList() ;
-
-            return item ;
-        }
+        
 
         public void DeleteProduct(int id)
         {

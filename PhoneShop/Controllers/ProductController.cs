@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using System;
@@ -15,8 +16,11 @@ namespace PhoneShop.Controllers
     {
         private readonly ShopPhoneDbContext _context;
 
-        public ProductController(ShopPhoneDbContext context)
+        private readonly IProduct_UserRepository _userRepository;
+
+        public ProductController(ShopPhoneDbContext context, IProduct_UserRepository product_UserRepository)
         {
+            _userRepository = product_UserRepository;
             _context = context;
         }
         public IActionResult Index()
@@ -27,30 +31,18 @@ namespace PhoneShop.Controllers
         [Route("/chi-tiet/{Alias}-{Id}")]
         public async Task<IActionResult> Details_Product(string Alias, int Id)
         {
-            var item = await _context.Products.Where(x=> x.Id == Id || x.Alias == Alias).FirstOrDefaultAsync();
+            var item = await _userRepository.ProductById(Alias, Id);
 
             if (item == null)
             {
                 return NotFound();
             }
 
-            ProductViewModel newProduct = new ProductViewModel
-            {
-                Id = item.Id,
-                Title = item.Title,
-                Description = item.Description,
-                Price = item.Price,
-                Discount = item.Discount,
-                ImageDefaultName = item.ImageDefaultName,
-                CategoryId = item.CategoryId,
-                
+            
 
-            };
+            ViewBag.getCategoryTitle = _userRepository.GetTitleCategoryId(item.CategoryId);
 
-            ViewBag.getCategory = _context.Categories.Where(x=> x.Id == item.CategoryId).FirstOrDefault().Title;
-
-            //lay danh muc
-            //ViewBag.getCategory = getCategory.Title;
+           
 
             //lay hinh anh
 
@@ -96,7 +88,7 @@ namespace PhoneShop.Controllers
 
 
 
-            return View(newProduct);
+            return View(item);
         }
 
 

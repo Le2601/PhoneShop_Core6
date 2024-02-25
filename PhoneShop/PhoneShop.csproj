@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DI\DI_User\" />
+    <Folder Include="DI\DI_User\Cart_User\" />
     <Folder Include="wwwroot\images\Category\" />
     <Folder Include="wwwroot\images\Product\" />
   </ItemGroup>

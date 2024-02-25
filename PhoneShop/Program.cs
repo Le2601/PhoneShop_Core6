@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using PhoneShop.DI.Account;
 using PhoneShop.DI.Category;
+using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.ImageProduct;
 using PhoneShop.DI.Order;
 using PhoneShop.DI.Product;
@@ -39,6 +40,13 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<IImageProductRepository, ImageProductRepository>();
         builder.Services.AddScoped<IAccountRepository, AccountRepository>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+
+
+        //user
+        builder.Services.AddScoped<IProduct_UserRepository, Product_UserRepository>();
+
+
 
         builder.Services.AddScoped<IVnPayService, VnPayService>();
       

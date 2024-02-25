@@ -1,14 +1,14 @@
 ﻿﻿@using PhoneShop.Models
 @using PhoneShop.ModelViews
 
-@model IEnumerable<PhoneShop.ModelViews.ProductViewModel>
+@model List<PhoneShop.ModelViews.ProductViewModel>
 
 @{
 
 
     List<CategoryModelView> ListLogo = ViewBag.ListLogo;
 
-    List<ImageProduct> IsCourseContents = ViewBag.imageproduct;
+    List<ImageProductViewModel> IsCourseContents = ViewBag.imageproduct;
     //format tien
 
     // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác

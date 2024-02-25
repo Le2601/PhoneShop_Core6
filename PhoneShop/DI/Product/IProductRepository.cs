@@ -8,7 +8,7 @@ namespace PhoneShop.DI.Product
     {
 
         //product
-        List<ProductViewModel> LatestProducts();
+        
 
         List<ProductViewModel> GetAllProducts();
 

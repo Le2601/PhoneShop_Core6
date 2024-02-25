@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PhoneShop.DI.Category;
+using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.Product;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -17,28 +18,27 @@ namespace PhoneShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
+        
 
-        private readonly IProductRepository _productRepository;
+        private readonly IProduct_UserRepository _productRepository;
 
         private readonly ShopPhoneDbContext _dbContext;
         private readonly IVnPayService _vnPayService;
 
-        public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, ICategoryRepository categoryRepository, IProductRepository productRepository)
+        public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository)
         {
             _dbContext = dbContext;
             _vnPayService = vnPayService;
-            _categoryRepository = categoryRepository;
             _productRepository = productRepository;
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var itemsHot = _productRepository.LatestProducts();
+            var itemsHot =await _productRepository.LatestProducts();
 
-            ViewBag.imageproduct = _dbContext.ImageProducts.ToList();
-            ViewBag.ListLogo = _categoryRepository.GetAllDemo();
+            ViewBag.imageproduct =await _productRepository.ImageProducts();
+            ViewBag.ListLogo =await _productRepository.CategoryProducts();
             //var ddemoo = _categoryRepository.GetAllDemo();
 
 

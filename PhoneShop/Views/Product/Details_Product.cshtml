@@ -1,21 +1,21 @@
 ﻿@model PhoneShop.ModelViews.ProductViewModel
-@using PhoneShop.Models
+
 @using PhoneShop.ModelViews
 
 @{
     ViewData["Title"] = "Details_Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<ImageProduct> IsImage = ViewBag.getListImage;
+    List<ImageProductViewModel> IsImage = ViewBag.getListImage;
 
-    List<Product_Review> IsReview = ViewBag.ListReview;
+    List<Product_ReviewModelView> IsReview = ViewBag.ListReview;
 
-    specifications Ispecifi = ViewBag.GetSpecifi;
+    SpecificationsViewModel Ispecifi = ViewBag.GetSpecifi;
 
 
     List<ProductViewModel> IsRelatedProduct = ViewBag.RelatedProduct;
 
-    List<ProductViewModel> IsSuggestProduct = ViewBag.SuggestProduct;
+   
 
 
 
@@ -92,24 +92,7 @@
                     <form action="">
                         <input type="text" placeholder="Search products..." list="items" id="searchInput">
 
-                        <datalist id="items">
-
-                            
-                            @{
-                                var summ = 0;
-                                foreach (var i in IsSuggestProduct)
-                                {
-                                    <option  id="@i.Id">@i.Title</option>
-
-                                   
-
-
-
-                                }
-                            }
-                           
-
-                        </datalist>
+                       
 
                         <input type="submit" value="Search">
                     </form>

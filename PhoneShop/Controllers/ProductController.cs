@@ -36,58 +36,19 @@ namespace PhoneShop.Controllers
             if (item == null)
             {
                 return NotFound();
-            }
-
-            
-
-            ViewBag.getCategoryTitle = _userRepository.GetTitleCategoryId(item.CategoryId);
-
-           
-
+            }         
+            ViewBag.getCategoryTitle = _userRepository.GetTitleCategoryId(item.CategoryId);         
             //lay hinh anh
-
-            var getListImage = await _context.ImageProducts.Where(x => x.ProductId == Id).ToListAsync();
+            var getListImage = await _userRepository.GetListImageById(item.Id);
 
             ViewBag.getListImage = getListImage;
-
-
             //review
-
-            var ListReview = _context.product_Reviews.Where(x=> x.ProductId == Id).ToList();
-
+            var ListReview =await _userRepository.GetListReviewById(item.Id);
             //thông so
-            ViewBag.GetSpecifi = _context.specifications.Where(x => x.ProductId == item.Id).FirstOrDefault();
-
+            ViewBag.GetSpecifi =await _userRepository.GetSpeciByIdProduct(item.Id);
             ViewBag.ListReview = ListReview;
-
-
             //partial related product
-
-            ViewBag.RelatedProduct = _context.Products.Where(x=> x.CategoryId == item.CategoryId).Select(x=> new ProductViewModel
-            {
-                Id = x.Id,
-                Title = x.Title,               
-                Price = x.Price,
-                Discount = x.Discount,
-                ImageDefaultName = x.ImageDefaultName,
-                Alias = x.Alias,
-            }).ToList();
-
-
-            //goi y tim kiem
-            ViewBag.SuggestProduct = _context.Products.Select(x => new ProductViewModel
-            {
-                Id=x.Id,
-                Title = x.Title,
-            }).ToList();
-
-
-
-
-
-
-
-
+            ViewBag.RelatedProduct = await _userRepository.GetListRelatedProduct(item.CategoryId);
             return View(item);
         }
 
@@ -100,7 +61,7 @@ namespace PhoneShop.Controllers
 
             int taikhoanIDInt = int.Parse(taikhoanID);
 
-            var iProduct = await _context.Products.Where(x=> x.Id == id).FirstOrDefaultAsync();
+            var iProduct = await _userRepository.ProductById(id);
         
             var IAccount= await _context.Accounts.Where(x=> x.Id == taikhoanIDInt).FirstOrDefaultAsync();
 
@@ -111,7 +72,7 @@ namespace PhoneShop.Controllers
 
             string content = form["content"];
 
-            var newReviewProduct = new Product_Review
+            var newReviewProduct = new Data.Product_ReviewData
             {
 
                 ProductId = iProduct.Id,
@@ -123,8 +84,7 @@ namespace PhoneShop.Controllers
 
             };
 
-            _context.product_Reviews.Add(newReviewProduct);
-            await _context.SaveChangesAsync();
+            _userRepository.Create_ProductReview(newReviewProduct);
 
 
 
@@ -142,16 +102,7 @@ namespace PhoneShop.Controllers
         public IActionResult ProductByCategory(string alias,int Id)
         {
 
-            var item = _context.Products.Where(x=> x.CategoryId == Id).Select(x=> new ProductViewModel
-            {
-                Id = x.Id,
-                Title = x.Title,
-                ImageDefaultName = x.ImageDefaultName,
-                Price = x.Price,
-                Discount = x.Discount,
-                Alias = x.Alias,
-
-            }).ToList();
+            var item = _userRepository.ProductByCategory(Id);
 
 
             return View(item);

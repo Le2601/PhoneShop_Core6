@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PhoneShop.Data;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 
@@ -29,6 +30,99 @@ namespace PhoneShop.DI.DI_User.Product_User
 
             return items;
 
+        }
+
+        public void Create_ProductReview(Product_ReviewData model)
+        {
+            var newReviewProduct = new Product_Review
+            {
+
+                ProductId = model.ProductId,
+                UserName = model.UserName,
+                UserEmail = model.UserEmail,
+                Content = model.Content,
+                CreateAt = model.CreateAt,
+                Rate = model.Rate,
+
+            };
+
+            _context.product_Reviews.Add(newReviewProduct);
+            _context.SaveChanges();
+
+        }
+
+        public async Task<List<ImageProductViewModel>> GetListImageById(int IdProduct)
+        {
+           var items = await _context.ImageProducts.Where(x => x.ProductId == IdProduct).Select(x=> new ImageProductViewModel
+           {
+               Id = x.Id,
+               DataName = x.DataName,
+               IsDefault = x.IsDefault,
+                ProductId = x.ProductId,
+           }).ToListAsync();
+
+
+            return items;
+
+        }
+
+        public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
+        {
+            var items = await _context.Products.Where(x => x.CategoryId == IdCategory).Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Price = x.Price,
+                Discount = x.Discount,
+                ImageDefaultName = x.ImageDefaultName,
+                Alias = x.Alias,
+            }).ToListAsync();
+
+            return items;
+        }
+
+        public async Task<List<Product_ReviewModelView>> GetListReviewById(int IdProduct)
+        {
+            var ListReview = await _context.product_Reviews.Where(x => x.ProductId == IdProduct).Select(x=> new Product_ReviewModelView
+            {
+
+                 Id = x.Id,
+                 Content = x.Content,                
+                 UserName = x.UserName
+
+            }).ToListAsync();
+
+
+            return ListReview;
+
+
+        }
+
+
+
+        public async Task<SpecificationsViewModel> GetSpeciByIdProduct(int IdProduct)
+        {
+            var x = await _context.specifications.Where(x => x.ProductId == IdProduct).FirstOrDefaultAsync();
+
+            var itemVM = new SpecificationsViewModel
+            {
+                ProductId = x.ProductId,
+                Display = x.Display,
+                Model = x.Model,
+                OperatingSystem = x.OperatingSystem,
+                Processor = x.Processor,
+                InternalStorage = x.InternalStorage,
+                Camera = x.Camera,
+                RandomAccessMemory = x.RandomAccessMemory,
+                Battery = x.Battery,
+                WaterResistance = x.WaterResistance,
+                DimensionsAndeight = x.DimensionsAndeight,
+                Color = x.Color,
+                Connectivity = x.Connectivity,
+                Id = x.Id,
+            };
+
+            return itemVM;
         }
 
         public  string GetTitleCategoryId(int CategoryId)
@@ -79,7 +173,23 @@ namespace PhoneShop.DI.DI_User.Product_User
             return items;
         }
 
-        public async Task<ProductViewModel> ProductById(string alias, int id)
+        public async Task<List<ProductViewModel>> ProductByCategory(int categoryId)
+        {
+            var item = await _context.Products.Where(x => x.CategoryId == categoryId).Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                ImageDefaultName = x.ImageDefaultName,
+                Price = x.Price,
+                Discount = x.Discount,
+                Alias = x.Alias,
+
+            }).ToListAsync();
+
+            return item;
+        }
+
+        public async Task<ProductViewModel> ProductById(string? alias, int id)
         {
             var item = await _context.Products.Where(x => x.Id == id || x.Alias == alias).FirstOrDefaultAsync();
 
@@ -97,7 +207,25 @@ namespace PhoneShop.DI.DI_User.Product_User
             };
             return newProduct;
         }
+        public async Task<ProductViewModel> ProductById( int id)
+        {
+            var item = await _context.Products.Where(x => x.Id == id).FirstOrDefaultAsync();
 
-       
+            ProductViewModel newProduct = new ProductViewModel
+            {
+                Id = item.Id,
+                Title = item.Title,
+                Description = item.Description,
+                Price = item.Price,
+                Discount = item.Discount,
+                ImageDefaultName = item.ImageDefaultName,
+                CategoryId = item.CategoryId,
+
+
+            };
+            return newProduct;
+        }
+
+
     }
 }

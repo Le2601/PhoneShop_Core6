@@ -50,6 +50,9 @@ namespace PhoneShop.Models
         public DbSet<Voucher> Vouchers { get; set; }
 
 
+       
+
+
 
 
         //fluent

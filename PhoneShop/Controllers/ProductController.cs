@@ -99,10 +99,10 @@ namespace PhoneShop.Controllers
 
 
         [Route("/{Alias}-{Id}")]
-        public IActionResult ProductByCategory(string alias,int Id)
+        public async Task<IActionResult> ProductByCategory(string alias,int Id)
         {
 
-            var item = _userRepository.ProductByCategory(Id);
+            var item = await _userRepository.ProductByCategory(Id);
 
 
             return View(item);

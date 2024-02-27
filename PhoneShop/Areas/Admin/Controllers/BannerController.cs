@@ -48,6 +48,11 @@ namespace PhoneShop.Areas.Admin.Controllers
         public async Task<IActionResult> Create(Banner model, Microsoft.AspNetCore.Http.IFormFile img)
         {
             var items = _dbContext.BannerProducts.Where(x=> x.Position == model.Position).FirstOrDefault();
+            model.Content = "";
+            if(model.ProductId == null)
+            {
+                model.ProductId = 0;
+            }
 
             if(items == null)
             {

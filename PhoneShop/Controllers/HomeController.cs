@@ -10,6 +10,7 @@ using PhoneShop.Services;
 using Stripe;
 using System;
 using System.Collections.Generic;
+using System.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,8 +43,42 @@ namespace PhoneShop.Controllers
             //var ddemoo = _categoryRepository.GetAllDemo();
 
 
+            //demo export file
+            //var items = _dbContext.Categories.ToList();
+            //var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+
+            //SaveToText("myDiary_" + Timestamp + ".docx", items);  
+            //co the tu chinh dinh dang file(txt,docx)
+
+
+
             return View(itemsHot);
         }
+        //DEMO EXPORT FILE
+        //public void SaveToText(string fileName, List<Models.Category> diaryEntries)
+        //{
+        //    try
+        //    {
+        //        using (TextWriter tw = new StreamWriter(fileName))
+        //        {
+        //            foreach (var s in diaryEntries)
+        //            {
+
+        //                tw.WriteLine($"Title: {s.Title}");
+        //                tw.WriteLine($"Content: {s.Image}");
+
+        //                if (diaryEntries.IndexOf(s) != diaryEntries.Count - 1)
+        //                {
+        //                    tw.WriteLine(Environment.NewLine);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //
+        //    }
+        //}
         [Route("/thanhtoandemo.html", Name = "thanhtoandemo")]
         public IActionResult demothanhtoan()
         {
@@ -100,5 +135,8 @@ namespace PhoneShop.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        
+
     }
 }

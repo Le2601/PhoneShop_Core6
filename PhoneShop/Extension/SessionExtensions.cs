@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using PhoneShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,36 @@ namespace PhoneShop.Extension
             return value == null ? default(T) :
                 JsonConvert.DeserializeObject<T>(value);
         }
+
+        public static List<VoucherItemModel> GetListSessionCartVoucher(string KeySession, HttpContext httpContext)
+        {
+
+            if (KeySession == null)
+            {
+                throw new ArgumentNullException(nameof(KeySession));
+            }
+
+            List<VoucherItemModel> CartVoucher = httpContext.Session.Get<List<VoucherItemModel>>(KeySession) ?? new List<VoucherItemModel>();
+
+            return CartVoucher;
+
+
+        }
+        public static List<CartItemModel> GetListSessionCartItem(string KeySession, HttpContext httpContext)
+        {
+
+            if (KeySession == null)
+            {
+                throw new ArgumentNullException(nameof(KeySession));
+            }
+
+            List<CartItemModel> CartItems = httpContext.Session.Get<List<CartItemModel>>(KeySession) ?? new List<CartItemModel>();
+
+            return CartItems;
+
+
+        }
+
+
     }
 }

@@ -34,7 +34,7 @@ namespace PhoneShop.Controllers
             var item = await _context.Vouchers.FindAsync(id);
 
             //kiem tra da luu ma giam gia chua
-            List<VoucherItemModel> CartVoucher = HttpContext.Session.Get<List<VoucherItemModel>>("CartVoucher") ?? new List<VoucherItemModel>();
+            List<VoucherItemModel> CartVoucher = PhoneShop.Extension.SessionExtensions.GetListSessionCartVoucher("CartVoucher", HttpContext);
 
             VoucherItemModel voucherItems = CartVoucher.Where(x=> x.Id == id).FirstOrDefault();
 

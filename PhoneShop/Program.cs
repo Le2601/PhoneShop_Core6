@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using PhoneShop.DI.Account;
 using PhoneShop.DI.Category;
 using PhoneShop.DI.DI_User.Product_User;
+using PhoneShop.DI.DI_User.SupportContentData;
+using PhoneShop.DI.DI_User.SupportDirectoryData;
 using PhoneShop.DI.ImageProduct;
 using PhoneShop.DI.Order;
 using PhoneShop.DI.Product;
@@ -45,7 +47,7 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 
         //user
         builder.Services.AddScoped<IProduct_UserRepository, Product_UserRepository>();
-
+        builder.Services.AddScoped<ISupportDirectory_Repository,SupportDirectory_Repository> ();
 
 
         builder.Services.AddScoped<IVnPayService, VnPayService>();

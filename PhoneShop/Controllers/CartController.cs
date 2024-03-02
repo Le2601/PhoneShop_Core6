@@ -31,26 +31,23 @@ namespace PhoneShop.Controllers
             _vnPayService = vnPayService;
         }
 
-      
+       
+
+
         [Route("/cart.html", Name = "Cart")]
         public async Task<IActionResult> Index()
-        {
-            List<CartItemModel> CartItems = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
-
+        {        
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
             //kiem tra da luu ma giam gia chua
-            List<VoucherItemModel> CartVoucher = HttpContext.Session.Get<List<VoucherItemModel>>("CartVoucher") ?? new List<VoucherItemModel>();
-
+            List<VoucherItemModel> CartVoucher = PhoneShop.Extension.SessionExtensions.GetListSessionCartVoucher("CartVoucher", HttpContext);
             VoucherItemViewModel voucherVM = new()
             {
                 VoucherItems = CartVoucher
             };
 
             ViewBag.voucherVM = voucherVM;
-
-
             decimal _DiscountAmount = 0;
             var result = "";
-
             var GetDiscountAmount = HttpContext.Session.GetString("DiscountAmount"); //
 
            
@@ -117,11 +114,11 @@ namespace PhoneShop.Controllers
                 return RedirectToRoute("Cart");
             }
 
-         
-            
+
+
 
             //kiem tra voucher co dc nguoi dung luu chua
-            List<VoucherItemModel> CartVoucher = HttpContext.Session.Get<List<VoucherItemModel>>("CartVoucher") ?? new List<VoucherItemModel>();
+            List<VoucherItemModel> CartVoucher = PhoneShop.Extension.SessionExtensions.GetListSessionCartVoucher("CartVoucher", HttpContext);
 
             foreach (var item in CartVoucher)
             {
@@ -210,7 +207,7 @@ namespace PhoneShop.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            List<CartItemModel> CartItems = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
 
            if (CartItems != null)
             {
@@ -271,9 +268,9 @@ namespace PhoneShop.Controllers
 
         public IActionResult CheckOut()
         {
-            List<CartItemModel> CartItems = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); ///gio hang khong co sp thi tra ve
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);///gio hang khong co sp thi tra ve
 
-            if(CartItems.Count == 0) {
+            if (CartItems.Count == 0) {
                 ViewBag.msgErorr = "Giỏ hàng rỗng không thể thanh toán!";
                 return RedirectToRoute("Cart");
 
@@ -298,7 +295,7 @@ namespace PhoneShop.Controllers
         public IActionResult SubmitCheckOut(IFormCollection form, PaymentInformationModel model)
         {
             //session gio hang
-            List<CartItemModel> CartItems = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); ///gio hang khong co sp thi tra ve
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
 
             string Order_Name = form["Order_Name"];
             string Address = form["Address"];

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<PhoneShop.ModelViews.SupportDirectoryViewModel>
+@using PhoneShop.Models;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<SupportContent> supportContents = ViewBag.ListItemDetail_Support;
+
+}
+<style>
+    
+
+    .content {
+        display: none;
+        padding: 10px;
+    }
+</style>
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>Voucher</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="container" style="min-height:600px">
+    <div class="row">
+
+        <h1>Hỗ trợ khách hàng</h1>
+
+        @* <h2 class="collapsible">Giá sản phẩm</h2>
+        <div class="content">
+            <p>Để biết thông tin chi tiết về giá sản phẩm, vui lòng liên hệ với chúng tôi qua số điện thoại: 0123456789 hoặc gửi email tới địa chỉ: info@example.com.</p>
+        </div>
+
+        <h2 class="collapsible">Giờ mở cửa</h2>
+        <div class="content">
+            <p>Chúng tôi mở cửa từ thứ 2 đến thứ 6, từ 8:00 sáng đến 6:00 chiều. Cuối tuần và ngày lễ chúng tôi nghỉ.</p>
+            <a href="#"> cca ne</a>
+        </div>
+
+        <h2 class="collapsible">Bảo hành</h2>
+        <div class="content">
+            <p>Mọi sản phẩm mua tại cửa hàng đều được bảo hành trong vòng 1 năm kể từ ngày mua. Để yêu cầu bảo hành, vui lòng mang sản phẩm và hoá đơn mua hàng đến cửa hàng của chúng tôi.</p>
+        </div> *@
+
+        @foreach(var item in Model)
+        {
+              <h2 class="collapsible">@item.Title</h2>
+                <div class="content">
+
+                @foreach (var i in supportContents)
+                {
+                    if(i.IdSpDirectory == item.Id)
+                    {
+                        <a href="/@item.Alias/@i.Alias">@i.Title</a>
+                    }
+                    <br />
+                }
+
+                    
+                </div>
+        }
+
+
+
+        <h2>Liên hệ</h2>
+        <p>Để biết thêm thông tin hoặc có câu hỏi, vui lòng liên hệ với chúng tôi qua:</p>
+        <ul>
+            <li>Số điện thoại: 0123456789</li>
+            <li>Email: info@example.com</li>
+            <li>Địa chỉ: 123 Đường ABC, Thành phố XYZ</li>
+        </ul>
+        
+
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        var collapsibles = document.getElementsByClassName("collapsible");
+        for (var i = 0; i < collapsibles.length; i++) {
+            collapsibles[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
+
+
+}

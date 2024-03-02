@@ -8,6 +8,7 @@ namespace PhoneShop.DI.DI_User.SupportDirectoryData
     {
         private readonly ShopPhoneDbContext _context;
 
+
         public SupportDirectory_Repository(ShopPhoneDbContext context)
         {
             _context = context;

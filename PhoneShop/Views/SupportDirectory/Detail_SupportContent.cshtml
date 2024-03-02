@@ -1,0 +1,38 @@
+﻿@model PhoneShop.ModelViews.SupportContentViewModel
+@{
+    ViewData["Title"] = "Detail_SupportContent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>Support Content</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="container" style="min-height:600px">
+    <div class="row">
+
+        
+        @Html.Raw(Model.Content)
+
+
+
+    </div>
+</div>
+
+@section Scripts{
+
+    
+
+
+}
+

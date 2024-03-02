@@ -57,10 +57,11 @@ namespace PhoneShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Alias,Content,IdSpDirectory")] SupportContent supportContent)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,IdSpDirectory")] SupportContent supportContent)
         {
             if (!ModelState.IsValid)
             {
+                supportContent.Alias = PhoneShop.Helpper.Utilities.SEOUrl(supportContent.Title);
                 _context.Add(supportContent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

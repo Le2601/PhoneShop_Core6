@@ -27,5 +27,16 @@ namespace PhoneShop.Controllers
 
             return View(items);
         }
+
+        [Route("/Support_detail/{Alias}-{Id}")]
+        public IActionResult Detail_SupportContent(int Id)
+        {
+            var item = _context.Support_Contents.Where(x=> x.Id ==  Id).FirstOrDefault();
+
+            return View(item);
+        }
+
+
+
     }
 }

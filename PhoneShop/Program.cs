@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using PhoneShop.DI.Account;
 using PhoneShop.DI.Category;
+using PhoneShop.DI.DI_User.Banner_User;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.DI_User.SupportContentData;
 using PhoneShop.DI.DI_User.SupportDirectoryData;
@@ -48,6 +49,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         //user
         builder.Services.AddScoped<IProduct_UserRepository, Product_UserRepository>();
         builder.Services.AddScoped<ISupportDirectory_Repository,SupportDirectory_Repository> ();
+        builder.Services.AddScoped<ISupportContent_Repository, SupportContent_Repository>();
+        builder.Services.AddScoped<IBanner_UserRepository, Banner_UserRepository>();
 
 
         builder.Services.AddScoped<IVnPayService, VnPayService>();

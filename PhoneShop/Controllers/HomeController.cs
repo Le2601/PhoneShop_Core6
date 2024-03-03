@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PhoneShop.DI.Category;
+using PhoneShop.DI.DI_User.Banner_User;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.Product;
 using PhoneShop.Models;
@@ -23,11 +24,14 @@ namespace PhoneShop.Controllers
 
         private readonly IProduct_UserRepository _productRepository;
 
+        private readonly IBanner_UserRepository _bannerRepository;
+
         private readonly ShopPhoneDbContext _dbContext;
         private readonly IVnPayService _vnPayService;
 
-        public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository)
+        public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,IBanner_UserRepository banner_UserRepository)
         {
+            _bannerRepository = banner_UserRepository;
             _dbContext = dbContext;
             _vnPayService = vnPayService;
             _productRepository = productRepository;
@@ -40,9 +44,9 @@ namespace PhoneShop.Controllers
 
             ViewBag.imageproduct =await _productRepository.ImageProducts();
             ViewBag.ListLogo =await _productRepository.CategoryProducts();
-         
-            //partial View Banner
 
+            //partial View Banner
+            ViewBag.ListBanner =await _bannerRepository.GetAll();
 
 
             //demo export file

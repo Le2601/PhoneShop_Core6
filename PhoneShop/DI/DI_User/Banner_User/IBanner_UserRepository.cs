@@ -5,7 +5,7 @@ namespace PhoneShop.DI.DI_User.Banner_User
     public interface IBanner_UserRepository
     {
 
-        public Task<BannerViewModel> GetAll();
+        public Task<List<BannerViewModel>> GetAll();
 
     }
 }

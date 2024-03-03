@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<PhoneShop.ModelViews.SupportDirectoryViewModel>
-@using PhoneShop.Models;
+@using PhoneShop.ModelViews;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<SupportContent> supportContents = ViewBag.ListItemDetail_Support;
+    List<SupportContentViewModel> supportContents = ViewBag.ListItemDetail_Support;
 
 }
 <style>

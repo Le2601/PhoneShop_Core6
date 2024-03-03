@@ -49,14 +49,11 @@ namespace PhoneShop.Areas.Admin.Controllers
         {
             var items = _dbContext.BannerProducts.Where(x=> x.Position == model.Position).FirstOrDefault();
             model.Content = "";
-            if(model.ProductId == null)
-            {
-                model.ProductId = 0;
-            }
+           
 
             if(items == null)
             {
-                if (!ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     //xu ly hinh anh
                     if (img != null)

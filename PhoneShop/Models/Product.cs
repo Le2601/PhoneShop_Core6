@@ -68,7 +68,7 @@ namespace PhoneShop.Models
 
         public virtual ICollection<ImageProduct> ImageProducts { get; set; }
 
-        public virtual ICollection<Banner> Banners { get; set; }
+        //public virtual ICollection<Banner> Banners { get; set; }
 
         public virtual ICollection<Order_Details> Order_Details { get; set; }
 

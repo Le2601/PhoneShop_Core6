@@ -19,7 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Alias)
             </th>
-          
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.SupportDirectory)
             </th>
@@ -35,7 +37,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Alias)
             </td>
-          
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SupportDirectory.Id)
             </td>

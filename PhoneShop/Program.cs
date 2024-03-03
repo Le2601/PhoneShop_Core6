@@ -48,7 +48,6 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         //user
         builder.Services.AddScoped<IProduct_UserRepository, Product_UserRepository>();
         builder.Services.AddScoped<ISupportDirectory_Repository,SupportDirectory_Repository> ();
-        builder.Services.AddScoped<ISupportContent_Repository, SupportContent_Repository>();
 
 
         builder.Services.AddScoped<IVnPayService, VnPayService>();

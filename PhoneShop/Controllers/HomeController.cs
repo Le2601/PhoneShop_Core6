@@ -40,7 +40,9 @@ namespace PhoneShop.Controllers
 
             ViewBag.imageproduct =await _productRepository.ImageProducts();
             ViewBag.ListLogo =await _productRepository.CategoryProducts();
-            //var ddemoo = _categoryRepository.GetAllDemo();
+         
+            //partial View Banner
+
 
 
             //demo export file

@@ -108,10 +108,10 @@ namespace PhoneShop.Models
               .WithMany(p => p.ImageProducts)
               .HasForeignKey(p => p.ProductId);
 
-            modelBuilder.Entity<Banner>()
-              .HasOne(p => p.Product)
-              .WithMany(p => p.Banners)
-              .HasForeignKey(p => p.ProductId);
+            //modelBuilder.Entity<Banner>()
+            //  .HasOne(p => p.Product)
+            //  .WithMany(p => p.Banners)
+            //  .HasForeignKey(p => p.ProductId);
 
 
             modelBuilder.Entity<specifications>()

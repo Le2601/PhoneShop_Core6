@@ -26,6 +26,20 @@ namespace PhoneShop.DI.ImageProduct
             }
 
         }
+        public void CreateImageProduct(ImageProductData model)
+        {
+            var AddImages = new PhoneShop.Models.ImageProduct
+            {
+                ProductId = model.ProductId,
+                DataName = model.DataName,
+                Create_at = DateTime.Now,
+                IsDefault = model.IsDefault
+
+            };
+
+            _context.ImageProducts.Add(AddImages);
+            _context.SaveChanges();
+        }
 
         public ImageProductViewModel GetById(int id)
         {
@@ -45,10 +59,11 @@ namespace PhoneShop.DI.ImageProduct
         {
             var item = _context.ImageProducts.Where(x=> x.ProductId == IdProduct).Select(x=> new ImageProductViewModel
             {
-
                 Id = x.Id,
                 ProductId = x.ProductId,
-                DataName = x.DataName
+                DataName = x.DataName,
+                IsDefault = x.IsDefault,
+                Create_at = x.Create_at
 
 
             }).ToList();

@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PhoneShop.Helpper;
 using System.IO;
 using PhoneShop.Areas.Admin.Data;
+using PhoneShop.ModelViews;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -38,7 +39,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
       
 
-        public async Task<ActionResult<IEnumerable<Category>>> Index()
+        public async Task<ActionResult<IEnumerable<CategoryModelView>>> Index()
         {
 
             var items = await _CategoryRepository.GetAll();

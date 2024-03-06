@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PhoneShop.DI.Product;
 using PhoneShop.Areas.Admin.Data;
 using System.Security.Cryptography.X509Certificates;
+using PhoneShop.DI.ImageProduct;
+using PhoneShop.DI.Specification;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -27,14 +29,18 @@ namespace PhoneShop.Areas.Admin.Controllers
         private readonly ShopPhoneDbContext _context;
 
         private readonly IProductRepository _productRepository;
-
-        public ProductController(ShopPhoneDbContext context, IProductRepository productRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IImageProductRepository _imageProductRepository;
+        private readonly ISpecificationRepository _specificationRepository;
+        public ProductController(ShopPhoneDbContext context, IProductRepository productRepository, ICategoryRepository categoryRepository,IImageProductRepository imageProductRepository,ISpecificationRepository specificationRepository)
         {
+            _imageProductRepository = imageProductRepository;
             _productRepository = productRepository;
             _context = context;
-
+            _categoryRepository = categoryRepository;
+            _specificationRepository = specificationRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
            
@@ -43,7 +49,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             ViewBag.imageproduct =  _context.ImageProducts.ToList();
 
-            ViewBag.ListCategory = _context.Categories.ToList();
+            ViewBag.ListCategory =await _categoryRepository.GetAll();
 
             return View(items);
         }
@@ -129,7 +135,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                                 Connectivity = Connectivity
                             };
 
-                            _productRepository.CreateSpecifications(newspecifications);
+                            _specificationRepository.CreateSpecifications(newspecifications);
 
                             
 
@@ -173,7 +179,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                                     };
 
 
-                                     _productRepository.CreateImageProduct(AddImages);
+                                     _imageProductRepository.CreateImageProduct(AddImages);
                                 }
                                 else
                                 {
@@ -192,7 +198,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
                                     };
 
-                                _productRepository.CreateImageProduct(AddImages);
+                                _imageProductRepository.CreateImageProduct(AddImages);
                             }
 
                             }
@@ -215,7 +221,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                 return Json(new {success = false, msg = "San pham khong ton tai"});
 
             }
-            var Del_Image = _productRepository.GetListById(item.Id);
+            var Del_Image = _imageProductRepository.GetListByIdProduct(item.Id);
 
             if (Del_Image.Count > 0)
             {
@@ -231,7 +237,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
                     }
 
-                    _productRepository.DeleteImageProduct(img.Id);
+                    _imageProductRepository.DeleteImage(img.Id);
 
                 }
             }
@@ -253,7 +259,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Title");
 
-            var itemThongSo = _productRepository.GetSpecificationByIdProduct(item.Id);
+            var itemThongSo = _specificationRepository.GetSpecificationByIdProduct(item.Id);
 
             ViewBag.itemThongSo = itemThongSo;
 
@@ -313,7 +319,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                                     //_context.specifications.Update(itemNewspecifications!);
                                     //await _context.SaveChangesAsync();
 
-                                    _productRepository.UpdateSpecificationByIdProduct(model.Id, UpdateSpecification);
+                                    _specificationRepository.UpdateSpecificationByIdProduct(model.Id, UpdateSpecification);
                                     
                                 
 
@@ -398,7 +404,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                                 //_context.specifications.Update(itemNewspecifications!);
                                 //await _context.SaveChangesAsync();
 
-                                _productRepository.UpdateSpecificationByIdProduct(model.Id, UpdateSpecification);
+                                _specificationRepository.UpdateSpecificationByIdProduct(model.Id, UpdateSpecification);
 
 
                 }

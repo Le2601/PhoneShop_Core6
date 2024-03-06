@@ -15,7 +15,7 @@ namespace PhoneShop.DI.Product
 
         public ProductViewModel GetByIdVM(int id);
 
-        public List<CategoryModelView> GetCategoryList();
+        
 
        
 
@@ -30,22 +30,12 @@ namespace PhoneShop.DI.Product
 
         //end product
 
-        //Specifications
-        void CreateSpecifications(SpecificationsData model);
-        public List<SpecificationsViewModel> GetSpecificationByIdProduct(int id);
-
-        void UpdateSpecificationByIdProduct(int IdProduct, SpecificationsData model);
-
-
-
-        //end Specifications
 
         //image
-        void CreateImageProduct(ImageProductData model);
+       
 
-        List<ImageProductData> GetListById(int id);
-
-        void DeleteImageProduct(int id);
+       
+       
 
         //end image
 

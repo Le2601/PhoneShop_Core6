@@ -12,8 +12,8 @@ namespace PhoneShop.DI.ImageProduct
 
         void DeleteImage(int id);
 
-      
 
+        void CreateImageProduct(ImageProductData model);
 
     }
 }

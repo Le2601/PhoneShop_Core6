@@ -53,9 +53,18 @@ namespace PhoneShop.DI.Category
 
         }
 
-        public async Task<IEnumerable<PhoneShop.Models.Category>> GetAll()
+        public async Task<IEnumerable<CategoryModelView>> GetAll()
         {
-            return await _dbContext.Categories.OrderBy(x => x.Id).ToListAsync();
+            return await _dbContext.Categories.Select(x => new CategoryModelView
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Alias = x.Alias,
+                Image = x.Image,
+
+
+
+            }).ToListAsync();
         }
 
         public void Create(CategoryData model)

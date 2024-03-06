@@ -12,6 +12,7 @@ using PhoneShop.DI.ImageProduct;
 using PhoneShop.DI.Order;
 using PhoneShop.DI.Product;
 using PhoneShop.DI.Role;
+using PhoneShop.DI.Specification;
 using PhoneShop.DI.SupportDirectory;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -51,7 +52,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<ISupportDirectory_Repository,SupportDirectory_Repository> ();
         builder.Services.AddScoped<ISupportContent_Repository, SupportContent_Repository>();
         builder.Services.AddScoped<IBanner_UserRepository, Banner_UserRepository>();
-
+        
+        builder.Services.AddScoped<ISpecificationRepository, SpecificationRepository>();
 
         builder.Services.AddScoped<IVnPayService, VnPayService>();
       

@@ -16,7 +16,7 @@ namespace PhoneShop.DI.Category
 
         Task<CategoryModelView> GetById(int id);
 
-        Task<IEnumerable<PhoneShop.Models.Category>> GetAll();
+        Task<IEnumerable<CategoryModelView>> GetAll();
 
         void Create(CategoryData model);
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PhoneShop.Models.Banner>
+﻿@model IEnumerable<PhoneShop.ModelViews.BannerViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -96,7 +96,7 @@
                                     <img src="~/images/Banner/@item.Image" style="height:40px; width:60px">
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" href="/admin/Banner/Edit/@item.Id">Edit</a>
+                                    <a class="btn btn-danger" href="/admin/Banner/Update/@item.Id">Edit</a>
                                     <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Delete</a>
                                 </td>
                             </tr>

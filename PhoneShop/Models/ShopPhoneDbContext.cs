@@ -7,6 +7,7 @@ using System.Security.Permissions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Radar;
+using PhoneShop.ModelViews;
 namespace PhoneShop.Models
 {
     public class ShopPhoneDbContext : DbContext
@@ -159,6 +160,16 @@ namespace PhoneShop.Models
 
 
         }
+
+
+       
+
+
+
+
+        //fluent
+
+        public DbSet<PhoneShop.ModelViews.BannerViewModel>? BannerViewModel { get; set; }
 
 
 

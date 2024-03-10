@@ -14,6 +14,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PhoneShop.Helpper;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PhoneShop.DI.Product;
+using PhoneShop.Areas.Admin.Data;
+using PhoneShop.DI.Banner;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -23,20 +27,28 @@ namespace PhoneShop.Areas.Admin.Controllers
     {
        
         private readonly ShopPhoneDbContext _dbContext;
-        public BannerController(ShopPhoneDbContext dbContext)
+
+        private readonly IProductRepository _productRepository;
+
+        private readonly IBannerRepository _bannerRepository;
+
+        public BannerController(ShopPhoneDbContext dbContext, IProductRepository productRepository, IBannerRepository bannerRepository)
         {           
+            _bannerRepository = bannerRepository;
+            _productRepository = productRepository;
             _dbContext = dbContext;
         }
-        public IActionResult Index()
+       
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Category = new SelectList(_dbContext.Products.ToList(), "Id", "Title");
-            var items = _dbContext.BannerProducts.OrderBy(p => p.Position).ToList();
+            ViewBag.Category = new SelectList(_productRepository.GetAllProducts(), "Id", "Title");
+            var items =await _bannerRepository.GetList();
             return View(items);
         }
 
         public IActionResult Create()
         {
-            ViewBag.Product = new SelectList(_dbContext.Products.ToList(), "Id", "Title");
+            ViewBag.Product = new SelectList(_productRepository.GetAllProducts(), "Id", "Title");
 
 
             return View();
@@ -45,7 +57,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create(Banner model, Microsoft.AspNetCore.Http.IFormFile img)
+        public async Task<IActionResult> Create(BannerData model, Microsoft.AspNetCore.Http.IFormFile img)
         {
             var items = _dbContext.BannerProducts.Where(x=> x.Position == model.Position).FirstOrDefault();
             model.Content = "";
@@ -80,9 +92,11 @@ namespace PhoneShop.Areas.Admin.Controllers
                     if (string.IsNullOrEmpty(model.Image)) model.Image = "default.jpg";
 
 
-                    await _dbContext.BannerProducts.AddAsync(model);
+                    //await _dbContext.BannerProducts.AddAsync(model);
 
-                    await _dbContext.SaveChangesAsync();
+                    //await _dbContext.SaveChangesAsync();
+                    _bannerRepository.Create(model);
+
 
                     return RedirectToAction("index");
 
@@ -91,8 +105,74 @@ namespace PhoneShop.Areas.Admin.Controllers
             ModelState.AddModelError("Position", "Vị trí đã tồn tại");
             
            
-            ViewBag.Product = new SelectList(_dbContext.Products.ToList(), "Id", "Title");
+            ViewBag.Product = new SelectList(_productRepository.GetAllProducts(), "Id", "Title");
             return View(model);
+        }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            ViewBag.Product = new SelectList(_productRepository.GetAllProducts(), "Id", "Title");
+            var item =await _bannerRepository.GetById(id);
+
+            return View(item);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(BannerData model, Microsoft.AspNetCore.Http.IFormFile img)
+        {
+
+
+            var items = _dbContext.BannerProducts.Where(x => x.Position == model.Position).FirstOrDefault();
+            model.Content = "";
+
+
+            if (items == null)
+            {
+                if (!ModelState.IsValid)
+                {
+                    //xu ly hinh anh
+                    if (img != null)
+                    {
+                        // Tạo một đối tượng Random
+                        Random random = new Random();
+
+                        // Tạo số ngẫu nhiên trong khoảng từ 1 đến 100
+                        int randomNumber1 = random.Next(1, 101);
+                        int randomNumber2 = random.Next(200, 300);
+
+                        var fName = "Banner";
+
+                        var NewName = fName + randomNumber1 + randomNumber2;
+
+                        string extension = Path.GetExtension(img.FileName);
+                        string imageName = Utilities.SEOUrl(NewName) + extension;
+
+                        model.Image = await Utilities.UploadFile(img, @"Banner", imageName.ToLower());
+
+
+                    }
+                    //neu khong upload hinh anh thi se de hinh default.jpg = null
+                    if (string.IsNullOrEmpty(model.Image)) model.Image = "default.jpg";
+
+
+                    //await _dbContext.BannerProducts.AddAsync(model);
+
+                    //await _dbContext.SaveChangesAsync();
+                    _bannerRepository.Update(model);
+
+
+                    return RedirectToAction("index");
+
+                }
+            }
+            ModelState.AddModelError("Position", "Vị trí đã tồn tại");
+
+
+            ViewBag.Product = new SelectList(_productRepository.GetAllProducts(), "Id", "Title");
+            return View(model);
+
         }
     }
 }

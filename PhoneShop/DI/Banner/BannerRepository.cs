@@ -34,7 +34,12 @@ namespace PhoneShop.DI.Banner
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+
+            var item = _context.BannerProducts.Find(id)!;
+
+            _context.BannerProducts.Remove(item);
+            _context.SaveChanges();
+
         }
 
         public async Task<BannerViewModel> GetById(int id)

@@ -174,5 +174,29 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(model);
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = await _bannerRepository.GetById(id);
+            if(item == null)
+            {
+                return RedirectToAction("NotFoundApp", "Home");
+            }
+
+            string pathimg = "/Banner/" + item.Image!;
+            //xoa hinh anh trong folder
+            string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Banner/" + item.Image);
+            if (System.IO.File.Exists(pathFile))
+            {
+                // Xóa hình ảnh
+                System.IO.File.Delete(pathFile);
+
+            }
+
+            _bannerRepository.Delete(item.Id);
+             return Json(new { success = true });
+            
+        }
     }
 }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
+using PhoneShop.Areas.Admin.Data;
+
 namespace PhoneShop.DI.Role
 {
     public interface IRoleRepository
@@ -17,9 +19,11 @@ namespace PhoneShop.DI.Role
 
         Task<IEnumerable<RoleViewModel>> GetAll();
 
-        Task<PhoneShop.Models.Role> Create(PhoneShop.Models.Role model);
+        void Create(RoleData model);
 
-        Task<PhoneShop.Models.Role> Delete(int id);
+        void Delete(int id);
+
+        void Update(RoleData model);
 
     }
 }

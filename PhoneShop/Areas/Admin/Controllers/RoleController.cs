@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PhoneShop.Helpper;
 using System.IO;
 using PhoneShop.DI.Role;
+using PhoneShop.Areas.Admin.Data;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -53,9 +54,9 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Role model)
+        public async Task<IActionResult> Create(RoleData model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //kiem tra neu trung ten
                 var CheckTitle = _dbContext.Roles.Where(x => x.RoleName == model.RoleName).ToList();
@@ -65,7 +66,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                 }
 
 
-                var CreateI = await _RoleRepository.Create(model);
+                 _RoleRepository.Create(model);
 
                 return RedirectToAction("Index");
 
@@ -76,13 +77,13 @@ namespace PhoneShop.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             var item = _dbContext.Roles.Where(x => x.Id == id).FirstOrDefault();
 
             if (item != null)
             {
-                var items = await _RoleRepository.Delete(id);
+                _RoleRepository.Delete(id);
 
                 return Json(new { success = true, msg = "Xóa thành công" });
 
@@ -92,6 +93,30 @@ namespace PhoneShop.Areas.Admin.Controllers
 
 
 
+        }
+
+        public IActionResult Update(int id)
+        {
+            var item = _RoleRepository.GetById(id);
+            if (item == null)
+            {
+                return RedirectToAction("NotFoundApp", "Home");
+            }
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Update(RoleData model)
+        {
+            if(ModelState.IsValid) {
+
+                _RoleRepository.Update(model);
+
+                return RedirectToAction("Index");
+            }
+
+
+            return View(model);
         }
     }
 }

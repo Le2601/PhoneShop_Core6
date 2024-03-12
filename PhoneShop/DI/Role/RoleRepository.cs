@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using PhoneShop.ModelViews;
+using PhoneShop.Areas.Admin.Data;
+
 namespace PhoneShop.DI.Role
 {
     public class RoleRepository : IRoleRepository
@@ -59,44 +61,43 @@ namespace PhoneShop.DI.Role
         }
 
 
-        public async Task<PhoneShop.Models.Role> Create(PhoneShop.Models.Role model)
-        {
-            //if (model == null)
-            //{
-            //    throw new ArgumentNullException(nameof(model));
-            //}
-
-            await _dbContext.Roles.AddAsync(model);
-
-            await _dbContext.SaveChangesAsync();
-
-            return model;
-
-        }
+       
 
 
-        public async Task<PhoneShop.Models.Role> Delete(int id)
-        {
+       
 
-            var item = await _dbContext.Roles.FindAsync(id);
-
-            if (item == null)
-            {
-
-                return StatusCode(404, "Không tìm thấy");
-            }
-
-            _dbContext.Roles.Remove(item);
-
-            await _dbContext.SaveChangesAsync();
-
-            return item;
-
-        }
-
-        private Models.Role StatusCode(int v1, string v2)
+        private RoleData StatusCode(int v1, string v2)
         {
             throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            var item = _dbContext.Roles.Find(id)!;
+            _dbContext.Remove(item);
+            _dbContext.SaveChanges();
+        }
+
+        public void Create(RoleData model)
+        {
+            var item = new PhoneShop.Models.Role
+            {
+                RoleName = model.RoleName,
+            };
+
+             _dbContext.Roles.Add(item);
+
+             _dbContext.SaveChanges();
+
+        }
+
+        public void Update(RoleData model)
+        {
+            var item = new PhoneShop.Models.Role { RoleName = model.RoleName,Id= model.Id };
+
+
+            _dbContext.Update(item);
+            _dbContext.SaveChanges();
         }
     }
 }

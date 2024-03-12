@@ -6,15 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PhoneShop.Models;
+using PhoneShop.ModelViews;
 namespace PhoneShop.DI.Role
 {
     public interface IRoleRepository
     {
 
-        Task<PhoneShop.Models.Role> GetById(int id);
+        Task<RoleViewModel> GetById(int id);
 
 
-        Task<IEnumerable<PhoneShop.Models.Role>> GetAll();
+        Task<IEnumerable<RoleViewModel>> GetAll();
 
         Task<PhoneShop.Models.Role> Create(PhoneShop.Models.Role model);
 

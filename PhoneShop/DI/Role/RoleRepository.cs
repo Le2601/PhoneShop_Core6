@@ -8,6 +8,7 @@ using PhoneShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using PhoneShop.ModelViews;
 namespace PhoneShop.DI.Role
 {
     public class RoleRepository : IRoleRepository
@@ -26,22 +27,32 @@ namespace PhoneShop.DI.Role
         }
 
 
-        public async Task<PhoneShop.Models.Role> GetById(int id)
+        public async Task<RoleViewModel> GetById(int id)
         {
             var Item = await _dbContext.Roles.FindAsync(id);
+
+            var IVM = new RoleViewModel
+            {
+                Id = Item.Id,
+                RoleName = Item.RoleName
+            };
 
             //if (item == null)
             //{
             //    return NotFoundResult();
             //}
 
-            return Item;
+            return IVM;
             
         }
 
-        public async Task<IEnumerable<PhoneShop.Models.Role>> GetAll()
+        public async Task<IEnumerable<RoleViewModel>> GetAll()
         {
-            var items = await _dbContext.Roles.ToListAsync();
+            var items = await _dbContext.Roles.Select(x=> new RoleViewModel
+            {
+                Id = x.Id,
+                 RoleName = x.RoleName
+            }).ToListAsync();
 
             return items;
 

@@ -15,6 +15,7 @@ using PhoneShop.DI.Product;
 using PhoneShop.DI.Role;
 using PhoneShop.DI.Specification;
 using PhoneShop.DI.SupportDirectory;
+using PhoneShop.DI.Voucher;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using PhoneShop.Services;
@@ -46,6 +47,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<IAccountRepository, AccountRepository>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
         builder.Services.AddScoped<IBannerRepository, BannerRepository>();
+
+        builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 
 
 

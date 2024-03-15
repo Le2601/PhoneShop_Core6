@@ -1,8 +1,12 @@
-﻿@model IEnumerable<PhoneShop.Models.SupportContent>
+﻿@model IEnumerable<PhoneShop.ModelViews.SupportContentViewModel>
+@using PhoneShop.ModelViews;
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    IEnumerable<SupportDirectoryViewModel> IsDiretory = ViewBag.ListDirectory;
+
 }
 
 <h1>Index</h1>
@@ -23,14 +27,14 @@
                 @Html.DisplayNameFor(model => model.Content)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SupportDirectory)
+               Loai ho tro
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr id="trow_@item.Id">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -41,14 +45,52 @@
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SupportDirectory.Id)
-            </td>
+                    @foreach (var i in IsDiretory)
+                    {
+                        if(item.IdSpDirectory == i.Id)
+                        {
+                            <p>@i.Title</p>
+                        }
+                    }
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+               
+                    <a href="#" class="btnDelete btn-btn-success" data-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("ban muoon xoa chua");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/SupportContents/Delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                               
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+}

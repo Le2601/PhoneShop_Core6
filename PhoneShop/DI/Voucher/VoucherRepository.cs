@@ -34,7 +34,7 @@ namespace PhoneShop.DI.Voucher
         public void Delete(int id)
         {
             var item = _context.Vouchers.Find(id)!;
-            _context.Remove(item);
+            _context.Vouchers.Remove(item);
             _context.SaveChanges();
         }
 
@@ -76,7 +76,28 @@ namespace PhoneShop.DI.Voucher
 
         public void Update(VoucherData model)
         {
-            throw new NotImplementedException();
+           var item = _context.Vouchers.FirstOrDefault(x => x.Id == model.Id);
+
+            var IUpdate = new PhoneShop.Models.Voucher
+            {
+                Id = model.Id,
+                Code = model.Code,
+                DiscountAmount = model.DiscountAmount,
+                DiscountConditions = model.DiscountConditions,
+                ExpiryDate = model.ExpiryDate,
+                Quantity = model.Quantity,
+                IsActive = model.IsActive,
+
+            };
+
+            _context.Vouchers.Update(IUpdate);
+            _context.SaveChanges();
+
+
+
+
+           
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PhoneShop.Models.Voucher>
+﻿@model IEnumerable<PhoneShop.ModelViews.VoucherViewModel>
 @using System.Globalization;
 @{
     ViewData["Title"] = "Index";
@@ -44,7 +44,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr id="trow_@item.Id">
                     <td>
                         @Html.DisplayFor(modelItem => item.Code)
                     </td>
@@ -72,9 +72,9 @@
                         @Html.DisplayFor(modelItem => item.IsActive)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Update" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a href="#" data-id="@item.Id" class="btnDelete">Delete</a>
                     </td>
                 </tr>
             }
@@ -84,3 +84,36 @@
 
     </section>
 
+<!-- /.content -->
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("ban muoon xoa chua");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/VoucherAd/Delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+}

@@ -79,7 +79,7 @@
                                 </td>
                                 
                                 <td>
-                                    <a class="btn btn-danger" href="/admin/Category/Edit/@item.Id">Edit</a>
+                                    <a class="btn btn-danger" href="/admin/SupportDirectoryAd/Update/@item.Id">Edit</a>
                                     <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Delete</a>
                                 </td>
                             </tr>
@@ -115,7 +115,7 @@
 <!-- /.content -->
 @section scripts{
 
-  @*   <script>
+  <script>
         $(document).ready(function () {
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');
@@ -126,7 +126,7 @@
 
                     $.ajax({
 
-                        url: '/admin/Category/Delete',
+                        url: '/admin/SupportDirectoryAd/Delete',
                         type: 'post',
                         data: { id: id },
                         success: function (rs) {
@@ -141,7 +141,7 @@
                 }
             });
         });
-    </script> *@
+    </script> 
 
 
 }

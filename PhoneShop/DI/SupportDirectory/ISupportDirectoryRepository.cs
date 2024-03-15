@@ -16,7 +16,10 @@ namespace PhoneShop.DI.SupportDirectory
         void Create(SupportDirectoryData model);
 
 
+        void Delete(int id);
+        void Update(SupportDirectoryData model);
 
+        public int CheckId(int id);
 
 
 

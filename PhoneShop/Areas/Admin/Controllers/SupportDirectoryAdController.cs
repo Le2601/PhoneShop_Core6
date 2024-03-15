@@ -13,11 +13,11 @@ namespace PhoneShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class SupportDirectoryController : Controller
+    public class SupportDirectoryAdController : Controller
     {
         private readonly ISupportDirectoryRepository _repository;
 
-        public SupportDirectoryController(ISupportDirectoryRepository repository)
+        public SupportDirectoryAdController(ISupportDirectoryRepository repository)
         {
             _repository = repository;
         }
@@ -48,5 +48,43 @@ namespace PhoneShop.Areas.Admin.Controllers
             return RedirectToAction("Index");
 
         }
+
+        public IActionResult Update(int id)
+        {
+            if(_repository.CheckId(id)== 0) {
+
+                return RedirectToAction("NotFoundApp", "Home");
+            }
+            
+            var item = _repository.GetById(id);
+
+            return View(item);
+        }
+        [HttpPost]
+
+        public IActionResult Update(SupportDirectoryData model)
+        {
+            _repository.Update(model);
+            
+
+            return RedirectToAction("Index", "SupportDirectoryAd");
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (_repository.CheckId(id) == 0)
+            {
+
+                return RedirectToAction("NotFoundApp", "Home");
+            }
+
+            _repository.Delete(id);
+
+
+            return Json(new { success = true });
+        }
+
+
     }
 }

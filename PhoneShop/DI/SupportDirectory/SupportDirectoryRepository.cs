@@ -16,6 +16,19 @@ namespace PhoneShop.DI.SupportDirectory
             _context = context;
         }
 
+        public int CheckId(int id)
+        {
+            var ValueCheck = 0;
+
+            var item = _context.Support_Directories.Find(id);
+            if(item == null)
+            {
+                return ValueCheck;
+            }
+            return ValueCheck = 1;
+
+        }
+
         public void Create(SupportDirectoryData model)
         {
 
@@ -33,15 +46,17 @@ namespace PhoneShop.DI.SupportDirectory
 
             _context.SaveChanges();
 
-            //var createdViewModel = new SupportDirectoryViewModel
-            //{
-            //    Id = newSpDir.Id,
-            //    Title = newSpDir.Title,
-            //    Alias = newSpDir.Alias
-            //};
            
-            //return model;
              
+        }
+
+        public void Delete(int id)
+        {
+            var item = _context.Support_Directories.Find(id)!;
+
+            _context.Support_Directories.Remove(item);
+            _context.SaveChanges();
+
         }
 
         public List<SupportDirectoryViewModel> GetAll()
@@ -52,17 +67,38 @@ namespace PhoneShop.DI.SupportDirectory
                 Title = x.Title,
                 Alias = x.Alias,
             }).ToList();
-            if(items == null)
-            {
-                return null;
-            }
+            
 
             return items;
         }
 
         public SupportDirectoryViewModel GetById(int id)
         {
-            throw new System.NotImplementedException();
+            var item = _context.Support_Directories.FirstOrDefault(x => x.Id == id)!;
+
+            var iVM = new SupportDirectoryViewModel
+            {
+                Id= item.Id,
+                Title = item.Title,
+                Alias = item.Alias,
+            };
+
+            return iVM;
+
+        }
+
+        public void Update(SupportDirectoryData model)
+        {
+            var item = _context.Support_Directories.Find(model.Id)!;
+
+
+            item.Title = model.Title;
+            item.Alias = PhoneShop.Helpper.Utilities.SEOUrl(model.Title);
+
+            _context.Support_Directories.Update(item);
+            _context.SaveChanges();
+            
+
         }
     }
 }

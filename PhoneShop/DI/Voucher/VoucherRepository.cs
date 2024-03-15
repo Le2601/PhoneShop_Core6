@@ -15,6 +15,18 @@ namespace PhoneShop.DI.Voucher
             _context = context;
         }
 
+        public int CheckId( int id)
+        {
+            var ValueCheck = 0;
+            var item = _context.Vouchers.Find(id);
+            if (item != null)
+            {
+                return ValueCheck = 1;
+            }
+
+            return ValueCheck;
+        }
+
         public void Create(VoucherData model)
         {
             var item = new PhoneShop.Models.Voucher
@@ -59,6 +71,9 @@ namespace PhoneShop.DI.Voucher
         {
             var model =await _context.Vouchers.FirstOrDefaultAsync(x=> x.Id == id);
 
+           
+
+
             var IVM = new VoucherViewModel
             {
                 Id = model.Id,
@@ -80,7 +95,7 @@ namespace PhoneShop.DI.Voucher
 
             var IUpdate = new PhoneShop.Models.Voucher
             {
-                Id = model.Id,
+                
                 Code = model.Code,
                 DiscountAmount = model.DiscountAmount,
                 DiscountConditions = model.DiscountConditions,

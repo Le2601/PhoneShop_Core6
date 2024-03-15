@@ -10,6 +10,8 @@ namespace PhoneShop.DI.Voucher
 
         public Task<VoucherViewModel> GetById(int id);
 
+        public int CheckId(int id);
+
         void Create(VoucherData model);
 
         void Update(VoucherData model);

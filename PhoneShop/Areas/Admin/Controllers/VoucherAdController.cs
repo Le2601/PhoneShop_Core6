@@ -54,9 +54,9 @@ namespace PhoneShop.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var item =await _voucherRepository.GetById(id);
-            if (item == null)
+            if (_voucherRepository.CheckId(id) == 0)
             {
-                return NotFound();
+                return RedirectToAction("NotFoundApp", "Home");
             }
 
 
@@ -67,33 +67,27 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public async Task<IActionResult> Update(int id)
         {
-            var item =await _voucherRepository.GetById(id);
-            if (item == null)
+            if(_voucherRepository.CheckId(id) == 0)
             {
-                return NotFound();
-
+                return RedirectToAction("NotFoundApp", "Home");
             }
+
+            var item =await _voucherRepository.GetById(id);       
 
             return View(item);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(VoucherData  model) 
+        public IActionResult Update(VoucherData  model) 
         {
 
-            var item = await _voucherRepository.GetById(model.Id);
-            if (item == null)
-            {
-                return NotFound();
-
-            }
-
+           
             _voucherRepository.Update(model);
 
 
 
 
-            return View();
+            return RedirectToAction("Index", "VoucherAd");
         }
 
 

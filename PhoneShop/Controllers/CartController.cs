@@ -182,7 +182,7 @@ namespace PhoneShop.Controllers
 
             List<CartItemModel> Cart = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
 
-            CartItemModel cartItems = Cart.Where(x=> x.ProductId == id).FirstOrDefault();
+            CartItemModel cartItems = Cart.Where(x=> x.ProductId == id).FirstOrDefault()!;
 
             if(cartItems == null) {
 
@@ -388,7 +388,10 @@ namespace PhoneShop.Controllers
 
                 }
 
-                handleVoucher();
+                if (HttpContext.Session.GetString("getIdVoucher") != null)
+                {
+                    handleVoucher();
+                }
 
                 _dbContext.SaveChanges();
                 HttpContext.Session.Remove("getIdVoucher");

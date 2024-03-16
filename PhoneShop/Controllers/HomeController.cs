@@ -90,12 +90,7 @@ namespace PhoneShop.Controllers
         //        //
         //    }
         //}
-        [Route("/thanhtoandemo.html", Name = "thanhtoandemo")]
-        public IActionResult demothanhtoan()
-        {
-
-            return View();
-        }
+      
 
 
         public IActionResult CreatePaymentUrl(PaymentInformationModel model)
@@ -135,10 +130,7 @@ namespace PhoneShop.Controllers
             return RedirectToRoute("Cart");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+      
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

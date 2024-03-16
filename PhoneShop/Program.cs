@@ -6,6 +6,7 @@ using PhoneShop.DI.Account;
 using PhoneShop.DI.Banner;
 using PhoneShop.DI.Category;
 using PhoneShop.DI.DI_User.Banner_User;
+using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.DI_User.SupportContentData;
 using PhoneShop.DI.DI_User.SupportDirectoryData;
@@ -64,7 +65,10 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<ISpecificationRepository, SpecificationRepository>();
 
         builder.Services.AddScoped<IVnPayService, VnPayService>();
-      
+
+        builder.Services.AddScoped<IPaymentResponse_Repository,PaymentResponses_Repository >();
+
+
 
         //API
         // Trong phương thức ConfigureServices của Startup.cs

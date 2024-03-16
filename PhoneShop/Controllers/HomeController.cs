@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PhoneShop.Data;
 using PhoneShop.DI.Category;
 using PhoneShop.DI.DI_User.Banner_User;
+using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.Product;
 using PhoneShop.Models;
@@ -26,11 +28,14 @@ namespace PhoneShop.Controllers
 
         private readonly IBanner_UserRepository _bannerRepository;
 
+        private readonly IPaymentResponse_Repository _paymentResponseRepository;
+
         private readonly ShopPhoneDbContext _dbContext;
         private readonly IVnPayService _vnPayService;
 
-        public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,IBanner_UserRepository banner_UserRepository)
+        public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository)
         {
+            _paymentResponseRepository = paymentResponse_Repository;
             _bannerRepository = banner_UserRepository;
             _dbContext = dbContext;
             _vnPayService = vnPayService;
@@ -111,7 +116,7 @@ namespace PhoneShop.Controllers
             //};
             //_dbContext.Orders.Add(newOrder);
             //_dbContext.SaveChanges();
-            var newPayment = new PaymentResponse
+            var newPayment = new PaymentResponeData
             {
                 OrderDescription = response.OrderDescription,
                 TransactionId = response.TransactionId,
@@ -123,8 +128,7 @@ namespace PhoneShop.Controllers
                 VnPayResponseCode = response.VnPayResponseCode
             };
 
-            _dbContext.paymentResponses.Add(newPayment);
-            _dbContext.SaveChanges();
+            _paymentResponseRepository.Create(newPayment);
 
             TempData["OrderSuccess"] = "Đặt hàng thành công!";
             //return RedirectToAction("Index", "Home");

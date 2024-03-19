@@ -7,11 +7,12 @@ namespace PhoneShop.DI.DI_User.Product_User
     {
 
         public Task<List<ProductViewModel>> LatestProducts();
+        public Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory);
 
-        public Task<List<ImageProductViewModel>> ImageProducts();
 
+        public Task<ProductViewModel> ProductById(string? alias, int id);
+        public Task<ProductViewModel> ProductById(int id);
 
-        public Task<List<CategoryModelView>> CategoryProducts();
 
 
         public Task<List<ProductViewModel>> ProductByCategory(int categoryId);
@@ -19,15 +20,11 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         //Detail_Product
 
-        public Task<ProductViewModel> ProductById(string? alias, int id);
-        public Task<ProductViewModel> ProductById(int id);
-        public string GetTitleCategoryId(int CategoryId);
-        //Image
-        public Task<List<ImageProductViewModel>> GetListImageById(int IdProduct);
+       
+        
+       
 
-
-        //review
-        public Task<List<Product_ReviewModelView>> GetListReviewById(int IdProduct);
+       
 
         //specifications
 
@@ -35,13 +32,11 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         //partial related product
 
-        public Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory);
-
-        public void Create_ProductReview(Product_ReviewData model);
+       
 
         
 
-
+       
 
 
 

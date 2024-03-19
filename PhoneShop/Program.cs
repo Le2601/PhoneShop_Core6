@@ -6,8 +6,11 @@ using PhoneShop.DI.Account;
 using PhoneShop.DI.Banner;
 using PhoneShop.DI.Category;
 using PhoneShop.DI.DI_User.Banner_User;
+using PhoneShop.DI.DI_User.Category_User;
+using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
+using PhoneShop.DI.DI_User.ReviewProduct_User;
 using PhoneShop.DI.DI_User.SupportContentData;
 using PhoneShop.DI.DI_User.SupportDirectoryData;
 using PhoneShop.DI.ImageProduct;
@@ -67,6 +70,13 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<IVnPayService, VnPayService>();
 
         builder.Services.AddScoped<IPaymentResponse_Repository,PaymentResponses_Repository >();
+
+        builder.Services.AddScoped<ICategory_UserRepository, Category_UserRepository>();
+
+        builder.Services.AddScoped<IImageProduct_UserRepository, ImageProduct_UserRepository>();
+
+        builder.Services.AddScoped<IReviewProduct_UserRepository, ReviewProduct_UserRepository>();
+
 
 
 

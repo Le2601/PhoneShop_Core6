@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using PhoneShop.Data;
 using PhoneShop.DI.Category;
 using PhoneShop.DI.DI_User.Banner_User;
+using PhoneShop.DI.DI_User.Category_User;
+using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.Product;
@@ -33,8 +35,14 @@ namespace PhoneShop.Controllers
         private readonly ShopPhoneDbContext _dbContext;
         private readonly IVnPayService _vnPayService;
 
-        public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository)
+        private readonly IImageProduct_UserRepository _imageProduct_UserRepository;
+        private readonly ICategory_UserRepository _categoryRepository;
+
+        public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,
+            IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository, IImageProduct_UserRepository imageProduct_UserRepository, ICategory_UserRepository category_UserRepository)
         {
+            _categoryRepository = category_UserRepository;
+            _imageProduct_UserRepository = imageProduct_UserRepository;
             _paymentResponseRepository = paymentResponse_Repository;
             _bannerRepository = banner_UserRepository;
             _dbContext = dbContext;
@@ -47,8 +55,8 @@ namespace PhoneShop.Controllers
         {
             var itemsHot =await _productRepository.LatestProducts();
 
-            ViewBag.imageproduct =await _productRepository.ImageProducts();
-            ViewBag.ListLogo =await _productRepository.CategoryProducts();
+            ViewBag.imageproduct =await _imageProduct_UserRepository.ImageProducts();
+            ViewBag.ListLogo =await _categoryRepository.CategoryProducts();
 
             //partial View Banner
             ViewBag.ListBanner =await _bannerRepository.GetAll();

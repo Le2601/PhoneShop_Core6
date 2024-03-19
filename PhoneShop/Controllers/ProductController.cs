@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PhoneShop.DI.DI_User.Category_User;
+using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Product_User;
+using PhoneShop.DI.DI_User.ReviewProduct_User;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using System;
@@ -17,9 +20,15 @@ namespace PhoneShop.Controllers
         private readonly ShopPhoneDbContext _context;
 
         private readonly IProduct_UserRepository _userRepository;
+        private readonly ICategory_UserRepository _CategoryRepository;
+        private readonly IImageProduct_UserRepository _ImageRepository;
+        private readonly IReviewProduct_UserRepository _reviewProduct_UserRepository;
 
-        public ProductController(ShopPhoneDbContext context, IProduct_UserRepository product_UserRepository)
+        public ProductController(ShopPhoneDbContext context, IProduct_UserRepository product_UserRepository, ICategory_UserRepository category_UserRepository,IImageProduct_UserRepository imageProduct_User, IReviewProduct_UserRepository reviewProduct_UserRepository)
         {
+            _reviewProduct_UserRepository = reviewProduct_UserRepository;
+            _ImageRepository = imageProduct_User;
+            _CategoryRepository = category_UserRepository;
             _userRepository = product_UserRepository;
             _context = context;
         }
@@ -37,13 +46,13 @@ namespace PhoneShop.Controllers
             {
                 return NotFound();
             }         
-            ViewBag.getCategoryTitle = _userRepository.GetTitleCategoryId(item.CategoryId);         
+            ViewBag.getCategoryTitle = _CategoryRepository.GetTitleCategoryId(item.CategoryId);         
             //lay hinh anh
-            var getListImage = await _userRepository.GetListImageById(item.Id);
+            var getListImage = await _ImageRepository.GetListImageById(item.Id);
 
             ViewBag.getListImage = getListImage;
             //review
-            var ListReview =await _userRepository.GetListReviewById(item.Id);
+            var ListReview =await _reviewProduct_UserRepository.GetListReviewById(item.Id);
             //thông so
             ViewBag.GetSpecifi =await _userRepository.GetSpeciByIdProduct(item.Id);
             ViewBag.ListReview = ListReview;
@@ -84,7 +93,7 @@ namespace PhoneShop.Controllers
 
             };
 
-            _userRepository.Create_ProductReview(newReviewProduct);
+            _reviewProduct_UserRepository.Create_ProductReview(newReviewProduct);
 
 
 

@@ -16,55 +16,11 @@ namespace PhoneShop.DI.DI_User.Product_User
         }
 
 
-        public async Task<List<CategoryModelView>> CategoryProducts()
-        {
-            var items =await _context.Categories.Select(c => new CategoryModelView
-            {
-                Id = c.Id,
-                Alias = c.Alias!,
-                Title = c.Title!,
-                Image = c.Image!,
+       
 
+       
 
-            }).ToListAsync();
-
-            return items;
-
-        }
-
-        public void Create_ProductReview(Product_ReviewData model)
-        {
-            var newReviewProduct = new Product_Review
-            {
-
-                ProductId = model.ProductId,
-                UserName = model.UserName,
-                UserEmail = model.UserEmail,
-                Content = model.Content,
-                CreateAt = model.CreateAt,
-                Rate = model.Rate,
-
-            };
-
-            _context.product_Reviews.Add(newReviewProduct);
-            _context.SaveChanges();
-
-        }
-
-        public async Task<List<ImageProductViewModel>> GetListImageById(int IdProduct)
-        {
-           var items = await _context.ImageProducts.Where(x => x.ProductId == IdProduct).Select(x=> new ImageProductViewModel
-           {
-               Id = x.Id,
-               DataName = x.DataName,
-               IsDefault = x.IsDefault,
-                ProductId = x.ProductId,
-           }).ToListAsync();
-
-
-            return items;
-
-        }
+       
 
         public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
         {
@@ -81,22 +37,7 @@ namespace PhoneShop.DI.DI_User.Product_User
             return items;
         }
 
-        public async Task<List<Product_ReviewModelView>> GetListReviewById(int IdProduct)
-        {
-            var ListReview = await _context.product_Reviews.Where(x => x.ProductId == IdProduct).Select(x=> new Product_ReviewModelView
-            {
-
-                 Id = x.Id,
-                 Content = x.Content,                
-                 UserName = x.UserName
-
-            }).ToListAsync();
-
-
-            return ListReview;
-
-
-        }
+      
 
 
 
@@ -125,33 +66,9 @@ namespace PhoneShop.DI.DI_User.Product_User
             return itemVM;
         }
 
-        public  string GetTitleCategoryId(int CategoryId)
-        {
-            var IVM = _context.Categories.Where(x => x.Id == CategoryId).FirstOrDefault()!.Title;
+      
 
-
-
-            return IVM!;
-
-
-        }
-
-        public async Task<List<ImageProductViewModel>> ImageProducts()
-        {
-            var items = await _context.ImageProducts.Select(x => new ImageProductViewModel
-            {
-
-                Id = x.Id,
-                IsDefault = x.IsDefault,
-                ProductId = x.ProductId,
-                DataName = x.DataName,
-
-
-
-            }).ToListAsync();
-
-            return items;
-        }
+       
 
         public async Task<List<ProductViewModel>> LatestProducts()
         {

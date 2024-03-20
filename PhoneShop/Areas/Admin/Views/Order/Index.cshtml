@@ -133,7 +133,8 @@
 
                                 <td>
                                     @{
-                                        string tonggianhap = item.Profit.ToString("C", culture); // "C" là định dạng tiền tệ
+                                        decimal GiaNhap = item.Total_Order - item.Profit;
+                                        string tonggianhap = GiaNhap.ToString("C", culture); // "C" là định dạng tiền tệ
 
                                     }
                                     @tonggianhap
@@ -141,9 +142,8 @@
 
                                 <td>
                                     @{
-                                        decimal loiN = item.Total_Order - item.Profit;
-                                        string loinhuan = loiN.ToString("C", culture); // "C" là định dạng tiền tệ
-
+                                       
+                                        string loinhuan = item.Profit.ToString("C", culture);
                                     }
                                     @loinhuan
                                 </td>

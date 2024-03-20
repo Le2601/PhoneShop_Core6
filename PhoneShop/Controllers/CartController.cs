@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PhoneShop.Data;
+using PhoneShop.DI.DI_User.ImageProduct_User;
+using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.Extension;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -25,8 +28,12 @@ namespace PhoneShop.Controllers
 
         private readonly ShopPhoneDbContext _dbContext;
         private readonly IVnPayService _vnPayService;
-        public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService)
+        private readonly IImageProduct_UserRepository _imageProduct_UserRepository;
+        private readonly IOrder_UserRepository _order_UserRepository;
+        public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService,IImageProduct_UserRepository imageProduct_UserRepository, IOrder_UserRepository order_UserRepository)
         {
+            _order_UserRepository = order_UserRepository;
+            _imageProduct_UserRepository = imageProduct_UserRepository;
             _dbContext = dbContext;
             _vnPayService = vnPayService;
         }
@@ -93,7 +100,7 @@ namespace PhoneShop.Controllers
 
             ViewBag.GrandTotal = cartVM.GrandTotal;
             ViewBag.OrderTotal = cartVM.OrderTotal;
-            ViewBag.imageproduct = await _dbContext.ImageProducts.ToListAsync();
+            ViewBag.imageproduct = await _imageProduct_UserRepository.ImageProducts();
             return View(cartVM);
         }
 
@@ -352,7 +359,7 @@ namespace PhoneShop.Controllers
             if (PaymentMethod == 2) {
 
                 //lu du luw vao order
-                var newOrderr = new Order
+                var newOrderr = new Data.OrderData
                 {
                     Id_Order = Order_Id,
                     PaymentMethod = 2,
@@ -362,8 +369,7 @@ namespace PhoneShop.Controllers
                     Profit = cartVMM.GrandTotal -  cartVMM.Profit,
                     
                 };
-                _dbContext.Orders.Add(newOrderr);
-                _dbContext.SaveChanges();
+                _order_UserRepository.Create(newOrderr);
 
                 //lu du luw vao order_detail
 
@@ -420,7 +426,7 @@ namespace PhoneShop.Controllers
 
             //XU LY thanh toan khi nhan hang 
 
-            var newOrder = new Order
+            var newOrder = new OrderData
             {
                 Id_Order = Order_Id,
                 PaymentMethod = 1, //COD
@@ -431,12 +437,12 @@ namespace PhoneShop.Controllers
 
             };
 
-            _dbContext.Orders.Add(newOrder);
+            _order_UserRepository.Create(newOrder);
 
 
-           
 
-             
+
+
 
 
 

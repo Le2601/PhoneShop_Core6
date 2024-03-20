@@ -262,6 +262,8 @@
         </div>
     </div>
 </div> <!-- End product widget area -->
+
+
 @section Scripts{
 
     <script>
@@ -269,9 +271,9 @@
             $('body').on('click', '.confirmAdd', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("Muon them vao gio hang");
+               
 
-                if (conf == true) {
+              
 
                     $.ajax({
 
@@ -280,15 +282,15 @@
                         data: { id: id },
                         success: function (rs) {
                             if (rs.success) {
-                                alert("Them thanh cong");
-                                // alert(rs.msg);
+                                alert("Thêm thành công");
+                               
                                 location.reload();
                             }
                         }
 
                     });
 
-                }
+               
             });
         });
     </script>

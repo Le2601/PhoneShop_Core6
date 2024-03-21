@@ -1,5 +1,6 @@
 ﻿using PhoneShop.Data;
 using PhoneShop.Models;
+using PhoneShop.ModelViews;
 
 namespace PhoneShop.DI.DI_User.Order_User
 {
@@ -24,6 +25,11 @@ namespace PhoneShop.DI.DI_User.Order_User
             };
             _context.Orders.Add(newOrderr);
             _context.SaveChanges();
+        }
+
+        public void Create(Order_DetailsData model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

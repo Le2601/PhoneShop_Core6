@@ -376,7 +376,7 @@ namespace PhoneShop.Controllers
                 foreach (var item in CartItems)
                 {
 
-                    var newOrder_Details = new Order_Details
+                    var newOrder_Details = new Order_DetailsData
                     {
                         Order_Name = Order_Name,
                         Address = Address,
@@ -388,7 +388,7 @@ namespace PhoneShop.Controllers
 
 
                     };
-                    _dbContext.Order_Details.Add(newOrder_Details);
+                    _order_UserRepository.Create_Order_Detail(newOrder_Details);
 
 
 

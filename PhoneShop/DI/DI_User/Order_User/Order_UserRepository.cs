@@ -1,6 +1,7 @@
 ﻿using PhoneShop.Data;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
+using Stripe;
 
 namespace PhoneShop.DI.DI_User.Order_User
 {
@@ -27,9 +28,22 @@ namespace PhoneShop.DI.DI_User.Order_User
             _context.SaveChanges();
         }
 
-        public void Create(Order_DetailsData model)
+        public void Create_Order_Detail(Order_DetailsData model)
         {
-            throw new NotImplementedException();
+            var item = new Order_Details
+            {
+                Order_Name = model.Order_Name,
+                Address = model.Address,
+                Phone = model.Phone,
+                ProductId = model.ProductId,
+                OrderId = model.OrderId,
+                Quantity = model.Quantity,
+
+
+
+            };
+            _context.Order_Details.Add(item);
+            _context.SaveChanges();
         }
     }
 }

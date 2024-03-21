@@ -14,6 +14,7 @@ using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.DI_User.ReviewProduct_User;
 using PhoneShop.DI.DI_User.SupportContentData;
 using PhoneShop.DI.DI_User.SupportDirectoryData;
+using PhoneShop.DI.DI_User.Voucher_User;
 using PhoneShop.DI.ImageProduct;
 using PhoneShop.DI.Order;
 using PhoneShop.DI.Product;
@@ -81,6 +82,7 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 
         builder.Services.AddScoped<IOrder_UserRepository, Order_UserRepository>();
 
+        builder.Services.AddScoped<IVoucher_UserRepository, Voucher_UserRepository>();
 
 
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PhoneShop.DI.DI_User.Voucher_User;
 using PhoneShop.Extension;
 using PhoneShop.Models;
 using System.Collections.Generic;
@@ -13,8 +14,11 @@ namespace PhoneShop.Controllers
     {
         private readonly ShopPhoneDbContext _context;
 
-        public VoucherController(ShopPhoneDbContext context) {
+        private readonly IVoucher_UserRepository _voucher_UserRepository;
+
+        public VoucherController(ShopPhoneDbContext context, IVoucher_UserRepository voucher_UserRepository) {
         
+            _voucher_UserRepository = voucher_UserRepository;
             _context = context;
         
         }
@@ -22,7 +26,7 @@ namespace PhoneShop.Controllers
         [Route("/voucher.html")]
         public IActionResult Index()
         {
-            var items = _context.Vouchers.ToList();
+            var items = _voucher_UserRepository.GetAll();
 
             return View(items);
         }
@@ -31,12 +35,12 @@ namespace PhoneShop.Controllers
         public async Task<IActionResult> Add(int id)
         {
 
-            var item = await _context.Vouchers.FindAsync(id);
+            var item = _voucher_UserRepository.GetById(id);
 
             //kiem tra da luu ma giam gia chua
             List<VoucherItemModel> CartVoucher = PhoneShop.Extension.SessionExtensions.GetListSessionCartVoucher("CartVoucher", HttpContext);
 
-            VoucherItemModel voucherItems = CartVoucher.Where(x=> x.Id == id).FirstOrDefault();
+            VoucherItemModel voucherItems = CartVoucher.Where(x=> x.Id == id).FirstOrDefault()!;
 
             if (voucherItems == null)
             {

@@ -17,6 +17,21 @@ namespace PhoneShop.DI.DI_User.Voucher_User
            
         }
 
+        public List<VoucherViewModel> GetAll()
+        {
+            var items = _dbContext.Vouchers.Select(x => new VoucherViewModel {
+                Code = x.Code,
+                DiscountAmount = x.DiscountAmount,
+                DiscountConditions = x.DiscountConditions,
+                ExpiryDate = x.ExpiryDate,
+                Id = x.Id,
+                IsActive = x.IsActive,
+                Quantity = x.Quantity,
+            }).ToList();
+
+            return items;
+        }
+
         public VoucherViewModel GetByCode(string code)
         {
             var getVoucher = _dbContext.Vouchers.Where(x => x.Code == code).FirstOrDefault()!;
@@ -43,7 +58,8 @@ namespace PhoneShop.DI.DI_User.Voucher_User
             {
                 
                 Id = getVoucher.Id,
-                Quantity = getVoucher.Quantity
+                Quantity = getVoucher.Quantity,
+                Code = getVoucher.Code
 
             };
             return item;

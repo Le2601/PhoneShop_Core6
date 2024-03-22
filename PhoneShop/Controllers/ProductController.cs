@@ -58,6 +58,9 @@ namespace PhoneShop.Controllers
             ViewBag.ListReview = ListReview;
             //partial related product
             ViewBag.RelatedProduct = await _userRepository.GetListRelatedProduct(item.CategoryId);
+
+            ViewBag.GetProduct_RecentPosts = await _userRepository.GetProduct_RecentPosts();
+
             return View(item);
         }
 

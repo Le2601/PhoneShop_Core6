@@ -18,13 +18,14 @@ namespace PhoneShop.DI.DI_User.Product_User
         public Task<List<ProductViewModel>> ProductByCategory(int categoryId);
 
 
-        //Detail_Product
 
-       
-        
-       
+        public Task<List<ProductViewModel>> GetProduct_RecentPosts();
 
-       
+
+
+
+
+
 
         //specifications
 

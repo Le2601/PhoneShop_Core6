@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 //using PhoneShop.DI.Category;
 using PhoneShop.Models;
+using PhoneShop.ModelViews;
+
 namespace PhoneShop.Models
 {
     public class VoucherItemModel
@@ -43,7 +45,7 @@ namespace PhoneShop.Models
 
         }
 
-        public VoucherItemModel(Voucher model)
+        public VoucherItemModel(VoucherViewModel model)
         {
             Id = model.Id;
             Code = model.Code;

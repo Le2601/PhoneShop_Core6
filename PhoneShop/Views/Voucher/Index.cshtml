@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PhoneShop.Models.Voucher>
+﻿@model List<PhoneShop.ModelViews.VoucherViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -102,8 +102,8 @@
             $('body').on('click', '.voucher', function () {
                 var id = $(this).data('id');
                           
-                var conf = confirm("Lấy phiếu giảm giá này")
-                if (conf == true) {
+               
+                
 
                     $.ajax({
 
@@ -125,7 +125,7 @@
 
                     });
 
-                }
+                
             });
         });
     </script>

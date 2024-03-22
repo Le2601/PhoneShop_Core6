@@ -15,8 +15,10 @@
 
     List<ProductViewModel> IsRelatedProduct = ViewBag.RelatedProduct;
 
-   
+    List<ProductViewModel> IsGetProduct_RecentPosts = ViewBag.GetProduct_RecentPosts;
 
+   
+    
 
 
 }
@@ -99,47 +101,24 @@
                 </div>
 
                 <div class="single-sidebar">
-                    <h2 class="sidebar-title">Products</h2>
-                    <div class="thubmnail-recent">
-                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                        <h2><a href="">Sony Smart TV - 2015</a></h2>
-                        <div class="product-sidebar-price">
-                            <ins>$700.00</ins> <del>$100.00</del>
+                    <h2 class="sidebar-title">Recent Posts</h2>
+
+                    @foreach (var itemm in IsGetProduct_RecentPosts)
+                    {
+                        <div class="thubmnail-recent">
+                            <img src="~/images/Product/@itemm.ImageDefaultName" class="recent-thumb" alt="">
+                            <h2><a href="">@itemm.Title</a></h2>
+                            <div class="product-sidebar-price">
+                                <ins>$700.00</ins> <del>$100.00</del>
+                            </div>
                         </div>
-                    </div>
-                    <div class="thubmnail-recent">
-                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                        <h2><a href="">Sony Smart TV - 2015</a></h2>
-                        <div class="product-sidebar-price">
-                            <ins>$700.00</ins> <del>$100.00</del>
-                        </div>
-                    </div>
-                    <div class="thubmnail-recent">
-                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                        <h2><a href="">Sony Smart TV - 2015</a></h2>
-                        <div class="product-sidebar-price">
-                            <ins>$700.00</ins> <del>$100.00</del>
-                        </div>
-                    </div>
-                    <div class="thubmnail-recent">
-                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                        <h2><a href="">Sony Smart TV - 2015</a></h2>
-                        <div class="product-sidebar-price">
-                            <ins>$700.00</ins> <del>$100.00</del>
-                        </div>
-                    </div>
+                    }
+
+                 
+                   
                 </div>
 
-                <div class="single-sidebar">
-                    <h2 class="sidebar-title">Recent Posts</h2>
-                    <ul>
-                        <li><a href="">Sony Smart TV - 2015</a></li>
-                        <li><a href="">Sony Smart TV - 2015</a></li>
-                        <li><a href="">Sony Smart TV - 2015</a></li>
-                        <li><a href="">Sony Smart TV - 2015</a></li>
-                        <li><a href="">Sony Smart TV - 2015</a></li>
-                    </ul>
-                </div>
+                
             </div>
 
             <div class="col-md-8">

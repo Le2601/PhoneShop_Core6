@@ -37,9 +37,28 @@ namespace PhoneShop.DI.DI_User.Product_User
             return items;
         }
 
-      
+        public async Task<List<ProductViewModel>> GetProduct_RecentPosts()
+        {
+            var items = await _context.Products.OrderBy(x => x.Create_at).Select(x=> new ProductViewModel
+            {
+                Id = x.Id,
+                CategoryId = x.CategoryId,
+                Title = x.Title,
+                Alias = x.Alias,
+                Price = x.Price,
+                Discount = x.Discount,
+                Quantity = x.Quantity,
+                Description = x.Description,
+                Create_at = x.Create_at,
+                Update_at = x.Update_at,
+                ImageDefaultName = x.ImageDefaultName
+            }).Take(5).ToListAsync();
+
+            return items;
 
 
+
+        }
 
         public async Task<SpecificationsViewModel> GetSpeciByIdProduct(int IdProduct)
         {

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Order_User;
+using PhoneShop.DI.DI_User.Voucher_User;
 using PhoneShop.Extension;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -30,8 +31,10 @@ namespace PhoneShop.Controllers
         private readonly IVnPayService _vnPayService;
         private readonly IImageProduct_UserRepository _imageProduct_UserRepository;
         private readonly IOrder_UserRepository _order_UserRepository;
-        public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService,IImageProduct_UserRepository imageProduct_UserRepository, IOrder_UserRepository order_UserRepository)
+        private readonly IVoucher_UserRepository _voucher_UserRepository;
+        public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService,IImageProduct_UserRepository imageProduct_UserRepository, IOrder_UserRepository order_UserRepository,IVoucher_UserRepository voucher_UserRepository)
         {
+            _voucher_UserRepository = voucher_UserRepository;
             _order_UserRepository = order_UserRepository;
             _imageProduct_UserRepository = imageProduct_UserRepository;
             _dbContext = dbContext;
@@ -131,7 +134,7 @@ namespace PhoneShop.Controllers
             {
                 if (item.Code == Voucher_code)
                 {
-                    var getVoucher = _dbContext.Vouchers.Where(x => x.Code == Voucher_code).FirstOrDefault();
+                    var getVoucher = _voucher_UserRepository.GetByCode(Voucher_code);
 
                     //if (getVoucher == null)
                     //{
@@ -494,18 +497,18 @@ namespace PhoneShop.Controllers
         {
             //xu ly voucher
 
-            var getIdVoucher = HttpContext.Session.GetString("getIdVoucher");
+            var getIdVoucher = HttpContext.Session.GetString("getIdVoucher")!;
 
             int ParseID = int.Parse(getIdVoucher);
 
-            var getById = _dbContext.Vouchers.Where(x => x.Id == ParseID).FirstOrDefault();
+            var getById = _voucher_UserRepository.GetById(ParseID);
 
             if (getById == null)
             {
                 //
             }
             getById.Quantity -= 1;
-            _dbContext.Vouchers.Update(getById);
+            _voucher_UserRepository.Update(getById);
             //end xu ly voucher
 
 

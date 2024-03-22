@@ -10,7 +10,7 @@ namespace PhoneShop.DI.DI_User.Voucher_User
 
         public VoucherViewModel GetById(int id);
 
-        void Update(VoucherData model);
+        void Update(VoucherViewModel model);
 
     }
 }

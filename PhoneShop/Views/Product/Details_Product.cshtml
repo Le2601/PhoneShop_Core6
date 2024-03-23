@@ -109,7 +109,62 @@
                             <img src="~/images/Product/@itemm.ImageDefaultName" class="recent-thumb" alt="">
                             <h2><a href="">@itemm.Title</a></h2>
                             <div class="product-sidebar-price">
-                                <ins>$700.00</ins> <del>$100.00</del>
+                                @{
+                                    if (itemm.Discount == 0 || itemm.Discount == null || itemm.Discount is string)
+                                    {
+                                        <ins>
+                                            @{
+
+
+
+                                                string formattedPrice = itemm.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+
+
+
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                    else
+                                    {
+                                        <ins>
+                                            @{
+
+
+
+                                                string formattedPrice = itemm.Discount.ToString("C", culture); // "C" là định dạng tiền tệ
+
+
+
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                }
+
+                                <del>
+                                    @{
+                                        string formattedPriceee;
+                                        if (itemm.Discount > 0)
+                                        {
+                                            formattedPriceee = itemm.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                        }
+                                        else
+                                        {
+
+                                            formattedPriceee = tienO.ToString("C", culture); // "C" là định dạng tiền tệ
+                                        }
+
+
+                                    }
+                                    @formattedPriceee
+
+
+
+
+                                </del>
                             </div>
                         </div>
                     }

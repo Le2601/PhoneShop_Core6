@@ -148,6 +148,12 @@ namespace PhoneShop.Controllers
                         TempData["OutOfDiscount"] = "Mã giảm giá hiện tại đã hết!";
                         return RedirectToRoute("Cart");
                     }
+                    if (getVoucher.ExpiryDate < DateTime.Now)
+                    {
+                        TempData["OutOfDiscount"] = "Mã hết hạn  !";
+                        return RedirectToRoute("Cart");
+                    }
+
                     //success
 
                     var getIdVoucher = getVoucher.Id;

@@ -186,10 +186,9 @@
 
                                                 <td class="product-quantity">
                                                     <div class="quantity buttons_added">
-                                                        <a asp-action="tru" asp-controller="Cart" asp-route-id="@item.ProductId" class="btn btn-link minus"><i class="fa fa-minus"></i></a>
-                                                        <input type="number" size="4" class="input-text qty text" title="Qty" value="@item.Quantity" min="0" step="1" readonly>
-                                                        <a asp-action="cong" asp-controller="Cart" asp-route-id="@item.ProductId" class="btn btn-link minus"><i class="fa fa-plus"></i></a>
-                                                       
+                                                        <a asp-action="tru" asp-controller="Cart" asp-route-id="@item.ProductId" class="btn btn-link minus" style="font-size: 12px;"><i class="fa fa-minus"></i></a>
+                                                        <input type="number" size="4" class="input-text qty text" title="Qty" value="@item.Quantity" min="0" step="1" readonly style="font-size: 12px;">
+                                                        <a asp-action="cong" asp-controller="Cart" asp-route-id="@item.ProductId" class="btn btn-link minus" style="font-size: 12px;"><i class="fa fa-plus"></i></a>
                                                     </div>
                                                 </td>
 
@@ -199,7 +198,7 @@
 
                                                     }
 
-                                                    <span class="amount">@formattedPriceTotal</span>
+                                                    <span style="color:red" class="amount">@formattedPriceTotal</span>
                                                 </td>
                                             </tr>
                                         }

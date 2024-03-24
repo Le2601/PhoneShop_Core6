@@ -4,6 +4,31 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+<style>
+    .import-form {
+        border: 1px solid black;
+        padding: 10px;
+    }
+
+        .import-form p {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .import-form input[type="file"] {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .import-form button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+</style>
 
 @section naviheader{
     <!-- Left navbar links -->
@@ -20,13 +45,21 @@
     </ul>
 }
 
+<div class="import-form">
+    <p>Import data from excel</p>
+    <form method="post" asp-action="ImportExcel" asp-controller="Role" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xlsx, .xls">
+        <button type="submit">Import</button>
+    </form>
+</div>
+
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Quản lý danh mục</h1>
+                <h1>Danh mục phân quyền</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -44,7 +77,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách danh mục</h3>
+            <h3 class="card-title">Danh mục phân quyền</h3>
 
             <div class="card-tools">
                 <a href="/admin/Role/Create" class="btn btn-danger">Thêm mới</a>

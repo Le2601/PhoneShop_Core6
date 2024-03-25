@@ -62,43 +62,54 @@ namespace PhoneShop.Controllers
             ViewBag.ListBanner =await _bannerRepository.GetAll();
 
 
-            //demo export file
-            //var items = _dbContext.Categories.ToList();
-            //var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-
-            //SaveToText("myDiary_" + Timestamp + ".docx", items);  
-            //co the tu chinh dinh dang file(txt,docx)
+           
 
 
 
             return View(itemsHot);
         }
         //DEMO EXPORT FILE
-        //public void SaveToText(string fileName, List<Models.Category> diaryEntries)
-        //{
-        //    try
-        //    {
-        //        using (TextWriter tw = new StreamWriter(fileName))
-        //        {
-        //            foreach (var s in diaryEntries)
-        //            {
 
-        //                tw.WriteLine($"Title: {s.Title}");
-        //                tw.WriteLine($"Content: {s.Image}");
+        public IActionResult DemoExport_File()
+        {
+            //demo export file
+            var items = _dbContext.Categories.ToList();
+            string directoryPath = @"D:\DA4\Test_export_file";
 
-        //                if (diaryEntries.IndexOf(s) != diaryEntries.Count - 1)
-        //                {
-        //                    tw.WriteLine(Environment.NewLine);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //
-        //    }
-        //}
-      
+            var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+
+            SaveToText(directoryPath, "myDiary_" + Timestamp + ".docx", items);
+            //co the tu chinh dinh dang file(txt,docx)
+
+            return RedirectToAction("Index");
+        }
+
+        public void SaveToText(string directoryPath, string fileName, List<Models.Category> diaryEntries)
+        {
+            try
+            {
+                string filePath = Path.Combine(directoryPath, fileName);
+
+                using (TextWriter tw = new StreamWriter(filePath))
+                {
+                    foreach (var s in diaryEntries)
+                    {
+                        tw.WriteLine($"Title: {s.Title}");
+                        tw.WriteLine($"Content: {s.Image}");
+
+                        if (diaryEntries.IndexOf(s) != diaryEntries.Count - 1)
+                        {
+                            tw.WriteLine(Environment.NewLine);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ
+            }
+        }
+
 
 
         public IActionResult CreatePaymentUrl(PaymentInformationModel model)

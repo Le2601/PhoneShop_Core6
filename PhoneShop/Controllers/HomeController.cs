@@ -70,6 +70,7 @@ namespace PhoneShop.Controllers
         }
         //DEMO EXPORT FILE
 
+        [HttpGet("/Export_File")]
         public IActionResult DemoExport_File()
         {
             //demo export file
@@ -88,6 +89,9 @@ namespace PhoneShop.Controllers
         {
             try
             {
+                // Tạo thư mục nếu nó chưa tồn tại
+                Directory.CreateDirectory(directoryPath);
+
                 string filePath = Path.Combine(directoryPath, fileName);
 
                 using (TextWriter tw = new StreamWriter(filePath))

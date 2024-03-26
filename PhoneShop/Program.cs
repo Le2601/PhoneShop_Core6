@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -31,10 +32,13 @@ using System;
 using System.Configuration;
 using Twilio.Clients;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container. //tu load trang khi save .cshtml
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+
 
 builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 {

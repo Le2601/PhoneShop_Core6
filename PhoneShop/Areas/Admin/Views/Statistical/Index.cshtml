@@ -16,9 +16,11 @@
     .right-column {
         flex-grow: 1;
     }
+
+
 </style>
 
-
+<link href="~/css/btn.css" rel="stylesheet" />
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -50,13 +52,18 @@
             <div class="container">
                 <div class="left-column" style="width:660px" >
                     <p>Thống kê trong ngày</p>
-                    <a href="/Export_File_Statistical">Export_File_Statistical</a>
+                    
+               
+                   
+
                     <div style="width: 600px; height: 300px;">
                         <canvas id="myChart"></canvas>
                     </div>
                 </div>
                 <div class="right-column">
-                    <p>Danh sách đơn hàng</p>
+
+                    <p>Danh sách đơn hàng </p>
+                    <a class="glow-on-hover" href="/Export_File_Statistical">Export file</a>
                     <div style="overflow-y: scroll; height: 300px;">
                         <div class="table-responsive">
                             <table class="table">
@@ -81,12 +88,14 @@
             <div class="container">
                 <div class="left-column" style="width:660px">
                     <p>Thống kê 7 ngày qua</p>
+
+                    
                     <div style="width: 600px; height: 300px;">
                         <canvas id="myChart1"></canvas>
                     </div>
                 </div>
                 <div class="right-column">
-                    <p>.</p>
+                    <a class="glow-on-hover" href="/Export_File_Statistical_LastWeek">Export file</a>
                     <div style="overflow-y: scroll; height: 300px;">
                         <div class="table-responsive">
                             <table class="table">
@@ -96,6 +105,7 @@
                                         <th>Tổng tiền</th>
                                         <th>Lợi nhuận</th>
                                         <th>Ngày đặt</th>
+                                       
                                     </tr>
                                 </thead>
                                 <tbody id="load_data">

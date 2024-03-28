@@ -150,7 +150,83 @@ namespace PhoneShop.Areas.Admin.Controllers
 
 
 
+
+
+        [HttpGet("/Export_File_Statistical")]
+
+        public IActionResult Export_File_Statistical()
+        {
+            // Lấy dữ liệu từ bảng Order
+            List<Order> orders = db.Orders.Where(x => x.Order_Status == 1).ToList();
+            // Lấy dữ liệu cho ngày hiện tại
+            DateTime currentDate = DateTime.Today;
+
+            List<Order> ordersInPreviousWeek = orders
+               .Where(order => order.Order_Date.Date == currentDate)
+              .ToList();
+
+
+           
+           
+
+            string directoryPath = @"D:\DA4\Order_current";
+
+            DemoExport_File(ordersInPreviousWeek, directoryPath);
+
+            return RedirectToAction("Index");
+        }
+
+        public void DemoExport_File(List<Order>  ListOrders, string directoryPath)
+        {
+            //demo export file
+            var items = ListOrders;
+
+
+            DateTime currentDate = DateTime.Today;
+            string formattedDate = currentDate.ToString("ddMMyyyy");
+            SaveToText(directoryPath, "Order_current_" + formattedDate + ".txt", ListOrders);
+            
+
+           
+        }
+
+
+
+        public void SaveToText(string directoryPath, string fileName, List<PhoneShop.Models.Order> diaryEntries)
+        {
+            try
+            {
+                // Tạo thư mục nếu nó chưa tồn tại
+                Directory.CreateDirectory(directoryPath);
+
+                string filePath = Path.Combine(directoryPath, fileName);
+
+                using (TextWriter tw = new StreamWriter(filePath))
+                {
+                    foreach (var s in diaryEntries)
+                    {
+                        tw.WriteLine($"Nguoi dat hang: {s.PaymentMethod}");
+                        tw.WriteLine($"Ngay dat hang: {s.Order_Date}");
+                        tw.WriteLine($"Tong don hang: {s.Total_Order}");
+                        tw.WriteLine($"--------------------------------");
+
+                        if (diaryEntries.IndexOf(s) != diaryEntries.Count - 1)
+                        {
+                            tw.WriteLine(Environment.NewLine);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ
+            }
+        }
+
+
+
+
     }
 
-   
+
 }

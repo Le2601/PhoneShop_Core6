@@ -1,0 +1,28 @@
+﻿
+a.hover-effect {
+    position: relative;
+    color: blue; /* Màu chữ mặc định */
+    transition: color 0.3s; /* Thời gian chuyển tiếp 0.3 giây */
+}
+
+a.hover-effect:hover {
+    color: red; /* Màu chữ khi hover */
+    animation: animateEffect 0.5s infinite alternate;
+}
+
+@keyframes animateEffect {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+
+a.hover-effect:active {
+    color: red; /* Màu chữ khi thẻ a được kích hoạt */
+}
+
+

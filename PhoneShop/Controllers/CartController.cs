@@ -8,6 +8,7 @@ using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.DI.DI_User.Voucher_User;
 using PhoneShop.Extension;
+using PhoneShop.Libraries;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using PhoneShop.Services;
@@ -32,13 +33,20 @@ namespace PhoneShop.Controllers
         private readonly IImageProduct_UserRepository _imageProduct_UserRepository;
         private readonly IOrder_UserRepository _order_UserRepository;
         private readonly IVoucher_UserRepository _voucher_UserRepository;
-        public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService,IImageProduct_UserRepository imageProduct_UserRepository, IOrder_UserRepository order_UserRepository,IVoucher_UserRepository voucher_UserRepository)
+
+        private readonly EmailService _emailService;
+
+
+        public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService,IImageProduct_UserRepository imageProduct_UserRepository,
+            IOrder_UserRepository order_UserRepository,IVoucher_UserRepository voucher_UserRepository, EmailService emailService)
         {
+           
             _voucher_UserRepository = voucher_UserRepository;
             _order_UserRepository = order_UserRepository;
             _imageProduct_UserRepository = imageProduct_UserRepository;
             _dbContext = dbContext;
             _vnPayService = vnPayService;
+            _emailService = emailService;
         }
 
        
@@ -308,7 +316,7 @@ namespace PhoneShop.Controllers
 
         //thanh toan khi nhan hang
         [HttpPost]
-        public IActionResult SubmitCheckOut(IFormCollection form, PaymentInformationModel model)
+        public async Task<IActionResult> SubmitCheckOut(IFormCollection form, PaymentInformationModel model)
         {
             //session gio hang
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
@@ -492,6 +500,12 @@ namespace PhoneShop.Controllers
             CartItems.Clear();
 
             HttpContext.Session.Set("Cart", CartItems);
+
+            string toEmail = "ngoclewill2002@gmail.com";
+            string subject = "Đặt hàng thành công!" + DateTime.Now;
+            string body = "Đơn hàng đã đặt thành công với thành tiền: "+ cartVM.OrderTotal;
+
+            _emailService.SendEmail(toEmail, subject, body);
 
 
             TempData["OrderSuccess"] = "Đặt hàng thành công!";

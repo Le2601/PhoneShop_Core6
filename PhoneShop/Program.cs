@@ -24,6 +24,7 @@ using PhoneShop.DI.Specification;
 using PhoneShop.DI.SupportContent;
 using PhoneShop.DI.SupportDirectory;
 using PhoneShop.DI.Voucher;
+using PhoneShop.Libraries;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using PhoneShop.Services;
@@ -88,6 +89,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 
         builder.Services.AddScoped<IVoucher_UserRepository, Voucher_UserRepository>();
 
+
+        builder.Services.AddScoped<EmailService>();
 
 
         //API

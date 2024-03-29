@@ -9,6 +9,7 @@ using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.Product;
+
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using PhoneShop.Services;
@@ -38,8 +39,12 @@ namespace PhoneShop.Controllers
         private readonly IImageProduct_UserRepository _imageProduct_UserRepository;
         private readonly ICategory_UserRepository _categoryRepository;
 
+      
+
         public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,
-            IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository, IImageProduct_UserRepository imageProduct_UserRepository, ICategory_UserRepository category_UserRepository)
+            IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository,
+            IImageProduct_UserRepository imageProduct_UserRepository,
+            ICategory_UserRepository category_UserRepository)
         {
             _categoryRepository = category_UserRepository;
             _imageProduct_UserRepository = imageProduct_UserRepository;
@@ -48,8 +53,11 @@ namespace PhoneShop.Controllers
             _dbContext = dbContext;
             _vnPayService = vnPayService;
             _productRepository = productRepository;
+           
         }
 
+   
+  
 
         public async Task<IActionResult> Index()
         {

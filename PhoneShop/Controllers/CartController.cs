@@ -501,11 +501,19 @@ namespace PhoneShop.Controllers
 
             HttpContext.Session.Set("Cart", CartItems);
 
-            string toEmail = "ngoclewill2002@gmail.com";
+
+            //send mail 
+            string toEmail = Address;
             string subject = "Đặt hàng thành công!" + DateTime.Now;
-            string body = "Đơn hàng đã đặt thành công với thành tiền: "+ cartVM.OrderTotal;
+
+            double doubleValue = (double)cartVM.OrderTotal;
+
+            string body = "Đơn hàng đã đặt thành công với thành tiền: " + PhoneShop.Extension.Extension.ToVnd(doubleValue);
 
             _emailService.SendEmail(toEmail, subject, body);
+
+            //end send mail
+
 
 
             TempData["OrderSuccess"] = "Đặt hàng thành công!";

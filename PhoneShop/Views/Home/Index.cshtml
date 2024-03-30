@@ -1,6 +1,6 @@
 ﻿﻿@using PhoneShop.Models
 @using PhoneShop.ModelViews
-
+@using PhoneShop.Extension
 @model List<PhoneShop.ModelViews.ProductViewModel>
 
 @{
@@ -12,12 +12,7 @@
 
     List<BannerViewModel> banneViews = ViewBag.ListBanner;
 
-    //format tien
-
-    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
-    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
-                           ?? CultureInfo.CurrentCulture;
+   
 
     int tienO = 0;
 }
@@ -123,10 +118,10 @@
 
 
 
-                                                        string formattedPrice = item.Price.ToString("C", culture); // "C" là định dạng tiền tệ
 
 
 
+                                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
 
                                                     }
                                                     @formattedPrice
@@ -139,9 +134,9 @@
 
 
 
-                                                        string formattedPrice = item.Discount.ToString("C", culture); // "C" là định dạng tiền tệ
+                                                        
 
-
+                                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
 
 
                                                     }
@@ -155,7 +150,8 @@
                                                 if (item.Discount > 0)
                                                 {
                                                    
-                                                        formattedPrice2 = item.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                                      
+                                                     formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
                                                     <del>@formattedPrice2</del>
                                                 }
                                               
@@ -244,10 +240,10 @@
 
 
 
-                                            string formattedPrice = item.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                           
 
 
-
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
 
                                         }
                                         @formattedPrice
@@ -260,9 +256,9 @@
 
 
 
-                                            string formattedPrice = item.Discount.ToString("C", culture); // "C" là định dạng tiền tệ
+                                           
 
-
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
 
 
                                         }
@@ -276,12 +272,14 @@
                                     string formattedPrice2;
                                     if (item.Discount > 0)
                                     {
-                                        formattedPrice2 = item.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                       
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
                                     }
                                     else
                                     {
 
-                                        formattedPrice2 = tienO.ToString("C", culture); // "C" là định dạng tiền tệ
+                                       
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
                                     }
 
 

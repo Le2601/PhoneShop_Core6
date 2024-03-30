@@ -9,7 +9,7 @@ namespace PhoneShop.Libraries
         {
             // Tạo message email
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Your Name", "nnle2000047@gmail.com"));
+            message.From.Add(new MailboxAddress("PhoneShop_NNLE", "nnle2000047@gmail.com"));
             message.To.Add(new MailboxAddress("", toEmail));
             message.Subject = subject;
 

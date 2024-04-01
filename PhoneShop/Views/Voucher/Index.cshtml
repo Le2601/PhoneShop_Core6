@@ -13,6 +13,8 @@
 
    
 }
+
+
 <style>
     .voucher-item {
         border: 1px solid #ccc;
@@ -34,8 +36,47 @@
         font-size: 14px;
         color: #888;
     }
-</style>
+    /* Menu dọc bên trái */
+    .row {
+        display: flex;
+    }
 
+    /* Menu dọc bên trái */
+    .sidebar {
+        width: 200px;
+        height: 100vh;
+        background-color: #f1f1f1;
+        padding: 20px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    a {
+        display: block;
+        text-decoration: none;
+        color: #000;
+    }
+
+        a:hover {
+            background-color: #ddd;
+        }
+
+    /* Nội dung bên phải */
+    .content {
+        flex: 1;
+        padding: 20px;
+    }
+
+    
+</style>
 <div class="product-big-title-area">
     <div class="container">
         <div class="row">
@@ -93,6 +134,8 @@
         }
 
     </div>
+
+   
 </div>
 
 @section Scripts{
@@ -129,6 +172,23 @@
             });
         });
     </script>
+        
 
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            showContent('content1'); // Hiển thị nội dung 1 mặc định khi trang được tải lên
+        });
+
+        function showContent(id) {
+            var contents = document.getElementsByClassName("content-item");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+            var content = document.getElementById(id);
+            if (content) {
+                content.style.display = "block";
+            }
+        }
+    </script>
 
 }

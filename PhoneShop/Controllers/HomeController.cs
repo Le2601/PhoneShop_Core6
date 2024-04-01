@@ -8,6 +8,7 @@ using PhoneShop.DI.DI_User.Category_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
+using PhoneShop.DI.DI_User.Voucher_User;
 using PhoneShop.DI.Product;
 
 using PhoneShop.Models;
@@ -39,12 +40,14 @@ namespace PhoneShop.Controllers
         private readonly IImageProduct_UserRepository _imageProduct_UserRepository;
         private readonly ICategory_UserRepository _categoryRepository;
 
-      
+        private readonly IVoucher_UserRepository _voucher_UserRepository;
+
+
 
         public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,
             IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository,
             IImageProduct_UserRepository imageProduct_UserRepository,
-            ICategory_UserRepository category_UserRepository)
+            ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository)
         {
             _categoryRepository = category_UserRepository;
             _imageProduct_UserRepository = imageProduct_UserRepository;
@@ -53,7 +56,8 @@ namespace PhoneShop.Controllers
             _dbContext = dbContext;
             _vnPayService = vnPayService;
             _productRepository = productRepository;
-           
+            _voucher_UserRepository = voucher_UserRepository;
+
         }
 
    
@@ -169,7 +173,17 @@ namespace PhoneShop.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        
+        [Route("/Utilities.html")]
+        public IActionResult Utilities()
+        {
+
+            ViewBag.ListVouchers = _voucher_UserRepository.GetAll();
+
+            return View();
+        }
+
+
+
 
     }
 }

@@ -1,0 +1,142 @@
+﻿@using PhoneShop.ModelViews
+@{
+    ViewData["Title"] = "Utilities";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<VoucherViewModel> ListVoucher = ViewBag.ListVouchers;
+}
+
+<style>
+     /* Menu dọc bên trái */
+    .row {
+        display: flex;
+    }
+
+    /* Menu dọc bên trái */
+    .sidebar {
+        width: 200px;
+        height: 100vh;
+        background-color: #f1f1f1;
+        padding: 20px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    a {
+        display: block;
+        text-decoration: none;
+        color: #000;
+    }
+
+        a:hover {
+            background-color: #ddd;
+        }
+
+    /* Nội dung bên phải */
+    .content {
+        flex: 1;
+        padding: 20px;
+    }
+
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="container" style="min-height:600px">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tiện ích</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="sidebar">
+            <ul class="vertical-menu">
+                <li><a href="#" onclick="showContent('content1')">Giới thiệu</a></li>
+                <li><a href="#" onclick="showContent('content2')">Phiếu giảm giá</a></li>
+                <li><a href="#" onclick="showContent('content3')">Tài khoản</a></li>
+                <li><a href="#" onclick="showContent('content4')">Hỗ trợ khách hàng</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <div id="content1" class="content-item">
+
+                @await Html.PartialAsync("_Partial_Utilities_Introduce")
+            </div>
+            <div id="content2" class="content-item">
+                @await Html.PartialAsync("_Partial_Utilities_Vouchers",ListVoucher)
+            </div>
+            <div id="content3" class="content-item">
+                <h2>Nội dung 3</h2>
+                <p>Đây là nội dung mục 3.</p>
+            </div>
+            <div id="content4" class="content-item">
+                <h2>Nội dung 4</h2>
+                <p>Đây là nội dung mục 3.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.voucher', function () {
+                var id = $(this).data('id');
+
+
+
+
+                $.ajax({
+
+                    url: '/Voucher/Add',
+                    type: 'post',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("Them thanh cong");
+
+                            location.reload();
+                        }
+                        else {
+                            alert("Them that bai");
+
+                            location.reload();
+                        }
+                    }
+
+                });
+
+
+            });
+        });
+    </script>
+
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            showContent('content1'); // Hiển thị nội dung 1 mặc định khi trang được tải lên
+        });
+
+        function showContent(id) {
+            var contents = document.getElementsByClassName("content-item");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+            var content = document.getElementById(id);
+            if (content) {
+                content.style.display = "block";
+            }
+        }
+    </script>
+
+}

@@ -15,7 +15,7 @@
 <div class="product-container">
     @foreach (var i in Model)
     {
-        <div class="product-item">
+        <div class="product-item" style="background: linear-gradient(to right, #B0C4DE, #ADD8E6);">
             <p>@i.Code</p>
             <span>Hạn: @i.ExpiryDate</span>
             <p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount)</p>

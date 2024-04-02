@@ -51,7 +51,11 @@ namespace PhoneShop.Models
         public DbSet<Voucher> Vouchers { get; set; }
 
 
-       
+
+        public DbSet<Introduce> Introduces { get; set; }
+
+
+
 
 
 

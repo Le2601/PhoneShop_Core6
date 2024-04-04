@@ -10,6 +10,7 @@ namespace PhoneShop.Models
 
         public string Content { get; set; }
 
-        public DateTime? UpdatedAt { get; set; }
+
+
     }
 }

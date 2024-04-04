@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<VoucherViewModel> ListVoucher = ViewBag.ListVouchers;
+    List<IntroduceViewModel> GetIntroduce = ViewBag.GetIntroduce;
 }
 
 <style>
@@ -69,7 +70,7 @@
         <div class="content">
             <div id="content1" class="content-item">
 
-                @await Html.PartialAsync("_Partial_Utilities_Introduce")
+                @await Html.PartialAsync("_Partial_Utilities_Introduce",GetIntroduce)
             </div>
             <div id="content2" class="content-item">
                 @await Html.PartialAsync("_Partial_Utilities_Vouchers",ListVoucher)

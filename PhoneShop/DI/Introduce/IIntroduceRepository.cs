@@ -9,5 +9,8 @@ namespace PhoneShop.DI.Introduce
 
         public List<IntroduceViewModel> GetIntroduce();
 
+
+        public IntroduceViewModel GetById(int id);
+
     }
 }

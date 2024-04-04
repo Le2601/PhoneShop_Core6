@@ -14,6 +14,21 @@ namespace PhoneShop.DI.Introduce
             _context = context;
         }
 
+        public IntroduceViewModel GetById(int id)
+        {
+            var item = _context.Introduces.Where(x=> x.Id == id).FirstOrDefault()!;
+
+            var iVM = new IntroduceViewModel
+            {
+                Id = item.Id,
+                Content = item.Content,
+               
+            };
+
+            return iVM;
+
+        }
+
         public List<IntroduceViewModel> GetIntroduce()
         {
            var item = _context.Introduces.Take(1).Select(x=> new IntroduceViewModel
@@ -27,15 +42,14 @@ namespace PhoneShop.DI.Introduce
 
         public void Update(IntroduceData model)
         {
-            var item = _context.Introduces.Where(x=> x.Id == model.Id).FirstOrDefault();
+            var item = _context.Introduces.Where(x=> x.Id == model.Id).FirstOrDefault()!;
 
-            var iUpdate = new PhoneShop.Models.Introduce
-            {
-                Content = model.Content,
-                UpdatedAt = DateTime.Now,
-            };
 
-            _context.Update(iUpdate);
+            item.Content = model.Content;
+               
+          
+
+            _context.Introduces.Update(item);
             _context.SaveChanges();
 
         }

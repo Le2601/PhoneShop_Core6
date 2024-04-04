@@ -9,6 +9,7 @@ using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.DI_User.Voucher_User;
+using PhoneShop.DI.Introduce;
 using PhoneShop.DI.Product;
 
 using PhoneShop.Models;
@@ -42,13 +43,16 @@ namespace PhoneShop.Controllers
 
         private readonly IVoucher_UserRepository _voucher_UserRepository;
 
+        private readonly IIntroduceRepository _introduceRepository;
+
 
 
         public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,
             IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository,
             IImageProduct_UserRepository imageProduct_UserRepository,
-            ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository)
+            ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository, IIntroduceRepository introduceRepository)
         {
+            _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
             _imageProduct_UserRepository = imageProduct_UserRepository;
             _paymentResponseRepository = paymentResponse_Repository;
@@ -178,6 +182,7 @@ namespace PhoneShop.Controllers
         {
 
             ViewBag.ListVouchers = _voucher_UserRepository.GetAll();
+            ViewBag.GetIntroduce = _introduceRepository.GetIntroduce();
 
             return View();
         }

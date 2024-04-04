@@ -9,6 +9,8 @@ namespace PhoneShop.Areas.Admin.Data
 
         public string Content { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
+      
+
+
     }
 }

@@ -5,6 +5,9 @@
 
     List<VoucherViewModel> ListVoucher = ViewBag.ListVouchers;
     List<IntroduceViewModel> GetIntroduce = ViewBag.GetIntroduce;
+    Account GetAccount = ViewBag.GetAccount;
+
+   
 }
 
 <style>
@@ -63,7 +66,7 @@
             <ul class="vertical-menu">
                 <li><a href="#" onclick="showContent('content1')">Giới thiệu</a></li>
                 <li><a href="#" onclick="showContent('content2')">Phiếu giảm giá</a></li>
-                <li><a href="#" onclick="showContent('content3')">Tài khoản</a></li>
+                <li><a href="#" onclick="showContent('content3')">Thông tin tài khoản</a></li>
                 <li><a href="#" onclick="showContent('content4')">Hỗ trợ khách hàng</a></li>
             </ul>
         </div>
@@ -76,8 +79,8 @@
                 @await Html.PartialAsync("_Partial_Utilities_Vouchers",ListVoucher)
             </div>
             <div id="content3" class="content-item">
-                <h2>Nội dung 3</h2>
-                <p>Đây là nội dung mục 3.</p>
+               
+                @await Html.PartialAsync("_Partial_Utilities_Account",GetAccount)
             </div>
             <div id="content4" class="content-item">
                 <h2>Nội dung 4</h2>

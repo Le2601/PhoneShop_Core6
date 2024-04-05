@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PhoneShop.Data;
@@ -181,8 +182,28 @@ namespace PhoneShop.Controllers
         public IActionResult Utilities()
         {
 
+            var ObjAccount = new Models.Account();
+
             ViewBag.ListVouchers = _voucher_UserRepository.GetAll();
             ViewBag.GetIntroduce = _introduceRepository.GetIntroduce();
+
+            //infor account
+            var itemAccount = new PhoneShop.Models.Account
+            {
+
+            };
+            ViewBag.GetAccount = itemAccount;
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            if( taikhoanID != null )
+            {
+                int AccountInt = int.Parse(taikhoanID);
+                var IAccount = _dbContext.Accounts.FirstOrDefault(x => x.Id == AccountInt);
+                ObjAccount = IAccount;
+            }
+            ViewBag.GetAccount = ObjAccount;
+
+
+
 
             return View();
         }

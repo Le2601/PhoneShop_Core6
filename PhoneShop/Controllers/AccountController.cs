@@ -344,5 +344,26 @@ namespace PhoneShop.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        [HttpPost]
+        public IActionResult Update(IFormCollection form)
+        {
+            string FullName = form["FullName"];
+            string Phone = form["Phone"];
+            var Id = form["Id"];
+
+
+            int AccountInt = int.Parse(Id);
+
+
+
+            var iUpdate = _context.Accounts.FirstOrDefault(x=> x.Id == AccountInt)!;
+            iUpdate.FullName = FullName;
+            iUpdate.Phone = Phone;
+            _context.Accounts.Update(iUpdate);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace PhoneShop.DI.DI_User.Voucher_User
     public interface IVoucher_UserRepository
     {
 
-         List<VoucherViewModel> GetAll();
+        Task<List<VoucherViewModel>> GetAll();
 
         public VoucherViewModel GetByCode(string code);
 

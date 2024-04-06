@@ -1,0 +1,17 @@
+﻿@model PhoneShop.ModelViews.VoucherItemViewModel
+@using PhoneShop.Extension
+<h2>Phiếu giảm giá của tôi</h2>
+@if(Model.VoucherItems.Count == 0)
+{
+    <div>Chưa có phiếu giảm giá nào của bạn</div>
+}
+else{
+    @foreach(var i in Model.VoucherItems)
+    {
+        <div class="product-item" style="background: linear-gradient(to right, #B0C4DE, #ADD8E6);">
+            <p>Mã giảm giá: @i.Code</p>     
+            <a class=" voucher btn btn-success" data-id="@i.Id">Xóa</a>
+        </div>
+        
+    }
+}

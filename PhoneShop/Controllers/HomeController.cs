@@ -179,13 +179,13 @@ namespace PhoneShop.Controllers
         }
 
         [Route("/Utilities.html")]
-        public IActionResult Utilities()
+        public async Task<IActionResult> Utilities()
         {
 
             var ObjAccount = new Models.Account();
 
-            ViewBag.ListVouchers = _voucher_UserRepository.GetAll();
-            ViewBag.GetIntroduce = _introduceRepository.GetIntroduce();
+            ViewBag.ListVouchers = await _voucher_UserRepository.GetAll();
+            ViewBag.GetIntroduce =await _introduceRepository.GetIntroduce();
 
             //infor account
             var itemAccount = new PhoneShop.Models.Account
@@ -197,12 +197,22 @@ namespace PhoneShop.Controllers
             if( taikhoanID != null )
             {
                 int AccountInt = int.Parse(taikhoanID);
-                var IAccount = _dbContext.Accounts.FirstOrDefault(x => x.Id == AccountInt);
+                var IAccount =await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Id == AccountInt);
                 ObjAccount = IAccount;
             }
+           
             ViewBag.GetAccount = ObjAccount;
 
 
+            //get voucher account
+            //kiem tra da luu ma giam gia chua
+            List<VoucherItemModel> CartVoucher = PhoneShop.Extension.SessionExtensions.GetListSessionCartVoucher("CartVoucher", HttpContext);
+            VoucherItemViewModel voucherVM = new()
+            {
+                VoucherItems = CartVoucher
+            };
+
+            ViewBag.MyVoucher = voucherVM;
 
 
             return View();

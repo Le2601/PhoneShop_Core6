@@ -1,4 +1,5 @@
-﻿using PhoneShop.Areas.Admin.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PhoneShop.Areas.Admin.Data;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 
@@ -29,13 +30,13 @@ namespace PhoneShop.DI.Introduce
 
         }
 
-        public List<IntroduceViewModel> GetIntroduce()
+        public async Task<List<IntroduceViewModel>> GetIntroduce()
         {
-           var item = _context.Introduces.Take(1).Select(x=> new IntroduceViewModel
+           var item =await _context.Introduces.Take(1).Select(x=> new IntroduceViewModel
            {
                Id = x.Id,
                Content = x.Content,
-           }).ToList();
+           }).ToListAsync();
 
             return item;
         }

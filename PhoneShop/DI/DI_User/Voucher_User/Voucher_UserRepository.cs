@@ -1,4 +1,5 @@
-﻿using PhoneShop.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PhoneShop.Data;
 using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.Models;
@@ -17,9 +18,9 @@ namespace PhoneShop.DI.DI_User.Voucher_User
            
         }
 
-        public List<VoucherViewModel> GetAll()
+        public async Task<List<VoucherViewModel>> GetAll()
         {
-            var items = _dbContext.Vouchers.Select(x => new VoucherViewModel {
+            var items =await _dbContext.Vouchers.Select(x => new VoucherViewModel {
                 Code = x.Code,
                 DiscountAmount = x.DiscountAmount,
                 DiscountConditions = x.DiscountConditions,
@@ -27,7 +28,7 @@ namespace PhoneShop.DI.DI_User.Voucher_User
                 Id = x.Id,
                 IsActive = x.IsActive,
                 Quantity = x.Quantity,
-            }).ToList();
+            }).ToListAsync();
 
             return items;
         }

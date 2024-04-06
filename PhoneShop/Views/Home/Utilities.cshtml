@@ -7,6 +7,8 @@
     List<IntroduceViewModel> GetIntroduce = ViewBag.GetIntroduce;
     Account GetAccount = ViewBag.GetAccount;
 
+    VoucherItemViewModel MyVoucher = ViewBag.MyVoucher;
+
    
 }
 
@@ -67,7 +69,9 @@
                 <li><a href="#" onclick="showContent('content1')">Giới thiệu</a></li>
                 <li><a href="#" onclick="showContent('content2')">Phiếu giảm giá</a></li>
                 <li><a href="#" onclick="showContent('content3')">Thông tin tài khoản</a></li>
-                <li><a href="#" onclick="showContent('content4')">Hỗ trợ khách hàng</a></li>
+                <li><a href="#" onclick="showContent('content4')">Đơn hàng của tôi</a></li>
+                <li><a href="#" onclick="showContent('content5')">Ví Voucher</a></li>
+                <li><a href="#" onclick="showContent('content6')">Địa chỉ nhận hàng</a></li>
             </ul>
         </div>
         <div class="content">
@@ -85,6 +89,10 @@
             <div id="content4" class="content-item">
                 <h2>Nội dung 4</h2>
                 <p>Đây là nội dung mục 3.</p>
+            </div>
+            <div id="content5" class="content-item">
+                @await Html.PartialAsync("_Partial_Utilities_MyVoucher",MyVoucher)
+               
             </div>
         </div>
     </div>

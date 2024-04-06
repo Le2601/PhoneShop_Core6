@@ -7,7 +7,7 @@ namespace PhoneShop.DI.Introduce
     {
         void Update(IntroduceData model);
 
-        public List<IntroduceViewModel> GetIntroduce();
+        public Task<List<IntroduceViewModel>> GetIntroduce();
 
 
         public IntroduceViewModel GetById(int id);

@@ -56,25 +56,25 @@
             <div class="col-md-3 col-sm-6">
                 <div class="single-promo promo1">
                     <i class="fa fa-refresh"></i>
-                    <p>30 Days return</p>
+                    <p>Hoàn tiền 30 ngày</p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="single-promo promo2">
                     <i class="fa fa-truck"></i>
-                    <p>Free shipping</p>
+                    <p>Miễn phí giao hàng</p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="single-promo promo3">
                     <i class="fa fa-lock"></i>
-                    <p>Secure payments</p>
+                    <p>Thanh toán an toàn</p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="single-promo promo4">
                     <i class="fa fa-gift"></i>
-                    <p>New products</p>
+                    <p>Sản phẩm mới</p>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="latest-product">
-                    <h2 class="section-title">Latest Products</h2>
+                    <h2 class="section-title">Sản phẩm mới</h2>
                     <div class="product-carousel">
 
                          @if (Model != null)    
@@ -100,8 +100,8 @@
                                 *@            <img src="~/images/Product/@item.ImageDefaultName" style="border: solid 1px;height:296px; width:220px" />
                                        
                                         <div class="product-hover">
-                                            <a  class="add-to-cart-link confirmAdd" data-id="@item.Id" ><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                            <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                            <a  class="add-to-cart-link confirmAdd" data-id="@item.Id" ><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                            <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
                                         </div>
                                     </div>
 
@@ -208,7 +208,7 @@
     <div class="container">
         <div class="row">
 
-            <h2 class="section-title">All Products</h2>
+            <h2 class="section-title">Tất cả sản phẩm</h2>
             
 
             @if (Model != null)
@@ -222,8 +222,8 @@
                     *@            <img src="~/images/Product/@item.ImageDefaultName" style="border: solid 1px;height:296px; width:220px" />
 
                             <div class="product-hover">
-                                <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
                             </div>
                         </div>
 

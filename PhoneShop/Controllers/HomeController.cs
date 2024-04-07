@@ -214,6 +214,11 @@ namespace PhoneShop.Controllers
 
             ViewBag.MyVoucher = voucherVM;
 
+            //my address
+            var iCity = _dbContext.Cities.ToList();
+
+            ViewBag.ListCity = iCity;
+
 
             return View();
         }

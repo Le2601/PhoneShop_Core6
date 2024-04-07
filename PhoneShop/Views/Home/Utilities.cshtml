@@ -1,4 +1,5 @@
 ﻿@using PhoneShop.ModelViews
+@using PhoneShop.Models
 @{
     ViewData["Title"] = "Utilities";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,7 +10,8 @@
 
     VoucherItemViewModel MyVoucher = ViewBag.MyVoucher;
 
-   
+    List<City> ListCity = ViewBag.ListCity;
+
 }
 
 <style>
@@ -94,6 +96,10 @@
                 @await Html.PartialAsync("_Partial_Utilities_MyVoucher",MyVoucher)
                
             </div>
+
+            <div id="content6" class="content-item">
+                @await Html.PartialAsync("_Partial_Utilities_MyAddress",ListCity)
+            </div>
         </div>
     </div>
     </div>
@@ -150,5 +156,19 @@
             }
         }
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".tinh").change(function () {
+                var id = $(".tinh").val();
+
+                $.post("/Home/GetDistricts", { id: id }, function (data) {
+                    $(".quan").html(data);
+                })
+            })
+        })
+    </script>
+   
 
 }

@@ -1,0 +1,81 @@
+﻿@model List<PhoneShop.Models.City>
+
+@{
+    if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
+    {
+        <div>
+        <p>Dia chi nhan hang cua ban</p>
+            <div class="product-item" style="background: linear-gradient(to right, #B0C4DE, #ADD8E6);">
+                <p>Mã giảm giá: </p>
+             
+            </div>
+        </div>
+        <br />
+        <hr />
+        <p>Them dia chi moi</p>
+        <form method="post">
+            <div class="input-group">
+                <label>Tên người nhận</label>
+                <input name="FullName" type="text">
+            </div>
+            <br>
+            <div class="input-group">
+               
+                
+                <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                <select name="City" class="form-control tinh">
+                    <option value="" selected>chon tinh</option>
+                    @foreach (var i in Model)
+                    {
+                        <option value="@i.Id">@i.Title</option>
+
+                    }
+                </select>
+            </div>
+
+      
+            <!-- theem quan -->
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                <select name="District" class="form-control quan">
+                </select>
+            </div>
+            <br>
+            <div class="input-group">
+                <label>Tên người nhận</label>
+                <input name="Description" type="text">
+            </div>
+            <br>
+            <div class="input-group">
+                <label>Loại địa chỉ</label>
+                <select name="AddressType" class="form-control tinh">
+                    <option value="1">Chỗ ở cá nhân</option>
+                    <option value="2">Nơi làm việc</option>
+                    <option value="3">Khác</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Địa chỉ chi tiết (số nhà,...)</label>
+                <input name="Description" type="text">
+            </div>
+            <br>
+            <div class="input-group">
+                <label>Chọn làm mặc định</label>
+                <select name="IsDefault" class="form-control tinh">
+                    <option value="0">Không</option>
+                    <option value="1">Có</option>
+                   
+                </select>
+            </div>
+
+            <input type="submit" class="btn btn-success" value="Thêm">
+        </form>
+
+
+    }
+    else
+    {
+        <p>Bạn chưa đăng nhập. <a class="btn btn-success" href="/Login.html">Đăng nhập</a></p>
+    }
+}
+

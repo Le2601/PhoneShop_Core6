@@ -7,25 +7,27 @@
 }
 <section class="content">
     <div class="card">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-        <select name="tinh" class="form-control tinh">
-            <option value="" selected>chon tinh</option>
-            @foreach (var i in ListCity)
-            {
-                <option value="@i.Id">@i.Title</option>
+    <form method="post">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                <select name="City" class="form-control tinh">
+                    <option value="" selected>chon tinh</option>
+                    @foreach (var i in ListCity)
+                    {
+                        <option value="@i.Id">@i.Title</option>
 
-            }
-        </select>
-    </div>
-    <br>
-        <!-- theem quan -->
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-            <select name="quan" class="form-control quan">
-            </select>
-        </div>
-        <br>
+                    }
+                </select>
+            </div>
+            <br>
+            <!-- theem quan -->
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                <select name="District" class="form-control quan">
+                </select>
+            </div>
+            <br>
+    </form>
 
 
  </div>

@@ -51,6 +51,7 @@ namespace PhoneShop.Models
         public DbSet<Voucher> Vouchers { get; set; }
 
 
+        //new update
 
         public DbSet<Introduce> Introduces { get; set; }
 
@@ -60,6 +61,7 @@ namespace PhoneShop.Models
 
         public DbSet<Ward> Wards { get; set; }
 
+        public DbSet<MyAddress> MyAddresses { get; set; }
 
 
 

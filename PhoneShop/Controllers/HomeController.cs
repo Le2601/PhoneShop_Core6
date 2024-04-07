@@ -223,15 +223,28 @@ namespace PhoneShop.Controllers
         public IActionResult demo()
         {
             var iCity = _dbContext.Cities.ToList();
+
+            ViewBag.ListCity = iCity;
            
             return View();
         }
 
-        public IActionResult GetProvinces()
+        public IActionResult GetDistricts(int id)
         {
-            var iCity = _dbContext.Cities.ToList();
+            var iCity = _dbContext.Districts.Where(x=> x.IdCity == id).ToList();
 
-            return Ok(iCity);
+            string arr = "";
+
+            foreach (var i in iCity)
+            {
+                string v = $"<option value='{i.Id}'>{i.Title}</option>";
+                arr += v;
+            }
+
+
+
+
+            return Ok(arr);
         }
 
 

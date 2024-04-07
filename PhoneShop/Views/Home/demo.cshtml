@@ -1,84 +1,51 @@
-﻿
+﻿@using PhoneShop.Models;
 @{
     ViewData["Title"] = "demo";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<City> ListCity = ViewBag.ListCity;
 }
-<body onload="loadProvinces()">
-    <form>
-        <div>
-            <label for="province">Tỉnh thành:</label>
-            <select id="province">
-                <!-- Các option của tỉnh thành sẽ được thêm bằng JavaScript -->
+<section class="content">
+    <div class="card">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+        <select name="tinh" class="form-control tinh">
+            <option value="" selected>chon tinh</option>
+            @foreach (var i in ListCity)
+            {
+                <option value="@i.Id">@i.Title</option>
+
+            }
+        </select>
+    </div>
+    <br>
+        <!-- theem quan -->
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+            <select name="quan" class="form-control quan">
             </select>
         </div>
-    </form>
-</body>
-<form>
-    <div>
-        <label for="province">Tỉnh thành:</label>
-        <select id="province" onchange="loadDistricts()">
-            <option value="">Chọn tỉnh thành</option>
-            <!-- Các option của tỉnh thành -->
-        </select>
-    </div>
+        <br>
 
-    <div>
-        <label for="district">Huyện:</label>
-        <select id="district" onchange="loadWards()">
-            <option value="">Chọn huyện</option>
-            <!-- Các option của huyện -->
-        </select>
-    </div>
 
-    <div>
-        <label for="ward">Phường:</label>
-        <select id="ward">
-            <option value="">Chọn phường</option>
-            <!-- Các option của phường -->
-        </select>
-    </div>
-</form>
+ </div>
+
+
+</section>
+
 
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function loadProvinces() {
-            $.ajax({
-                url: '/Home/GetProvinces',
-                type: 'GET',
-              
-                success: function (data) {
-                    var provinceDropdown = document.getElementById('province');
-                    provinceDropdown.innerHTML = '';
+        $(document).ready(function () {
+            $(".tinh").change(function () {
+                var id = $(".tinh").val();
 
-                    // Thêm các option mới cho dropdown 'province'
-                    for (var i = 0; i < data.length; i++) {
-                        var option = document.createElement('option');
-                        option.value = data[i].Id;
-                        option.text = data[i].Title;
-                        provinceDropdown.appendChild(option);
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-        function loadDistricts() {
-            var provinceId = document.getElementById('province').value;
-
-            // Gửi yêu cầu AJAX để lấy danh sách huyện từ controller
-            // Ví dụ: '/api/districts?provinceId=' + provinceId
-            // Sau khi nhận được danh sách huyện, cập nhật dropdown 'district' với các option tương ứng
-        }
-
-        function loadWards() {
-            var districtId = document.getElementById('district').value;
-
-            // Gửi yêu cầu AJAX để lấy danh sách phường từ controller
-            // Ví dụ: '/api/wards?districtId=' + districtId
-            // Sau khi nhận được danh sách phường, cập nhật dropdown 'ward' với các option tương ứng
-        }
+                $.post("/Home/GetDistricts", { id: id }, function (data) {
+                    $(".quan").html(data);
+                })
+            })
+        })
     </script>
 
 

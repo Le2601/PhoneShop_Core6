@@ -535,7 +535,7 @@ namespace PhoneShop.Controllers
             {
                 //
             }
-            getById.Quantity -= 1;
+            getById!.Quantity -= 1;
             _voucher_UserRepository.Update(getById);
             //end xu ly voucher
 

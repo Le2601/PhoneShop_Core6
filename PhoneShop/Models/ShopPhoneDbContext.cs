@@ -54,6 +54,15 @@ namespace PhoneShop.Models
 
         public DbSet<Introduce> Introduces { get; set; }
 
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<District> Districts { get; set; }
+
+        public DbSet<Ward> Wards { get; set; }
+
+
+
+
 
 
 
@@ -160,7 +169,16 @@ namespace PhoneShop.Models
            .HasForeignKey(p => p.IdSpDirectory);
 
 
+            modelBuilder.Entity<District>()
+             .HasOne(p => p.City)
+             .WithMany(p => p.Districts)
+             .HasForeignKey(p => p.IdCity);
 
+
+            modelBuilder.Entity<Ward>()
+             .HasOne(p => p.District)
+             .WithMany(p => p.Wards)
+             .HasForeignKey(p => p.IdDistrict);
 
 
         }

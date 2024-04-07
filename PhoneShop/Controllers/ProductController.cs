@@ -69,7 +69,7 @@ namespace PhoneShop.Controllers
 
         public async Task<IActionResult> Review_Product(int id, IFormCollection form)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
 
             int taikhoanIDInt = int.Parse(taikhoanID);
 
@@ -87,8 +87,8 @@ namespace PhoneShop.Controllers
             var newReviewProduct = new Data.Product_ReviewData
             {
 
-                ProductId = iProduct.Id,
-                UserName = IAccount.FullName,
+                ProductId = iProduct!.Id,
+                UserName = IAccount!.FullName,
                 UserEmail = IAccount.Email,
                 Content = content,
                 CreateAt = DateTime.Now,

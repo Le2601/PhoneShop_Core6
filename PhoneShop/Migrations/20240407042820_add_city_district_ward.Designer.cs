@@ -12,8 +12,8 @@ using PhoneShop.Models;
 namespace PhoneShop.Migrations
 {
     [DbContext(typeof(ShopPhoneDbContext))]
-    [Migration("20240402143145_them_Introduce")]
-    partial class them_Introduce
+    [Migration("20240407042820_add_city_district_ward")]
+    partial class add_city_district_ward
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -120,6 +120,45 @@ namespace PhoneShop.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("PhoneShop.Models.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("PhoneShop.Models.District", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("IdCity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCity");
+
+                    b.ToTable("District");
+                });
+
             modelBuilder.Entity("PhoneShop.Models.ImageProduct", b =>
                 {
                     b.Property<int>("Id")
@@ -159,9 +198,6 @@ namespace PhoneShop.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UpdatedAt")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -537,6 +573,28 @@ namespace PhoneShop.Migrations
                     b.ToTable("Voucher");
                 });
 
+            modelBuilder.Entity("PhoneShop.Models.Ward", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("IdDistrict")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdDistrict");
+
+                    b.ToTable("Ward");
+                });
+
             modelBuilder.Entity("PhoneShop.ModelViews.BannerViewModel", b =>
                 {
                     b.Property<int>("Id")
@@ -571,6 +629,17 @@ namespace PhoneShop.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("PhoneShop.Models.District", b =>
+                {
+                    b.HasOne("PhoneShop.Models.City", "City")
+                        .WithMany("Districts")
+                        .HasForeignKey("IdCity")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("PhoneShop.Models.ImageProduct", b =>
@@ -658,9 +727,30 @@ namespace PhoneShop.Migrations
                     b.Navigation("SupportDirectory");
                 });
 
+            modelBuilder.Entity("PhoneShop.Models.Ward", b =>
+                {
+                    b.HasOne("PhoneShop.Models.District", "District")
+                        .WithMany("Wards")
+                        .HasForeignKey("IdDistrict")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("District");
+                });
+
             modelBuilder.Entity("PhoneShop.Models.Category", b =>
                 {
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("PhoneShop.Models.City", b =>
+                {
+                    b.Navigation("Districts");
+                });
+
+            modelBuilder.Entity("PhoneShop.Models.District", b =>
+                {
+                    b.Navigation("Wards");
                 });
 
             modelBuilder.Entity("PhoneShop.Models.Order", b =>

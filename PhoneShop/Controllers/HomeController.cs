@@ -219,6 +219,20 @@ namespace PhoneShop.Controllers
         }
 
 
+        [Route("/demo.html")]
+        public IActionResult demo()
+        {
+            var iCity = _dbContext.Cities.ToList();
+           
+            return View();
+        }
+
+        public IActionResult GetProvinces()
+        {
+            var iCity = _dbContext.Cities.ToList();
+
+            return Ok(iCity);
+        }
 
 
     }

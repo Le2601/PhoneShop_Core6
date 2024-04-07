@@ -94,6 +94,9 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 
         builder.Services.AddScoped<EmailService>();
 
+        //api
+        builder.Services.AddHttpClient();
+
 
         //API
         // Trong phương thức ConfigureServices của Startup.cs
@@ -102,6 +105,7 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         //    options.Configuration = "localhost"; // Thay đổi thành địa chỉ Redis của bạn
         //    options.InstanceName = "SampleInstance";
         //});
+
     }
 });
 
@@ -141,6 +145,9 @@ builder.Services.AddDbContext<ShopPhoneDbContext>(options =>
 {
     options.UseSqlServer("Server=LAPTOP-LH4CD5VL;Database=PhoneShop_Core6;Trusted_Connection=True;Connect Timeout=60;MultipleActiveResultSets=True");
 });
+
+
+
 
 
 var app = builder.Build();

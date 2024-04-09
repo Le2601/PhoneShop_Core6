@@ -252,6 +252,25 @@ namespace PhoneShop.Controllers
             return Ok(arr);
         }
 
+        public IActionResult GetWards(int id)
+        {
+            var iWards = _dbContext.Wards.Where(x => x.IdDistrict == id).ToList();
+
+            string arr = "";
+
+            foreach (var i in iWards)
+            {
+                string v = $"<option value='{i.Id}'>{i.Title}</option>";
+                arr += v;
+            }
+
+
+
+
+            return Ok(arr);
+        }
+
+
 
     }
 }

@@ -167,8 +167,18 @@
                     $(".quan").html(data);
                 })
             })
+
+            $(".quan").change(function () {
+                var idd = $(".quan").val();
+
+                $.post("/Home/GetWards", { id: idd }, function (data) {
+                    $(".phuong").html(data);
+                })
+            })
         })
     </script>
+
+  
    
 
 }

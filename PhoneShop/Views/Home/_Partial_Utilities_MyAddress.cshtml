@@ -4,7 +4,7 @@
     if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
     {
         <div>
-        <p>Dia chi nhan hang cua ban</p>
+        <p>Địa chỉ nhận hàng của bạn</p>
             <div class="product-item" style="background: linear-gradient(to right, #B0C4DE, #ADD8E6);">
                 <p>Mã giảm giá: </p>
              
@@ -12,39 +12,46 @@
         </div>
         <br />
         <hr />
-        <p>Them dia chi moi</p>
-        <form method="post">
+        <h3>Thêm địa chỉ </h3>
+        <form method="post" action="/MyAddress/Create">
             <div class="input-group">
                 <label>Tên người nhận</label>
                 <input name="FullName" type="text">
             </div>
-            <br>
+                    
             <div class="input-group">
                
                 
-                <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                <label>Chọn tỉnh</label>
                 <select name="City" class="form-control tinh">
-                    <option value="" selected>chon tinh</option>
+                    <option value="" selected>Lựa chọn</option>
                     @foreach (var i in Model)
                     {
+
                         <option value="@i.Id">@i.Title</option>
+
 
                     }
                 </select>
             </div>
 
       
-            <!-- theem quan -->
+            <!-- them quan -->                                    
             <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                <label>Chọn quận</label>
                 <select name="District" class="form-control quan">
+                    <option value="" selected>Lựa quận</option>
                 </select>
             </div>
-            <br>
+            <!-- theem quan -->
             <div class="input-group">
-                <label>Tên người nhận</label>
-                <input name="Description" type="text">
+                <label>Chọn phường</label>
+                <select name="Ward" class="form-control phuong">
+                    <option value="" selected>Lựa phường</option>
+                </select>
             </div>
+            
+           
             <br>
             <div class="input-group">
                 <label>Loại địa chỉ</label>

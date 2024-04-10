@@ -192,13 +192,15 @@ namespace PhoneShop.Controllers
             {
 
             };
-            ViewBag.GetAccount = itemAccount;
+           
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+           
             if( taikhoanID != null )
             {
                 int AccountInt = int.Parse(taikhoanID);
                 var IAccount =await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Id == AccountInt);
                 ObjAccount = IAccount;
+                ViewData["IdAccount"] = AccountInt;
             }
            
             ViewBag.GetAccount = ObjAccount;

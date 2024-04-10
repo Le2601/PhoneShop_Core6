@@ -1,0 +1,16 @@
+﻿@model PhoneShop.Models.MyAddress
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+}
+
+<div style="border:1px solid red">
+
+    <p>Vị trí: @Model.CityName - @Model.DistrictName - @Model.WardName</p>
+    <p>Địa chỉ cụ thể: @Model.Description</p>
+    <p>Mặc định: @(Model.IsDefault == 0 ? "Không" : "Có")</p>
+    <p>@Model.FullName</p>
+
+</div>
+
+

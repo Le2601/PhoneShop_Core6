@@ -11,9 +11,11 @@ namespace PhoneShop.Controllers
         {
             _shopPhoneDbContext = shopPhoneDbContext;
         }
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
-            return View();
+            var item = _shopPhoneDbContext.MyAddresses.Where(x => x.IdAccount == id).FirstOrDefault();
+
+            return View(item);
         }
 
         [HttpPost]
@@ -23,20 +25,25 @@ namespace PhoneShop.Controllers
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
 
-            var FullName = form["FullName"];
-            var City = form["City"];
-            var District = form["District"];
-            var Ward = form["Ward"];
-            var Description = form["Description"];
-            var AddressType = form["AddressType"];
-            var IsDefault = form["FullName"];
+            string FullName = form["FullName"];
 
-            MyAddress item = new MyAddress
+            string City = form["City"];
+            var TitleCity = _shopPhoneDbContext.Cities.Where(x=> x.Id == int.Parse(City)).First().Title;
+            string District = form["District"];
+            var TitleDistrict = _shopPhoneDbContext.Districts.Where(x => x.Id == int.Parse(District)).First().Title;
+            string Ward = form["Ward"];
+            var TitleWard = _shopPhoneDbContext.Wards.Where(x => x.Id == int.Parse(Ward)).First().Title;
+
+            string Description = form["Description"];
+            string AddressType = form["AddressType"];
+            string IsDefault = form["IsDefault"];
+
+            var item = new MyAddress
             {
                 FullName = FullName,
-                CityName = City,
-                DistrictName = District,
-                WardName = Ward,
+                CityName = TitleCity,
+                DistrictName = TitleDistrict,
+                WardName = TitleWard,
                 Description = Description,
                 AddressType = int.Parse(AddressType),
                 IsDefault = int.Parse(IsDefault),
@@ -50,5 +57,7 @@ namespace PhoneShop.Controllers
 
             return RedirectToAction("Utilities","Home");
         }
+
+
     }
 }

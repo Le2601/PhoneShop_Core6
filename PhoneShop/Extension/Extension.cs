@@ -30,5 +30,12 @@ namespace PhoneShop.Extension
             }
             return result;
         }
+
+        public static int IntToString(this string str)
+        {
+            int value = int.Parse(str);
+
+            return value;
+        }
     }
 }

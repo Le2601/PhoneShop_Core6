@@ -58,6 +58,30 @@ namespace PhoneShop.Controllers
             return RedirectToAction("Utilities","Home");
         }
 
+        [HttpPost]
+        public IActionResult Update(IFormCollection form)
+        {
+
+            string IsDefault = form["IsDefault"];
+            string Id = form["Id"];
+
+            var item = _shopPhoneDbContext.MyAddresses.Where(x=> x.Id == int.Parse(Id)).First();
+
+            item.IsDefault = int.Parse(IsDefault);
+
+            _shopPhoneDbContext.MyAddresses.Update(item);
+            _shopPhoneDbContext.SaveChanges();
+
+
+
+            
+
+            return RedirectToAction("Index", "Home");
+
+
+
+        }
+
 
     }
 }

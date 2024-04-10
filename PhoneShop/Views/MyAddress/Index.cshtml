@@ -3,14 +3,38 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
 }
+<h1>Danh sách địa chỉ của bạn</h1>
 
-<div style="border:1px solid red">
 
-    <p>Vị trí: @Model.CityName - @Model.DistrictName - @Model.WardName</p>
-    <p>Địa chỉ cụ thể: @Model.Description</p>
-    <p>Mặc định: @(Model.IsDefault == 0 ? "Không" : "Có")</p>
-    <p>@Model.FullName</p>
+    <form method="post" asp-action="Update"  asp-controller="MyAddress">
+        <input hidden type="text" name="Id" value="@Model.Id" />
+        <div style="border: 1px solid; margin-bottom: 10px; padding: 10px;">
+        <p>@Model.FullName</p>
+            <p>Vị trí: @Model.CityName - @Model.DistrictName - @Model.WardName</p>
+            <p>Địa chỉ cụ thể: @Model.Description</p>
+                
+                <div class="input-group">
+                    <label>Chọn làm mặc định</label>
+                    <select name="IsDefault" class="form-control tinh">
+                        @if(Model.IsDefault == 0)
+                        {
+                            <option selected value="0">Không</option>
+                            <option value="1">Có</option>
+                        }
+                        else
+                        {
+                            <option  value="0">Không</option>
+                            <option selected value="1">Có</option>
+                        }
 
-</div>
+
+                    </select>
+                </div>
+            <button type="submit" class="btn btn-danger">Lưu</button>
+        </div>
+        
+    </form>
+<button type="button" class="btn btn-danger">Xóa</button>
+
 
 

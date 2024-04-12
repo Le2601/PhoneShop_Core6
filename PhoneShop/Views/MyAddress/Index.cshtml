@@ -1,4 +1,4 @@
-﻿@model PhoneShop.Models.MyAddress
+﻿@model IEnumerable<PhoneShop.Models.MyAddress>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
@@ -6,34 +6,37 @@
 <h1>Danh sách địa chỉ của bạn</h1>
 
 
-    <form method="post" asp-action="Update"  asp-controller="MyAddress">
-        <input hidden type="text" name="Id" value="@Model.Id" />
+@foreach(var i in Model)
+{
+    <form method="post" asp-action="Update" asp-controller="MyAddress">
+        <input hidden type="text" name="Id" value="@i.Id" />
         <div style="border: 1px solid; margin-bottom: 10px; padding: 10px;">
-        <p>@Model.FullName</p>
-            <p>Vị trí: @Model.CityName - @Model.DistrictName - @Model.WardName</p>
-            <p>Địa chỉ cụ thể: @Model.Description</p>
-                
-                <div class="input-group">
-                    <label>Chọn làm mặc định</label>
-                    <select name="IsDefault" class="form-control tinh">
-                        @if(Model.IsDefault == 0)
-                        {
-                            <option selected value="0">Không</option>
-                            <option value="1">Có</option>
-                        }
-                        else
-                        {
-                            <option  value="0">Không</option>
-                            <option selected value="1">Có</option>
-                        }
+            <p>@i.FullName</p>
+            <p>Vị trí: @i.CityName - @i.DistrictName - @i.WardName</p>
+            <p>Địa chỉ cụ thể: @i.Description</p>
+
+            <div class="input-group">
+                <label>Chọn làm mặc định</label>
+                <select name="IsDefault" class="form-control tinh">
+                    @if (i.IsDefault == 0)
+                    {
+                        <option selected value="0">Không</option>
+                        <option value="1">Có</option>
+                    }
+                    else
+                    {
+                        <option value="0">Không</option>
+                        <option selected value="1">Có</option>
+                    }
 
 
-                    </select>
-                </div>
+                </select>
+            </div>
             <button type="submit" class="btn btn-danger">Lưu</button>
         </div>
-        
+
     </form>
+}
 <button type="button" class="btn btn-danger">Xóa</button>
 
 

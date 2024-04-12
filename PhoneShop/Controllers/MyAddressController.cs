@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhoneShop.Models;
 
 namespace PhoneShop.Controllers
@@ -11,11 +12,25 @@ namespace PhoneShop.Controllers
         {
             _shopPhoneDbContext = shopPhoneDbContext;
         }
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int? id)
         {
-            var item = _shopPhoneDbContext.MyAddresses.Where(x => x.IdAccount == id).FirstOrDefault();
+            int IdAccount = 0;
+           
+            if(id == null)
+            {
+                if (TempData.ContainsKey("AccountInt"))
+                {
+                    IdAccount = (int)TempData["AccountInt"]!;
+                    // Sử dụng giá trị accountInt ở đây
+                }
+            }
+            else
+            {
+                IdAccount = (int)id!;
+            }
+            var items =await _shopPhoneDbContext.MyAddresses.Where(x => x.IdAccount == IdAccount).ToListAsync();
 
-            return View(item);
+            return View(items);
         }
 
         [HttpPost]
@@ -74,9 +89,10 @@ namespace PhoneShop.Controllers
 
 
 
-            
-
-            return RedirectToAction("Index", "Home");
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+            TempData["AccountInt"] = AccountInt;
+            return RedirectToAction("Index");
 
 
 

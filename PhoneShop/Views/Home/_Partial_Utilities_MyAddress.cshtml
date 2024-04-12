@@ -6,7 +6,7 @@
 @{
     if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
     {
-        <a class="imgproduct" href="#" data-id="@ViewData["IdAccount"]">Xem địa chỉ của bạn</a>
+        <a class="imgproduct btn btn-success" href="#" data-id="@ViewData["IdAccount"]">Xem địa chỉ của bạn</a>
         <div>
         <p>Địa chỉ nhận hàng của bạn</p>
             <div class="product-item" style="background: linear-gradient(to right, #B0C4DE, #ADD8E6);">

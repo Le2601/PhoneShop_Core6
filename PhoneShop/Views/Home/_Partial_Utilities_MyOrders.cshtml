@@ -1,0 +1,70 @@
+﻿@model List<PhoneShop.ModelViews.OrderViewModel>
+
+@using PhoneShop.Extension
+<style>
+    
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+<h1>Danh sách đơn hàng của tôi</h1>
+
+@{
+    if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Phương thức thanh toán</th>
+                    <th>Ngày đặt hàng</th>
+                    <th>Trạng thái</th>
+                    <th>Tổng tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@i.Id_Order</td>
+                        @if(i.PaymentMethod == 1)
+                        {
+                            <td>khi nhận hàng</td>
+                        }
+                        else
+                        {
+                            <td>VnPay</td>
+                        }
+                        <td>@i.Order_Date</td>
+                        @if(i.Order_Status == 0)
+                        {
+                            <td>Chưa xác nhận</td>
+                        }
+                        else
+                        {
+                            <td>Đã xác nhận</td>
+                        }
+                        <td>@Extension.ToVnd((double)i.Total_Order)</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Bạn chưa đăng nhập. <a class="btn btn-success" href="/Login.html">Đăng nhập</a></p>
+    }
+}

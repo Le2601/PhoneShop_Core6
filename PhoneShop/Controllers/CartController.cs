@@ -321,6 +321,10 @@ namespace PhoneShop.Controllers
             //session gio hang
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
 
+
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
             string Order_Name = form["Order_Name"];
             string Address = form["Address"];
             string Phone = form["Phone"];
@@ -384,7 +388,8 @@ namespace PhoneShop.Controllers
                     Order_Date = DateTime.Now,
                     Total_Order = cartVMM.OrderTotal,
                     Profit = cartVMM.GrandTotal -  cartVMM.Profit,
-                    
+                    AccountId = AccountInt,
+
                 };
                 _order_UserRepository.Create(newOrderr);
 
@@ -451,6 +456,7 @@ namespace PhoneShop.Controllers
                 Order_Status = 0, // 0 la trang thai chua xac nhan
                 Total_Order = cartVM.OrderTotal,
                 Profit = cartVMM.GrandTotal - cartVMM.Profit,
+                AccountId = AccountInt,
 
             };
 

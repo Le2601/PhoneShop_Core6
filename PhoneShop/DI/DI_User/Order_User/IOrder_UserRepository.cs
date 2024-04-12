@@ -10,5 +10,7 @@ namespace PhoneShop.DI.DI_User.Order_User
 
         void Create_Order_Detail(Order_DetailsData model);
 
+        public Task<List<OrderViewModel>> ListOrder_User(int IdAccount);
+
     }
 }

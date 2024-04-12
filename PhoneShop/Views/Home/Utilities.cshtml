@@ -12,7 +12,8 @@
 
     List<City> ListCity = ViewBag.ListCity;
 
-   
+    List<OrderViewModel> MyOrders = ViewBag.MyOrders;
+
 
 }
 
@@ -91,8 +92,7 @@
                 @await Html.PartialAsync("_Partial_Utilities_Account",GetAccount)
             </div>
             <div id="content4" class="content-item">
-                <h2>Nội dung 4</h2>
-                <p>Đây là nội dung mục 3.</p>
+                @await Html.PartialAsync("_Partial_Utilities_MyOrders",MyOrders)
             </div>
             <div id="content5" class="content-item">
                 @await Html.PartialAsync("_Partial_Utilities_MyVoucher",MyVoucher)

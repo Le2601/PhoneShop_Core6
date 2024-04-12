@@ -1,4 +1,5 @@
-﻿using PhoneShop.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PhoneShop.Data;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using Stripe;
@@ -22,6 +23,7 @@ namespace PhoneShop.DI.DI_User.Order_User
                 Order_Date = model.Order_Date,
                 Total_Order = model.Total_Order,
                 Profit = model.Profit,
+                AccountId = model.AccountId,
 
             };
             _context.Orders.Add(newOrderr);
@@ -38,12 +40,28 @@ namespace PhoneShop.DI.DI_User.Order_User
                 ProductId = model.ProductId,
                 OrderId = model.OrderId,
                 Quantity = model.Quantity,
+                
 
 
 
             };
             _context.Order_Details.Add(item);
             _context.SaveChanges();
+        }
+
+        public async Task<List<OrderViewModel>> ListOrder_User(int IdAccount)
+        {
+            var items = await _context.Orders.Where(x => x.AccountId == IdAccount).Select(x => new OrderViewModel
+            {
+                Id_Order = x.Id_Order,
+                Total_Order = x.Total_Order,
+                Order_Date = x.Order_Date,
+                PaymentMethod = x.PaymentMethod,
+                Order_Status = x.Order_Status,
+
+            }).ToListAsync();
+
+            return items;
         }
     }
 }

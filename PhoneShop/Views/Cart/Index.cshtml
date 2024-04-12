@@ -224,8 +224,17 @@
                                                 <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
                                             </div> *@
                                            @*  <input type="submit" value="Update Cart" name="update_cart" class="button"> *@
-                                            <input type="submit" value="Checkout" name="proceed" class="checkout-button button alt wc-forward">
                                            
+                                            @if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
+                                            {
+                                                <input type="submit" value="Checkout" name="proceed" class="checkout-button button alt wc-forward">
+
+                                            }
+                                            else
+                                            {
+                                            <p>Bạn chưa đăng nhập. <a class="btn btn-success" href="/Login.html">Đăng nhập</a></p>
+                                            }
+
                                         </td>
 
                                     </tr>

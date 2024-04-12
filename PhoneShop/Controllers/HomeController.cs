@@ -7,6 +7,7 @@ using PhoneShop.DI.Category;
 using PhoneShop.DI.DI_User.Banner_User;
 using PhoneShop.DI.DI_User.Category_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
+using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.DI_User.Voucher_User;
@@ -46,12 +47,15 @@ namespace PhoneShop.Controllers
 
         private readonly IIntroduceRepository _introduceRepository;
 
+        private readonly IOrder_UserRepository _order_userRepository;
+
 
 
         public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,
             IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository,
             IImageProduct_UserRepository imageProduct_UserRepository,
-            ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository, IIntroduceRepository introduceRepository)
+            ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository,
+            IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository)
         {
             _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
@@ -62,6 +66,7 @@ namespace PhoneShop.Controllers
             _vnPayService = vnPayService;
             _productRepository = productRepository;
             _voucher_UserRepository = voucher_UserRepository;
+            _order_userRepository = order_UserRepository;
 
         }
 
@@ -183,26 +188,31 @@ namespace PhoneShop.Controllers
         {
 
             var ObjAccount = new Models.Account();
+            var ObjMyOrder = new List<OrderViewModel>();
 
             ViewBag.ListVouchers = await _voucher_UserRepository.GetAll();
             ViewBag.GetIntroduce =await _introduceRepository.GetIntroduce();
 
-            //infor account
-            var itemAccount = new PhoneShop.Models.Account
-            {
-
-            };
+         
            
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
            
-            if( taikhoanID != null )
+
+            //neu da login
+            if ( taikhoanID != null )
             {
                 int AccountInt = int.Parse(taikhoanID);
                 var IAccount =await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Id == AccountInt);
                 ObjAccount = IAccount;
                 ViewData["IdAccount"] = AccountInt;
+
+
+                //my Order
+                 ObjMyOrder = await _order_userRepository.ListOrder_User(AccountInt);
             }
-           
+            ViewBag.MyOrders = ObjMyOrder;
+
+
             ViewBag.GetAccount = ObjAccount;
 
 
@@ -221,20 +231,14 @@ namespace PhoneShop.Controllers
 
             ViewBag.ListCity = iCity;
 
-
-            return View();
-        }
-
-
-        [Route("/demo.html")]
-        public IActionResult demo()
-        {
-            var iCity = _dbContext.Cities.ToList();
-
-            ViewBag.ListCity = iCity;
            
+
+
             return View();
         }
+
+
+      
 
         public IActionResult GetDistricts(int id)
         {

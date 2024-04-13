@@ -176,9 +176,24 @@ app.UseHttpsRedirection();
 
 app.UseResponseCaching();
 
+//render khi sai url
+app.UseExceptionHandler("/error");
+app.UseStatusCodePages(async context =>
+{
+    var response = context.HttpContext.Response;
+    if (response.StatusCode == 404)
+    {
+        response.Redirect("/custom-404-page");
+    }
+});
+
 
 app.UseEndpoints(endpoints =>
 {
+
+   
+
+
     endpoints.MapControllerRoute(
       name: "areas",
       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
@@ -187,5 +202,14 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
    name: "default",
    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    //endpoints.MapControllerRoute(
+    // name: "error",
+    // pattern: "{controller=Error}/{action=Index}/{id?}");
+    
+
 });
+
+
+
 app.Run();

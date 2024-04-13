@@ -317,6 +317,7 @@ namespace PhoneShop.Controllers
 
         //thanh toan khi nhan hang
         [HttpPost]
+
         public async Task<IActionResult> SubmitCheckOut(IFormCollection form, PaymentInformationModel model)
         {
             //session gio hang

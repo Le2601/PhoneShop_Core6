@@ -18,33 +18,34 @@
 }
 
 <style>
+    
      /* Menu dọc bên trái */
     .row {
         display: flex;
     }
 
     /* Menu dọc bên trái */
-    .sidebar {
+    .sidebarr {
         width: 200px;
         height: 100vh;
         background-color: #f1f1f1;
         padding: 20px;
     }
 
-    ul {
+    .sidebarr ul {
         list-style: none;
         padding: 0;
         margin: 0;
     }
 
-    li {
+    .sidebarr li {
         margin-bottom: 10px;
     }
 
     a {
         display: block;
         text-decoration: none;
-        color: #000;
+        color: #888;
     }
 
         a:hover {
@@ -59,7 +60,6 @@
 
 
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <div class="container" style="min-height:600px">
     <nav aria-label="breadcrumb">
@@ -69,7 +69,7 @@
         </ol>
     </nav>
     <div class="row">
-        <div class="sidebar">
+        <div class="sidebarr">
             <ul class="vertical-menu">
                 <li><a href="#" onclick="showContent('content1')">Giới thiệu</a></li>
                 <li><a href="#" onclick="showContent('content2')">Phiếu giảm giá</a></li>

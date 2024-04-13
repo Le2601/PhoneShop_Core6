@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhoneShop.Models;
 
@@ -34,6 +35,8 @@ namespace PhoneShop.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+
         public IActionResult Create(IFormCollection form)
         {
 
@@ -74,6 +77,8 @@ namespace PhoneShop.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+
         public IActionResult Update(IFormCollection form)
         {
 

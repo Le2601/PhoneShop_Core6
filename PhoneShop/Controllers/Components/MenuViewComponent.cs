@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PhoneShop.DI.DI_User.Category_User;
 using PhoneShop.Extension;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -12,12 +13,15 @@ namespace PhoneShop.Controllers.Components
     {
         private readonly ShopPhoneDbContext _context;
 
-        public MenuViewComponent(ShopPhoneDbContext context)
+        private readonly ICategory_UserRepository _userRepository;
+
+        public MenuViewComponent(ShopPhoneDbContext context, ICategory_UserRepository category_UserRepository)
         {
+            _userRepository = category_UserRepository;
             _context = context;
         }
 
-        public IViewComponentResult Invoke()
+        public  IViewComponentResult Invoke()
         {
             List<CartItemModel> CartItems = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
 
@@ -31,6 +35,7 @@ namespace PhoneShop.Controllers.Components
 
             ViewBag.CountCart = CartItems.Count();
 
+            ViewBag.ListCategoryMenu = _context.Categories.ToList();
            
 
 

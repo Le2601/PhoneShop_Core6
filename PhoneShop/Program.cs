@@ -135,7 +135,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                   p.Cookie.Name = "UserLoginCookie";
                   //xet tg ton tai cua phien dang nhap
                   p.ExpireTimeSpan = TimeSpan.FromHours(1);
-                  p.LoginPath = "/login-student.html";
+                  p.LoginPath = "/Login.html";
                   //p.LogoutPath = "/dang-xuat/html";
                   //p.AccessDeniedPath = "/not-found.html";
               });

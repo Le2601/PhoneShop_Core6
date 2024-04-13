@@ -1,18 +1,29 @@
-﻿@{
+﻿@using PhoneShop.Models;
+@{
 
 
-   
+
     //format tien
 
     // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
     CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
                                     .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
                            ?? CultureInfo.CurrentCulture;
+    List<Category> ListCategoryMenu = ViewBag.ListCategoryMenu;
 
-    
 }
 
+<link href="~/user/custom/menuhome_user.css" rel="stylesheet" />
 
+<style>
+    a {
+        color: #888
+    }
+    .font-size{
+        font-size: 15px
+    }
+
+</style>
 
 
 <div class="site-branding-area">
@@ -45,7 +56,7 @@
         </div>
     </div>
 </div> <!-- End site branding area -->
-
+@* 
 <div class="mainmenu-area">
     <div class="container">
         <div class="row">
@@ -65,13 +76,47 @@
                     <li><a class="hover-effect" href="/support.html">Hỗ trợ</a></li>
                     
                 </ul>
-               @*  <form class="navbar-form navbar-center" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form> *@
+            
             </div>
         </div>
     </div>
-</div> <!-- End mainmenu area -->
+</div>  *@
+
+
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        <a href="./" class="navbar-brand font-size" >Trang chủ</a>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropbtn navbar-brand font-size">Danh mục <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    @foreach (var i in ListCategoryMenu)
+                    {
+                        <li><a href="#">@i.Title</a></li>
+                    }
+                    <li><a href="#">Mission</a></li>
+                    <li><a href="#">Vision</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="navbar-brand font-size" href="/Utilities.html">Tiện ích</a>
+            </li>
+            <li>
+                <a class="navbar-brand font-size" href="/support.html">Hỗ trợ khách hàng</a>
+            </li>
+            <li class="active">
+                <a class="navbar-brand font-size" href="#">Liên hệ</a>
+            </li>
+        </ul>
+        </div>
+       
+    </div>
+
+                                       

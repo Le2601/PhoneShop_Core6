@@ -276,30 +276,7 @@ namespace PhoneShop.Controllers
         }
 
 
-        public IActionResult demo()
-        {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-
-            if(taikhoanID == null)
-            {
-                return RedirectToAction("noLogin");
-            }
-
-            return RedirectToAction("daLogin");
-
-
-           
-        }
-
-        public IActionResult noLogin()
-        {
-            return View();
-        }
-
-        public IActionResult daLogin()
-        {
-            return View();
-        }
+       
 
 
 

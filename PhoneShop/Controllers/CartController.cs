@@ -309,6 +309,12 @@ namespace PhoneShop.Controllers
 
             ViewBag.GrandTotal = cartVM.GrandTotal;
 
+            //demo
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+            ViewBag.getMyAddress = _dbContext.MyAddresses.Where(x=> x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault();
+
 
             return View();
         }

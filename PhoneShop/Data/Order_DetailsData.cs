@@ -16,6 +16,12 @@
 
         public int Quantity { get; set; }
 
+        public string Description { get; set; }
+
+        public string AddressType { get; set; }
+
+        public string Email { get; set; }
+
         public string OrderId { get; set; }
     }
 }

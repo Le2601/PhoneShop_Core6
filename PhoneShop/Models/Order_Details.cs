@@ -27,6 +27,9 @@ namespace PhoneShop.Models
 
         public string AddressType { get; set; }
 
+        public string Email { get; set; }
+
+
         public string OrderId { get; set; }
 
         public virtual Order Order { get; set; }

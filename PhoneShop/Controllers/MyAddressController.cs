@@ -44,6 +44,8 @@ namespace PhoneShop.Controllers
             int AccountInt = int.Parse(taikhoanID);
 
             string FullName = form["FullName"];
+            string Email = form["Email"];
+            string Phone = form["Phone"];
 
             string City = form["City"];
             var TitleCity = _shopPhoneDbContext.Cities.Where(x=> x.Id == int.Parse(City)).First().Title;
@@ -66,6 +68,8 @@ namespace PhoneShop.Controllers
                 AddressType = int.Parse(AddressType),
                 IsDefault = int.Parse(IsDefault),
                 IdAccount = AccountInt,
+                Phone = Phone,
+                Email = Email,
 
             };
             _shopPhoneDbContext.MyAddresses.Add(item);

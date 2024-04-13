@@ -337,6 +337,10 @@ namespace PhoneShop.Controllers
             string Address = form["Address"];
             string Phone = form["Phone"];
 
+            string AddressType = form["AddressType"];
+            string Description = form["Description"];
+            string Email = form["Email"];
+
             int PaymentMethod = Convert.ToInt32(form["PaymentMethod"]);
 
 
@@ -414,6 +418,10 @@ namespace PhoneShop.Controllers
                         ProductId = (int)item.ProductId,
                         OrderId = Order_Id,
                         Quantity = item.Quantity,
+                        Description = Description,
+                        AddressType = AddressType,
+                        Email = Email,
+                       
 
 
 
@@ -489,8 +497,11 @@ namespace PhoneShop.Controllers
                     ProductId = (int)item.ProductId,
                     OrderId = Order_Id,
                     Quantity = item.Quantity,
+                    Description = Description,
+                    AddressType = AddressType,
+                    Email = Email,
 
-                    
+
 
                 };
                 _dbContext.Order_Details.Add(newOrder_Details);
@@ -517,7 +528,7 @@ namespace PhoneShop.Controllers
 
 
             //send mail 
-            string toEmail = Address;
+            string toEmail = Email;
             string subject = "Đặt hàng thành công!" + DateTime.Now;
 
             double doubleValue = (double)cartVM.OrderTotal;

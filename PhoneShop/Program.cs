@@ -177,15 +177,15 @@ app.UseHttpsRedirection();
 app.UseResponseCaching();
 
 //render khi sai url
-app.UseExceptionHandler("/error");
-app.UseStatusCodePages(async context =>
-{
-    var response = context.HttpContext.Response;
-    if (response.StatusCode == 404)
-    {
-        response.Redirect("/custom-404-page");
-    }
-});
+//app.UseExceptionHandler("/error");
+//app.UseStatusCodePages(async context =>
+//{
+//    var response = context.HttpContext.Response;
+//    if (response.StatusCode == 404)
+//    {
+//        response.Redirect("/custom-404-page");
+//    }
+//});
 
 
 app.UseEndpoints(endpoints =>

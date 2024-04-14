@@ -19,19 +19,6 @@
                     <li><a href="/cart.html"><i class="fa fa-user"></i> My Cart</a></li>
                     <li><a href="/checkout.html"><i class="fa fa-user"></i> Checkout</a></li>
 
-                    @{
-                        if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
-                        {
-                            
-                                <li><a href="/logout-user.html"><i class="fa fa-user"></i> Logout</a></li>
-                            
-                        }
-                       
-                        else
-                        {
-                            <li><a href="/Login.html"><i class="fa fa-user"></i>Login</a></li>
-                        }
-                    }
                    
                             
                         
@@ -46,23 +33,24 @@
         <div class="col-md-4">
             <div class="header-right">
                 <ul class="list-unstyled list-inline">
-                    <li class="dropdown dropdown-small">
-                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">currency :</span><span class="value">USD1 </span><b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">USD</a></li>
-                            <li><a href="#">INR</a></li>
-                            <li><a href="#">GBP</a></li>
-                        </ul>
-                    </li>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
+                    {
+                        <li class="dropdown dropdown-small">
+                            <a class="dropbtn navbar-brand font-size" style="font-size: 13px;">@ViewBag.GetNameLogin<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/logout-user.html">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    }else{
+                        <li class="dropdown dropdown-small">
+                            <a class="dropbtn navbar-brand font-size" style="font-size: 13px;">Tài khoản</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Login.html">Đăng nhập</a></li>
+                            </ul>
+                        </li>
 
-                    <li class="dropdown dropdown-small">
-                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">language :</span><span class="value">English </span><b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">English</a></li>
-                            <li><a href="#">French</a></li>
-                            <li><a href="#">German</a></li>
-                        </ul>
-                    </li>
+                    }
+                   
                 </ul>
             </div>
         </div>

@@ -309,11 +309,11 @@ namespace PhoneShop.Controllers
 
             ViewBag.GrandTotal = cartVM.GrandTotal;
 
-            //demo
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            ////demo
+            //var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            //int AccountInt = int.Parse(taikhoanID);
 
-            ViewBag.getMyAddress = _dbContext.MyAddresses.Where(x=> x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault();
+            //ViewBag.getMyAddress = _dbContext.MyAddresses.Where(x=> x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault();
 
 
             return View();
@@ -326,20 +326,52 @@ namespace PhoneShop.Controllers
 
         public async Task<IActionResult> SubmitCheckOut(IFormCollection form, PaymentInformationModel model)
         {
-            //session gio hang
-            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
-
 
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
 
-            string Order_Name = form["Order_Name"];
-            string Address = form["Address"];
-            string Phone = form["Phone"];
+            string Order_Name = "";
+            string Address = "";
+            string Phone = "";
+            string AddressType = "";
+            string Description = "";
+            string Email = "";
 
-            string AddressType = form["AddressType"];
-            string Description = form["Description"];
-            string Email = form["Email"];
+            int OptionAddress = Convert.ToInt32(form["OptionAddress"]);
+            if(OptionAddress == 1)
+            {
+                var IAddressType_Account = _dbContext.MyAddresses.Where(x => x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault()!;
+                Order_Name = IAddressType_Account.FullName;
+                Address = IAddressType_Account.CityName + IAddressType_Account.DistrictName + IAddressType_Account.WardName;
+                Phone = IAddressType_Account.Phone;
+
+                AddressType = (IAddressType_Account.AddressType).ToString();
+                Description = IAddressType_Account.Description;
+                Email = IAddressType_Account.Email;
+
+            }
+            else
+            {
+                Order_Name = form["Order_Name"];
+                Address = form["Address"];
+                Phone = form["Phone"];
+
+                AddressType = form["AddressType"];
+                Description = form["Description"];
+                Email = form["Email"];
+
+            }
+
+
+
+
+
+
+
+
+
+            //session gio hang
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
 
             int PaymentMethod = Convert.ToInt32(form["PaymentMethod"]);
 

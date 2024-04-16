@@ -1,6 +1,10 @@
 ﻿@model List<PhoneShop.Models.City>
 
-
+<style>
+    .input-group {
+        width: 410px;
+    }
+</style>
 
 
 @{
@@ -8,25 +12,21 @@
     {
         <a class="imgproduct btn btn-success" href="#" data-id="@ViewData["IdAccount"]">Xem địa chỉ của bạn</a>
         <div>
-        <p>Địa chỉ nhận hàng của bạn</p>
-            <div class="product-item" style="background: linear-gradient(to right, #B0C4DE, #ADD8E6);">
-                <p>Mã giảm giá: </p>
-             
-            </div>
+       
         </div>
-        <br />
+       
         <hr />
         <h3>Thêm địa chỉ </h3>
         <form method="post" action="/MyAddress/Create">
             <div class="input-group">
                 <label>Tên người nhận</label>
-                <input name="FullName" type="text">
+                <input name="FullName"  type="text">
             </div>
                     
             <div class="input-group">
                
                 
-                <label>Chọn tỉnh</label>
+                <label>Tỉnh</label>
                 <select name="City" class="form-control tinh">
                     <option value="" selected>Lựa chọn</option>
                     @foreach (var i in Model)
@@ -42,19 +42,22 @@
       
             <!-- them quan -->                                    
             <div class="input-group">
-                <label>Chọn quận</label>
+                <label>Quận</label>
                 <select name="District" class="form-control quan">
                     <option value="" selected>Lựa quận</option>
                 </select>
             </div>
             <!-- theem quan -->
             <div class="input-group">
-                <label>Chọn phường</label>
+                <label>Phường</label>
                 <select name="Ward" class="form-control phuong">
                     <option value="" selected>Lựa phường</option>
                 </select>
             </div>
-            
+            <div class="input-group">
+                <label>Địa chỉ chi tiết (số nhà,...)</label>
+                <input name="Description" type="text">
+            </div>
            
             <br>
             <div class="input-group">
@@ -65,10 +68,7 @@
                     <option value="3">Khác</option>
                 </select>
             </div>
-            <div class="input-group">
-                <label>Địa chỉ chi tiết (số nhà,...)</label>
-                <input name="Description" type="text">
-            </div>
+           
             <div class="input-group">
                 <label>Email</label>
                 <input name="Email" type="text">

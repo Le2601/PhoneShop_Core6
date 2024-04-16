@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PhoneShop.Data;
+using PhoneShop.DI.DI_User.MyAddress_User;
 using PhoneShop.Models;
 
 namespace PhoneShop.Controllers
@@ -9,8 +11,10 @@ namespace PhoneShop.Controllers
     {
 
         private readonly ShopPhoneDbContext _shopPhoneDbContext;
-        public MyAddressController(ShopPhoneDbContext shopPhoneDbContext)
+        private readonly IMyAddress_UserRepository _userRepository;
+        public MyAddressController(ShopPhoneDbContext shopPhoneDbContext, IMyAddress_UserRepository myAddress_UserRepository)
         {
+            _userRepository = myAddress_UserRepository;
             _shopPhoneDbContext = shopPhoneDbContext;
         }
         public async Task<IActionResult> Index(int? id)
@@ -22,14 +26,14 @@ namespace PhoneShop.Controllers
                 if (TempData.ContainsKey("AccountInt"))
                 {
                     IdAccount = (int)TempData["AccountInt"]!;
-                    // Sử dụng giá trị accountInt ở đây
+                    // Sử dụng giá trị accountInt ở đâyf
                 }
             }
             else
             {
                 IdAccount = (int)id!;
             }
-            var items =await _shopPhoneDbContext.MyAddresses.Where(x => x.IdAccount == IdAccount).ToListAsync();
+             var items = await _userRepository.ListById(IdAccount);
 
             return View(items);
         }
@@ -58,7 +62,7 @@ namespace PhoneShop.Controllers
             string AddressType = form["AddressType"];
             string IsDefault = form["IsDefault"];
 
-            var item = new MyAddress
+            var item = new MyAddressData
             {
                 FullName = FullName,
                 CityName = TitleCity,
@@ -72,8 +76,7 @@ namespace PhoneShop.Controllers
                 Email = Email,
 
             };
-            _shopPhoneDbContext.MyAddresses.Add(item);
-            _shopPhoneDbContext.SaveChanges();
+            _userRepository.Create(item);
 
             
 
@@ -89,12 +92,13 @@ namespace PhoneShop.Controllers
             string IsDefault = form["IsDefault"];
             string Id = form["Id"];
 
-            var item = _shopPhoneDbContext.MyAddresses.Where(x=> x.Id == int.Parse(Id)).First();
+           
 
-            item.IsDefault = int.Parse(IsDefault);
+            int Isdefault_ParseInt = int.Parse(IsDefault);
+            int Id_ParseInt = int.Parse(Id);
 
-            _shopPhoneDbContext.MyAddresses.Update(item);
-            _shopPhoneDbContext.SaveChanges();
+
+            _userRepository.Update(Isdefault_ParseInt, Id_ParseInt);
 
 
 
@@ -107,6 +111,22 @@ namespace PhoneShop.Controllers
 
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var checkValue = await _userRepository.GetById(id);
+
+            if(checkValue == null)
+            {
+                return Json(new { success = false });
+            }
+
+            _userRepository.Delete(checkValue.Id);
+
+
+            return Json(new { success = true });
+        }
 
     }
 }

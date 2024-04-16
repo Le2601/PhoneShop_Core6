@@ -1,43 +1,109 @@
-﻿@model IEnumerable<PhoneShop.Models.MyAddress>
+﻿@model IEnumerable<PhoneShop.ModelViews.MyAddressViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
 }
 <h1>Danh sách địa chỉ của bạn</h1>
 
+<style>
+    a.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #fff;
+  background-color: red;
+        border-color: red;
+  text-decoration: none;
+}
+
+a.btn:hover {
+  color: #fff;
+            background-color: wheat;
+            border-color: #wheat;
+}
+</style>
 
 @foreach(var i in Model)
 {
-    <form method="post" asp-action="Update" asp-controller="MyAddress">
-        <input hidden type="text" name="Id" value="@i.Id" />
-        <div style="border: 1px solid; margin-bottom: 10px; padding: 10px;">
-            <p>@i.FullName</p>
-            <p>Vị trí: @i.CityName - @i.DistrictName - @i.WardName</p>
-            <p>Địa chỉ cụ thể: @i.Description</p>
+   <div id="trow_@i.Id">
+        <form method="post" asp-action="Update" asp-controller="MyAddress">
+            <input hidden type="text" name="Id" value="@i.Id" />
+            <div style="border: 1px solid; margin-bottom: 10px; padding: 10px;">
+                <p>@i.FullName</p>
+                <p>Vị trí: @i.CityName - @i.DistrictName - @i.WardName</p>
+                <p>Địa chỉ cụ thể: @i.Description</p>
 
-            <div class="input-group">
-                <label>Chọn làm mặc định</label>
-                <select name="IsDefault" class="form-control tinh">
-                    @if (i.IsDefault == 0)
-                    {
-                        <option selected value="0">Không</option>
-                        <option value="1">Có</option>
-                    }
-                    else
-                    {
-                        <option value="0">Không</option>
-                        <option selected value="1">Có</option>
-                    }
+                <div class="input-group">
+                    <label>Chọn làm mặc định</label>
+                    <select name="IsDefault" class="form-control tinh">
+                        @if (i.IsDefault == 0)
+                        {
+                            <option selected value="0">Không</option>
+                            <option value="1">Có</option>
+                        }
+                        else
+                        {
+                            <option value="0">Không</option>
+                            <option selected value="1">Có</option>
+                        }
 
 
-                </select>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn btn-warning">Lưu</button>
+                <a href="#" class="btn btn-success btnDelete" data-id="@i.Id">Xóa</a>
             </div>
-            <button type="submit" class="btn btn-danger">Lưu</button>
-        </div>
 
-    </form>
+        </form>
+   </div>
 }
-<button type="button" class="btn btn-danger">Xóa</button>
+
+
+<!-- /.content -->
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+                
+
+                var conf = confirm("ban muoon xoa chua");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/MyAddress/Delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+}
+
 
 
 

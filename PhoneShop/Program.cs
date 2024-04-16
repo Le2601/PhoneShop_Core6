@@ -9,6 +9,7 @@ using PhoneShop.DI.Category;
 using PhoneShop.DI.DI_User.Banner_User;
 using PhoneShop.DI.DI_User.Category_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
+using PhoneShop.DI.DI_User.MyAddress_User;
 using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.DI.DI_User.PaymentResponses;
 using PhoneShop.DI.DI_User.Product_User;
@@ -90,6 +91,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<IOrder_UserRepository, Order_UserRepository>();
 
         builder.Services.AddScoped<IVoucher_UserRepository, Voucher_UserRepository>();
+
+        builder.Services.AddScoped<IMyAddress_UserRepository, MyAddress_UserRepository>();
 
 
         builder.Services.AddScoped<EmailService>();

@@ -155,13 +155,17 @@ builder.Services.AddDbContext<ShopPhoneDbContext>(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // Cấu hình middleware xử lý ngoại lệ
+    app.UseExceptionHandler("/error/404");
+
+    // Bật cơ chế HSTS
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -179,17 +183,18 @@ app.UseHttpsRedirection();
 
 app.UseResponseCaching();
 
-//render khi sai url
-//app.UseExceptionHandler("/error");
-//app.UseStatusCodePages(async context =>
-//{
-//    var response = context.HttpContext.Response;
-//    if (response.StatusCode == 404)
-//    {
-//        response.Redirect("/custom-404-page");
-//    }
-//});
+// Middleware để xử lý yêu cầu không xử lý được
+app.Use(async (context, next) =>
+{
+    await next(); // Cho middleware tiếp theo xử lý yêu cầu
 
+    // Nếu không tìm thấy trang
+    if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
+    {
+        // Chuyển hướng đến trang lỗi tùy chỉnh
+        context.Response.Redirect("/error/pageNotFound");
+    }
+});
 
 app.UseEndpoints(endpoints =>
 {
@@ -206,10 +211,9 @@ app.UseEndpoints(endpoints =>
    name: "default",
    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-    //endpoints.MapControllerRoute(
-    // name: "error",
-    // pattern: "{controller=Error}/{action=Index}/{id?}");
-    
+    // Ánh xạ trang lỗi 404 tùy chỉnh
+   
+   
 
 });
 

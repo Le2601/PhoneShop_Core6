@@ -71,13 +71,25 @@
             color: #888;
             text-decoration: none;
         }
+
+    td.product-name {
+        font-size: 14px;
+    }
+
+    table.shop_table th {
+        
+        font-size: 13px;
+       
+    }
+
+
 </style>
 <div class="product-big-title-area">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="product-bit-title text-center">
-                    <h2>Shopping Cart</h2>
+                    <h2>Giỏ hàng</h2>
                 </div>
             </div>
         </div>
@@ -90,15 +102,15 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="single-sidebar">
-                    <h2 class="sidebar-title">Search Products</h2>
+                    <h2 class="sidebar-title">Tìm kiếm</h2>
                     <form action="#">
-                        <input type="text" placeholder="Search products...">
-                        <input type="submit" value="Search">
+                        <input type="text" placeholder="tìm sản phẩm...">
+                        <input type="submit" value="Gửi">
                     </form>
                 </div>
 
                 <div class="single-sidebar">
-                    <h2 class="sidebar-title">Products</h2>
+                    <h2 class="sidebar-title">Danh sách sản phẩm</h2>
                     <div class="thubmnail-recent">
                         <img src="~/images/product/iphone-131.jpg" class="recent-thumb" alt="">
                         <h2><a href="single-product.html">Sony Smart TV - 2015</a></h2>
@@ -150,10 +162,10 @@
                                     <tr>
                                         <th class="product-remove">&nbsp;</th>
                                         <th class="product-thumbnail">&nbsp;</th>
-                                        <th class="product-name">Product</th>
-                                        <th class="product-price">Price</th>
-                                        <th class="product-quantity">Quantity</th>
-                                        <th class="product-subtotal">Total</th>
+                                        <th class="product-name">Sản phẩm</th>
+                                        <th class="product-price">Giá</th>
+                                        <th class="product-quantity">Số lượng</th>
+                                        <th class="product-subtotal">Thành tiền</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -246,10 +258,10 @@
 
                         <div class="coupon">
                             <form method="post" asp-action="ApplyVoucher" asp-controller="Cart">
-                                <label for="coupon_code">Coupon:</label>
-                                <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="Voucher_code">
+                                <label for="coupon_code">mã giảm giá:</label>
+                                <input type="text" placeholder="mã giảm giá" value="" id="coupon_code" class="input-text" name="Voucher_code">
                                
-                                <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
+                                <input type="submit" value="Apply Coupon" name="áp dụng" class="button">
                             </form>
                             @foreach (var i in IsVoucherVM.VoucherItems)
                             {
@@ -262,7 +274,7 @@
 
 
                             <div class="cross-sells">
-                                <h2>You may be interested in...</h2>
+                                <h2>Có thể bạn quan tâm...</h2>
                                 <ul class="products">
                                     <li class="product">
                                         <a href="single-product.html">
@@ -274,44 +286,18 @@
                                         <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
                                     </li>
 
-                                    <li class="product">
-                                        <a href="single-product.html">
-                                            <img width="325" height="325" alt="T_4_front" class="attachment-shop_catalog wp-post-image" src="img/product-4.jpg">
-                                            <h3>Ship Your Idea</h3>
-                                            <span class="price"><span class="amount">£20.00</span></span>
-                                        </a>
-
-                                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
-                                    </li>
-                                    <li class="product">
-                                        <a href="single-product.html">
-                                            <img width="325" height="325" alt="T_4_front" class="attachment-shop_catalog wp-post-image" src="img/product-4.jpg">
-                                            <h3>Ship Your Idea</h3>
-                                            <span class="price"><span class="amount">£20.00</span></span>
-                                        </a>
-
-                                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
-                                    </li>
-                                    <li class="product">
-                                        <a href="single-product.html">
-                                            <img width="325" height="325" alt="T_4_front" class="attachment-shop_catalog wp-post-image" src="img/product-4.jpg">
-                                            <h3>Ship Your Idea</h3>
-                                            <span class="price"><span class="amount">£20.00</span></span>
-                                        </a>
-
-                                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
-                                    </li>
+                                  
                                 </ul>
                             </div>
 
 
                             <div class="cart_totals ">
-                                <h2>Cart Totals</h2>
+                                <h2>Tổng giỏ hàng</h2>
 
                                 <table cellspacing="0">
                                     <tbody>
                                         <tr class="cart-subtotal">
-                                            <th>Cart Subtotal</th>
+                                            <th>Tổng giỏ hàng</th>
                                             @{
                                                 string formattedGrandTotal = ViewBag.GrandTotal.ToString("C", culture); // "C" là định dạng tiền tệ
 
@@ -320,12 +306,12 @@
                                         </tr>
 
                                         <tr class="shipping">
-                                            <th>Shipping and Handling</th>
+                                            <th>Vận chuyển</th>
                                             <td>Free Shipping</td>
                                         </tr>
 
                                         <tr class="order-total">
-                                            <th>Order Total</th>
+                                            <th>Tổng đơn hàng</th>
                                             @{
                                                 string OrderTotal = ViewBag.OrderTotal.ToString("C", culture); // "C" là định dạng tiền tệ
 

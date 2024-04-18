@@ -30,6 +30,7 @@ using PhoneShop.Libraries;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using PhoneShop.Services;
+using PhoneShop.Services.ChatHub;
 using Stripe;
 using System;
 using System.Configuration;
@@ -121,7 +122,12 @@ builder.Services.AddScoped(provider =>
     var twilioSettings = provider.GetRequiredService<IOptions<TwilioSettings>>().Value;
     return new TwilioRestClient(twilioSettings.AccountSid, twilioSettings.AuthToken);
 });
+
 builder.Services.AddTransient<SmsService>();
+
+//chat real time
+builder.Services.AddSignalR();
+
 
 
 
@@ -199,7 +205,7 @@ app.Use(async (context, next) =>
 app.UseEndpoints(endpoints =>
 {
 
-   
+    endpoints.MapHub<ChatHub>("/chathub");
 
 
     endpoints.MapControllerRoute(

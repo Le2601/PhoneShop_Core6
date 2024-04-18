@@ -277,7 +277,10 @@ namespace PhoneShop.Controllers
 
 
        
-
+        public IActionResult demoChat_RealTime()
+        {
+            return View();
+        }
 
 
     }

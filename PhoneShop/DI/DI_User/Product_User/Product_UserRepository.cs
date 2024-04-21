@@ -15,11 +15,6 @@ namespace PhoneShop.DI.DI_User.Product_User
             _context = context;
         }
 
-
-       
-
-       
-
        
 
         public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)

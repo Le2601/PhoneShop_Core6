@@ -14,6 +14,7 @@
 }
 
 <link href="~/user/custom/menuhome_user.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
 
 <style>
     a {
@@ -91,10 +92,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-        <a href="./" class="navbar-brand font-size" >Trang chủ</a>
+       @*  <a href="./" class="navbar-brand font-size" >Trang chủ</a> *@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-                <a class="dropbtn navbar-brand font-size">Danh mục <b class="caret"></b></a>
+                <a class="dropbtn navbar-brand font-size"><i class="fa-solid fa-list"></i> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     @foreach (var i in ListCategoryMenu)
                     {
@@ -108,12 +109,7 @@
             <li>
                 <a class="navbar-brand font-size" href="/Utilities.html">Tiện ích</a>
             </li>
-            <li>
-                <a class="navbar-brand font-size" href="/support.html">Hỗ trợ khách hàng</a>
-            </li>
-            <li class="active">
-                <a class="navbar-brand font-size" href="#">Liên hệ</a>
-            </li>
+          
         </ul>
         </div>
        

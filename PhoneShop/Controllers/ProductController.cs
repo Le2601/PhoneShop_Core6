@@ -114,6 +114,8 @@ namespace PhoneShop.Controllers
         public async Task<IActionResult> ProductByCategory(string alias,int Id)
         {
 
+            ViewBag.GetAliasCategory =await _CategoryRepository.GetAliasCategoryId(Id);
+
             var item = await _userRepository.ProductByCategory(Id);
 
 

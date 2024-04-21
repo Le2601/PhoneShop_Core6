@@ -27,6 +27,16 @@ namespace PhoneShop.DI.DI_User.Category_User
             return items;
 
         }
+
+        public async Task<string> GetAliasCategoryId(int id)
+        {
+            var item = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id)!;
+
+            var alias = item?.Alias ?? string.Empty;
+
+            return alias;
+        }
+
         public string GetTitleCategoryId(int CategoryId)
         {
             var IVM = _context.Categories.Where(x => x.Id == CategoryId).FirstOrDefault()!.Title;

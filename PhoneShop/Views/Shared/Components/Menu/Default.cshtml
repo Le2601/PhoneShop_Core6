@@ -24,6 +24,46 @@
         font-size: 15px
     }
 
+    .btn:hover {
+        color: #fff;
+    }
+
+
+    .search-form {
+        display: flex;
+        align-items: center;
+        border-radius: 20px;
+        padding: 5px 10px;
+    }
+
+    .search-input {
+        flex: 1;
+        border: none;
+        background-color: transparent;
+        padding: 10px;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .search-button {
+        background-color: transparent;
+        border: none;
+        color: #666;
+        padding: 10px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+        .search-button:hover {
+            color: #333;
+        }
+
+        .search-button i {
+            font-size: 18px;
+        }
+
+    
+
 </style>
 
 
@@ -108,6 +148,16 @@
             </li>
             <li>
                 <a class="navbar-brand font-size" href="/Utilities.html">Tiện ích</a>
+            </li>
+            <li>
+               
+                <form class="search-form">
+                    <input type="text" class="search-input" placeholder="Search...">
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+               
             </li>
           
         </ul>

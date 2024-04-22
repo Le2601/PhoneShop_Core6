@@ -56,7 +56,19 @@ namespace PhoneShop.Models
             ProductId = model.Id;
             ProductName = model.Title;
             Quantity = 1;
-            Price = model.Price;
+
+            //neu co giam gia thi gan giam gia vao gia
+
+            if(model.Discount > 0 )
+            {
+                Price = model.Discount;
+            }
+            else
+            {
+                Price = model.Price;
+            }
+
+          
 
              InputPrice = model.InputPrice;
 

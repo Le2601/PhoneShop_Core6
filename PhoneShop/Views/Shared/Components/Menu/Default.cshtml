@@ -72,7 +72,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="logo">
-                    <h1><a href="./"><img style="height:64px; width:176px" src="~/images/z5081071622409_00f78bf27f16bdb5817f5a3d8672b7a0.jpg"></a></h1>
+                    <h1><a href="~/"><img style="height:64px; width:176px" src="~/images/z5081071622409_00f78bf27f16bdb5817f5a3d8672b7a0.jpg"></a></h1>
                 </div>
             </div>
 
@@ -151,8 +151,8 @@
             </li>
             <li>
                
-                <form class="search-form">
-                    <input type="text" class="search-input" placeholder="Search...">
+                <form class="search-form" method="post" asp-action="Search_Product" asp-controller="Product" >
+                    <input type="text" class="search-input" name="search_value" placeholder="Search...">
                     <button type="submit" class="search-button">
                         <i class="fas fa-search"></i>
                     </button>

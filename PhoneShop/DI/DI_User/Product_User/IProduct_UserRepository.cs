@@ -22,6 +22,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         public Task<List<ProductViewModel>> GetProduct_RecentPosts();
 
 
+        public Task<List<ProductViewModel>> Search_Product(string value_search);
 
 
        
@@ -34,11 +35,12 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         //partial related product
 
-       
-
-        
 
        
+
+
+
+
 
 
 

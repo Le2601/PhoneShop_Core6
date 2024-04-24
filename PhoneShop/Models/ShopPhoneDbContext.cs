@@ -65,6 +65,10 @@ namespace PhoneShop.Models
 
 
 
+        public DbSet<Evaluate_Product> Evaluate_Products { get; set; }
+
+
+
 
 
 
@@ -134,6 +138,12 @@ namespace PhoneShop.Models
            .HasOne(p => p.Product)
            .WithMany(p => p.Specifications)
            .HasForeignKey(p => p.ProductId);
+
+
+            modelBuilder.Entity<Evaluate_Product>()
+         .HasOne(p => p.Product)
+         .WithMany(p => p.Evaluate_Products)
+         .HasForeignKey(p => p.ProductId);
 
 
             modelBuilder.Entity<Order>()

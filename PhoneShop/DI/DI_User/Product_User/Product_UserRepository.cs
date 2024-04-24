@@ -157,6 +157,20 @@ namespace PhoneShop.DI.DI_User.Product_User
             return newProduct;
         }
 
+        public async Task<List<ProductViewModel>> Search_Product(string value_search)
+        {
+            var items =await _context.Products.Where(x => x.Title.Contains(value_search)).Select(x=> new ProductViewModel
+            {
+                Id=x.Id,
+                Title = x.Title,
+                Price=x.Price,
+                Discount=x.Discount,
+                ImageDefaultName = x.ImageDefaultName,
+                Alias = x.Alias,
+            }).OrderBy(x => x.Id).ToListAsync();
+            return items;
+        }
 
+      
     }
 }

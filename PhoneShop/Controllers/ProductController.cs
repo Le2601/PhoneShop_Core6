@@ -121,5 +121,19 @@ namespace PhoneShop.Controllers
 
             return View(item);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Search_Product(IFormCollection form)
+        {
+            string search_value = form["search_value"];
+
+            var check_value =await _userRepository.Search_Product(search_value);
+
+           ViewBag.count_value = check_value.Count();
+            ViewBag.Value_Search_Form = search_value;
+            return View(check_value);
+
+        }
     }
 }

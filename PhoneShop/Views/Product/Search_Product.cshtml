@@ -1,0 +1,130 @@
+﻿@model List<PhoneShop.ModelViews.ProductViewModel>
+@using PhoneShop.Extension;
+@{
+    ViewData["Title"] = "Search_Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+   
+
+    double tienO = 0;
+}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="font-size: 18px;"><a href="~/">Trang chủ</a></li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">@ViewBag.Value_Search_Form</li>
+        </ol>
+    </nav>
+
+</div>
+@if(Model.Count == 0)
+{
+        <div class="single-product-area" style="padding-top:30px">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+                <h2>Hiện chưa có sản phẩm</h2>
+            </div>
+        </div>
+
+    </div>
+
+
+ 
+}
+
+
+<div class="single-product-area" style="padding-top:30px">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row" style="margin:0px">
+            @if (Model.Count != 0)
+            {
+                <h2>Có @ViewBag.count_value sản phẩm theo kết quả tìm kiếm</h2>
+            }
+           
+
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-shop-product">
+                        <div class="product-upper">
+                            <img src="~/images/Product/@item.ImageDefaultName" alt="">
+                        </div>
+                        <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2>
+                        <div class="product-carousel-price">
+                            @{
+                                if (item.Discount == 0 || item.Discount == null || item.Discount is string)
+                                {
+                                    <ins>
+                                        @Extension.ToVnd((double)item.Price)
+                                      
+                                    </ins>
+                                }
+                                else
+                                {
+                                    <ins>
+                                        @Extension.ToVnd((double)item.Discount)
+                                    </ins>
+                                }
+                            }
+
+                            <del>
+                                @{
+                                    string formattedPrice2;
+                                    if (item.Discount > 0)
+                                    {
+                                        formattedPrice2 = Extension.ToVnd((double)item.Price);
+                                    }
+                                    else
+                                    {
+
+                                        formattedPrice2 = Extension.ToVnd(tienO);
+                                    }
+
+
+                                }
+                                @formattedPrice2
+
+
+
+
+                            </del>
+                        </div>
+
+                        <div class="product-option-shop">
+                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-pagination text-center">
+                        <nav>
+                            <ul class="pagination">
+                                <li>
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li>
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

@@ -56,10 +56,26 @@
        
 
     }
+.section-title {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: left;
+  color: #333;
+  background-color: #f6f6f6;
+  border-bottom: 2px solid #ddd;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
 
-    
-
-    
+.section-title:before,
+.section-title:after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 2px;
+  background-color: #333;
+  margin: 10px 0;
+}
 </style>
 
 
@@ -116,9 +132,11 @@
             <div class="col-md-12">
                 <div class="latest-product">
 
+
                     <div style="margin-bottom: 10px;" class="section-title">
                         <h3 style="text-align: left; margin-bottom:0PX;">Sản Phẩm Mới</h3>
                     </div>
+
                     <div class="product-carousel">
 
                          @if (Model != null)    

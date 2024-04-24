@@ -76,6 +76,8 @@ namespace PhoneShop.Models
 
         public virtual ICollection<Product_Review> Product_Reviews { get; set; }
 
+        public virtual ICollection<Evaluate_Product> Evaluate_Products { get; set;}
+
 
     }
 }

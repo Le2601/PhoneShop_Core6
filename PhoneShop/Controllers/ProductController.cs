@@ -34,6 +34,7 @@ namespace PhoneShop.Controllers
         }
         public IActionResult Index()
         {
+            
             return View();
         }
 

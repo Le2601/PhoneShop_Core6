@@ -12,8 +12,8 @@ using PhoneShop.Models;
 namespace PhoneShop.Migrations
 {
     [DbContext(typeof(ShopPhoneDbContext))]
-    [Migration("20240424040107_clss_Evaluate_product")]
-    partial class clss_Evaluate_product
+    [Migration("20240426012253_relationship_product_114")]
+    partial class relationship_product_114
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -178,7 +178,8 @@ namespace PhoneShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("Evaluate_Product");
                 });
@@ -731,8 +732,8 @@ namespace PhoneShop.Migrations
             modelBuilder.Entity("PhoneShop.Models.Evaluate_Product", b =>
                 {
                     b.HasOne("PhoneShop.Models.Product", "Product")
-                        .WithMany("Evaluate_Products")
-                        .HasForeignKey("ProductId")
+                        .WithOne("Evaluate_Product")
+                        .HasForeignKey("PhoneShop.Models.Evaluate_Product", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -859,7 +860,8 @@ namespace PhoneShop.Migrations
 
             modelBuilder.Entity("PhoneShop.Models.Product", b =>
                 {
-                    b.Navigation("Evaluate_Products");
+                    b.Navigation("Evaluate_Product")
+                        .IsRequired();
 
                     b.Navigation("ImageProducts");
 

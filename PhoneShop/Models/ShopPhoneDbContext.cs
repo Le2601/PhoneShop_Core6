@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Radar;
 using PhoneShop.ModelViews;
+using Stripe;
+
 namespace PhoneShop.Models
 {
     public class ShopPhoneDbContext : DbContext
@@ -141,9 +143,9 @@ namespace PhoneShop.Models
 
 
             modelBuilder.Entity<Evaluate_Product>()
-         .HasOne(p => p.Product)
-         .WithMany(p => p.Evaluate_Products)
-         .HasForeignKey(p => p.ProductId);
+                 .HasOne(e => e.Product)
+                 .WithOne(p => p.Evaluate_Product)
+                 .HasForeignKey<Evaluate_Product>(e => e.ProductId);
 
 
             modelBuilder.Entity<Order>()

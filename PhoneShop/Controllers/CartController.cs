@@ -330,6 +330,8 @@ namespace PhoneShop.Controllers
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
 
+            var Get_Quantity_Product_Order = 0;
+
             string Order_Name = "";
             string Address = "";
             string Phone = "";
@@ -441,7 +443,7 @@ namespace PhoneShop.Controllers
 
                 foreach (var item in CartItems)
                 {
-
+                    
                     var newOrder_Details = new Order_DetailsData
                     {
                         Order_Name = Order_Name,
@@ -520,6 +522,8 @@ namespace PhoneShop.Controllers
 
             foreach (var item in CartItems)
             {
+                Get_Quantity_Product_Order = item.Quantity;
+
 
                 var newOrder_Details = new Order_Details
                 {
@@ -537,6 +541,35 @@ namespace PhoneShop.Controllers
 
                 };
                 _dbContext.Order_Details.Add(newOrder_Details);
+
+                //demo xu ly dependency
+                var Check_Evaluate = _dbContext.Evaluate_Products.FirstOrDefault(x=> x.ProductId == (int)item.ProductId)    ;
+                if (Check_Evaluate != null)
+                {
+                    if(Get_Quantity_Product_Order >= 2)
+                    {
+                        Check_Evaluate.Purchases += Get_Quantity_Product_Order;
+                    }
+                    else
+                    {
+                        Check_Evaluate.Purchases += 1;
+                    }
+                   
+                    
+                    _dbContext.Evaluate_Products.Update(Check_Evaluate);
+
+                }
+                else
+                {
+
+                    var Add_Evaluate = new Evaluate_Product
+                    {
+                        Purchases = 1,
+                        ProductId = (int)item.ProductId,
+                    };
+                    _dbContext.Evaluate_Products.Add(Add_Evaluate);
+                }
+                _dbContext.SaveChanges();
 
 
 

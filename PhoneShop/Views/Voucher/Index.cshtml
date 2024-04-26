@@ -16,77 +16,61 @@
 
 
 <style>
-    .voucher-item {
-        border: 1px solid #ccc;
-        padding: 15px;
-        margin-bottom: 20px;
+    .discount-item {
+        display: inline-block;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        margin-right: 10px;
+        width: 23%;
     }
 
-    .voucher-code {
+    /* Các phần tử bên trong .discount-item tương tự như trong ví dụ trước */
+
+    .discount-image img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .discount-info {
+        margin-left: 10px;
+    }
+
+    .discount-title {
         font-size: 18px;
         font-weight: bold;
+        color: #333333;
     }
 
-    .voucher-discount {
-        font-size: 24px;
-        color: red;
-    }
-
-    .voucher-expiry {
+    .discount-description {
         font-size: 14px;
-        color: #888;
-    }
-    /* Menu dọc bên trái */
-    .row {
-        display: flex;
+        color: #666666;
     }
 
-    /* Menu dọc bên trái */
-    .sidebar {
-        width: 200px;
-        height: 100vh;
-        background-color: #f1f1f1;
-        padding: 20px;
-    }
-
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    li {
-        margin-bottom: 10px;
-    }
-
-    a {
-        display: block;
+    .discount-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #ff5722;
+        color: #ffffff;
         text-decoration: none;
-        color: #000;
+        border-radius: 3px;
     }
 
-        a:hover {
-            background-color: #ddd;
+        .discount-button:hover {
+            background-color: #ff7043;
         }
-
-    /* Nội dung bên phải */
-    .content {
-        flex: 1;
-        padding: 20px;
-    }
 
     
 </style>
-<div class="product-big-title-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-bit-title text-center">
-                    <h2>Voucher</h2>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="font-size: 18px;"><a href="~/">Trang chủ</a></li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Mã giảm giá</li>
+        </ol>
+    </nav>
+
 </div>
 
 <br />
@@ -97,10 +81,11 @@
 
         @foreach(var item in Model)
         {
-            <div class="col-md-6 col-sm-12">
-                <div class="voucher-item">
-                    <div class="voucher-code">@item.Code</div>
-                    <div class="voucher-discount">
+            <div class="discount-item">
+               
+                <div class="discount-info">
+                    <h3 class="discount-title"> @item.Code</h3>
+                    <p class="discount-description">
                         @{
 
 
@@ -112,9 +97,8 @@
 
                         }
                         Giảm: @DiscountAmount
-                    </div>
-
-                    <div class="voucher-discount">
+                    </p>
+                    <p class="discount-description">
                         @{
 
 
@@ -126,11 +110,12 @@
 
                         }
                         Điều kiện: @DiscountConditions
-                    </div>
-                    <div class="voucher-expiry">Ngày hết hạn: @item.ExpiryDate</div>
-                        <a class="btn btn-success voucher" data-id="@item.Id">Lưu</a>
+                    </p>
+                    <a data-id="@item.Id" class="discount-button voucher">Sử dụng ngay</a>
                 </div>
             </div>
+
+           
         }
 
     </div>

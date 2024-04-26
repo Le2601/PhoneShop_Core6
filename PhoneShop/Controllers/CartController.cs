@@ -593,14 +593,15 @@ namespace PhoneShop.Controllers
 
 
             //send mail 
-            string toEmail = Email;
-            string subject = "Đặt hàng thành công!" + DateTime.Now;
 
-            double doubleValue = (double)cartVM.OrderTotal;
+            //string toEmail = Email;
+            //string subject = "Đặt hàng thành công!" + DateTime.Now;
 
-            string body = "Đơn hàng đã đặt thành công với thành tiền: " + PhoneShop.Extension.Extension.ToVnd(doubleValue);
+            //double doubleValue = (double)cartVM.OrderTotal;
 
-            _emailService.SendEmail(toEmail, subject, body);
+            //string body = "Đơn hàng đã đặt thành công với thành tiền: " + PhoneShop.Extension.Extension.ToVnd(doubleValue);
+
+            //_emailService.SendEmail(toEmail, subject, body);
 
             //end send mail
 

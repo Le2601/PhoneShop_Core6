@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PhoneShop.Data;
@@ -84,7 +85,7 @@ namespace PhoneShop.Controllers
             ViewBag.ListBanner =await _bannerRepository.GetAll();
 
 
-           
+            ViewBag.ListEvaluate_Product = await _dbContext.Evaluate_Products.ToListAsync();
 
 
 
@@ -190,8 +191,6 @@ namespace PhoneShop.Controllers
             var ObjAccount = new Models.Account();
             var ObjMyOrder = new List<OrderViewModel>();
 
-            ViewBag.ListVouchers = await _voucher_UserRepository.GetAll();
-            ViewBag.GetIntroduce =await _introduceRepository.GetIntroduce();
 
          
            

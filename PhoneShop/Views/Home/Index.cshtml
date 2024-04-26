@@ -12,7 +12,7 @@
 
     List<BannerViewModel> banneViews = ViewBag.ListBanner;
 
-   
+    List<Evaluate_Product> IsEvaluate_Product = ViewBag.ListEvaluate_Product;
 
     int tienO = 0;
 }
@@ -99,8 +99,10 @@
         <div class="row">
             <div class="col-md-3 col-sm-6">
                 <div class="single-promo promo1">
-                    <i class="fa fa-refresh"></i>
-                    <p>Hoàn tiền 30 ngày</p>
+                    <i class="fa-solid fa-ticket"></i>
+                   <p>
+                        <a style="color:white" href="/voucher.html">Mã giảm giá</a>
+                   </p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
@@ -117,8 +119,8 @@
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="single-promo promo4">
-                    <i class="fa fa-gift"></i>
-                    <p>Sản phẩm mới</p>
+                    <i class="fa-solid fa-newspaper"></i>
+                    <p> <a href="/Voucher/Index">Tin tức</a></p>
                 </div>
             </div>
         </div>
@@ -154,8 +156,11 @@
                                         </div>
                                     </div>
 
-                                    <h2><a href="single-product.html">@item.Title</a></h2>
-
+                                   <div style="height:45px">
+                                        <h2><a style="height:45px" href="single-product.html">@item.Title @item.Evaluate_Product</a></h2>
+                                   </div>
+                                   
+                                   
                                     <div class="product-carousel-price">
                                         
 
@@ -214,6 +219,15 @@
                                            
                                        
                                     </div>
+                                    @foreach (var evaluate in IsEvaluate_Product)
+                                    {
+                                        if (evaluate.ProductId == item.Id)
+                                        {
+                                            <span style="color:red">Đã mua @evaluate.Purchases lượt</span>
+                                        }
+
+
+                                    }
                                 </div>
                             }
                         }
@@ -277,8 +291,8 @@
                                 <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
                             </div>
                         </div>
-
-                        <h2><a href="single-product.html">@item.Title</a></h2>
+                            <div style="height:45px">  <h2><a href="single-product.html">@item.Title</a></h2></div>
+                      
 
                         <div class="product-carousel-price">
 
@@ -342,6 +356,15 @@
 
                             </del>
                         </div>
+                            @foreach (var evaluate in IsEvaluate_Product)
+                            {
+                                if (evaluate.ProductId == item.Id)
+                                {
+                                    <span style="color:red"> Đã mua @evaluate.Purchases lượt </span>
+                                }
+
+
+                            }
                     </div>
                     </div>
                 }

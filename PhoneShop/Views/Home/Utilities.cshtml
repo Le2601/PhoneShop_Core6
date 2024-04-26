@@ -4,8 +4,6 @@
     ViewData["Title"] = "Utilities";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<VoucherViewModel> ListVoucher = ViewBag.ListVouchers;
-    List<IntroduceViewModel> GetIntroduce = ViewBag.GetIntroduce;
     Account GetAccount = ViewBag.GetAccount;
 
     VoucherItemViewModel MyVoucher = ViewBag.MyVoucher;
@@ -74,23 +72,17 @@
     <div class="row">
         <div class="sidebarr">
             <ul class="vertical-menu">
-                <li><a href="#" onclick="showContent('content1')">Giới thiệu</a></li>
-                <li><a href="#" onclick="showContent('content2')">Phiếu giảm giá</a></li>
-                <li><a href="#" onclick="showContent('content3')">Thông tin tài khoản</a></li>
+         @*        <li><a href="#" onclick="showContent('content1')">Giới thiệu</a></li>
+                <li><a href="#" onclick="showContent('content2')">Phiếu giảm giá</a></li> *@
+                <li><a href="#" onclick="showContent('content1')">Thông tin tài khoản</a></li>
                 <li><a href="#" onclick="showContent('content4')">Đơn hàng của tôi</a></li>
                 <li><a href="#" onclick="showContent('content5')">Ví Voucher</a></li>
                 <li><a href="#" onclick="showContent('content6')">Địa chỉ nhận hàng</a></li>
             </ul>
         </div>
         <div class="content">
+            
             <div id="content1" class="content-item">
-
-                @await Html.PartialAsync("_Partial_Utilities_Introduce",GetIntroduce)
-            </div>
-            <div id="content2" class="content-item">
-                @await Html.PartialAsync("_Partial_Utilities_Vouchers",ListVoucher)
-            </div>
-            <div id="content3" class="content-item">
                
                 @await Html.PartialAsync("_Partial_Utilities_Account",GetAccount)
             </div>

@@ -24,9 +24,9 @@ namespace PhoneShop.Controllers
         }
 
         [Route("/voucher.html")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var items = _voucher_UserRepository.GetAll();
+            var items = await _voucher_UserRepository.GetAll();
 
             return View(items);
         }

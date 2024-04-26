@@ -41,6 +41,7 @@ namespace PhoneShop.ModelViews
         public DateTime? Update_at { get; set; }
 
         public virtual Category Category { get; set; }
+        public Evaluate_ProductViewModel Evaluate_Product { get; set; }
 
         public virtual ICollection<ImageProduct> ImageProducts { get; set; }
 

@@ -1,11 +1,13 @@
 ﻿@using PhoneShop.ModelViews
 ﻿@using PhoneShop.Models
+@using PhoneShop.Extension
 @model CartItemViewModel
 @{
 
 
     List<ImageProductViewModel> IsCourseContents = ViewBag.imageproduct;
     VoucherItemViewModel IsVoucherVM = ViewBag.voucherVM;
+    List<ProductViewModel> IsProduct = ViewBag.RelatedProduc;
     //format tien
 
     // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
@@ -100,56 +102,68 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <div class="single-sidebar">
-                    <h2 class="sidebar-title">Tìm kiếm</h2>
-                    <form action="#">
-                        <input type="text" placeholder="tìm sản phẩm...">
-                        <input type="submit" value="Gửi">
-                    </form>
-                </div>
+
 
                 <div class="single-sidebar">
-                    <h2 class="sidebar-title">Danh sách sản phẩm</h2>
-                    <div class="thubmnail-recent">
-                        <img src="~/images/product/iphone-131.jpg" class="recent-thumb" alt="">
-                        <h2><a href="single-product.html">Sony Smart TV - 2015</a></h2>
-                        <div class="product-sidebar-price">
-                            <ins>$700.00</ins> <del>$800.00</del>
+                    <h2 class="sidebar-title">Bài đăng gần đây</h2>
+
+                    @foreach (var itemm in IsProduct)
+                    {
+                        <div class="thubmnail-recent">
+                            <img src="~/images/Product/@itemm.ImageDefaultName" class="recent-thumb" alt="">
+                            <h2><a href="">@itemm.Title</a></h2>
+                            <div class="product-sidebar-price">
+                                @{
+                                    if (itemm.Discount == 0 || itemm.Discount == null || itemm.Discount is string)
+                                    {
+                                        <ins>
+                                            @{
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                    else
+                                    {
+                                        <ins>
+                                            @{
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Discount); // "C" là định dạng tiền tệ
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                }
+
+                                <del>
+                                    @{
+                                        string formattedPriceee;
+                                        if (itemm.Discount > 0)
+                                        {
+                                            formattedPriceee = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
+                                        }
+                                        else
+                                        {
+
+                                            formattedPriceee = PhoneShop.Extension.Extension.ToVnd(tienO); // "C" là định dạng tiền tệ
+                                        }
+
+
+                                    }
+                                    @formattedPriceee
+
+
+
+
+                                </del>
+                            </div>
                         </div>
-                    </div>
-                    <div class="thubmnail-recent">
-                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                        <h2><a href="single-product.html">Sony Smart TV - 2015</a></h2>
-                        <div class="product-sidebar-price">
-                            <ins>$700.00</ins> <del>$800.00</del>
-                        </div>
-                    </div>
-                    <div class="thubmnail-recent">
-                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                        <h2><a href="single-product.html">Sony Smart TV - 2015</a></h2>
-                        <div class="product-sidebar-price">
-                            <ins>$700.00</ins> <del>$800.00</del>
-                        </div>
-                    </div>
-                    <div class="thubmnail-recent">
-                        <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                        <h2><a href="single-product.html">Sony Smart TV - 2015</a></h2>
-                        <div class="product-sidebar-price">
-                            <ins>$700.00</ins> <del>$800.00</del>
-                        </div>
-                    </div>
+                    }
+
+
+
                 </div>
 
-                <div class="single-sidebar">
-                    <h2 class="sidebar-title">Recent Posts</h2>
-                    <ul>
-                        <li><a href="#">Sony Smart TV - 2015</a></li>
-                        <li><a href="#">Sony Smart TV - 2015</a></li>
-                        <li><a href="#">Sony Smart TV - 2015</a></li>
-                        <li><a href="#">Sony Smart TV - 2015</a></li>
-                        <li><a href="#">Sony Smart TV - 2015</a></li>
-                    </ul>
-                </div>
+
             </div>
 
             <div class="col-md-8">
@@ -188,7 +202,7 @@
 
                                                 <td class="product-price">
                                                     @{
-                                                        string formattedPrice = item.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price); // "C" là định dạng tiền tệ
 
                                                     }
                                                    
@@ -205,7 +219,7 @@
 
                                                 <td class="product-subtotal">
                                                     @{
-                                                        string formattedPriceTotal = item.Total.ToString("C", culture); // "C" là định dạng tiền tệ
+                                                        string formattedPriceTotal = PhoneShop.Extension.Extension.ToVnd((double)item.Total); // "C" là định dạng tiền tệ
 
                                                     }
 

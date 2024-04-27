@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PhoneShop.DI.DI_User.Category_User;
+using PhoneShop.DI.DI_User.Evaluate_Product_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.DI_User.ReviewProduct_User;
@@ -24,12 +25,17 @@ namespace PhoneShop.Controllers
         private readonly IImageProduct_UserRepository _ImageRepository;
         private readonly IReviewProduct_UserRepository _reviewProduct_UserRepository;
 
-        public ProductController(ShopPhoneDbContext context, IProduct_UserRepository product_UserRepository, ICategory_UserRepository category_UserRepository,IImageProduct_UserRepository imageProduct_User, IReviewProduct_UserRepository reviewProduct_UserRepository)
+        private readonly IEvaluate_ProductRepository _evaluate_ProductRepository;
+
+        public ProductController(ShopPhoneDbContext context, IProduct_UserRepository product_UserRepository,
+            ICategory_UserRepository category_UserRepository,IImageProduct_UserRepository imageProduct_User,
+            IReviewProduct_UserRepository reviewProduct_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository)
         {
             _reviewProduct_UserRepository = reviewProduct_UserRepository;
             _ImageRepository = imageProduct_User;
             _CategoryRepository = category_UserRepository;
             _userRepository = product_UserRepository;
+            _evaluate_ProductRepository = evaluate_ProductRepository;
             _context = context;
         }
         public IActionResult Index()
@@ -61,6 +67,10 @@ namespace PhoneShop.Controllers
             ViewBag.RelatedProduct = await _userRepository.GetListRelatedProduct(item.CategoryId);
 
             ViewBag.GetProduct_RecentPosts = await _userRepository.GetProduct_RecentPosts();
+
+
+            ViewBag.Evaluate_Product = await _evaluate_ProductRepository.GetById(Id);
+
 
             return View(item);
         }

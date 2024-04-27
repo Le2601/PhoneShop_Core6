@@ -15,6 +15,8 @@ namespace PhoneShop.DI.DI_User.Product_User
             _context = context;
         }
 
+        
+
        
 
         public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
@@ -99,6 +101,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
+               
                
              
 

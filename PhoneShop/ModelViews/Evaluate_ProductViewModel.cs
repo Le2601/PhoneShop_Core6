@@ -3,10 +3,7 @@
 namespace PhoneShop.ModelViews
 {
     public class Evaluate_ProductViewModel
-    {
-        public class Evaluate_Product
-        {
-           
+    {              
             public int Id { get; set; }
 
             //lượt mua
@@ -18,7 +15,6 @@ namespace PhoneShop.ModelViews
             public int ProductId { get; set; }
 
             public ProductViewModel Product { get; set; }
-
-        }
+     
     }
 }

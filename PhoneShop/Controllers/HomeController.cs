@@ -7,6 +7,7 @@ using PhoneShop.Data;
 using PhoneShop.DI.Category;
 using PhoneShop.DI.DI_User.Banner_User;
 using PhoneShop.DI.DI_User.Category_User;
+using PhoneShop.DI.DI_User.Evaluate_Product_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.DI.DI_User.PaymentResponses;
@@ -50,13 +51,15 @@ namespace PhoneShop.Controllers
 
         private readonly IOrder_UserRepository _order_userRepository;
 
+        private readonly IEvaluate_ProductRepository _evaluate_ProductRepository;
+
 
 
         public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,
             IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository,
             IImageProduct_UserRepository imageProduct_UserRepository,
             ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository,
-            IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository)
+            IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository)
         {
             _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
@@ -68,6 +71,7 @@ namespace PhoneShop.Controllers
             _productRepository = productRepository;
             _voucher_UserRepository = voucher_UserRepository;
             _order_userRepository = order_UserRepository;
+            _evaluate_ProductRepository = evaluate_ProductRepository;
 
         }
 
@@ -85,7 +89,7 @@ namespace PhoneShop.Controllers
             ViewBag.ListBanner =await _bannerRepository.GetAll();
 
 
-            ViewBag.ListEvaluate_Product = await _dbContext.Evaluate_Products.ToListAsync();
+            ViewBag.ListEvaluate_Product = await _evaluate_ProductRepository.GetLists();
 
 
 

@@ -35,17 +35,8 @@
         <div class="col-md-8">
             <div class="user-menu">
                 <ul>
-                    @{
-                        if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
-                        {
-                            <li><a href="#"><i class="fa fa-user"></i>@ViewBag.GetNameLogin</a></li>
-                        }
-                        else
-                        {
-                            <li><a href="#"><i class="fa fa-user"></i>My Account</a></li>
-                        }
-                    }
-                   
+                  
+                    <li><a href="#"><i class="fa-regular fa-message"></i> Thông báo</a></li>
                     <li><a href="/dang-nhap.html"><i class="fa fa-heart"></i> Admin</a></li>
                     <li><a href="/support.html"><i class="fa-solid fa-circle-info"></i> Hỗ trợ</a></li>
                     <li><a href="#"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>

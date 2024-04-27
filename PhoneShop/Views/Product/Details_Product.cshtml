@@ -1,7 +1,7 @@
 ﻿@model PhoneShop.ModelViews.ProductViewModel
 
-@using PhoneShop.ModelViews
-
+@using PhoneShop.ModelViews;
+@using PhoneShop.Extension;
 @{
     ViewData["Title"] = "Details_Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,24 +17,12 @@
 
     List<ProductViewModel> IsGetProduct_RecentPosts = ViewBag.GetProduct_RecentPosts;
 
-   
-    
+    Evaluate_ProductViewModel IsEvaluate_Pro = ViewBag.Evaluate_Product;
 
+    double tienO = 0;
 
 }
-@{
 
-
-   
-    //format tien
-
-    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
-    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
-                           ?? CultureInfo.CurrentCulture;
-
-    int tienO = 0;
-}
 
 <style>
     .comment-container {
@@ -71,35 +59,24 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-
-<div class="product-big-title-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-bit-title text-center">
-                    <h2>Shop</h2>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">@ViewBag.getCategoryTitle</li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">@Model.Title</li>
+        </ol>
+    </nav>
 </div>
 
 
-<div class="single-product-area">
+
+<div class="single-product-area" style="padding-top:30px">
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <div class="single-sidebar">
-                    <h2 class="sidebar-title">Tìm kiếm </h2>
-                    <form action="">
-                        <input type="text" placeholder="Search products..." list="items" id="searchInput">
-
-                       
-
-                        <input type="submit" value="Gửi">
-                    </form>
-                </div>
+                
 
                 <div class="single-sidebar">
                     <h2 class="sidebar-title">Bài đăng gần đây</h2>
@@ -115,14 +92,7 @@
                                     {
                                         <ins>
                                             @{
-
-
-
-                                                string formattedPrice = itemm.Price.ToString("C", culture); // "C" là định dạng tiền tệ
-
-
-
-
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
                                             }
                                             @formattedPrice
                                         </ins>
@@ -131,14 +101,7 @@
                                     {
                                         <ins>
                                             @{
-
-
-
-                                                string formattedPrice = itemm.Discount.ToString("C", culture); // "C" là định dạng tiền tệ
-
-
-
-
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Discount); // "C" là định dạng tiền tệ
                                             }
                                             @formattedPrice
                                         </ins>
@@ -150,12 +113,12 @@
                                         string formattedPriceee;
                                         if (itemm.Discount > 0)
                                         {
-                                            formattedPriceee = itemm.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                            formattedPriceee = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
                                         }
                                         else
                                         {
 
-                                            formattedPriceee = tienO.ToString("C", culture); // "C" là định dạng tiền tệ
+                                            formattedPriceee = PhoneShop.Extension.Extension.ToVnd(tienO); // "C" là định dạng tiền tệ
                                         }
 
 
@@ -178,12 +141,8 @@
             </div>
 
             <div class="col-md-8">
-                <div class="product-content-right">
-                    <div class="product-breadcroumb">
-                        <a href="">Home</a>
-                        <a href="">@ViewBag.getCategoryTitle</a>
-                        <a href="">@Model.Title</a>
-                    </div>
+                <div class="product-content-right"> 
+                  
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -206,6 +165,11 @@
                         <div class="col-sm-6">
                             <div class="product-inner">
                                 <h2 class="product-name">@Model.Title</h2>
+                                <div class="product-inner-category"> 
+                                    <p>Hãng: <a href="">@ViewBag.getCategoryTitle</a></p>
+                                    <p style="color:red">Đã mua @IsEvaluate_Pro.Purchases lượt</p>
+                                    <p style="color:#FFA500">Đánh giá @IsEvaluate_Pro.ScoreEvaluation điểm</p>
+                                </div>
                                 <div class="product-inner-price">
                                 
 
@@ -218,7 +182,7 @@
 
 
 
-                                                    string formattedPrice = Model.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                                    string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)Model.Price); // "C" là định dạng tiền tệ
 
 
 
@@ -234,7 +198,7 @@
 
 
 
-                                                    string formattedPrice = Model.Discount.ToString("C", culture); // "C" là định dạng tiền tệ
+                                                    string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)Model.Discount); // "C" là định dạng tiền tệ
 
 
 
@@ -250,12 +214,12 @@
                                             string formattedPrice2;
                                             if (Model.Discount > 0)
                                             {
-                                                formattedPrice2 = Model.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+                                                formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)Model.Price); // "C" là định dạng tiền tệ
                                             }
                                             else
                                             {
 
-                                                formattedPrice2 = tienO.ToString("C", culture); // "C" là định dạng tiền tệ
+                                                formattedPrice2 = PhoneShop.Extension.Extension.ToVnd(tienO); // "C" là định dạng tiền tệ
                                             }
 
 
@@ -275,9 +239,7 @@
                                 <button class="'btn btn-success" style="background-color:#5a88ca"> <a class="confirmAdd hover-effect" data-id="@Model.Id" style="color:white">Add to cart</a></button>
                                 
 
-                                <div class="product-inner-category">
-                                    <p>Hãng: <a href="">@ViewBag.getCategory</a></p>
-                                </div>
+                              
 
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#tab1">Mô tả</a></li>

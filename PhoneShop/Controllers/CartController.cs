@@ -7,7 +7,9 @@ using Microsoft.Extensions.Logging;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Order_User;
+using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.DI_User.Voucher_User;
+using PhoneShop.DI.Product;
 using PhoneShop.Extension;
 using PhoneShop.Libraries;
 using PhoneShop.Models;
@@ -34,12 +36,14 @@ namespace PhoneShop.Controllers
         private readonly IImageProduct_UserRepository _imageProduct_UserRepository;
         private readonly IOrder_UserRepository _order_UserRepository;
         private readonly IVoucher_UserRepository _voucher_UserRepository;
+        private readonly IProduct_UserRepository _productRepository;
 
         private readonly EmailService _emailService;
 
 
         public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService,IImageProduct_UserRepository imageProduct_UserRepository,
-            IOrder_UserRepository order_UserRepository,IVoucher_UserRepository voucher_UserRepository, EmailService emailService)
+            IOrder_UserRepository order_UserRepository,IVoucher_UserRepository voucher_UserRepository,
+            EmailService emailService, IProduct_UserRepository productRepository)
         {
            
             _voucher_UserRepository = voucher_UserRepository;
@@ -48,6 +52,7 @@ namespace PhoneShop.Controllers
             _dbContext = dbContext;
             _vnPayService = vnPayService;
             _emailService = emailService;
+            _productRepository = productRepository;
         }
 
        
@@ -113,6 +118,9 @@ namespace PhoneShop.Controllers
             ViewBag.GrandTotal = cartVM.GrandTotal;
             ViewBag.OrderTotal = cartVM.OrderTotal;
             ViewBag.imageproduct = await _imageProduct_UserRepository.ImageProducts();
+
+            //partial related product
+            ViewBag.RelatedProduct = await _productRepository.LatestProducts();
             return View(cartVM);
         }
 

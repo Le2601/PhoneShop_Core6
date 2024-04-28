@@ -15,7 +15,7 @@
     List<Evaluate_ProductViewModel> IsEvaluate_Product = ViewBag.ListEvaluate_Product;
 
 
-    List<ProductViewModel> IsSelling_Products  = ViewBag.Selling_Products;
+    // List<ProductViewModel> IsSelling_Products  = ViewBag.Selling_Products;
 
     int tienO = 0;
 }
@@ -281,7 +281,7 @@
 
             @if (Model != null)
             {
-                foreach (var item in IsSelling_Products)
+                foreach (var item in Model)
                 {
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="single-product">

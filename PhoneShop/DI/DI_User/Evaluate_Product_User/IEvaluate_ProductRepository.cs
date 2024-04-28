@@ -8,5 +8,8 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
 
         Task<Evaluate_ProductViewModel> GetById(int Id_Product);
 
+        public Task<int> Check_Value(int Id_Product);
+            
+
     }
 }

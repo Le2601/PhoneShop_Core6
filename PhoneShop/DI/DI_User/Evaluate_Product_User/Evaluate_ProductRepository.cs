@@ -12,6 +12,17 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
             _context = context;
         }
 
+        public async Task<int> Check_Value(int Id_Product)
+        {
+            var item = await _context.Evaluate_Products.Where(x => x.ProductId == Id_Product).FirstOrDefaultAsync();
+
+            if(item != null)
+            {
+                return 1;
+            }
+            else { return 0; }
+        }
+
         public async Task<Evaluate_ProductViewModel> GetById(int Id_Product)
         {
            var item = await _context.Evaluate_Products.Where(x=> x.ProductId == Id_Product).FirstOrDefaultAsync()!;

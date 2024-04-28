@@ -7,7 +7,7 @@
 
     List<ImageProductViewModel> IsCourseContents = ViewBag.imageproduct;
     VoucherItemViewModel IsVoucherVM = ViewBag.voucherVM;
-    List<ProductViewModel> IsProduct = ViewBag.RelatedProduc;
+    // List<ProductViewModel> IsProduct = ViewBag.RelatedProduc;
     //format tien
 
     // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
@@ -107,7 +107,7 @@
                 <div class="single-sidebar">
                     <h2 class="sidebar-title">Bài đăng gần đây</h2>
 
-                    @foreach (var itemm in IsProduct)
+                   @*  @foreach (var itemm in IsProduct)
                     {
                         <div class="thubmnail-recent">
                             <img src="~/images/Product/@itemm.ImageDefaultName" class="recent-thumb" alt="">
@@ -157,7 +157,7 @@
                                 </del>
                             </div>
                         </div>
-                    }
+                    } *@
 
 
 
@@ -298,6 +298,34 @@
 
                                         <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
                                     </li>
+                                      <li class="product">
+                                        <a href="single-product.html">
+                                            <img width="325" height="325" alt="T_4_front" class="attachment-shop_catalog wp-post-image" src="img/product-2.jpg">
+                                            <h3>Ship Your Idea</h3>
+                                            <span class="price"><span class="amount">£20.00</span></span>
+                                        </a>
+
+                                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
+                                    </li>
+                                      <li class="product">
+                                        <a href="single-product.html">
+                                            <img width="325" height="325" alt="T_4_front" class="attachment-shop_catalog wp-post-image" src="img/product-2.jpg">
+                                            <h3>Ship Your Idea</h3>
+                                            <span class="price"><span class="amount">£20.00</span></span>
+                                        </a>
+
+                                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
+                                    </li>
+                                      <li class="product">
+                                        <a href="single-product.html">
+                                            <img width="325" height="325" alt="T_4_front" class="attachment-shop_catalog wp-post-image" src="img/product-2.jpg">
+                                            <h3>Ship Your Idea</h3>
+                                            <span class="price"><span class="amount">£20.00</span></span>
+                                        </a>
+
+                                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
+                                    </li>
+
 
                                   
                                 </ul>

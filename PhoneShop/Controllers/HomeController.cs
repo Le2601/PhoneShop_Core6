@@ -92,7 +92,7 @@ namespace PhoneShop.Controllers
             ViewBag.ListEvaluate_Product = await _evaluate_ProductRepository.GetLists();
 
 
-            ViewBag.Selling_Products = await _productRepository.Selling_Products();
+            //ViewBag.Selling_Products = await _productRepository.Selling_Products();
 
 
             return View(itemsHot);

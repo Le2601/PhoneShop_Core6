@@ -120,7 +120,7 @@ namespace PhoneShop.Controllers
             ViewBag.imageproduct = await _imageProduct_UserRepository.ImageProducts();
 
             //partial related product
-            ViewBag.RelatedProduct = await _productRepository.LatestProducts();
+            //ViewBag.Selling_Products = await _productRepository.GetProduct_RecentPosts();
             return View(cartVM);
         }
 

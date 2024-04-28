@@ -68,8 +68,28 @@ namespace PhoneShop.Controllers
 
             ViewBag.GetProduct_RecentPosts = await _userRepository.GetProduct_RecentPosts();
 
+            //danh gia san pham
 
-            ViewBag.Evaluate_Product = await _evaluate_ProductRepository.GetById(Id);
+            var Check_Evaluate_Product = await _evaluate_ProductRepository.Check_Value(Id);
+           
+            if ( Check_Evaluate_Product == 0)
+            {
+                var Evaluate_Product_Null = new Evaluate_ProductViewModel
+                {
+                    Id = 0,
+                    Purchases = 0,
+                    ScoreEvaluation = 0,
+                    ProductId = 0,
+
+                };
+                ViewBag.Evaluate_Product = Evaluate_Product_Null;
+            }
+            else
+            {
+                ViewBag.Evaluate_Product = await _evaluate_ProductRepository.GetById(Id);
+            }
+
+           
 
 
             return View(item);

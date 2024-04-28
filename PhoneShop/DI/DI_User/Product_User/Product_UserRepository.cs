@@ -177,6 +177,31 @@ namespace PhoneShop.DI.DI_User.Product_User
             return items;
         }
 
-      
+        public async Task<List<ProductViewModel>> Selling_Products()
+        {        
+            var items = await _context.Products.Join(_context.Evaluate_Products,
+                p => p.Id,
+                e => e.ProductId,
+                (p,e) => new { Product = p, Evaluate_Product = e })
+            .OrderByDescending(x=> x.Evaluate_Product.Purchases)
+            .Select(x => new ProductViewModel
+            {
+                Id = x.Product.Id,
+                CategoryId = x.Product.CategoryId,
+                Title = x.Product.Title,
+                Alias = x.Product.Alias,
+                Price = x.Product.Price,
+                Discount = x.Product.Discount,
+                Quantity = x.Product.Quantity,
+                Description = x.Product.Description,
+                Create_at = x.Product.Create_at,
+                Update_at = x.Product.Update_at,
+                ImageDefaultName = x.Product.ImageDefaultName
+            })
+            .Take(8)
+            .ToListAsync();
+
+            return items;
+        }
     }
 }

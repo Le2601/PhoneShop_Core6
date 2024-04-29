@@ -16,6 +16,7 @@ using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using PhoneShop.Services;
 using Stripe;
+using Stripe.Issuing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,6 +56,24 @@ namespace PhoneShop.Controllers
             _productRepository = productRepository;
         }
 
+        private int Check_Quantity_Product(List<CartItemModel> item)
+        {
+
+            foreach(var i in  item)
+            {
+
+                var IProductById = _dbContext.Products.Where(x=> x.Id == i.ProductId).FirstOrDefault()!;
+
+                if( i.Quantity > IProductById.Quantity )
+                {
+                    return 0;
+                }
+
+               
+            }
+            return 1;
+        }
+
        
 
 
@@ -62,6 +81,12 @@ namespace PhoneShop.Controllers
         public async Task<IActionResult> Index()
         {        
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
+
+
+           
+
+
+
             //kiem tra da luu ma giam gia chua
             List<VoucherItemModel> CartVoucher = PhoneShop.Extension.SessionExtensions.GetListSessionCartVoucher("CartVoucher", HttpContext);
             VoucherItemViewModel voucherVM = new()
@@ -215,6 +240,8 @@ namespace PhoneShop.Controllers
 
             List<CartItemModel> Cart = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
 
+          
+
             CartItemModel cartItems = Cart.Where(x=> x.ProductId == id).FirstOrDefault()!;
 
             if(cartItems == null) {
@@ -286,7 +313,11 @@ namespace PhoneShop.Controllers
         public IActionResult cong(int id)
         {
             List<CartItemModel> CartItems = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
-
+            if (Check_Quantity_Product(CartItems) == 0)
+            {
+                TempData["Check_Quantity_Product"] = "Số lượng mua không thể lớn hơn số lượng trong kho!";
+                return RedirectToRoute("Cart");
+            }
             CartItemModel itemCart = CartItems.FirstOrDefault(x => x.ProductId == id);
             if (itemCart != null)
             {
@@ -302,7 +333,11 @@ namespace PhoneShop.Controllers
         public IActionResult CheckOut()
         {
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);///gio hang khong co sp thi tra ve
-
+            if (Check_Quantity_Product(CartItems) == 0)
+            {
+                TempData["Check_Quantity_Product"] = "Số lượng mua không thể lớn hơn số lượng trong kho!";
+                return RedirectToRoute("Cart");
+            }
             if (CartItems.Count == 0) {
                 ViewBag.msgErorr = "Giỏ hàng rỗng không thể thanh toán!";
                 return RedirectToRoute("Cart");
@@ -339,6 +374,7 @@ namespace PhoneShop.Controllers
             int AccountInt = int.Parse(taikhoanID);
 
             var Get_Quantity_Product_Order = 0;
+           
 
             string Order_Name = "";
             string Address = "";
@@ -383,6 +419,14 @@ namespace PhoneShop.Controllers
             //session gio hang
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
 
+            Check_Quantity_Product(CartItems);
+
+
+            //foreach (var i in CartItems)
+            //{
+            //    var demoo = i.Quantity;
+            //}
+
             int PaymentMethod = Convert.ToInt32(form["PaymentMethod"]);
 
 
@@ -413,7 +457,7 @@ namespace PhoneShop.Controllers
                 _DiscountAmount = decimal.Parse(result);
             }
             //end xu ly decimal
-
+           
             //lay ra tong so tien
             CartItemViewModel cartVMM = new()
             {
@@ -551,6 +595,7 @@ namespace PhoneShop.Controllers
                 _dbContext.Order_Details.Add(newOrder_Details);
 
                 //demo xu ly dependency
+                //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
                 var Check_Evaluate = _dbContext.Evaluate_Products.FirstOrDefault(x=> x.ProductId == (int)item.ProductId)    ;
                 if (Check_Evaluate != null)
                 {
@@ -577,6 +622,11 @@ namespace PhoneShop.Controllers
                     };
                     _dbContext.Evaluate_Products.Add(Add_Evaluate);
                 }
+                //giam san pham trong kho
+                var Reduced_In_Stock = _dbContext.Products.Where(x => x.Id == (int)item.ProductId).FirstOrDefault();
+                Reduced_In_Stock.Quantity = Reduced_In_Stock.Quantity - Get_Quantity_Product_Order;
+                _dbContext.Products.Update(Reduced_In_Stock);
+
                 _dbContext.SaveChanges();
 
 
@@ -599,7 +649,7 @@ namespace PhoneShop.Controllers
 
             HttpContext.Session.Set("Cart", CartItems);
 
-
+            //KHONG DUOC XOA
             //send mail 
 
             //string toEmail = Email;

@@ -22,6 +22,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (TempData["Check_Quantity_Product"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Check_Quantity_Product"]
+    </div>
+}
 @if (TempData["VoucherNull"] != null)
 {
     <div class="alert alert-success">

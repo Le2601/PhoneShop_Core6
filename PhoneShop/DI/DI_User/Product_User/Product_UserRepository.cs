@@ -139,6 +139,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Discount = item.Discount,
                 ImageDefaultName = item.ImageDefaultName,
                 CategoryId = item.CategoryId,
+                Quantity = item.Quantity,
 
 
             };
@@ -157,6 +158,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Discount = item.Discount,
                 ImageDefaultName = item.ImageDefaultName,
                 CategoryId = item.CategoryId,
+                Quantity = item.Quantity,
 
 
             };

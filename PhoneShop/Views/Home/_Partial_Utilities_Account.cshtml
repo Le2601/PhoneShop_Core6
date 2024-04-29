@@ -39,7 +39,7 @@
 
 
 @{
-    if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
+    if (User.IsInRole("Staff"))
     {
        
     <h1>Thông tin cá nhân</h1>

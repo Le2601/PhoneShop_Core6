@@ -147,11 +147,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
               .AddCookie(p =>
               {
                   p.Cookie.Name = "UserLoginCookie";
-                  //xet tg ton tai cua phien dang nhap
+                 
                   p.ExpireTimeSpan = TimeSpan.FromHours(1);
                   p.LoginPath = "/Login.html";
-                  //p.LogoutPath = "/dang-xuat/html";
-                  //p.AccessDeniedPath = "/not-found.html";
+              
               });
 
 //connect db

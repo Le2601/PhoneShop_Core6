@@ -29,7 +29,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            var taikhoanID = HttpContext.Session.GetString("AccountId_Admin");
 
             int parsedTaikhoanID = int.Parse(taikhoanID);
 

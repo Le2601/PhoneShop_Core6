@@ -168,12 +168,24 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult Login(string returnUrl = null)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID != null && !User.IsInRole("Admin"))
+            var taikhoanID = HttpContext.Session.GetString("AccountId_Admin");
+            //if (taikhoanID != null && !User.IsInRole("Admin"))
+            //{
+            //    HttpContext.SignOutAsync();
+            //    HttpContext.Session.Remove("AccountId_Admin");
+            //    return View();
+            //}
+            if (taikhoanID != null)
             {
-                HttpContext.SignOutAsync();
-                HttpContext.Session.Remove("AccountId");
-                return View();
+                var Check_Role = _context.Accounts.Where(x => x.Id == int.Parse(taikhoanID)).FirstOrDefault()!;
+                if (Check_Role.RoleId != 2)
+                {
+                    return View();
+                }
+                else if (Check_Role.RoleId == 2)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -211,31 +223,31 @@ namespace PhoneShop.Areas.Admin.Controllers
                     _context.Update(kh);
                     await _context.SaveChangesAsync();
 
-                    var taikhoan = HttpContext.Session.GetString("AccountId");
+                    var taikhoan = HttpContext.Session.GetString("AccountId_Admin");
 
                     //identity
 
                     //luu session makh
 
-                    HttpContext.Session.SetString("AccountId", kh.Id.ToString());
+                    HttpContext.Session.SetString("AccountId_Admin", kh.Id.ToString());
 
                     //edentity
 
-                    var userClaims = new List<Claim>
+                    var userClaims_Admin = new List<Claim>
                     {
 
                         new Claim(ClaimTypes.Name, kh.FullName),
                         new Claim(ClaimTypes.Email, kh.Email),
-                        new Claim("AccountId", kh.Id.ToString()),
+                        new Claim("AccountId_Admin", kh.Id.ToString()),
                         new Claim("RoleId", kh.RoleId.ToString()),
                         new Claim(ClaimTypes.Role, kh.Role.RoleName)
 
 
                     };
 
-                    var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
-                    var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
-                    await HttpContext.SignInAsync(userPrincipal);
+                    var grandmaIdentity_Admin = new ClaimsIdentity(userClaims_Admin, "User Identity_Admin");
+                    var userPrincipal_Admin = new ClaimsPrincipal(new[] { grandmaIdentity_Admin });
+                    await HttpContext.SignInAsync(userPrincipal_Admin);
 
 
 
@@ -266,7 +278,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             try
             {
                 HttpContext.SignOutAsync();
-                HttpContext.Session.Remove("AccountId");
+                HttpContext.Session.Remove("AccountId_Admin");
                 return RedirectToAction("Login", "Accounts", new { Area = "Admin" });
             }
             catch

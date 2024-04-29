@@ -207,16 +207,25 @@ namespace PhoneShop.Controllers
         [AllowAnonymous]
         [Route("Login.html", Name = "Login-student")]
 
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
             //neu da dang nhap roi thi vao thang trang home
             var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID != null && !User.IsInRole("Staff"))
+            if(taikhoanID != null)
             {
-                HttpContext.SignOutAsync();
-                HttpContext.Session.Remove("AccountId");
-                return View();
+                var Check_Role = _context.Accounts.Where(x => x.Id == int.Parse(taikhoanID)).FirstOrDefault()!;
+                if (Check_Role.RoleId != 3)
+                {
+                    return View();
+                }
+                else if (Check_Role.RoleId == 3)
+                {
+
+                    ViewBag.ReturnUrl = returnUrl;
+                    return RedirectToAction("Index", "Home");
+                }
             }
+           
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -281,16 +290,16 @@ namespace PhoneShop.Controllers
                         //edentity
 
                         var userClaims = new List<Claim>
-                    {
+                            {
 
-                        new Claim(ClaimTypes.Name, kh.FullName),
-                        new Claim(ClaimTypes.Email, kh.Email),
-                        new Claim("AccountId", kh.Id.ToString()),
-                        new Claim("RoleId", kh.RoleId.ToString()),
-                        new Claim(ClaimTypes.Role, kh.Role.RoleName)
+                                new Claim(ClaimTypes.Name, kh.FullName),
+                                new Claim(ClaimTypes.Email, kh.Email),
+                                new Claim("AccountId", kh.Id.ToString()),
+                                new Claim("RoleId", kh.RoleId.ToString()),
+                                new Claim(ClaimTypes.Role, kh.Role.RoleName)
 
 
-                    };
+                            };
 
                         var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
                         var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
@@ -302,7 +311,7 @@ namespace PhoneShop.Controllers
                     }
                     else
                     {
-                        ViewBag.Error = "Tài khoản sinh viên không tồn tại";
+                        ViewBag.Error = "Tài khoản không tồn tại";
                         return View(model);
                     }
 

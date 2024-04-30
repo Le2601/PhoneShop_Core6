@@ -40,7 +40,9 @@ namespace PhoneShop.DI.DI_User.Order_User
                 ProductId = model.ProductId,
                 OrderId = model.OrderId,
                 Quantity = model.Quantity,
-                
+                Description = model.Description,
+                AddressType = model.AddressType,
+                 Email = model.Email,
 
 
 

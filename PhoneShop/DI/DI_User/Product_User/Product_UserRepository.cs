@@ -15,9 +15,22 @@ namespace PhoneShop.DI.DI_User.Product_User
             _context = context;
         }
 
-        
+        public int Check_Quantity_Product(List<CartItemModel> item)
+        {
+            foreach (var i in item)
+            {
 
-       
+                var IProductById = _context.Products.Where(x => x.Id == i.ProductId).FirstOrDefault()!;
+
+                if (i.Quantity > IProductById.Quantity)
+                {
+                    return 0;
+                }
+
+
+            }
+            return 1;
+        }
 
         public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
         {
@@ -163,6 +176,21 @@ namespace PhoneShop.DI.DI_User.Product_User
 
             };
             return newProduct;
+        }
+
+        public async Task<Models.Product> ProductById_Model(int id)
+        {
+            var item = await _context.Products.FindAsync(id);
+
+            return item;
+        }
+
+        public void Reduced_In_Stock(int Id_Product, int Get_Quantity_Product_Order)
+        {
+            var Reduced_In_Stock = _context.Products.Where(x => x.Id == Id_Product).FirstOrDefault()!;
+            Reduced_In_Stock.Quantity = Reduced_In_Stock.Quantity - Get_Quantity_Product_Order;
+            _context.Products.Update(Reduced_In_Stock);
+
         }
 
         public async Task<List<ProductViewModel>> Search_Product(string value_search)

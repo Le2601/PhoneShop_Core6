@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PhoneShop.Data;
+using PhoneShop.DI.DI_User.Evaluate_Product_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.DI.DI_User.Product_User;
@@ -38,13 +39,14 @@ namespace PhoneShop.Controllers
         private readonly IOrder_UserRepository _order_UserRepository;
         private readonly IVoucher_UserRepository _voucher_UserRepository;
         private readonly IProduct_UserRepository _productRepository;
+        private readonly IEvaluate_ProductRepository _evaluate_ProductRepository;
 
         private readonly EmailService _emailService;
 
 
         public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService,IImageProduct_UserRepository imageProduct_UserRepository,
             IOrder_UserRepository order_UserRepository,IVoucher_UserRepository voucher_UserRepository,
-            EmailService emailService, IProduct_UserRepository productRepository)
+            EmailService emailService, IProduct_UserRepository productRepository, IEvaluate_ProductRepository evaluate_ProductRepository)
         {
            
             _voucher_UserRepository = voucher_UserRepository;
@@ -54,6 +56,7 @@ namespace PhoneShop.Controllers
             _vnPayService = vnPayService;
             _emailService = emailService;
             _productRepository = productRepository;
+            _evaluate_ProductRepository = evaluate_ProductRepository;
         }
 
         private int Check_Quantity_Product(List<CartItemModel> item)
@@ -234,9 +237,9 @@ namespace PhoneShop.Controllers
 
 
             //lay hinh anh mac dinh sp ra
-            ViewBag.imageproduct = _dbContext.ImageProducts.ToList();
+            //ViewBag.imageproduct = _dbContext.ImageProducts.ToList();
 
-            var item = await _dbContext.Products.FindAsync(id);
+            var item = await _productRepository.ProductById_Model(id);
 
             List<CartItemModel> Cart = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
 
@@ -495,7 +498,26 @@ namespace PhoneShop.Controllers
 
                 foreach (var item in CartItems)
                 {
-                    
+                    Get_Quantity_Product_Order = item.Quantity;
+                    //var newOrder_Details = new Order_DetailsData
+                    //{
+                    //    Order_Name = Order_Name,
+                    //    Address = Address,
+                    //    Phone = Phone,
+                    //    ProductId = (int)item.ProductId,
+                    //    OrderId = Order_Id,
+                    //    Quantity = item.Quantity,
+                    //    Description = Description,
+                    //    AddressType = AddressType,
+                    //    Email = Email,
+
+
+
+
+                    //};
+
+                    //_order_UserRepository.Create_Order_Detail(newOrder_Details);
+
                     var newOrder_Details = new Order_DetailsData
                     {
                         Order_Name = Order_Name,
@@ -507,14 +529,17 @@ namespace PhoneShop.Controllers
                         Description = Description,
                         AddressType = AddressType,
                         Email = Email,
-                       
 
 
 
                     };
                     _order_UserRepository.Create_Order_Detail(newOrder_Details);
 
-
+                    //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
+                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order);
+                    //giam san pham trong kho
+                    _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
+                    _dbContext.SaveChanges();
 
                 }
 
@@ -577,7 +602,7 @@ namespace PhoneShop.Controllers
                 Get_Quantity_Product_Order = item.Quantity;
 
 
-                var newOrder_Details = new Order_Details
+                var newOrder_Details = new Order_DetailsData
                 {
                     Order_Name = Order_Name,
                     Address = Address,
@@ -592,40 +617,15 @@ namespace PhoneShop.Controllers
 
 
                 };
-                _dbContext.Order_Details.Add(newOrder_Details);
+                _order_UserRepository.Create_Order_Detail(newOrder_Details);
 
                 //demo xu ly dependency
                 //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
-                var Check_Evaluate = _dbContext.Evaluate_Products.FirstOrDefault(x=> x.ProductId == (int)item.ProductId)    ;
-                if (Check_Evaluate != null)
-                {
-                    if(Get_Quantity_Product_Order >= 2)
-                    {
-                        Check_Evaluate.Purchases += Get_Quantity_Product_Order;
-                    }
-                    else
-                    {
-                        Check_Evaluate.Purchases += 1;
-                    }
-                   
-                    
-                    _dbContext.Evaluate_Products.Update(Check_Evaluate);
 
-                }
-                else
-                {
+                _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order);
 
-                    var Add_Evaluate = new Evaluate_Product
-                    {
-                        Purchases = 1,
-                        ProductId = (int)item.ProductId,
-                    };
-                    _dbContext.Evaluate_Products.Add(Add_Evaluate);
-                }
                 //giam san pham trong kho
-                var Reduced_In_Stock = _dbContext.Products.Where(x => x.Id == (int)item.ProductId).FirstOrDefault();
-                Reduced_In_Stock.Quantity = Reduced_In_Stock.Quantity - Get_Quantity_Product_Order;
-                _dbContext.Products.Update(Reduced_In_Stock);
+                _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
 
                 _dbContext.SaveChanges();
 

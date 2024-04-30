@@ -1,4 +1,5 @@
 ﻿using PhoneShop.Data;
+using PhoneShop.Models;
 using PhoneShop.ModelViews;
 
 namespace PhoneShop.DI.DI_User.Product_User
@@ -36,12 +37,17 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public Task<SpecificationsViewModel> GetSpeciByIdProduct(int IdProduct);
 
-        //partial related product
+        //check 
+
+        public int Check_Quantity_Product(List<CartItemModel> item);
 
 
-       
+        public Task<PhoneShop.Models.Product> ProductById_Model(int id);
 
 
+        //giam san pham trong kho
+
+        public void Reduced_In_Stock(int Id_Product, int Get_Quantity_Product_Order);
 
 
 

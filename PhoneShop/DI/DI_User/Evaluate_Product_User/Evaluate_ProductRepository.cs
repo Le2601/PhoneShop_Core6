@@ -12,6 +12,42 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
             _context = context;
         }
 
+       
+
+        public void Check_Evaluate_Insert_Db(int Id_Product, int Get_Quantity_Product_Order)
+        {
+            var Check_Evaluate =  _context.Evaluate_Products.FirstOrDefault(x => x.ProductId == Id_Product);
+            if (Check_Evaluate != null)
+            {
+                if (Get_Quantity_Product_Order >= 2)
+                {
+                    Check_Evaluate.Purchases += Get_Quantity_Product_Order;
+                }
+                else
+                {
+                    Check_Evaluate.Purchases += 1;
+                }
+
+
+                _context.Evaluate_Products.Update(Check_Evaluate);
+               
+               
+            }
+            else
+            {
+
+                var Add_Evaluate = new Evaluate_Product
+                {
+                    Purchases = 1,
+                    ProductId = Id_Product,
+                };
+                _context.Evaluate_Products.Add(Add_Evaluate);
+                 //_context.SaveChangesAsync();
+               
+            }
+
+        }
+
         public async Task<int> Check_Value(int Id_Product)
         {
             var item = await _context.Evaluate_Products.Where(x => x.ProductId == Id_Product).FirstOrDefaultAsync();

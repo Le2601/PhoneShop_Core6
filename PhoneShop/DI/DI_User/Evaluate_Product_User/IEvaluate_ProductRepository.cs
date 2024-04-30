@@ -11,5 +11,10 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
         public Task<int> Check_Value(int Id_Product);
             
 
+        //check quantity insert db
+
+
+        public void Check_Evaluate_Insert_Db(int Id_Product, int Get_Quantity_Product_Order);
+
     }
 }

@@ -93,7 +93,7 @@ namespace PhoneShop.Controllers
 
 
             //ViewBag.Selling_Products = await _productRepository.Selling_Products();
-
+           
 
             return View(itemsHot);
         }

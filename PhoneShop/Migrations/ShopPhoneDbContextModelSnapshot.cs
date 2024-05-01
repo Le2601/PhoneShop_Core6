@@ -135,6 +135,35 @@ namespace PhoneShop.Migrations
                     b.ToTable("City");
                 });
 
+            modelBuilder.Entity("PhoneShop.Models.DeliveryProcess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DeliveryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DeliveryStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Order_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Order_Id");
+
+                    b.ToTable("DeliveryProcess");
+                });
+
             modelBuilder.Entity("PhoneShop.Models.District", b =>
                 {
                     b.Property<int>("Id")
@@ -716,6 +745,17 @@ namespace PhoneShop.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("PhoneShop.Models.DeliveryProcess", b =>
+                {
+                    b.HasOne("PhoneShop.Models.Order", "Order")
+                        .WithMany("DeliveryProcess")
+                        .HasForeignKey("Order_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("PhoneShop.Models.District", b =>
                 {
                     b.HasOne("PhoneShop.Models.City", "City")
@@ -851,6 +891,8 @@ namespace PhoneShop.Migrations
 
             modelBuilder.Entity("PhoneShop.Models.Order", b =>
                 {
+                    b.Navigation("DeliveryProcess");
+
                     b.Navigation("Order_Details");
 
                     b.Navigation("PaymentResponses");

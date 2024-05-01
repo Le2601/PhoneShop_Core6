@@ -32,5 +32,7 @@ namespace PhoneShop.Models
         public virtual ICollection<Order_Details> Order_Details { get; set; }
         public virtual ICollection<PaymentResponse> PaymentResponses { get; set; }
 
+        //public virtual ICollection<DeliveryProcess> DeliveryProcess { get; set; }
+
     }
 }

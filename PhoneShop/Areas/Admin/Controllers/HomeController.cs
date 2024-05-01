@@ -45,6 +45,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             ViewBag.NameLogin = GetNameLogin.FullName;
 
+           
 
             return View();
         }

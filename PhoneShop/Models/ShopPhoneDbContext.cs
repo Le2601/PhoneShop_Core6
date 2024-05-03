@@ -70,7 +70,7 @@ namespace PhoneShop.Models
         public DbSet<Evaluate_Product> Evaluate_Products { get; set; }
 
 
-        //public DbSet<DeliveryProcess> DeliveryProcesses { get; set; }
+        public DbSet<DeliveryProcess> DeliveryProcesses { get; set; }
 
 
 
@@ -164,10 +164,12 @@ namespace PhoneShop.Models
               .WithMany(p => p.Order_Details)
               .HasForeignKey(p => p.OrderId);
 
-            //modelBuilder.Entity<DeliveryProcess>()
-            // .HasOne(p => p.Order)
-            // .WithMany(p => p.DeliveryProcess)
-            // .HasForeignKey(p => p.Order_Id);
+            modelBuilder.Entity<DeliveryProcess>()
+             .HasOne(p => p.order)
+             .WithMany(p => p.DeliveryProcesses)
+             .HasForeignKey(p => p.Order_Id);
+
+
 
             modelBuilder.Entity<Order_Details>()
              .HasOne(p => p.Product)

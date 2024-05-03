@@ -1,0 +1,22 @@
+﻿@model PhoneShop.Models.Order
+@{
+    ViewData["Title"] = "repository_payment_COD";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<form method="post" asp-action="Create_DeliveryProcess" asp-controller="Order">
+
+    <label for="fruit">Trang thai don hang:</label>
+    <select id="fruit" name="DeliveryStatus">
+        <option value="1">Chuan bi hang</option>
+        <option value="2">Dang xu ly</option>
+        <option value="3">Da giao hang</option>
+        <option value="0">Huy don hang</option>
+    </select>
+    <input type="text" name="Order_Id" value="@Model.Id_Order" hidden />
+    <input type="date" name="DeliveryDate" placeholder="Ngay nhan hang du kien" />
+    <input type="text" name="DeliveryAddress" placeholder="Dia chi nhan hang" value="@ViewBag.Address_Order" />
+    <input type="submit" value="Submit">
+
+</form>
+

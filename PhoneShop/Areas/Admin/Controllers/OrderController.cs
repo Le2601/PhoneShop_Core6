@@ -107,7 +107,41 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult repository_payment_COD(string id)
         {
-            return View();
+            var item = _context.Orders.Where(x => x.Id_Order == id).FirstOrDefault();
+
+            ViewBag.Address_Order = _context.Order_Details.Where(x=> x.OrderId == id).First().Address;
+
+
+
+
+
+
+
+            return View(item);
+        }
+        [HttpPost]
+        public IActionResult Create_DeliveryProcess(IFormCollection form)
+        {
+            string DeliveryStatus = form["DeliveryStatus"];
+            string Order_Id = form["Order_Id"];
+            string DeliveryDate = form["DeliveryDate"];
+            string DeliveryAddress = form["DeliveryAddress"];
+
+            var Create_Item = new DeliveryProcess
+            {
+                DeliveryStatus = int.Parse(DeliveryStatus),
+                Order_Id = Order_Id,
+                DeliveryDate = DateTime.Now,
+                DeliveryAddress = DeliveryAddress
+
+            };
+            _context.DeliveryProcesses.Add(Create_Item);
+            _context.SaveChanges();
+            
+
+
+            return RedirectToAction("Index");
+
         }
         public IActionResult delete(string id)
         {

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using PhoneShop.DI.Account;
 using PhoneShop.DI.Banner;
 using PhoneShop.DI.Category;
+using PhoneShop.DI.DeliveryProcess;
 using PhoneShop.DI.DI_User.Banner_User;
 using PhoneShop.DI.DI_User.Category_User;
 using PhoneShop.DI.DI_User.Evaluate_Product_User;
@@ -68,6 +69,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 
         builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
         builder.Services.AddScoped<IIntroduceRepository, IntroduceRepository>();
+        
+        builder.Services.AddScoped<IDeliveryProcessRepository, DeliveryProcessRepository>();
 
 
 

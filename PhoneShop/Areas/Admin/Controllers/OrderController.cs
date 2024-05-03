@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
+using PhoneShop.Areas.Admin.Data;
+using PhoneShop.DI.DeliveryProcess;
 using PhoneShop.DI.Order;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -22,12 +25,14 @@ namespace PhoneShop.Areas.Admin.Controllers
         private object SqlFunctions;
 
         private readonly IOrderRepository _orderRepository;
+        private readonly IDeliveryProcessRepository _deliveryProcessRepository;
 
 
-        public OrderController(ShopPhoneDbContext context, IOrderRepository orderRepository)
+        public OrderController(ShopPhoneDbContext context, IOrderRepository orderRepository, IDeliveryProcessRepository deliveryProcessRepository)
         {
             _context = context;
             _orderRepository = orderRepository;
+            _deliveryProcessRepository = deliveryProcessRepository;
         }
         public IActionResult Index()
         {
@@ -120,24 +125,43 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(item);
         }
         [HttpPost]
-        public IActionResult Create_DeliveryProcess(IFormCollection form)
+        public async Task<IActionResult> Create_DeliveryProcess(IFormCollection form)
         {
             string DeliveryStatus = form["DeliveryStatus"];
             string Order_Id = form["Order_Id"];
             string DeliveryDate = form["DeliveryDate"];
             string DeliveryAddress = form["DeliveryAddress"];
 
-            var Create_Item = new DeliveryProcess
+            //check DeliveryProcess co ton tai hay ko
+            var Check_DeliveryProcess_Order =await _deliveryProcessRepository.GetById(Order_Id);
+            if(Check_DeliveryProcess_Order != null)
             {
-                DeliveryStatus = int.Parse(DeliveryStatus),
-                Order_Id = Order_Id,
-                DeliveryDate = DateTime.Now,
-                DeliveryAddress = DeliveryAddress
+               
+                var Update_DeliveryProcess = new DeliveryProcessData
+                {
+                     DeliveryDate = DateTime.Parse(DeliveryDate),
+                     DeliveryStatus = int.Parse(DeliveryStatus),
+                     DeliveryAddress = DeliveryAddress,
+                 };
+                
 
-            };
-            _context.DeliveryProcesses.Add(Create_Item);
-            _context.SaveChanges();
-            
+               _deliveryProcessRepository.Update(Update_DeliveryProcess, Order_Id);
+            }
+            else
+            {
+                var Create_Item = new DeliveryProcessData
+                {
+                    DeliveryStatus = int.Parse(DeliveryStatus),
+                    Order_Id = Order_Id,
+                    DeliveryDate = DateTime.Parse(DeliveryDate),
+                    DeliveryAddress = DeliveryAddress
+
+                };
+               _deliveryProcessRepository.Create(Create_Item);
+
+            }
+           
+
 
 
             return RedirectToAction("Index");

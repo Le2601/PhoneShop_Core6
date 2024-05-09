@@ -32,6 +32,17 @@ namespace PhoneShop.DI.DI_User.Product_User
             return 1;
         }
 
+        public void Delete_Product_Quantity_Zero(int Id_Product)
+        {
+            var Check_Product = _context.Products.Where(x=> x.Id ==  Id_Product).FirstOrDefault()!;
+            if(Check_Product.Quantity <= 0 )
+            {
+                _context.Products.Remove(Check_Product);
+                _context.SaveChanges();
+            }
+           
+        }
+
         public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
         {
             var items = await _context.Products.Where(x => x.CategoryId == IdCategory).Select(x => new ProductViewModel

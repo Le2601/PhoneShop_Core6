@@ -50,6 +50,9 @@ namespace PhoneShop.DI.DI_User.Product_User
         public void Reduced_In_Stock(int Id_Product, int Get_Quantity_Product_Order);
 
 
+        //xoa sp khi quantity =< 0
+
+        public void Delete_Product_Quantity_Zero(int Id_Product);
 
 
 

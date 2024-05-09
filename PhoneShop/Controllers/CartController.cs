@@ -630,6 +630,10 @@ namespace PhoneShop.Controllers
                 _dbContext.SaveChanges();
 
 
+                //xoa sp khi sl <= 0
+                _productRepository.Delete_Product_Quantity_Zero((int)item.ProductId);
+
+
 
             }
 

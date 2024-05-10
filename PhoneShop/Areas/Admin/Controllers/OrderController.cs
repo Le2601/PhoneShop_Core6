@@ -112,9 +112,25 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult repository_payment_COD(string id)
         {
-            var item = _context.Orders.Where(x => x.Id_Order == id).FirstOrDefault();
+            
+            var item_DeliveryProcesses = _context.DeliveryProcesses.Where(x=> x.Order_Id == id).FirstOrDefault();
+            ViewBag.Address_Order = _context.Order_Details.Where(x => x.OrderId == id).First().Address;
 
-            ViewBag.Address_Order = _context.Order_Details.Where(x=> x.OrderId == id).First().Address;
+            //neu da ton tai qua trinh giao hang roi thi hien thi ra
+
+            if (item_DeliveryProcesses != null)
+            {
+             
+                ViewBag.item_DeliveryProcesses = item_DeliveryProcesses;
+               
+            }
+          
+                var item_Orders = _context.Orders.Where(x => x.Id_Order == id).FirstOrDefault();
+                return View(item_Orders);
+           
+            
+
+           
 
 
 
@@ -122,7 +138,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
 
 
-            return View(item);
+            //return View(item);
         }
         [HttpPost]
         public async Task<IActionResult> Create_DeliveryProcess(IFormCollection form)
@@ -131,7 +147,6 @@ namespace PhoneShop.Areas.Admin.Controllers
             string Order_Id = form["Order_Id"];
             string DeliveryDate = form["DeliveryDate"];
             string DeliveryAddress = form["DeliveryAddress"];
-
             //check DeliveryProcess co ton tai hay ko
             var Check_DeliveryProcess_Order =await _deliveryProcessRepository.GetById(Order_Id);
             if(Check_DeliveryProcess_Order != null)

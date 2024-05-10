@@ -1,7 +1,10 @@
 ﻿@model PhoneShop.Models.Order
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "repository_payment_COD";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    DeliveryProcess IsDeliveryProcess = ViewBag.item_DeliveryProcesses;
 }
 
 <form method="post" asp-action="Create_DeliveryProcess" asp-controller="Order">
@@ -20,18 +23,18 @@
 
 </form>
 
-@if(Model != null)
+@if (IsDeliveryProcess != null)
 {
     
-    @if (Model.Order_Status == 1)
+    @if (IsDeliveryProcess.DeliveryStatus == 1)
     {
         <h3>Trạng thái đơn hàng: Chuẩn bị hàng</h3>
     }
-    else if (Model.Order_Status == 2)
+    else if (IsDeliveryProcess.DeliveryStatus == 2)
     {
         <h3>Trạng thái đơn hàng: Đang xử lý</h3>
     }
-    else if (Model.Order_Status == 3)
+    else if (IsDeliveryProcess.DeliveryStatus == 3)
     {
         <h3>Trạng thái đơn hàng: Đã giao hàng</h3>
     }
@@ -41,5 +44,5 @@
     }
 
     <h3>Ngày giao hàng dự kiến: @Model.Order_Date</h3>
-    <h3>Địa chỉ nhận hàng: @ViewBag.Address_Order</h3>
+    <h3>Địa chỉ nhận hàng: @IsDeliveryProcess.DeliveryAddress</h3>
 }

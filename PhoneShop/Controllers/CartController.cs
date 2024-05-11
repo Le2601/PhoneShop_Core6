@@ -671,7 +671,14 @@ namespace PhoneShop.Controllers
 
             TempData["OrderSuccess"] = "Đặt hàng thành công!";
 
-            return RedirectToRoute("Cart");
+            //return RedirectToRoute("Cart");
+            return RedirectToAction("Order_Success");
+        }
+
+       
+        public IActionResult Order_Success()
+        {
+            return View();
         }
 
         public void handleVoucher()

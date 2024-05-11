@@ -61,7 +61,7 @@ namespace PhoneShop.DI.DI_User.Order_User
                 PaymentMethod = x.PaymentMethod,
                 Order_Status = x.Order_Status,
 
-            }).ToListAsync();
+            }).OrderBy(x=> x.Order_Date).ToListAsync();
 
             return items;
         }

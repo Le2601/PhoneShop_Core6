@@ -6,43 +6,61 @@
 
     DeliveryProcess IsDeliveryProcess = ViewBag.item_DeliveryProcesses;
 }
-
+<style>
+    .coler_title{
+        color: red;
+    }
+</style>
+<h3>Cập nhật trạng thái giao hàng</h3>
 <form method="post" asp-action="Create_DeliveryProcess" asp-controller="Order">
-
-    <label for="fruit">Trang thai don hang:</label>
-    <select id="fruit" name="DeliveryStatus">
+    <select id="fruit" name="DeliveryStatus" required>
+        <option>Chọn trạng thái</option>
         <option value="1">Chuan bi hang</option>
         <option value="2">Dang xu ly</option>
         <option value="3">Da giao hang</option>
         <option value="0">Huy don hang</option>
     </select>
-    <input type="text" name="Order_Id" value="@Model.Id_Order" hidden />
-    <input type="date" name="DeliveryDate" placeholder="Ngay nhan hang du kien" />
-    <input type="text" name="DeliveryAddress" placeholder="Dia chi nhan hang" value="@ViewBag.Address_Order" />
-    <input type="submit" value="Submit">
+    <input type="text" name="Order_Id"  value="@Model.Id_Order" hidden />
+    <input type="date" name="DeliveryDate" required placeholder="Ngay nhan hang du kien" />
+    @if (IsDeliveryProcess != null)
+    {
+        <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Dia chi nhan hang" value="@IsDeliveryProcess.DeliveryAddress" />
+
+    }
+    else
+    {
+        <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Dia chi nhan hang" value="@ViewBag.Address_Order" />
+
+    }
+    <input type="submit" value="Xác nhận">
 
 </form>
+<h3>Trạng thái giao hàng hiện tại</h3>
 
 @if (IsDeliveryProcess != null)
 {
     
     @if (IsDeliveryProcess.DeliveryStatus == 1)
     {
-        <h3>Trạng thái đơn hàng: Chuẩn bị hàng</h3>
+        <h5 class="coler_title">Trạng thái đơn hàng: Chuẩn bị hàng</h5>
     }
     else if (IsDeliveryProcess.DeliveryStatus == 2)
     {
-        <h3>Trạng thái đơn hàng: Đang xử lý</h3>
+        <h5 class="coler_title">Trạng thái đơn hàng: Đang xử lý</h5>
     }
     else if (IsDeliveryProcess.DeliveryStatus == 3)
     {
-        <h3>Trạng thái đơn hàng: Đã giao hàng</h3>
+        <h5 class="coler_title">Trạng thái đơn hàng: Đã giao hàng</h5>
     }
     else
     {
-        <h3>Trạng thái đơn hàng: Hủy đơn hàng</h3>
+        <h5 class="coler_title">Trạng thái đơn hàng: Hủy đơn hàng</h5>
     }
 
-    <h3>Ngày giao hàng dự kiến: @Model.Order_Date</h3>
-    <h3>Địa chỉ nhận hàng: @IsDeliveryProcess.DeliveryAddress</h3>
+    <h5>Ngày giao hàng dự kiến: @IsDeliveryProcess.DeliveryDate</h5>
+    <h5>Địa chỉ nhận hàng: @IsDeliveryProcess.DeliveryAddress</h5>
+}
+else
+{
+    <h5>Hiện tại chưa có</h5>
 }

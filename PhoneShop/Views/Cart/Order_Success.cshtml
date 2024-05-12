@@ -1,7 +1,11 @@
-﻿
+﻿@model PhoneShop.Models.Order
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "Order_Success";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Order_Details Is_Info_Address = ViewBag.Info_Address;
+
 }
 
 <div class="container">
@@ -16,6 +20,12 @@
 
 <div class="container">
     <h4>Đặt hàng thành công</h4>
+    <div style="border: 1px solid">
+        <div>@Is_Info_Address.Order_Name</div>
+        <div>@Model.Order_Date</div>
+        <div>@Model.Total_Order</div>
+        <div>@Model.Id_Order</div>
+    </div>
     <a href="~/">Trở về trang chủ</a>
 </div>
 

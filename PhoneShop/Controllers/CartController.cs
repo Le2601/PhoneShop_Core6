@@ -678,7 +678,16 @@ namespace PhoneShop.Controllers
        
         public IActionResult Order_Success()
         {
-            return View();
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+            var Get_Info_Order = _dbContext.Orders.Where(x=> x.AccountId ==  AccountInt).OrderByDescending(x=> x.Order_Date).FirstOrDefault()!;
+
+            ViewBag.Info_Address = _dbContext.Order_Details.Where(x => x.OrderId == Get_Info_Order.Id_Order).FirstOrDefault();
+
+
+
+            return View(Get_Info_Order);
         }
 
         public void handleVoucher()

@@ -31,6 +31,7 @@
                     <th>Ngày đặt hàng</th>
                     <th>Trạng thái</th>
                     <th>Tổng tiền</th>
+                    <th>Xem chi tiết</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +57,7 @@
                             <td>Đã xác nhận</td>
                         }
                         <td>@Extension.ToVnd((double)i.Total_Order)</td>
+                        <td> <a class="Detail_Order_Account btn btn-success" href="#" data-id_or="@i.Id_Order">Xem chi tiết đơn hàng @i.Id_Order</a></td>
                     </tr>
                 }
 

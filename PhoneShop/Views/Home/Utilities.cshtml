@@ -197,7 +197,7 @@
                 height: '600',
                 width: '700',
                 resizable: true,
-                title: 'Quản lý ảnh sản phẩm',
+                title: '',
                 close: function () {
                     window.location.reload();
                 }
@@ -206,6 +206,15 @@
 
                 var proid = $(this).attr("data-id");
                 $("#dialog #myiframe").attr("src", "/MyAddress/Index?id=" + proid);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+
+            $('body').on('click', '.Detail_Order_Account', function () {
+
+                var orderid = $(this).attr("data-id_or");
+                $("#dialog #myiframe").attr("src", "/Order/Index?id_order=" + orderid);
                 $("#dialog").dialog('open');
                 return false;
 

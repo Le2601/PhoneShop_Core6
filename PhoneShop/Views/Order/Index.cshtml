@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PhoneShop.Models.Order_Details>
+@using PhoneShop.Models;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+
+    DeliveryProcess IsDeliveryProcess = ViewBag.DeliveryProcesses;
+}
+<h3>Chi tiết đơn hàng</h3>
+@foreach(var i in Model)
+{
+    <div>@i.Product.Title</div>
+}
+<hr />
+<br />
+<br />
+<br />
+<h3>Ngày nhận hàng dự kiến</h3>
+@if (IsDeliveryProcess != null)
+{
+    <a>@IsDeliveryProcess.DeliveryDate</a>
+    <a>@IsDeliveryProcess.DeliveryStatus</a>
+    <a>@IsDeliveryProcess.DeliveryAddress</a>
+}
+else
+{
+
+    <a>Don hang chua duoc giao</a>
+}
+

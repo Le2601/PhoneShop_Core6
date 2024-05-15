@@ -1,4 +1,6 @@
-﻿using PhoneShop.Areas.Admin.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PhoneShop.Areas.Admin.Data;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 
@@ -55,6 +57,32 @@ namespace PhoneShop.DI.Order
             return x;
         }
 
+        public async Task<DeliveryProcessViewModel> GetDeliveryProcessById(string orderId)
+        {
+           
+            var item_DeliveryProcesses = await _context.DeliveryProcesses.Where(x => x.Order_Id == orderId).FirstOrDefaultAsync();
+            if (item_DeliveryProcesses == null)
+            {
+
+               var IVM_null = new DeliveryProcessViewModel();
+                return IVM_null;
+            }
+            else
+            {
+                var IVM = new DeliveryProcessViewModel
+                {
+
+                    DeliveryAddress = item_DeliveryProcesses.DeliveryAddress,
+                    DeliveryStatus = item_DeliveryProcesses.DeliveryStatus,
+                    DeliveryDate = item_DeliveryProcesses.DeliveryDate,
+
+                };
+                return IVM;
+            }
+
+           
+        }
+
         public IEnumerable<Order_Details> GetOrderDetailByOrderId(string orderId)
         {
 
@@ -67,6 +95,49 @@ namespace PhoneShop.DI.Order
            
         }
 
+        public int GetPaymentMethod(string orderId)
+        {
+            var item = _context.Orders.FirstOrDefault(x => x.Id_Order == orderId)!.PaymentMethod;
+
+            if(item == null) return 0;
+
+            return item;
+
+
+        }
+
+        public async Task<PaymentResponseViewModel> GetRepositoryPaymentById(string orderId)
+        {
+            var GetRepositoryPayment = await _context.paymentResponses.Where(x => x.OrderId == orderId).FirstOrDefaultAsync()!;
+
+            var IVM = new PaymentResponseViewModel
+            {
+                Success = GetRepositoryPayment.Success,
+                Token = GetRepositoryPayment.Token,
+                PaymentMethod = GetRepositoryPayment.PaymentMethod,
+                OrderDescription = GetRepositoryPayment.OrderDescription,
+                OrderId = GetRepositoryPayment.OrderId,
+                VnPayResponseCode = GetRepositoryPayment.VnPayResponseCode,
+
+            };
+            return IVM;
+        }
+
+        public decimal GetTotal_Order(string orderId)
+        {
+            var item = _context.Orders.FirstOrDefault(x => x.Id_Order == orderId)!.Total_Order;
+            if (item == null) return 0;
+            return item;
+        }
+
+        public string Get_Address_Order(string orderId)
+        {
+            var item =  _context.Order_Details.Where(x => x.OrderId == orderId).First().Address;
+
+            if (item == null) return "";
+            return item;
+        }
+
         public List<ProductViewModel> ListProduct()
         {
             var item = _context.Products.Select(x => new ProductViewModel
@@ -76,5 +147,8 @@ namespace PhoneShop.DI.Order
             }).ToList();
             return item;
         }
+
+
+
     }
 }

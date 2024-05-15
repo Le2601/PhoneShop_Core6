@@ -1,10 +1,11 @@
 ﻿@model PhoneShop.Models.Order
 @using PhoneShop.Models;
+@using PhoneShop.ModelViews
 @{
     ViewData["Title"] = "repository_payment_COD";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 
-    DeliveryProcess IsDeliveryProcess = ViewBag.item_DeliveryProcesses;
+    DeliveryProcessViewModel IsDeliveryProcess = ViewBag.item_DeliveryProcesses;
 }
 <style>
     .coler_title{

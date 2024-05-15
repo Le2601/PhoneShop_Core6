@@ -73,8 +73,8 @@ namespace PhoneShop.Areas.Admin.Controllers
            
             //lay ra order
 
-            ViewBag.SumPriceOrder = _context.Orders.FirstOrDefault(x=> x.Id_Order == id)!.Total_Order;
-            ViewBag.PaymentMethodOrder = _context.Orders.FirstOrDefault(x => x.Id_Order == id)!.PaymentMethod;
+            ViewBag.SumPriceOrder = _orderRepository.GetTotal_Order(id);
+            ViewBag.PaymentMethodOrder = _orderRepository.GetPaymentMethod(id);
 
             ViewBag.Product = new SelectList(_context.Products.ToList(), "Id", "Title");
 
@@ -96,12 +96,12 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(item);
         }
         [Route("/Order/repository_payment-{Id}")]
-        public IActionResult repository_payment(string id)
+        public async Task<IActionResult> repository_payment(string id)
         {
 
             //xem kho luu tru khi thanh toan truc tuyen
 
-            var GetRepositoryPayment = _context.paymentResponses.Where(x => x.OrderId == id).FirstOrDefault();
+            var GetRepositoryPayment = await _orderRepository.GetRepositoryPaymentById(id);
 
 
 
@@ -110,11 +110,11 @@ namespace PhoneShop.Areas.Admin.Controllers
       
         [Route("/Order/repository_payment_COD-{Id}")]
 
-        public IActionResult repository_payment_COD(string id)
+        public async Task<IActionResult> repository_payment_COD(string id)
         {
             
-            var item_DeliveryProcesses = _context.DeliveryProcesses.Where(x=> x.Order_Id == id).FirstOrDefault();
-            ViewBag.Address_Order = _context.Order_Details.Where(x => x.OrderId == id).First().Address;
+            var item_DeliveryProcesses = await _orderRepository.GetDeliveryProcessById(id);
+            ViewBag.Address_Order = _orderRepository.Get_Address_Order(id);
 
             //neu da ton tai qua trinh giao hang roi thi hien thi ra
 
@@ -125,7 +125,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                
             }
           
-                var item_Orders = _context.Orders.Where(x => x.Id_Order == id).FirstOrDefault();
+                var item_Orders = _orderRepository.GetById(id);
                 return View(item_Orders);
            
             

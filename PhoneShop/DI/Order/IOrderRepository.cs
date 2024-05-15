@@ -20,9 +20,23 @@ namespace PhoneShop.DI.Order
 
         public IEnumerable<Order_Details> GetOrderDetailByOrderId(string orderId);
 
+        public string Get_Address_Order(string orderId);
+
 
         public List<ProductViewModel> ListProduct();
-        
+
+
+        public decimal GetTotal_Order(string orderId);
+        public int GetPaymentMethod(string orderId);
+
+
+
+        public Task<PaymentResponseViewModel> GetRepositoryPaymentById(string orderId);
+
+
+        //DeliveryProcesses tinh trang giao hang 
+        public Task<DeliveryProcessViewModel> GetDeliveryProcessById(string orderId);
+
 
     }
 }

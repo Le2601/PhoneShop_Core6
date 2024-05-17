@@ -711,5 +711,26 @@ namespace PhoneShop.Controllers
 
         }
 
+        [Route("/dm.html", Name = "dm")]
+        public IActionResult GetList_Selling()
+        {
+            var items = _dbContext.Evaluate_Products.OrderByDescending(x=> x.Purchases)
+                .GroupBy(ep => ep.ProductId)
+                .Take(2)
+                .Select(x=> x.Key)
+                .Join(_dbContext.Products,
+                      idProduct => idProduct,
+                     p => p.Id,
+                     (idProduct, product) => product)
+                   .ToList();
+
+
+            
+
+            var itemss = _dbContext.Evaluate_Products.OrderByDescending(x=> x.Purchases).ToList();         
+
+            return View();
+        }
+
     }
 }

@@ -258,7 +258,7 @@
                                            
                                             @if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
                                             {
-                                                <input type="submit" value="Checkout" name="proceed" class="checkout-button button alt wc-forward">
+                                                <input type="submit" value="Thanh Toán" name="proceed" class="checkout-button button alt wc-forward">
 
                                             }
                                             else
@@ -277,11 +277,12 @@
 
                         <div class="coupon">
                             <form method="post" asp-action="ApplyVoucher" asp-controller="Cart">
-                                <label for="coupon_code">mã giảm giá:</label>
+                                <label for="coupon_code">Áp dụng khuyến mãi:</label>
                                 <input type="text" placeholder="mã giảm giá" value="" id="coupon_code" class="input-text" name="Voucher_code">
                                
-                                <input type="submit" value="Apply Coupon" name="áp dụng" class="button">
+                                <input type="submit" value="Áp dụng" name="áp dụng" class="button">
                             </form>
+                            <h5>Danh sách mã giảm giá</h5>
                             @foreach (var i in IsVoucherVM.VoucherItems)
                             {
                                 <p>@i.Code</p>

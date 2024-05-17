@@ -69,8 +69,8 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult ViewOrder(string id)
         {
-            var item = _orderRepository.GetOrderDetailByOrderId(id);
-           
+            var item = _context.Order_Details.Where(x=> x.OrderId == id).ToList();
+
             //lay ra order
 
             ViewBag.SumPriceOrder = _orderRepository.GetTotal_Order(id);
@@ -182,41 +182,42 @@ namespace PhoneShop.Areas.Admin.Controllers
             return RedirectToAction("Index");
 
         }
-        public IActionResult delete(string id)
+        public async Task<IActionResult> delete(string id)
         {
-            var item_Order = _orderRepository.GetById(id);
+            var item_Order = _orderRepository.GetById_Data(id);
 
             if (item_Order == null)
             {
                 return Json(new { success = false });
             }
 
-            var item_Order_Details = _context.Order_Details.Where(x=>x.OrderId == item_Order.Id_Order).ToList();
-            var item_PaymentResponses = _context.paymentResponses.FirstOrDefault(x => x.OrderId == item_Order.Id_Order);
+            var item_Order_Details = _orderRepository.GetOrderDetailByOrderId(id);
+            var item_PaymentResponses = await _orderRepository.GetRepositoryPaymentById(id);
 
-            if(item_Order_Details.Count == 0)
+            if(item_Order_Details.Count() == 0 )
             {
-                _context.Orders.Remove(item_Order);
-                _context.SaveChanges();
+                _orderRepository.Delete_Order(item_Order);
+                //_context.Orders.Remove(item_Order);
+                //_context.SaveChanges();
             }
 
            
 
             foreach (var item in item_Order_Details)
             {
-                _context.Order_Details.Remove(item);
+
+                _orderRepository.Delete_OrderDetails(item);
+                
 
             }
 
             if(item_PaymentResponses != null)
             {
-                _context.paymentResponses.Remove(item_PaymentResponses);
+
+               _orderRepository.Delete_RepositoryPayment(item_PaymentResponses);
             }
-            
-            _context.Orders.Remove(item_Order);
-            _context.SaveChanges();
 
-
+            _orderRepository.Delete_Order(item_Order);
 
             return Json(new {success = true});
         }

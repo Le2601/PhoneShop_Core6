@@ -29,10 +29,59 @@ namespace PhoneShop.DI.Order
 
         }
 
+        public void Delete_RepositoryPayment(PaymentResponseViewModel model)
+        {
+            var iModel = new PhoneShop.Models.PaymentResponse
+            {
+               Id = model.Id,
+                OrderDescription = model.OrderDescription,
+                 TransactionId = model.TransactionId,
+                 OrderId = model.OrderId,
+                 PaymentMethod = model.PaymentMethod,
+                 PaymentId = model.PaymentId,
+                 Success = model.Success,
+                 Token = model.Token,
+                 VnPayResponseCode = model.VnPayResponseCode,
+            };
+
+            _context.paymentResponses.Remove(iModel);
+            _context.SaveChanges();
+        }
+
         public void Delete_Order(OrderData model)
         {
-            //var item_Model = 
-            //_context.Orders.Remove(getId);
+            var item = _context.Orders.Where(x=> x.Id_Order == model.Id_Order).FirstOrDefault();
+            //var item_model = new PhoneShop.Models.Order
+            //{
+            //    Id_Order = model.Id_Order,
+            //    Total_Order = model.Total_Order,
+            //    Profit = model.Profit,
+            //    Order_Date = model.Order_Date,
+            //    Order_Status = model.Order_Status,
+            //    AccountId = model.AccountId,
+            //    PaymentMethod = model.PaymentMethod
+            //};
+
+            _context.Orders.Remove(item);
+            _context.SaveChanges();
+           
+        }
+
+        public void Delete_OrderDetails(Order_DetailsViewModel model)
+        {
+            var iModel = new Order_Details
+            {
+
+                OrderId = model.OrderId,
+                Id = model.Id,
+                Address = model.Address,
+                Phone = model.Phone,
+                ProductId = model.ProductId,
+                Quantity = model.Quantity,
+            };
+
+            _context.Order_Details.Remove(iModel);
+            _context.SaveChanges();
         }
 
         public List<OrderViewModel> GetAll()
@@ -108,10 +157,20 @@ namespace PhoneShop.DI.Order
            
         }
 
-        public IEnumerable<Order_Details> GetOrderDetailByOrderId(string orderId)
+        public IEnumerable<Order_DetailsViewModel> GetOrderDetailByOrderId(string orderId)
         {
 
-            var items = _context.Order_Details.Where(x => x.OrderId == orderId).ToList();
+            var items = _context.Order_Details.Where(x => x.OrderId == orderId).Select(x=> new Order_DetailsViewModel
+            {
+
+                OrderId = x.OrderId,
+                Id = x.Id,
+                Address = x.Address,
+                Phone = x.Phone,
+                ProductId  = x.ProductId,
+                Quantity = x.Quantity,               
+
+            }).ToList();
 
             return items;
 
@@ -134,6 +193,13 @@ namespace PhoneShop.DI.Order
         public async Task<PaymentResponseViewModel> GetRepositoryPaymentById(string orderId)
         {
             var GetRepositoryPayment = await _context.paymentResponses.Where(x => x.OrderId == orderId).FirstOrDefaultAsync()!;
+
+            if(GetRepositoryPayment == null)
+            {
+                var IVM_Null = new PaymentResponseViewModel();
+               
+                return IVM_Null;
+            }
 
             var IVM = new PaymentResponseViewModel
             {
@@ -173,7 +239,17 @@ namespace PhoneShop.DI.Order
             return item;
         }
 
-
-
+        //public IEnumerable<Order_DetailsViewModel> GetOrderDetailByOrderId_demo(string orderId)
+        //{
+        //    var item = _context.Order_Details.Where(x=> x.OrderId == orderId).Select(x=> new Order_DetailsViewModel
+        //    {
+        //        OrderId = x.OrderId,
+        //        productViews = x.productViews.Select(x => new ProductViewModel
+        //        {
+        //            Id = x.Id,
+        //            Title= x.Title,
+        //        })
+        //    }).ToList();
+        //}
     }
 }

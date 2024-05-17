@@ -22,8 +22,9 @@ namespace PhoneShop.ModelViews
 
         public virtual Order Order { get; set; }
 
-        public virtual ProductViewModel Product { get; set; }
+        //public virtual ProductViewModel Product { get; set; }
 
+        public IEnumerable<ProductViewModel> productViews { get; set; }
 
 
     }

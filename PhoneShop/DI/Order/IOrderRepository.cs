@@ -22,7 +22,9 @@ namespace PhoneShop.DI.Order
 
         //order_details
 
-        public IEnumerable<Order_Details> GetOrderDetailByOrderId(string orderId);
+        public IEnumerable<Order_DetailsViewModel> GetOrderDetailByOrderId(string orderId);
+
+        void Delete_OrderDetails(Order_DetailsViewModel model);
 
         public string Get_Address_Order(string orderId);
 
@@ -41,7 +43,14 @@ namespace PhoneShop.DI.Order
         //DeliveryProcesses tinh trang giao hang 
         public Task<DeliveryProcessViewModel> GetDeliveryProcessById(string orderId);
 
-        
+
+        void Delete_RepositoryPayment(PaymentResponseViewModel model);
+
+
+        //public IEnumerable<Order_DetailsViewModel> GetOrderDetailByOrderId_demo(string orderId);
+
+
+
 
 
     }

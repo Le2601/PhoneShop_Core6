@@ -184,7 +184,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         }
         public IActionResult delete(string id)
         {
-            var item_Order = _context.Orders.FirstOrDefault(x=> x.Id_Order==id);
+            var item_Order = _orderRepository.GetById(id);
 
             if (item_Order == null)
             {

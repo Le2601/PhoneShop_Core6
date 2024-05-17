@@ -29,6 +29,12 @@ namespace PhoneShop.DI.Order
 
         }
 
+        public void Delete_Order(OrderData model)
+        {
+            //var item_Model = 
+            //_context.Orders.Remove(getId);
+        }
+
         public List<OrderViewModel> GetAll()
         {
             var items = _context.Orders.OrderBy(x => x.Id_Order).Select(x=> new OrderViewModel
@@ -56,6 +62,25 @@ namespace PhoneShop.DI.Order
 
             return x;
         }
+
+        public OrderData GetById_Data(string id)
+        {
+            var item = _context.Orders.FirstOrDefault(x=> x.Id_Order == id);
+            var IData = new OrderData
+            {
+                Id_Order = item.Id_Order,
+                Total_Order = item.Total_Order,
+                Profit = item.Profit,
+                Order_Date = item.Order_Date,
+                Order_Status = item.Order_Status,
+                AccountId = item.AccountId,
+                PaymentMethod = item.PaymentMethod
+
+            };
+            return IData;
+        }
+
+        
 
         public async Task<DeliveryProcessViewModel> GetDeliveryProcessById(string orderId)
         {

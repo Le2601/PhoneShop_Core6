@@ -11,8 +11,12 @@ namespace PhoneShop.DI.Order
 
         public Models.Order GetById(string id);
 
+        public OrderData GetById_Data(string id);
+        
         void ComfirmStatus(Models.Order model);
 
+
+        void Delete_Order(OrderData model);
 
 
 
@@ -36,6 +40,8 @@ namespace PhoneShop.DI.Order
 
         //DeliveryProcesses tinh trang giao hang 
         public Task<DeliveryProcessViewModel> GetDeliveryProcessById(string orderId);
+
+        
 
 
     }

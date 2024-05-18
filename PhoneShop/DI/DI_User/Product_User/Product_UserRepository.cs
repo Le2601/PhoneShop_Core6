@@ -58,6 +58,25 @@ namespace PhoneShop.DI.DI_User.Product_User
             return items;
         }
 
+        public List<ProductViewModel> GetList_Selling()
+        {
+            var item_Model = (
+                   from p in _context.Products
+                   join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases).Take(4) on p.Id equals e.ProductId
+                   select new PhoneShop.ModelViews.ProductViewModel
+                   {
+                       Id = p.Id,   
+                       Title = p.Title,
+                       ImageDefaultName = p.ImageDefaultName,
+                       Price = p.Price,
+                       Discount = p.Discount
+
+                   }
+               ).ToList();
+
+            return item_Model;
+        }
+
         public async Task<List<ProductViewModel>> GetProduct_RecentPosts()
         {
             var items = await _context.Products.OrderBy(x => x.Create_at).Select(x=> new ProductViewModel
@@ -129,7 +148,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                
              
 
-            }).Take(5).ToListAsync();
+            }).Take(5).OrderByDescending(x=> x.Create_at).ToListAsync();
 
             return items;
         }

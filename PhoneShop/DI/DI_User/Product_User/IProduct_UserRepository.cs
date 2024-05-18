@@ -55,6 +55,11 @@ namespace PhoneShop.DI.DI_User.Product_User
         public void Delete_Product_Quantity_Zero(int Id_Product);
 
 
+        //san pham ban chay join 2 bang
+
+        public List<PhoneShop.ModelViews.ProductViewModel> GetList_Selling();
+
+
 
     }
 }

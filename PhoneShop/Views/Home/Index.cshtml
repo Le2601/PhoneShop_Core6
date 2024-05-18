@@ -18,6 +18,8 @@
     // List<ProductViewModel> IsSelling_Products  = ViewBag.Selling_Products;
 
     int tienO = 0;
+
+    List<ProductViewModel> List_Selling = ViewBag.ListSelling;
 }
 
 
@@ -246,7 +248,114 @@
         </div>
     </div>
 </div> <!-- End main content area -->
+<div class="product-widget-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
 
+            <div style="margin-bottom: 10px;" class="section-title">
+                <h3 style="text-align: left; margin-bottom:0PX;">Bán Chạy </h3>
+            </div>
+
+
+            @if (Model != null)
+            {
+                foreach (var item in List_Selling)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="single-product">
+                            <div class="product-f-image">
+                                @*                                         <img src="~/User/img/product-1.jpg" alt="">
+                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="border: solid 1px;height:296px; width:220px" />
+
+                                <div class="product-hover">
+                                    <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                    <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                                </div>
+                            </div>
+                            <div style="height:45px">  <h2><a href="single-product.html">@item.Title</a></h2></div>
+
+
+                            <div class="product-carousel-price">
+
+
+                                @{
+                                    if (item.Discount == 0 || item.Discount == null || item.Discount is string)
+                                    {
+                                        <ins>
+                                            @{
+
+
+
+
+
+
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                    else
+                                    {
+                                        <ins>
+                                            @{
+
+
+
+
+
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
+
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                }
+
+                                <del>
+                                    @{
+                                        string formattedPrice2;
+                                        if (item.Discount > 0)
+                                        {
+
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                        }
+                                        else
+                                        {
+
+
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
+                                        }
+
+
+                                    }
+                                    @formattedPrice2
+
+
+
+
+                                </del>
+                            </div>
+                            @foreach (var evaluate in IsEvaluate_Product)
+                            {
+                                if (evaluate.ProductId == item.Id)
+                                {
+                                    <span style="color:red"> Đã mua @evaluate.Purchases lượt </span>
+                                }
+
+
+                            }
+                        </div>
+                    </div>
+                }
+            }
+
+            <!-- Các sản phẩm tiếp theo -->
+        </div>
+    </div>
+</div> <!-- san pham ban chay-->
 <div class="brands-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -275,7 +384,7 @@
         <div class="row">
 
             <div style="margin-bottom: 10px;" class="section-title">
-                <h3 style="text-align: left; margin-bottom:0PX;">Bán Chạy </h3>
+                <h3 style="text-align: left; margin-bottom:0PX;">Tất cả sản phẩm </h3>
             </div>
             
 

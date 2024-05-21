@@ -64,7 +64,7 @@ namespace PhoneShop.Controllers
             ViewBag.GetSpecifi =await _userRepository.GetSpeciByIdProduct(item.Id);
             ViewBag.ListReview = ListReview;
             //partial related product
-            ViewBag.RelatedProduct = await _userRepository.GetListRelatedProduct(item.CategoryId);
+            ViewBag.SellingProduct = await _userRepository.Selling_Products();
 
             ViewBag.GetProduct_RecentPosts = await _userRepository.GetProduct_RecentPosts();
 

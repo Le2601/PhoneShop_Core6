@@ -13,7 +13,7 @@
     SpecificationsViewModel Ispecifi = ViewBag.GetSpecifi;
 
 
-    List<ProductViewModel> IsRelatedProduct = ViewBag.RelatedProduct;
+    List<ProductViewModel> IsSellingProduct = ViewBag.SellingProduct;
 
     List<ProductViewModel> IsGetProduct_RecentPosts = ViewBag.GetProduct_RecentPosts;
 
@@ -300,7 +300,7 @@
                           </form>
 
                           <!--  end binh luan-->
-                    @await Html.PartialAsync("_PartialDetail_ProductRelated",IsRelatedProduct)
+                    @await Html.PartialAsync("_PartialDetail_ProductRelated",IsSellingProduct)
                     
                 </div>
             </div>

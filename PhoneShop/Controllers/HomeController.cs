@@ -26,6 +26,8 @@ using System.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using PagedList;
+using PagedList.Core;
 
 namespace PhoneShop.Controllers
 {
@@ -78,9 +80,16 @@ namespace PhoneShop.Controllers
    
   
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             var All_Product =await _productRepository.AllProducts();
+            IQueryable<ProductViewModel> models = All_Product.AsQueryable();
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            var pageSize = 8;
+            PagedList<ProductViewModel> item = new PagedList<ProductViewModel>(models, pageNumber, pageSize);
+
+
+
 
             ViewBag.New_Product = await _productRepository.LatestProducts();
 
@@ -90,14 +99,11 @@ namespace PhoneShop.Controllers
             //partial View Banner
             ViewBag.ListBanner =await _bannerRepository.GetAll();
 
-            //ViewBag.Selling_Products = await _productRepository.Selling_Products();
-
-            //selling take 4
-            
+            //selling take 4     
             ViewBag.ListSelling = _productRepository.GetList_Selling();
 
 
-            return View(All_Product);
+            return View(item);
         }
         //DEMO EXPORT FILE
 

@@ -1,7 +1,10 @@
-﻿﻿@using PhoneShop.Models
+﻿﻿@using PagedList.Core.Mvc
+@using System.Globalization;﻿
+@using PhoneShop.Models
 @using PhoneShop.ModelViews
 @using PhoneShop.Extension
-@model List<PhoneShop.ModelViews.ProductViewModel>
+
+@model PagedList.Core.IPagedList<PhoneShop.ModelViews.ProductViewModel>
 
 @{
 
@@ -331,10 +334,22 @@
                 }
             }
 
+            
             <!-- Các sản phẩm tiếp theo -->
         </div>
+        @*  note *@
+        <div aria-label="Page navigation example">
+            <ul class="pagination">
+                <pager class="pager-container" list="@Model" asp-controller="Home" asp-action="Index" />
+
+            </ul>
+        </div>
+        @*  note *@
+     
     </div>
+   
 </div> <!--Tat ca san pham -->
+
 
 
 

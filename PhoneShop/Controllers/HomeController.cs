@@ -80,7 +80,9 @@ namespace PhoneShop.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var itemsHot =await _productRepository.LatestProducts();
+            var All_Product =await _productRepository.AllProducts();
+
+            ViewBag.New_Product = await _productRepository.LatestProducts();
 
             ViewBag.imageproduct =await _imageProduct_UserRepository.ImageProducts();
             ViewBag.ListLogo =await _categoryRepository.CategoryProducts();
@@ -88,18 +90,14 @@ namespace PhoneShop.Controllers
             //partial View Banner
             ViewBag.ListBanner =await _bannerRepository.GetAll();
 
-
-            ViewBag.ListEvaluate_Product = await _evaluate_ProductRepository.GetLists();
-
-
             //ViewBag.Selling_Products = await _productRepository.Selling_Products();
 
             //selling take 4
-
+            
             ViewBag.ListSelling = _productRepository.GetList_Selling();
 
 
-            return View(itemsHot);
+            return View(All_Product);
         }
         //DEMO EXPORT FILE
 

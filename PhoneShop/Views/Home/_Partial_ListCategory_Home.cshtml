@@ -1,0 +1,23 @@
+﻿@using PhoneShop.ModelViews
+@model List<CategoryModelView>
+
+<div class="brands-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="brand-wrapper">
+                    <div class="brand-list">
+
+
+                        @foreach (var item_course in Model)
+                        {
+                            <a href="/@item_course.Alias-@item_course.Id"> <img src="~/images/Category/@item_course.Image" alt=""></a>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End brands area -->

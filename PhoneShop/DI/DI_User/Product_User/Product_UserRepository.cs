@@ -15,6 +15,30 @@ namespace PhoneShop.DI.DI_User.Product_User
             _context = context;
         }
 
+        public async Task<List<ProductViewModel>> AllProducts()
+        {
+            var items = await _context.Products.Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                CategoryId = x.CategoryId,
+                Title = x.Title,
+                Alias = x.Alias,
+                Price = x.Price,
+                Discount = x.Discount,
+                Quantity = x.Quantity,
+                Description = x.Description,
+                Create_at = x.Create_at,
+                Update_at = x.Update_at,
+                ImageDefaultName = x.ImageDefaultName,
+
+
+
+
+            }).OrderByDescending(x => x.Create_at).ToListAsync();
+
+            return items;
+        }
+
         public int Check_Quantity_Product(List<CartItemModel> item)
         {
             foreach (var i in item)
@@ -148,7 +172,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                
              
 
-            }).Take(5).OrderByDescending(x=> x.Create_at).ToListAsync();
+            }).Take(5).OrderByDescending(x=> x.Create_at).Take(10).ToListAsync();
 
             return items;
         }

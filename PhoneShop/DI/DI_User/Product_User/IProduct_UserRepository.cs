@@ -9,6 +9,11 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public Task<List<ProductViewModel>> LatestProducts();
 
+        public Task<List<ProductViewModel>> AllProducts();
+
+
+
+
         public Task<List<ProductViewModel>> Selling_Products();
 
         public Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory);

@@ -8,6 +8,7 @@ using PhoneShop.DI.DI_User.Evaluate_Product_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
 using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.DI_User.ReviewProduct_User;
+using PhoneShop.Extension.Algorithm;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using System;
@@ -159,11 +160,28 @@ namespace PhoneShop.Controllers
         {
             string search_value = form["search_value"];
 
-            var check_value =await _userRepository.Search_Product(search_value);
+            // var check_value =await _userRepository.Search_Product(search_value);
 
-           ViewBag.count_value = check_value.Count();
-            ViewBag.Value_Search_Form = search_value;
-            return View(check_value);
+            //ViewBag.count_value = check_value.Count();
+            // ViewBag.Value_Search_Form = search_value;
+            // return View(check_value);
+
+            var item = new PhoneShop.Extension.Algorithm.ProductSearchTrie();
+
+
+            //map du lieu
+            var iproduct = await _userRepository.AllProducts();
+
+            foreach (var product in iproduct)
+            {
+                item.Insert(product);
+            }
+            
+            var results = item.Search(search_value);
+
+
+            return Json(results);
+
 
         }
 

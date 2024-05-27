@@ -148,6 +148,34 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
+    @* // search_trie *@
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function () {
+            const query = this.value;
+            if (query.length > 0) {
+                fetch(`/Product/demoget?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const suggestionsDiv = document.getElementById('suggestions');
+                        suggestionsDiv.innerHTML = '';
+                        data.forEach(item => {
+                            const suggestionItem = document.createElement('a');
+                            suggestionItem.classList.add('suggestion-item');
+                            suggestionItem.textContent = item.title;
+                            suggestionItem.href = '/chi-tiet/'+item.alias+'-'+item.id; // them duong dan href
+                            suggestionItem.addEventListener('click', () => {
+                                document.getElementById('searchInput').value = suggestionItem.href;
+                                suggestionsDiv.innerHTML = '';
+                            });
+                            suggestionsDiv.appendChild(suggestionItem);
+                            suggestionsDiv.appendChild(document.createElement('br')); 
+                        });
+                    });
+            } else {
+                document.getElementById('suggestions').innerHTML = '';
+            }
+        });
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

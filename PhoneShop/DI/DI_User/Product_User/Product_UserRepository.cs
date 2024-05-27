@@ -149,9 +149,34 @@ namespace PhoneShop.DI.DI_User.Product_User
             return itemVM;
         }
 
-      
+        public async Task<List<ProductViewModel>> Get_Search_Product()
+        {
+            var items = await _context.Products.Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                CategoryId = x.CategoryId,
+                Title = x.Title,
+                Alias = x.Alias,
+                Price = x.Price,
+                Discount = x.Discount,
+                Quantity = x.Quantity,
+                Description = x.Description,
+                Create_at = x.Create_at,
+                Update_at = x.Update_at,
+                ImageDefaultName = x.ImageDefaultName,
 
-       
+
+
+
+            }).OrderByDescending(x => x.Create_at).Select(x=> new ProductViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Alias = x.Alias
+            }).ToListAsync();
+
+            return items;
+        }
 
         public async Task<List<ProductViewModel>> LatestProducts()
         {

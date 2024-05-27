@@ -225,8 +225,13 @@ app.UseEndpoints(endpoints =>
    pattern: "{controller=Home}/{action=Index}/{id?}");
 
     // Ánh xạ trang lỗi 404 tùy chỉnh
-   
-   
+
+    endpoints.MapControllerRoute(
+        name: "demoroute",
+        pattern: "demothoi/{Title}",
+        defaults: new { controller = "ProductController", action = "demoget" });
+
+
 
 });
 

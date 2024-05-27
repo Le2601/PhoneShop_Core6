@@ -17,6 +17,21 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
 
 <style>
+    .suggestions {
+        border: 1px solid #ccc;
+        max-height: 100px;
+        overflow-y: auto;
+        background-color: #fff;
+    }
+
+    .suggestion-item {
+        padding: 8px;
+        cursor: pointer;
+    }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
     a {
         color: #888
     }
@@ -152,11 +167,18 @@
             <li>
                
                 <form class="search-form" method="post" asp-action="Search_Product" asp-controller="Product" >
-                    <input type="text" class="search-input" name="search_value" placeholder="Search...">
-                    <button type="submit" class="search-button">
-                        <i class="fas fa-search"></i>
-                    </button>
+                   @*  <input type="text" class="search-input" name="search_value" placeholder="Search..."> *@
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Search..." autocomplete="off">
+                        <div id="suggestions" class="suggestions"></div>
+                        <button type="submit" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                  
                 </form>
+
+               
                
             </li>
           

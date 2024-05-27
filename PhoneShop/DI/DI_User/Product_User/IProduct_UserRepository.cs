@@ -12,6 +12,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         public Task<List<ProductViewModel>> AllProducts();
 
 
+        public Task<List<ProductViewModel>> Get_Search_Product();
 
 
         public Task<List<ProductViewModel>> Selling_Products();

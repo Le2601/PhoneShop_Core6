@@ -170,9 +170,20 @@ namespace PhoneShop.Controllers
 
 
             //map du lieu
-            var iproduct = await _userRepository.AllProducts();
-
-            foreach (var product in iproduct)
+            //var iproduct = await _userrepository.get_search_product();
+            var itemModels = _context.Products.Select(x => new PhoneShop.Extension.Algorithm.Product_Search_Trie
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Alias = x.Alias
+            }).ToList();
+            //List<Product_Search_Trie> ItemViewSearch = new List<Product_Search_Trie>();
+            //foreach(var i in itemModels)
+            //{
+            //    ItemViewSearch.Add(i);
+            //}
+           
+            foreach (var product in itemModels)
             {
                 item.Insert(product);
             }
@@ -185,7 +196,34 @@ namespace PhoneShop.Controllers
 
         }
 
+        //[HttpGet]
+        //[Route("demothoi/{query}")]
+        public IActionResult demoget(string query)
+        {
 
-        
+            var item = new PhoneShop.Extension.Algorithm.ProductSearchTrie();
+
+
+            //map du lieu
+            var itemModels = _context.Products.Select(x => new PhoneShop.Extension.Algorithm.Product_Search_Trie
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Alias = x.Alias
+            }).ToList();          
+
+            foreach (var product in itemModels)
+            {
+                item.Insert(product);
+            }
+
+            var results = item.Search(query);
+
+
+            return Json(results);
+        }
+
+
+
     }
 }

@@ -81,7 +81,7 @@ namespace PhoneShop.Controllers
   
 
         public async Task<IActionResult> Index(int? page)
-        {
+        {   
             var All_Product =await _productRepository.AllProducts();
             IQueryable<ProductViewModel> models = All_Product.AsQueryable();
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;

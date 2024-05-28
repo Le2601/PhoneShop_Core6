@@ -48,6 +48,7 @@ namespace PhoneShop.Extension.Algorithm
                 {
                     return results;
                 }
+                //truy cao vao nut co ky tu key = c
                 node = node.Children[c];
             }
 
@@ -56,13 +57,14 @@ namespace PhoneShop.Extension.Algorithm
             return results;
         }
 
+
         private void GetProductsFromNode(TrieNode node, List<Product_Search_Trie> results)
         {
             if (node.IsEndOfWord)
             {
                 results.AddRange(node.Products);
             }
-
+            //de quy
             foreach (var child in node.Children.Values)
             {
                 GetProductsFromNode(child, results);

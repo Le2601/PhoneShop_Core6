@@ -160,38 +160,13 @@ namespace PhoneShop.Controllers
         {
             string search_value = form["search_value"];
 
-            // var check_value =await _userRepository.Search_Product(search_value);
+            var check_value = await _userRepository.Search_Product(search_value);
 
-            //ViewBag.count_value = check_value.Count();
-            // ViewBag.Value_Search_Form = search_value;
-            // return View(check_value);
-
-            var item = new PhoneShop.Extension.Algorithm.ProductSearchTrie();
+            ViewBag.count_value = check_value.Count();
+            ViewBag.value_search_form = search_value;
+            return View(check_value);
 
 
-            //map du lieu
-            //var iproduct = await _userrepository.get_search_product();
-            var itemModels = _context.Products.Select(x => new PhoneShop.Extension.Algorithm.Product_Search_Trie
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Alias = x.Alias
-            }).ToList();
-            //List<Product_Search_Trie> ItemViewSearch = new List<Product_Search_Trie>();
-            //foreach(var i in itemModels)
-            //{
-            //    ItemViewSearch.Add(i);
-            //}
-           
-            foreach (var product in itemModels)
-            {
-                item.Insert(product);
-            }
-            
-            var results = item.Search(search_value);
-
-
-            return Json(results);
 
 
         }

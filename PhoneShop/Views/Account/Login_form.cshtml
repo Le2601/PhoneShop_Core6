@@ -1,0 +1,38 @@
+﻿@model PhoneShop.ModelViews.LoginViewModel
+@{
+    ViewData["Title"] = "Login_form";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="~/user/loginuser/style.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<form class="form-signin Loginform" asp-action="Login" asp-controller="Account" method="post" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng nhập</h1>
+    <div class="social-login">
+        <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i>Đăng nhập với Facebook</span> </button>
+        <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i>Đăng nhập với Google+</span> </button>
+    </div>
+    <p style="text-align:center"> Hoặc    </p>
+    <input type="text" id="inputEmail" name="Email" class="form-control" placeholder="Email/Sô điện thoại/Tên đăng nhập" autofocus="">
+    <input type="text" id="inputPassword" name="Password" class="form-control" placeholder="Password" required="">
+
+    <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i>Đăng nhập</button>
+    <label style="color:red">
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="error-message">
+                @ViewBag.Error
+            </div>
+        }
+    </label><br>
+    <hr>
+    <!-- <p>Don't have an account!</p>  -->
+    <a class="btn btn-primary btn-block" style="color:white" id="btn-signup"><i class="fas fa-user-plus"></i> Tạo tài khoản</a>
+    <a href="~/"><i class="fas fa-angle-left"></i> Trở về </a>
+</form>
+
+
+<script src="~/user/loginuser/script.js"></script>
+

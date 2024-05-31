@@ -53,6 +53,21 @@
         cursor: pointer;
     }
 
+  /*   //btn success */
+    .add-to-cart-btn {
+        background-color: #2980b9;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .add-to-cart-btn:hover {
+            background-color: #3498db;
+        }
   
   
 </style>
@@ -237,9 +252,7 @@
                                     <div class="quantity">
                                         <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
                                     </div>
-                                <button class="'btn btn-success" style="background-color:#5a88ca"> <a class="confirmAdd hover-effect" data-id="@Model.Id" style="color:white">Add to cart</a></button>
-                                
-
+                                <button class="add-to-cart-btn"><a style="color:white" class="confirmAdd" data-id="@Model.Id">Thêm vào giỏ hàng</a></button>
                               
 
                                 <ul class="nav nav-tabs">
@@ -316,7 +329,7 @@
             $('body').on('click', '.confirmAdd', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("Muon them vao gio hang");
+                var conf = confirm("Xác nhận thêm vào giỏ hàng");
 
                 if (conf == true) {
 
@@ -326,8 +339,7 @@
                         type: 'post',
                         data: { id: id },
                         success: function (rs) {
-                            if (rs.success) {
-                                alert("Them thanh cong");
+                            if (rs.success) {                              
                                 // alert(rs.msg);
                                 location.reload();
                             }

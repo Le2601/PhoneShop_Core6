@@ -24,8 +24,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/user/css/breadcrumb.css" rel="stylesheet" />
 
+@*     login modal*@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
-   
     <style>
         .container {
             width: 1241px;
@@ -46,10 +47,12 @@
     </div> <!-- End header area -->
     @await Component.InvokeAsync("Menu")
 
+    <a class="Loginform btn btn-success" href="#" data-id="1">Login</a>
 
-
-    @RenderBody()
-    
+    <div id="dialog">
+        <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
+    </div>
+    @RenderBody() 
 
     <div class="footer-top-area">
         <div class="zigzag-bottom"></div>
@@ -176,6 +179,79 @@
             }
         });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            //dialog anh
+
+            $("#dialog").dialog({
+                autoOpen: false,
+                show: "fade",
+                hide: "fade",
+                modal: true,
+                height: '600',
+                width: '700',
+                resizable: true,
+                title: '',
+                close: function () {
+                    window.location.reload();
+                }
+            });
+            $('body').on('click', '.imgproduct', function () {
+
+                var proid = $(this).attr("data-id");
+                $("#dialog #myiframe").attr("src", "/MyAddress/Index?id=" + proid);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+
+            $('body').on('click', '.Detail_Order_Account', function () {
+
+                var orderid = $(this).attr("data-id_or");
+                $("#dialog #myiframe").attr("src", "/Order/Index?id_order=" + orderid);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+            $('body').on('click', '.Loginform', function () {
+
+               
+                $("#dialog #myiframe").attr("src", "/Account/Login_form");
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+            
+        });
+        // Lắng nghe sự kiện submit form đăng nhập
+        $(".Loginform").submit(function (event) {
+            event.preventDefault(); // Ngăn chặn form submit bình thường
+
+            // Gửi request AJAX lên controller
+            $.ajax({
+                type: "POST",
+                url: "/Account/Login",
+                data: $(this).serialize(), // Serialize dữ liệu từ form
+                success: function (response) {
+                    // Nếu controller trả về dữ liệu cho việc đóng modal
+                    if (response.closeModal) {
+                        // Đóng modal
+                        var modal = document.getElementById("Loginform");
+                        modal.style.display = "none";
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi nếu có
+                    console.error(error);
+                }
+            });
+        });
+
+    </script>
+
 
     @RenderSection("Scripts", required: false)
 </body>

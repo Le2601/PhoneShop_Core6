@@ -32,7 +32,15 @@
         <label for="pwd">Confirm Password:</label>
         <input type="password" class="form-control" id="pwd">
     </div> *@
-
+    <label style="color:red">
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="error-message">
+                @ViewBag.Error
+            </div>
+        }
+    </label><br>
+    <hr>
 
 
     <button type="submit" class="btn btn-default btn-lg">Submit</button>

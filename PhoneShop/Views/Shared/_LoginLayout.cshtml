@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="~/user/loginuser/style.css" rel="stylesheet" />
     <title>Bootstrap 4 Login/Register Form</title>
+
+
 </head>
 <body>
    
@@ -44,6 +46,43 @@
       
 
         @RenderBody()
+        <!-- Button trigger modal -->
+        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-modal-init data-mdb-target="#staticBackdrop1">
+            Launch modal login form
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+            <div class="modal-dialog d-flex justify-content-center">
+                <div class="modal-content w-75">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Sign in</h5>
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <form>
+                            <!-- Email input -->
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <input type="email" id="email1" class="form-control" />
+                                <label class="form-label" for="email1">Email address</label>
+                            </div>
+
+                            <!-- password input -->
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <input type="password" id="password1" class="form-control" />
+                                <label class="form-label" for="password1">Password</label>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+
+
         <br>
 
     </div>
@@ -52,6 +91,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   
     <script src="~/user/loginuser/script.js"></script>
+
+
     @RenderSection("ScriptsLogin", required: false)
     
 </body>

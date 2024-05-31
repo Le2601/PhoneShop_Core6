@@ -85,7 +85,7 @@ namespace PhoneShop.Controllers
             var All_Product =await _productRepository.AllProducts();
             IQueryable<ProductViewModel> models = All_Product.AsQueryable();
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-            var pageSize = 8;
+            var pageSize = 4;
             PagedList<ProductViewModel> item = new PagedList<ProductViewModel>(models, pageNumber, pageSize);
 
 

@@ -61,17 +61,11 @@ namespace PhoneShop.Controllers
             _smsService = smsService;
             _context = context;
         }
-        //[Route("Register.html")]
-        //public IActionResult Register()
-        //{
-
-        //    return View();
-        //}
-
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+    
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -89,22 +83,23 @@ namespace PhoneShop.Controllers
                 //kiem tra sdt
                 if (model.Phone.Length != 10)
                 {
-                    ViewBag.Error = "Số điện thoại không đúng định dạng";
-                    return View();
+                    
+                    TempData["Error_"] = "Số điện thoại không đúng định dạng!";
+                    return RedirectToAction("Index");
                 }
                 char[] charArray_Phone = model.Phone.ToCharArray();
                 char number = '0';
                 if (charArray_Phone[0] != number)
                 {
-                    ViewBag.Error = "Số điện thoại không đúng định dạng";
-                    return View();
+                    TempData["Error_"] = "Số điện thoại không đúng định dạng!";
+                    return RedirectToAction("Index");
                 }
 
                 if (ListCourse.Count > 0)
                 {
 
-                    ViewBag.Error = "Email đã tồn tại";
-                    return View();
+                    TempData["Error_"] = "Email đã tồn tại";
+                    return RedirectToAction("Index");
                 }
 
                 ///xu ly sms otp
@@ -217,34 +212,7 @@ namespace PhoneShop.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Login_form(string returnUrl = null)
-        {
-            //neu da dang nhap roi thi vao thang trang home
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID != null)
-            {
-                var Check_Role = _context.Accounts.Where(x => x.Id == int.Parse(taikhoanID)).FirstOrDefault()!;
-                if (Check_Role.RoleId != 3)
-                {
-                    return View();
-                }
-                else if (Check_Role.RoleId == 3)
-                {
-
-                    ViewBag.ReturnUrl = returnUrl;
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult demoo()
-        {
-            return Json(new { closeModal = true });
-        }
+      
 
 
 
@@ -350,8 +318,8 @@ namespace PhoneShop.Controllers
                         await HttpContext.SignInAsync(userPrincipal);
 
 
-                        return Json(new { closeModal = true });
-                        //return RedirectToAction("Index", "Home");
+                        //return Json(new { closeModal = true });
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {

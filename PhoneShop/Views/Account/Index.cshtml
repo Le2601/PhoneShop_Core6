@@ -1,0 +1,33 @@
+﻿@model PhoneShop.Models.Account
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<form asp-action="Create" asp-controller="Account" method="post" >
+    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng ký</h1>
+    
+
+    <input type="text" id="user-name" class="form-control" required placeholder="Nhập tên" required="" autofocus="" name="FullName">
+    <input type="text" id="user-email" class="form-control" placeholder="Nhập Email" required autofocus="" name="Email">
+    <input type="text" id="user-pass" class="form-control" placeholder="Nhập mật khẩu" required autofocus="" name="Password">
+    <input type="text" id="user-repeatpass" class="form-control" placeholder="Nhập số điện thoại" required autofocus="" name="Phone">
+    <label style="color:red">
+    
+            <div class="error-message">
+            @if (TempData["Error_"] != null)
+            {
+
+                @TempData["Error_"]
+                
+            }
+           
+            </div>
+        
+    </label><br>
+    <hr>
+    <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-user-plus"></i> Đăng ký</button>
+    <a href="/Login.html"><i class="fas fa-angle-left"></i> Trở về</a>
+</form>
+
+

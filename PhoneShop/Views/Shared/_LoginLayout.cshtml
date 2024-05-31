@@ -15,72 +15,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="~/user/loginuser/style.css" rel="stylesheet" />
-    <title>Bootstrap 4 Login/Register Form</title>
+    <title>Tài Khoản</title>
 
 
 </head>
 <body>
    
     <div id="logreg-forms">
-      
-        <form asp-action="Create" asp-controller="Account" method="post" class="form-signup">
-            <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng ký</h1>
-            <div class="social-login">
-                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Đăng nhập với Facebook</span> </button>
-            </div>
-            <div class="social-login">
-                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Đăng nhập với Google+</span> </button>
-            </div>
-
-            <p style="text-align:center">Hoặc</p>
-
-            <input type="text" id="user-name" class="form-control" required placeholder="Nhập tên" required="" autofocus="" name="FullName">
-            <input type="text" id="user-email" class="form-control" placeholder="Nhập Email" required autofocus="" name="Email">
-            <input type="text" id="user-pass" class="form-control" placeholder="Nhập mật khẩu" required autofocus="" name="Password">
-            <input type="text" id="user-repeatpass" class="form-control" placeholder="Nhập số điện thoại" required autofocus="" name="Phone">
-
-            <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-user-plus"></i> Đăng ký</button>
-            <a href="~/" id="cancel_signup"><i class="fas fa-angle-left"></i> Trở về</a>   
-        </form>
-
-      
+        
+ 
 
         @RenderBody()
-        <!-- Button trigger modal -->
-        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-modal-init data-mdb-target="#staticBackdrop1">
-            Launch modal login form
-        </button>
+    
 
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-            <div class="modal-dialog d-flex justify-content-center">
-                <div class="modal-content w-75">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Sign in</h5>
-                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-4">
-                        <form>
-                            <!-- Email input -->
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="email" id="email1" class="form-control" />
-                                <label class="form-label" for="email1">Email address</label>
-                            </div>
-
-                            <!-- password input -->
-                            <div data-mdb-input-init class="form-outline mb-4">
-                                <input type="password" id="password1" class="form-control" />
-                                <label class="form-label" for="password1">Password</label>
-                            </div>
-
-                            <!-- Submit button -->
-                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block">Login</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal -->
+     
 
 
         <br>

@@ -24,8 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/user/css/breadcrumb.css" rel="stylesheet" />
 
-@*     login modal*@
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 
     <style>
         .container {
@@ -47,7 +46,7 @@
     </div> <!-- End header area -->
     @await Component.InvokeAsync("Menu")
 
-    <a class="Loginform btn btn-success" href="#" data-id="1">Login</a>
+    
 
     <div id="dialog">
         <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
@@ -216,39 +215,10 @@
                 return false;
 
             });
-            $('body').on('click', '.Loginform', function () {
-
-               
-                $("#dialog #myiframe").attr("src", "/Account/Login_form");
-                $("#dialog").dialog('open');
-                return false;
-
-            });
+          
             
         });
-        // Lắng nghe sự kiện submit form đăng nhập
-        $(".Loginform").submit(function (event) {
-            event.preventDefault(); // Ngăn chặn form submit bình thường
-
-            // Gửi request AJAX lên controller
-            $.ajax({
-                type: "POST",
-                url: "/Account/Login",
-                data: $(this).serialize(), // Serialize dữ liệu từ form
-                success: function (response) {
-                    // Nếu controller trả về dữ liệu cho việc đóng modal
-                    if (response.closeModal) {
-                        // Đóng modal
-                        var modal = document.getElementById("Loginform");
-                        modal.style.display = "none";
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Xử lý lỗi nếu có
-                    console.error(error);
-                }
-            });
-        });
+      
 
     </script>
 

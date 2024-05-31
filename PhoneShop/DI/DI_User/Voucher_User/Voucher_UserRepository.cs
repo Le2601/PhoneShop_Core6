@@ -59,6 +59,9 @@ namespace PhoneShop.DI.DI_User.Voucher_User
             {
                 
                 Id = getVoucher.Id,
+                DiscountAmount = getVoucher.DiscountAmount,
+                DiscountConditions = getVoucher.DiscountConditions,
+                ExpiryDate = getVoucher.ExpiryDate,
                 Quantity = getVoucher.Quantity,
                 Code = getVoucher.Code
 

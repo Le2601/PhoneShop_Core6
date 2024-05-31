@@ -20,9 +20,9 @@ namespace PhoneShop.Areas.Admin.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var item = _introduce.GetIntroduce();
+            var item = await _introduce.GetIntroduce();
             return View(item);
         }
 

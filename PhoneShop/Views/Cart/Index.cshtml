@@ -94,6 +94,40 @@
        
     }
 
+   /*  danh sach voucher */
+    .voucher-list {
+        margin-top: 30px;
+    }
+
+        .voucher-list h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+    .voucher-items {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .voucher-item {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+        .voucher-item h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .voucher-item p {
+            margin: 5px 0;
+        }
+
 
 </style>
 <div class="container">
@@ -117,58 +151,7 @@
                 <div class="single-sidebar">
                     <h2 class="sidebar-title">Bài đăng gần đây</h2>
 
-                   @*  @foreach (var itemm in IsProduct)
-                    {
-                        <div class="thubmnail-recent">
-                            <img src="~/images/Product/@itemm.ImageDefaultName" class="recent-thumb" alt="">
-                            <h2><a href="">@itemm.Title</a></h2>
-                            <div class="product-sidebar-price">
-                                @{
-                                    if (itemm.Discount == 0 || itemm.Discount == null || itemm.Discount is string)
-                                    {
-                                        <ins>
-                                            @{
-                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
-                                            }
-                                            @formattedPrice
-                                        </ins>
-                                    }
-                                    else
-                                    {
-                                        <ins>
-                                            @{
-                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Discount); // "C" là định dạng tiền tệ
-                                            }
-                                            @formattedPrice
-                                        </ins>
-                                    }
-                                }
-
-                                <del>
-                                    @{
-                                        string formattedPriceee;
-                                        if (itemm.Discount > 0)
-                                        {
-                                            formattedPriceee = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
-                                        }
-                                        else
-                                        {
-
-                                            formattedPriceee = PhoneShop.Extension.Extension.ToVnd(tienO); // "C" là định dạng tiền tệ
-                                        }
-
-
-                                    }
-                                    @formattedPriceee
-
-
-
-
-                                </del>
-                            </div>
-                        </div>
-                    } *@
-
+                  
 
 
                 </div>
@@ -253,12 +236,7 @@
                                    
                                     <tr>
                                         <td class="actions" colspan="6">
-                                           @*  <div class="coupon">
-                                                <label for="coupon_code">Coupon:</label>
-                                                <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code">
-                                                <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
-                                            </div> *@
-                                           @*  <input type="submit" value="Update Cart" name="update_cart" class="button"> *@
+                                         
                                            
                                             @if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
                                             {
@@ -286,11 +264,27 @@
                                
                                 <input type="submit" value="Áp dụng" name="áp dụng" class="button">
                             </form>
-                            <h5>Danh sách mã giảm giá</h5>
-                            @foreach (var i in IsVoucherVM.VoucherItems)
-                            {
-                                <p>@i.Code</p>
-                            }
+                            
+                           
+                            <div class="voucher-list">
+                                <h2>Mã giảm giá của bạn</h2>
+                                <ul class="voucher-items">
+                                    @foreach (var i in IsVoucherVM.VoucherItems)
+                                    {
+                                        <li>
+                                            <div class="voucher-item">
+                                                <h3></h3>
+                                                <p>Mã: @i.Code</p>
+                                                <p>Điều kiện: @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountConditions)</p>
+                                                <p>Giảm: @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount)</p>
+                                                <p>Hiệu lực: @i.ExpiryDate</p>
+                                            </div>
+                                        </li>
+                                    }
+                                   
+                               
+                                </ul>
+                            </div>
                         </div>
                         <br />
 

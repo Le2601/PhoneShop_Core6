@@ -1,29 +1,6 @@
 ﻿
 <style>
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
 
-    .dropdown-menu {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-    }
-
-        .dropdown-menu a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-    .dropdown:hover .dropdown-menu {
-        display: block;
-    }
 
     .header-area {
         background: none repeat scroll 0 0 #d7f9fa;
@@ -57,14 +34,14 @@
                 <ul class="list-unstyled list-inline">
                     @if (ViewBag.GetNameLogin != null)
                     {
-                        <li class="dropdown dropdown-small">
+                        <li class="dropdown dropdown-small" style="height:30px">
                             <a class="dropbtn navbar-brand font-size" style="font-size: 13px;">@ViewBag.GetNameLogin<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/logout-user.html">Đăng xuất</a></li>
                             </ul>
                         </li>
                     }else{
-                        <li class="dropdown dropdown-small">
+                        <li class="dropdown dropdown-small" style="height:30px">
                             <a class="dropbtn navbar-brand font-size" style="font-size: 13px;">Tài khoản</a>
                             <ul class="dropdown-menu">
                                 <li><a href="/Login.html">Đăng nhập</a></li>
@@ -74,6 +51,7 @@
                     }
                    
                 </ul>
+               
             </div>
         </div>
     </div>

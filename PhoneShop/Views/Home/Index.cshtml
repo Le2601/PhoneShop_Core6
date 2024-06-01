@@ -44,6 +44,7 @@
 }
 
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -238,6 +239,7 @@
 </div> <!-- san pham ban chay-->
 @await Html.PartialAsync("_Partial_ListCategory_Home",ListLogo)
 
+
 <div class="product-widget-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
@@ -355,7 +357,7 @@
 
 
 @section Scripts{
-
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
             $('body').on('click', '.confirmAdd', function () {
@@ -384,6 +386,7 @@
             });
         });
     </script>
+   
 
 
 }

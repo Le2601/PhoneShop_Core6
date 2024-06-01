@@ -204,7 +204,7 @@ app.Use(async (context, next) =>
     // Nếu không tìm thấy trang
     if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
     {
-        // Chuyển hướng đến trang lỗi tùy chỉnh
+        // Chuyển hướng đến trang lỗi tùy chỉnh 
         context.Response.Redirect("/error/pageNotFound");
     }
 });

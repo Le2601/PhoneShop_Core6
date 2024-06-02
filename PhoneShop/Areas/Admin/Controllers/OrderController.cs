@@ -116,14 +116,25 @@ namespace PhoneShop.Areas.Admin.Controllers
             var item_DeliveryProcesses = await _orderRepository.GetDeliveryProcessById(id);
             ViewBag.Address_Order = _orderRepository.Get_Address_Order(id);
 
+            var Check_Empty_DeliveryProcesses = _context.DeliveryProcesses.Where(x=> x.Order_Id == id).FirstOrDefault();
+
             //neu da ton tai qua trinh giao hang roi thi hien thi ra
 
-            if (item_DeliveryProcesses != null)
+            if (Check_Empty_DeliveryProcesses != null)
             {
              
                 ViewBag.item_DeliveryProcesses = item_DeliveryProcesses;
+                ViewBag.Comfirm_item = 1;
+                
                
             }
+            else
+            {
+                ViewBag.item_DeliveryProcesses = null;
+                ViewBag.Comfirm_item = 0;
+
+            }
+            
           
                 var item_Orders = _orderRepository.GetById(id);
                 return View(item_Orders);

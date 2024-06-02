@@ -16,10 +16,11 @@
 <form method="post" asp-action="Create_DeliveryProcess" asp-controller="Order">
     <select id="fruit" name="DeliveryStatus" required>
         <option>Chọn trạng thái</option>
-        <option value="1">Chuan bi hang</option>
-        <option value="2">Dang xu ly</option>
-        <option value="3">Da giao hang</option>
-        <option value="0">Huy don hang</option>
+        <option value="1">Đang xử lý</option>
+        <option value="2">Chuẩn bị hàng</option>
+        <option value="3">Đang giao hàng</option>
+        <option value="4">Đã giao hàng</option>
+        <option value="0">Hủy đơn hàng</option>
     </select>
     <input type="text" name="Order_Id"  value="@Model.Id_Order" hidden />
     <input type="date" name="DeliveryDate" required placeholder="Ngay nhan hang du kien" />
@@ -38,18 +39,22 @@
 </form>
 <h3>Trạng thái giao hàng hiện tại</h3>
 
-@if (IsDeliveryProcess != null)
+@if (IsDeliveryProcess != null && ViewBag.Comfirm_item == 1)
 {
     
     @if (IsDeliveryProcess.DeliveryStatus == 1)
     {
-        <h5 class="coler_title">Trạng thái đơn hàng: Chuẩn bị hàng</h5>
+        <h5 class="coler_title">Trạng thái đơn hàng: Đang xử lý</h5>
     }
     else if (IsDeliveryProcess.DeliveryStatus == 2)
     {
-        <h5 class="coler_title">Trạng thái đơn hàng: Đang xử lý</h5>
+        <h5 class="coler_title">Trạng thái đơn hàng: CHuẩn bị hàng</h5>
     }
     else if (IsDeliveryProcess.DeliveryStatus == 3)
+    {
+        <h5 class="coler_title">Trạng thái đơn hàng: Đang giao hàng</h5>
+    }
+    else if (IsDeliveryProcess.DeliveryStatus == 4)
     {
         <h5 class="coler_title">Trạng thái đơn hàng: Đã giao hàng</h5>
     }

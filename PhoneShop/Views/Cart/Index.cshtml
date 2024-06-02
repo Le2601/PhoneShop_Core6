@@ -190,7 +190,7 @@
                                                 </td>
 
                                                 <td class="product-name">
-                                                    <a href="single-product.html">@item.ProductName</a>
+                                                    <a style="font-size: 13px;" href="single-product.html">@item.ProductName</a>
                                                 </td>
 
                                                 <td class="product-price">
@@ -198,8 +198,8 @@
                                                         string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price); // "C" là định dạng tiền tệ
 
                                                     }
-                                                   
-                                                    <span class="amount">@formattedPrice</span>
+
+                                                    <span style="font-size: 13px;" class="amount">@formattedPrice</span>
                                                 </td>
 
                                                 <td class="product-quantity">
@@ -216,7 +216,7 @@
 
                                                     }
 
-                                                    <span style="color:red" class="amount">@formattedPriceTotal</span>
+                                                    <span style="font-size: 13px;color:red" class="amount">@formattedPriceTotal</span>
                                                 </td>
                                             </tr>
                                         }

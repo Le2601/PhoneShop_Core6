@@ -56,7 +56,7 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Danh sách đơn hàng</h3>
-
+            <a style="margin-left:959px" class="btn btn-danger btnDelete_All" href="">Xóa tất cả</a>
            
         </div>
         <div class="card-body">
@@ -225,6 +225,27 @@
                         success: function (rs) {
                             if (rs.success) {
                                 $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+            $('body').on('click', '.btnDelete_All', function () {             
+
+                var conf = confirm("Bạn muốn xóa tất cả chứ ! ");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Order/delete_all',
+                        type: 'post',                       
+                        success: function (rs) {
+                            if (rs.success) {
+                               
                                 location.reload();
                             }
                         }

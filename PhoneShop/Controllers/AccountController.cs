@@ -69,9 +69,9 @@ namespace PhoneShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Account model)
+        public async Task<IActionResult> Create(Account model, IFormCollection form)
         {
-
+            string ComfirmPass = form["ComfirmPass"];
             var ListCourse =await _context.Accounts.Where(x => x.Email == model.Email).ToListAsync();
 
             
@@ -80,6 +80,11 @@ namespace PhoneShop.Controllers
 
             if (!ModelState.IsValid)
             {
+                if(model.Password != ComfirmPass)
+                {
+                    TempData["Error_"] = "Xác thực mật khẩu sai";
+                    return RedirectToAction("Index");
+                }
                 //kiem tra sdt
                 if (model.Phone.Length != 10)
                 {
@@ -203,13 +208,13 @@ namespace PhoneShop.Controllers
                     _context.Accounts.Add(item);
                      _context.SaveChanges();
                     TempData["Message"] = "Tạo tài khoản thành công!";
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
 
                
             }
-            TempData["ErrorMessage"] = "Xác thực OTP không hợp lệ!";
-            return RedirectToAction("Index", "Home");
+            TempData["Error_"] = "Xác nhận OTP không chính xác!";
+            return RedirectToAction("Index");
         }
 
       

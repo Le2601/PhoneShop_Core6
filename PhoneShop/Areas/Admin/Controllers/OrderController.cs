@@ -222,9 +222,27 @@ namespace PhoneShop.Areas.Admin.Controllers
             return Json(new {success = true});
         }
 
-        
+        public async Task<IActionResult> delete_all()
+        {
+            var items =await _context.Orders.ToListAsync();
+            if(items.Count <= 0)
+            {
+                return Json(new { success = false });
+            }
 
-        
+            foreach (var item in items)
+            {
+                _context.Orders.Remove(item);
+                
+            }
+            await _context.SaveChangesAsync();
+            return Json(new { success = true });
+        }
+
+
+
+
+
     }
 
 

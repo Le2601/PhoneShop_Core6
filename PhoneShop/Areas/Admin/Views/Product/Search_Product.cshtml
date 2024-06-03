@@ -1,0 +1,256 @@
+﻿
+@using PhoneShop.ModelViews;
+
+@using System.Globalization;
+@model IEnumerable<PhoneShop.ModelViews.ProductViewModel>
+@{
+    ViewData["Title"] = "Search_Product";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    List<ImageProduct> IsCourseContents = ViewBag.imageproduct;
+    List<CategoryModelView> IsCategory = ViewBag.ListCategory;
+    //format tien
+
+    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
+    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
+                           ?? CultureInfo.CurrentCulture;
+
+}
+<style>
+    /* CSS cho modal */
+    .modal {
+        display: none; /* Ẩn modal mặc định */
+        position: fixed; /* Vị trí cố định */
+        z-index: 1; /* Hiển thị trên tất cả các phần tử khác */
+        left: 0;
+        top: 0;
+        width: 100%; /* Chiều rộng 100% */
+        height: 100%; /* Chiều cao 100% */
+        overflow: auto; /* Cho phép cuộn trang khi modal hiển thị */
+        background-color: rgba(0, 0, 0, 0.5); /* Màu nền của modal */
+    }
+
+    /* CSS cho nội dung modal */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* Canh giữa theo chiều dọc */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Chiều rộng của nội dung modal */
+    }
+</style>
+
+
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Sản phẩm</a>
+        </li>
+    </ul>
+}
+
+
+
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách sản phẩm</h3>
+
+            <div class="card-tools">
+                <a href="/admin/Product/Create" class="btn btn-danger">Thêm mới</a>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            Hình ảnh
+                        </th>
+                        <th>
+                            Hãng
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr id="trow_@item.Id">
+                                <td>
+                                    <a href="@item.Alias-@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                                </td>
+                                <td>
+                                    @{
+                                        string formattedPrice = item.Price.ToString("C", culture); // "C" là định dạng tiền tệ
+
+                                    }
+                                    @formattedPrice
+                                </td>
+                                <td>
+                                    <a class="imgproduct" href="#" data-id="@item.Id">
+                                        <img src="~/images/Product/@item.ImageDefaultName" width="100" height="100" style="border: solid 1px " />
+                                    </a>
+
+
+                                </td>
+                                <td>
+
+                                    @foreach (var iList in IsCategory)
+                                    {
+                                        if (iList.Id == item.CategoryId)
+                                        {
+
+                                            <img src="~/images/Category/@iList.Image" width="100" height="50" style="border: solid 1px " />
+                                        }
+                                    }
+
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" href="/admin/Product/Edit/@item.Id">Edit</a>
+                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>Chưa có bảng ghi</td>
+
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+
+
+
+        </div>
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<div id="dialog">
+    <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
+</div>
+<!-- /.content -->
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("ban muoon xoa chua");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Product/Delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                alert(rs.msg);
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            //dialog anh
+
+            $("#dialog").dialog({
+                autoOpen: false,
+                show: "fade",
+                hide: "fade",
+                modal: true,
+                height: '600',
+                width: '700',
+                resizable: true,
+                title: 'Quản lý ảnh sản phẩm',
+                close: function () {
+                    window.location.reload();
+                }
+            });
+            $('body').on('click', '.imgproduct', function () {
+
+                var proid = $(this).attr("data-id");
+                $("#dialog #myiframe").attr("src", "/admin/ImageProduct/Index?id=" + proid);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        });
+
+    </script>
+
+
+
+
+
+}
+
+
+

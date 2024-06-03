@@ -19,6 +19,8 @@ using PhoneShop.Areas.Admin.Data;
 using System.Security.Cryptography.X509Certificates;
 using PhoneShop.DI.ImageProduct;
 using PhoneShop.DI.Specification;
+using PhoneShop.ModelViews;
+using PagedList.Core;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -40,18 +42,26 @@ namespace PhoneShop.Areas.Admin.Controllers
             _categoryRepository = categoryRepository;
             _specificationRepository = specificationRepository;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
+
+
 
            
             var items = _productRepository.GetAllProducts();
-         
+
+            IQueryable<ProductViewModel> models = items.AsQueryable();
+
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            var pageSize = 4;
+            PagedList<ProductViewModel> item = new PagedList<ProductViewModel>(models, pageNumber, pageSize);
+
 
             ViewBag.imageproduct =  _context.ImageProducts.ToList();
 
             ViewBag.ListCategory =await _categoryRepository.GetAll();
 
-            return View(items);
+            return View(item);
         }
         //return RedirectToAction("NotFoundApp", "Home");
 
@@ -424,8 +434,36 @@ namespace PhoneShop.Areas.Admin.Controllers
 
                 return RedirectToAction("index");
                 }
+                
+
         }
 
-        
+        public async Task<IActionResult> Search_Product(string Value_Search_Product)
+        {
+
+            var items = await _context.Products.Where(x => x.Title.Contains(Value_Search_Product)).Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                CategoryId = x.CategoryId,
+                Title = x.Title,
+                Alias = x.Alias,
+                Price = x.Price,
+                Discount = x.Discount,
+                Quantity = x.Quantity,
+                Description = x.Description,
+                Create_at = x.Create_at,
+                Update_at = x.Update_at,
+                ImageDefaultName = x.ImageDefaultName
+            }).OrderBy(x => x.Id).ToListAsync();
+
+            ViewBag.imageproduct = _context.ImageProducts.ToList();
+
+            ViewBag.ListCategory = await _categoryRepository.GetAll();
+
+            return View(items);
+        }
+
+
+
     }
 }

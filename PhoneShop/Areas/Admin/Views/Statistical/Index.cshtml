@@ -17,10 +17,24 @@
         flex-grow: 1;
     }
 
+    .export-file-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff; /* Màu nền */
+        color: #fff; /* Màu chữ */
+        text-decoration: none; /* Bỏ gạch chân */
+        border-radius: 5px; /* Bo góc */
+        transition: background-color 0.3s ease; /* Hiệu ứng chuyển động khi hover */
+    }
+
+        .export-file-link:hover {
+            background-color: #0056b3; /* Màu nền khi hover */
+            color:black
+        }
+
 
 </style>
 
-<link href="~/css/btn.css" rel="stylesheet" />
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -63,7 +77,7 @@
                 <div class="right-column">
 
                     <p>Danh sách đơn hàng </p>
-                    <a class="glow-on-hover" href="/Export_File_Statistical">Export file</a>
+                    <a class="export-file-link" href="/Export_File_Statistical">Export file</a>
                     <div style="overflow-y: scroll; height: 300px;">
                         <div class="table-responsive">
                             <table class="table">
@@ -95,7 +109,7 @@
                     </div>
                 </div>
                 <div class="right-column">
-                    <a class="glow-on-hover" href="/Export_File_Statistical_LastWeek">Export file</a>
+                    <a class="export-file-link" href="/Export_File_Statistical_LastWeek">Export file</a>
                     <div style="overflow-y: scroll; height: 300px;">
                         <div class="table-responsive">
                             <table class="table">

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Versioning;
+using PagedList.Core;
 using PhoneShop.Areas.Admin.Data;
 using PhoneShop.DI.DeliveryProcess;
 using PhoneShop.DI.Order;
@@ -34,11 +35,15 @@ namespace PhoneShop.Areas.Admin.Controllers
             _orderRepository = orderRepository;
             _deliveryProcessRepository = deliveryProcessRepository;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            var ListOrder = _orderRepository.GetAll() ;
+            var ListOrder = _orderRepository.GetAll();
+            IQueryable<OrderViewModel> models = ListOrder.AsQueryable();
 
-            return View(ListOrder);
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            var pageSize = 10;
+            PagedList<OrderViewModel> item = new PagedList<OrderViewModel>(models, pageNumber, pageSize);
+            return View(item);
         }
 
         [HttpPost]

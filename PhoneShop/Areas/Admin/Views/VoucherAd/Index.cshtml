@@ -13,74 +13,94 @@
                            ?? CultureInfo.CurrentCulture;
 
 }
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý voucher</a>
+        </li>
+    </ul>
+}
 <section class="content">
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Code)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DiscountAmount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DiscountConditions)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ExpiryDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr id="trow_@item.Id">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Code)
-                    </td>
-                    <td>
-                        @{
-                            string formattedDiscountAmount = item.DiscountAmount.ToString("C", culture); // "C" là định dạng tiền tệ
+    <div class="card-header">
+        <h3 class="card-title">Danh sách voucher</h3>
 
-                        }
-                        @formattedDiscountAmount
-                    </td>
-                    <td>
-                        @{
-                            string formattedDiscountConditions = item.DiscountConditions.ToString("C", culture); // "C" là định dạng tiền tệ
-
-                        }
-                        @formattedDiscountConditions
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ExpiryDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        <a class="btn btn-success" asp-action="Update" asp-route-id="@item.Id">Edit</a> |
-
-                        <a href="#" data-id="@item.Id" class="btnDelete btn btn-success">Delete</a>
-                    </td>
+        <div class="card-tools">
+            <a href="/admin/VoucherAd/Create" class="btn btn-danger">Thêm mới</a>
+        </div>
+    </div>
+   
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Số tiền giảm
+                    </th>
+                    <th>
+                        Điều kiện
+                    </th>
+                    <th>
+                        Ngày hết hạn
+                    </th>
+                    <th>
+                        Số lượng
+                    </th>
+                    <th>
+                        Trạng thái
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="trow_@item.Id">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @{
+                                string formattedDiscountAmount = item.DiscountAmount.ToString("C", culture); // "C" là định dạng tiền tệ
 
+                            }
+                            @formattedDiscountAmount
+                        </td>
+                        <td>
+                            @{
+                                string formattedDiscountConditions = item.DiscountConditions.ToString("C", culture); // "C" là định dạng tiền tệ
+
+                            }
+                            @formattedDiscountConditions
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExpiryDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsActive)
+                        </td>
+                        <td>
+                            <a class="btn btn-success" asp-action="Update" asp-route-id="@item.Id">Chỉnh sửa</a> |
+
+                            <a href="#" data-id="@item.Id" class="btnDelete btn btn-success">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
 
     </section>
 

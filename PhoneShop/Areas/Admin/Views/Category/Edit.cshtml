@@ -5,7 +5,6 @@
 }
 
 
-<h1>Cập nhật khóa học</h1>
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -13,17 +12,14 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/home" class="nav-link">Home</a>
+            <a href="#" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/Article" class="nav-link">Tin tức</a>
-        </li>
-
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Cập nhật</a>
+            <a href="#" class="nav-link">Quản lý danh mục sản phẩm</a>
         </li>
     </ul>
 }
+<br />
 
 <!-- Main content -->
 <section class="content">
@@ -36,23 +32,13 @@
 
         </div>
         <div class="card-body">
-            <div class="bs-stepper-content">
+           
                 <form asp-action="Edit" asp-controller="Category" method="post"  enctype="multipart/form-data">
 
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
 
-                    <div class="card">
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin</a></li>
-                                @* <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>*@
-
-                            </ul>
-                        </div><!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="activity"> 
+                    
 
 
                                     <input type="text" hidden name="IdCategory" value="@Model.Id" />
@@ -91,25 +77,18 @@
 
 
 
-                                </div>
-
-
-                            </div>
-
-                            <!-- /.tab-content -->
-                        </div><!-- /.card-body -->
                         <div class="form-group">
-                            <input type="submit" value="Add" />
+                            <input type="submit" value="Xác nhận" />
                         </div>
-                    </div>
+                   
 
                 </form>
 
                 <div>
-                    @Html.ActionLink("Back to List", "Index")
+                    @Html.ActionLink("Trở về", "Index")
                 </div>
 
-            </div>
+            
 
         </div>
         <!-- /.card-body -->

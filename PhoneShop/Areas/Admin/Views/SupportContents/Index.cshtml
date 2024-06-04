@@ -8,60 +8,94 @@
     IEnumerable<SupportDirectoryViewModel> IsDiretory = ViewBag.ListDirectory;
 
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Alias)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th>
-               Loai ho tro
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr id="trow_@item.Id">
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alias)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                    @foreach (var i in IsDiretory)
-                    {
-                        if(item.IdSpDirectory == i.Id)
-                        {
-                            <p>@i.Title</p>
-                        }
-                    }
-                </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-               
-                    <a href="#" class="btnDelete btn-btn-success" data-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý nội dung</a>
+        </li>
+    </ul>
 }
-    </tbody>
-</table>
+
+
+<br />
+
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách nội dung</h3>
+
+            <div class="card-tools">
+                <a href="/admin/SupportContents/Create" class="btn btn-danger">Thêm mới</a>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                           Tiêu đề
+                        </th>
+                       
+                        <th>
+                           Nội dung
+                        </th>
+                        <th>
+                           Loại hỗ trợ
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="trow_@item.Id">
+                            <td>
+                               @item.Title
+                            </td>
+                          
+                            <td>
+                              @Html.Raw(item.Content)
+                            </td>
+                            <td>
+                                @foreach (var i in IsDiretory)
+                                {
+                                    if (item.IdSpDirectory == i.Id)
+                                    {
+                                        <p>@i.Title</p>
+                                    }
+                                }
+                            </td>
+                           
+                            <td>
+                                <a class="btn btn-danger" asp-action="Edit" asp-route-id="@item.Id">Sửa</a>
+                                <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+
+        </div>
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
 @section scripts{
 
     <script>

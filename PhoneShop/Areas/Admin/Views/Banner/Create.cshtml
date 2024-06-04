@@ -5,8 +5,6 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-
-<h1>Tạo khóa học</h1>
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -17,7 +15,7 @@
             <a href="#" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Banner</a>
+            <a href="#" class="nav-link">Quản lý Banner</a>
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
@@ -25,7 +23,7 @@
         </li>
     </ul>
 }
-
+<br />
 <!-- Main content -->
 <section class="content">
 
@@ -37,85 +35,64 @@
 
         </div>
         <div class="card-body">
-            <div class="bs-stepper-content">
-                <form asp-action="Create" asp-controller="Banner" method="post" enctype="multipart/form-data">
+            <form asp-action="Create" asp-controller="Banner" method="post" enctype="multipart/form-data">
 
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
 
-                    <div class="card">
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin</a></li>
-                                @* <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>*@
 
-                            </ul>
-                        </div><!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="activity">
+
+                
 
 
 
 
 
-                                    <div class="form-group">
-                                        <label asp-for="Position" class="control-label"></label>
-                                        <input asp-for="Position" class="form-control" />
-                                        <span asp-validation-for="Position" class="text-danger"></span>
-                                    </div>
-
-                                    <div class="form-group">
-                                        @* <label asp-for="ProductId" class="control-label"></label>
-                                        <select asp-for="ProductId" class="form-control" asp-items="ViewBag.Product"></select> *@
-                                        @Html.DropDownListFor(x => x.ProductId,  ViewBag.Product as SelectList, "Chọn Sản phẩm", new { @class = "form-control", @placeholder = "tên " })
-                                        @Html.ValidationMessageFor(x => x.ProductId, "Không thể trống", new { @class = "text-danger" })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            @*@Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })*@
-                                            <input type="file" name="img" id="fileInput" class="form-control" />
-                                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    @*  <div class="form-group">
-                                    @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                    <input type="file" name="Image" id="Image" class="form-control" />
-                                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                                    </div>
-                                    </div> *@
-
-
-
-
-
-
-
-
-
-                                </div>
-
-
-                            </div>
-
-                            <!-- /.tab-content -->
-                        </div><!-- /.card-body -->
                         <div class="form-group">
-                            <input type="submit" value="Add" />
+                            <label asp-for="Position" class="control-label"> Vị trí</label>
+                            <input asp-for="Position" class="form-control" />
+                            <span asp-validation-for="Position" class="text-danger"></span>
                         </div>
-                    </div>
 
-                </form>
+                        <div class="form-group">
+                             <label asp-for="ProductId" class="control-label">Sản phẩm liên quan</label>
+                           
+                            @Html.DropDownListFor(x => x.ProductId,  ViewBag.Product as SelectList, "Chọn Sản phẩm", new { @class = "form-control", @placeholder = "tên " })
+                            @Html.ValidationMessageFor(x => x.ProductId, "Không thể trống", new { @class = "text-danger" })
+                        </div>
 
-                <div>
-                    @Html.ActionLink("Back to List", "Index")
+                        <div class="form-group">
+                           <label>Hình ảnh</label>
+                            <div class="col-md-10">
+                                @*@Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })*@
+                                <input type="file" name="img" id="fileInput" class="form-control" />
+                                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+             
+
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <input type="submit" value="Thêm" />
                 </div>
 
-            </div>
+
+            </form>
+               
+
+                <div>
+                    @Html.ActionLink("Trở về", "Index")
+                </div>
+
+           
 
         </div>
         <!-- /.card-body -->

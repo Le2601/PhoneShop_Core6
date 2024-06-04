@@ -69,6 +69,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SupportContentData supportContent)
         {
+            supportContent.Alias = PhoneShop.Helpper.Utilities.SEOUrl(supportContent.Title);
             if (!ModelState.IsValid)
             { 
                 _supportContentRepository.Create(supportContent);

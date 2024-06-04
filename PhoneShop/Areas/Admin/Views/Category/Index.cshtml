@@ -8,22 +8,22 @@
 
 
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Quản lý danh mục</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Danh mục sản phẩm</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý danh mục sản phẩm</a>
+        </li>
+    </ul>
+}
+<br />
 
 <!-- Main content -->
 <section class="content">
@@ -43,13 +43,11 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Title)
+                           Tiêu đề
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Alias)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Image)
+                        
+                        <th style="text-align:center">
+                           Hình ảnh
                         </th>
                         <th></th>
                     </tr>
@@ -63,16 +61,14 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Title)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Alias)
-                                </td>
-                                <td>
+
+                                <td style="text-align:center">
                                     
                                     <img style="width:270px; height: 120px" src="~/images/Category/@item.Image">
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" href="/admin/Category/Edit/@item.Id">Edit</a>
-                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Delete</a>
+                                    <a class="btn btn-danger" href="/admin/Category/Edit/@item.Id">Sửa</a>
+                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Xóa</a>
                                 </td>
                             </tr>
                         }

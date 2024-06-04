@@ -15,29 +15,11 @@
             <a href="#" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Danh mục Banner</a>
+            <a href="#" class="nav-link">Quản lý Banner</a>
         </li>
     </ul>
 }
-
-
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Quản lý danh mục</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Danh mục Banner</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
-
+<br />
 <!-- Main content -->
 <section class="content">
 
@@ -62,7 +44,7 @@
                             Vị trí
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Image)
+                            Hình ảnh
                         </th>
                         <th></th>
                     </tr>
@@ -96,8 +78,8 @@
                                     <img src="~/images/Banner/@item.Image" style="height:40px; width:60px">
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" href="/admin/Banner/Update/@item.Id">Edit</a>
-                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Delete</a>
+                                    <a class="btn btn-danger" href="/admin/Banner/Update/@item.Id">Sửa</a>
+                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Xóa</a>
                                 </td>
                             </tr>
                         }

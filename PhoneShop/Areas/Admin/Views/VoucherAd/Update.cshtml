@@ -35,33 +35,33 @@
                 <form asp-action="Update" asp-controller="VoucherAd" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="Code" class="control-label"></label>
+                        <label asp-for="Code" class="control-label">Mã giảm giá</label>
                         <input asp-for="Code" value="@Model.Code" class="form-control" />
                         <span asp-validation-for="Code" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="DiscountAmount" class="control-label"></label>
+                        <label asp-for="DiscountAmount" class="control-label">Tiền giảm</label>
                         <input asp-for="DiscountAmount" class="form-control" />
                         <span asp-validation-for="DiscountAmount" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="DiscountConditions" class="control-label"></label>
+                        <label asp-for="DiscountConditions" class="control-label">Điều kiện giảm</label>
                         <input asp-for="DiscountConditions" class="form-control" />
                         <span asp-validation-for="DiscountConditions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ExpiryDate" class="control-label"></label>
+                        <label asp-for="ExpiryDate" class="control-label">Ngày hết hạn</label>
                         <input asp-for="ExpiryDate" class="form-control" />
                         <span asp-validation-for="ExpiryDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Quantity" class="control-label"></label>
+                        <label asp-for="Quantity" class="control-label">Số lượng</label>
                         <input asp-for="Quantity" class="form-control" />
                         <span asp-validation-for="Quantity" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                            <input class="form-check-input" asp-for="IsActive" /> Trạng thái
                         </label>
                     </div>
                     <div class="form-group">

@@ -28,6 +28,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PagedList;
 using PagedList.Core;
+using PhoneShop.Extension;
 
 namespace PhoneShop.Controllers
 {
@@ -163,14 +164,26 @@ namespace PhoneShop.Controllers
         public IActionResult PaymentCallback()
         {
             var response = _vnPayService.PaymentExecute(Request.Query);
+            //tao trang hien thi thong bao loi
+            //truong hop huy giao dich
+            if(response.VnPayResponseCode == "24")
+            {
+               var Delete_Order = DeleteOrder_Payment_Fail(response.OrderId); ;
+                if(Delete_Order == 1)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //xu ly neu k co order
+                }
+               
+            }
+           
 
-            //var newOrder = new Order
-            //{
-            //    Id_Order = response.OrderId,
-            //    PaymentMethod = 2
-            //};
-            //_dbContext.Orders.Add(newOrder);
-            //_dbContext.SaveChanges();
+            //session gio hang
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
+
             var newPayment = new PaymentResponeData
             {
                 OrderDescription = response.OrderDescription,
@@ -182,12 +195,15 @@ namespace PhoneShop.Controllers
                 Token = response.Token,
                 VnPayResponseCode = response.VnPayResponseCode
             };
+           
+
 
             _paymentResponseRepository.Create(newPayment);
 
-            TempData["OrderSuccess"] = "Đặt hàng thành công!";
-            //return RedirectToAction("Index", "Home");
-            return RedirectToRoute("Cart");
+            CartItems.Clear();
+            HttpContext.Session.Set("Cart", CartItems);
+            
+            return RedirectToAction("Order_Success","Cart");
         }
 
        
@@ -293,6 +309,32 @@ namespace PhoneShop.Controllers
         public IActionResult demoChat_RealTime()
         {
             return View();
+        }
+
+        public int DeleteOrder_Payment_Fail(string id)
+        {
+            var item_order = _dbContext.Orders.Where(x=> x.Id_Order == id).FirstOrDefault();
+
+            if (item_order == null) {
+                return 0;
+            }
+            var item_Order_Details = _dbContext.Order_Details.Where(x=> x.OrderId == id).ToList();
+
+            if (item_Order_Details.Count() == 0)
+            {
+                _dbContext.Orders.Remove(item_order);
+
+
+                
+            }
+            foreach(var item in item_Order_Details)
+            {
+                _dbContext.Order_Details.Remove(item);
+            }
+            _dbContext.Orders.Remove(item_order);
+            _dbContext.SaveChanges();
+            return 1;
+
         }
 
 

@@ -51,6 +51,42 @@ namespace PhoneShop.DI.DI_User.Order_User
             _context.SaveChanges();
         }
 
+        public void Create_Order_Detai_Payment_Onll(Order_DetailsData model)
+        {
+            var item = new Order_Details
+            {
+                Order_Name = model.Order_Name,
+                Address = model.Address,
+                Phone = model.Phone,
+                ProductId = model.ProductId,
+                OrderId = model.OrderId,
+                Quantity = model.Quantity,
+                Description = model.Description,
+                AddressType = model.AddressType,
+                Email = model.Email,
+
+
+
+            };
+            _context.Order_Details.Add(item);
+        }
+
+        public void Create_Order_Payment_Onl(OrderData model)
+        {
+            var newOrderr = new PhoneShop.Models.Order
+            {
+                Id_Order = model.Id_Order,
+                PaymentMethod = model.PaymentMethod,
+                Order_Status = model.Order_Status,
+                Order_Date = model.Order_Date,
+                Total_Order = model.Total_Order,
+                Profit = model.Profit,
+                AccountId = model.AccountId,
+
+            };
+            _context.Orders.Add(newOrderr);
+        }
+
         public async Task<List<OrderViewModel>> ListOrder_User(int IdAccount)
         {
             var items = await _context.Orders.Where(x => x.AccountId == IdAccount).Select(x => new OrderViewModel
@@ -64,6 +100,11 @@ namespace PhoneShop.DI.DI_User.Order_User
             }).OrderBy(x=> x.Order_Date).ToListAsync();
 
             return items;
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }

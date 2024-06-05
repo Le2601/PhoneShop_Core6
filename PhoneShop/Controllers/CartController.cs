@@ -495,31 +495,15 @@ namespace PhoneShop.Controllers
                     AccountId = AccountInt,
 
                 };
-                _order_UserRepository.Create(newOrderr);
+                //_order_UserRepository.Create(newOrderr);
+                _order_UserRepository.Create_Order_Payment_Onl(newOrderr);
 
                 //lu du luw vao order_detail
 
                 foreach (var item in CartItems)
                 {
                     Get_Quantity_Product_Order = item.Quantity;
-                    //var newOrder_Details = new Order_DetailsData
-                    //{
-                    //    Order_Name = Order_Name,
-                    //    Address = Address,
-                    //    Phone = Phone,
-                    //    ProductId = (int)item.ProductId,
-                    //    OrderId = Order_Id,
-                    //    Quantity = item.Quantity,
-                    //    Description = Description,
-                    //    AddressType = AddressType,
-                    //    Email = Email,
-
-
-
-
-                    //};
-
-                    //_order_UserRepository.Create_Order_Detail(newOrder_Details);
+               
 
                     var newOrder_Details = new Order_DetailsData
                     {
@@ -536,13 +520,13 @@ namespace PhoneShop.Controllers
 
 
                     };
-                    _order_UserRepository.Create_Order_Detail(newOrder_Details);
+                    _order_UserRepository.Create_Order_Detai_Payment_Onll(newOrder_Details);
 
                     //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
                     _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order);
                     //giam san pham trong kho
                     _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
-                    _dbContext.SaveChanges();
+                    //_dbContext.SaveChanges();
 
                 }
 
@@ -551,7 +535,7 @@ namespace PhoneShop.Controllers
                     handleVoucher();
                 }
 
-                _dbContext.SaveChanges();
+                _order_UserRepository.SaveChanges();
                 HttpContext.Session.Remove("getIdVoucher");
 
 
@@ -562,12 +546,10 @@ namespace PhoneShop.Controllers
                 model.Name = Order_Name;
                 var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
 
-
-                CartItems.Clear();
-                HttpContext.Session.Set("Cart", CartItems);
-                TempData["OrderSuccess"] = "Đặt hàng thành công!";
-
                 return Redirect(url);
+
+              
+               
             }
 
             //lay ra tong so tien
@@ -662,7 +644,7 @@ namespace PhoneShop.Controllers
             HttpContext.Session.Set("Cart", CartItems);
 
 
-
+            
             //KHONG DUOC XOA
             //send mail 
 
@@ -679,7 +661,7 @@ namespace PhoneShop.Controllers
 
 
 
-            TempData["OrderSuccess"] = "Đặt hàng thành công!";
+           
 
             //return RedirectToRoute("Cart");
             return RedirectToAction("Order_Success");

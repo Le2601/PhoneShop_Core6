@@ -101,6 +101,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(SupportContentData model)
         {
+            model.Alias = PhoneShop.Helpper.Utilities.SEOUrl(model.Title);
            
             _supportContentRepository.Update(model);
             return RedirectToAction(nameof(Index));

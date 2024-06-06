@@ -138,7 +138,11 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult Delete(int id)
         {
-            var item = _context.Accounts.Where(x=> x.Id == id).FirstOrDefault();
+            var item = _context.Accounts.Where(x=> x.Id == id).FirstOrDefault()!;
+            if(item.RoleId == 2)
+            {
+                return Json(new { success = false, msg = "Không thể xóa tài khoản quản trị viên" });
+            }
 
             if (item == null)
             {
@@ -201,7 +205,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                 if (!ModelState.IsValid)
                 {
                     Account kh = _context.Accounts.Include(a => a.Role).SingleOrDefault(a => a.Email.ToLower() == model.Email.ToLower().Trim());
-
+                    
                     if (kh == null)
                     {
                         ViewBag.Error = "Tài khoản không tồn tại";

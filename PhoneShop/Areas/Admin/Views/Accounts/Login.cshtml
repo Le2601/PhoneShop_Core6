@@ -13,7 +13,7 @@
 
     <div class="input-group mb-3">
         @* @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", placeholder = "Tai khoan" })*@
-        <input type="text" asp-for="Email" value="thuylinh@gmail.com" placeholder="Tai khoan" class="form-control">
+        <input type="text" asp-for="Email" value="thuylinh@gmail.com" placeholder="Email" class="form-control">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -23,7 +23,7 @@
 
     <div class="input-group mb-3">
         @* @Html.TextBoxFor(x => x.Password, new { @class = "form-control", placeholder = "mat khai" })*@
-        <input type="password" asp-for="Password" value="123456" placeholder="Mat khau" class="form-control">
+        <input type="password" asp-for="Password" value="123456" placeholder="Mật khẩu" class="form-control">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -32,17 +32,17 @@
     </div>
 
     <div class="row">
-        <div class="col-8">
+        <div class="col-7">
             <div class="icheck-primary">
                 @*@Html.CheckBoxFor(x =>x.RememberMe)*@
                 <label for="remember">
-                    Remember Me
+                    Ghi nhớ tài khoản
                 </label>
             </div>
         </div>
         <!-- /.col -->
-        <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        <div class="col-5">
+            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
         </div>
         <!-- /.col -->
     </div>

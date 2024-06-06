@@ -123,14 +123,15 @@ namespace PhoneShop.Areas.Admin.Controllers
         public async Task<IActionResult> Update(BannerData model, Microsoft.AspNetCore.Http.IFormFile img)
         {
 
+            var item = _dbContext.BannerProducts.Where(x => x.Id == model.Id).FirstOrDefault();
 
             var items = _dbContext.BannerProducts.Where(x => x.Position == model.Position).FirstOrDefault();
             model.Content = "";
 
 
-            if (items == null)
+            if (items == null || model.Position == item.Position)
             {
-                if (!ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     //xu ly hinh anh
                     if (img != null)
@@ -153,8 +154,12 @@ namespace PhoneShop.Areas.Admin.Controllers
 
 
                     }
-                    //neu khong upload hinh anh thi se de hinh default.jpg = null
-                    if (string.IsNullOrEmpty(model.Image)) model.Image = "default.jpg";
+                    else
+                    {
+                        //neu khong upload hinh anh thi se de hinh default.jpg = null
+                        if (string.IsNullOrEmpty(model.Image)) model.Image = model.Image;
+                    }
+                   
 
 
                     //await _dbContext.BannerProducts.AddAsync(model);

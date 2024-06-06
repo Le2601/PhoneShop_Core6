@@ -81,14 +81,11 @@ namespace PhoneShop.DI.Banner
 
         public void Update(BannerData model)
         {
-            var item = new PhoneShop.Models.Banner
-            {
-                Image = model.Image,
-                Position = model.Position,
-                Content = model.Content,
-                ProductId = model.ProductId,
-            };
-            _context.Update(item);
+            var item = _context.BannerProducts.Find(model.Id)!;
+            item.Image = model.Image;
+            item.Position = model.Position;
+            item.Content = model.Content;
+            item.ProductId = model.ProductId;
             _context.SaveChanges();
         }
     }

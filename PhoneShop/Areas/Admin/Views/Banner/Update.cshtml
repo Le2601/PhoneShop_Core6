@@ -31,14 +31,15 @@
         </div>
         <div class="card-body">
             
-            <form asp-action="Update">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form asp-action="Update" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
                 <input type="hidden" asp-for="Id" />
                 <div class="form-group">
                     <label asp-for="Image" class="control-label">Hình ảnh</label>
                     <br />
                     <img style="width: 200px;" src="~/images/Banner/@Model.Image" />
-                    <input asp-for="Image" class="form-control" hidden />
+                    <input type="file" name="img" id="fileInput" class="form-control" />
 @*                     <input type="file" name="Image" class="form-control"  />
  *@
                     <span asp-validation-for="Image" class="text-danger"></span>

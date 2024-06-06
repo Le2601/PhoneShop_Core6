@@ -5,65 +5,93 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a href="/admin/Accounts/Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý tài khoản</a>
+        </li>
+    </ul>
+}
+<br />
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+     
+        <div class="card-body">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                           Tên Tk
+                        </th>
+                        <th>
+                           Số điện thoại
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                           Ngày tạo
+                        </th>
 
 
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Role)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr id="trow_@item.Id">
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
+                        </th>
+                        <th>
+                            Phân quyền
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr id="trow_@item.Id">
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Role.RoleName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                               @item.CreateDate
+                            </td>
 
-                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Role.RoleName)
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" asp-action="Edit" asp-route-id="@item.Id">Sửa</a>
+
+                                <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+
 
 
 <!-- /.content -->
@@ -86,6 +114,10 @@
                         success: function (rs) {
                             if (rs.success) {
                                 $('trow_' + id).remove();
+                                alert(rs.msg);
+                                location.reload();
+                            }
+                            else {
                                 alert(rs.msg);
                                 location.reload();
                             }

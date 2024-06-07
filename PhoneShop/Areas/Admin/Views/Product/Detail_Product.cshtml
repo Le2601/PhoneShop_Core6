@@ -1,0 +1,90 @@
+﻿@model PhoneShop.ModelViews.ProductViewModel
+@using PhoneShop.ModelViews;
+@{
+    ViewData["Title"] = "Detail_Product";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    List<ImageProductViewModel> I_Image = ViewBag.Get_ListImage;
+    SpecificationsViewModel I_Spec = ViewBag.Get_Specifi;
+    List<PhoneShop.Models.Product_Review> List_Rw = ViewBag.Rw_Product;
+
+}
+
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý sản phẩm</a>
+        </li>
+    </ul>
+}
+
+<br />
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@Model.Title</h3>
+
+
+        </div>
+        <div class="card-body">
+            <div class="bs-stepper-content">
+
+                <div class="row">
+                    <div class="col-6">
+                       <div><b>Tiêu đề: </b> @Model.Title</div>
+                        <div><b>Alias: </b> @Model.Alias</div>
+                        <div><b>Giá nhập:</b> @PhoneShop.Extension.Extension.ToVnd((double)Model.InputPrice)</div>
+                        <div><b>Giá bán ra:</b> @PhoneShop.Extension.Extension.ToVnd((double)Model.Price)</div>
+                        <div><b>Giảm giá:</b> @PhoneShop.Extension.Extension.ToVnd((double)Model.Discount)</div>
+                        <div><b>Số lượng: </b> @Model.Quantity</div>
+                        <div><b>Ngày tạo: </b> @Model.Create_at</div>
+                        @foreach(var item in I_Image)
+                        {
+                            <img width="100px" src="~/images/Product/@item.DataName" />
+                        }
+                    </div>
+                    <div class="col-6">
+                        <div><b>Màn hình: </b>@I_Spec.Display</div>
+                        <div><b>Hệ điều hành: </b>@I_Spec.OperatingSystem</div>
+                        <div><b>Camera: </b>@I_Spec.Camera</div>
+                        <div><b>Bộ nhớ: </b>@I_Spec.RandomAccessMemory</div>
+                        <div><b>Pin: </b>@I_Spec.Battery</div>
+                        <div><b>Thông lượng: </b>@I_Spec.DimensionsAndeight</div>
+                        <div><b>Kết nối: </b>@I_Spec.Connectivity</div>
+
+
+                    </div>
+
+                </div>
+                <hr />
+                <h3>Đánh giá sản phẩm</h3>
+                @foreach (var item in List_Rw)
+                {
+                    <p> @item.Content || @item.CreateAt</p>
+                    <hr />
+                }
+
+                <div>
+                    @Html.ActionLink("Trở về", "Index")
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+
+    <!-- /.card -->
+
+</section>

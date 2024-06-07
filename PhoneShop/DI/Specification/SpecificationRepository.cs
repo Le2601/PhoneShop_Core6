@@ -100,5 +100,31 @@ namespace PhoneShop.DI.Specification
 
 
         }
+
+        public SpecificationsViewModel GetSpecificationByIdProductt(int id)
+        {
+            var item = _context.specifications.Where(x => x.ProductId == id).Select(x => new SpecificationsViewModel
+            {
+
+                ProductId = x.ProductId,
+                Display = x.Display,
+                Model = x.Model,
+                OperatingSystem = x.OperatingSystem,
+                Processor = x.Processor,
+                InternalStorage = x.InternalStorage,
+                Camera = x.Camera,
+                RandomAccessMemory = x.RandomAccessMemory,
+                Battery = x.Battery,
+                WaterResistance = x.WaterResistance,
+                DimensionsAndeight = x.DimensionsAndeight,
+                Color = x.Color,
+                Connectivity = x.Connectivity,
+                Id = x.Id,
+
+            }).FirstOrDefault();
+
+
+            return item;
+        }
     }
 }

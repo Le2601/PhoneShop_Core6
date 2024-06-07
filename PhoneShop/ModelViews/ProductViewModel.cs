@@ -22,7 +22,7 @@ namespace PhoneShop.ModelViews
       
 
         public decimal Price { get; set; }
-       
+        public decimal InputPrice { get; set; }
 
         public decimal Discount { get; set; }
         

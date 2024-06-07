@@ -65,6 +65,15 @@ namespace PhoneShop.Areas.Admin.Controllers
         }
         //return RedirectToAction("NotFoundApp", "Home");
 
+        public IActionResult Detail_Product(int Id)
+        {
+            var item_Product =  _productRepository.GetByIdVM(Id);
+            ViewBag.Get_Specifi =  _specificationRepository.GetSpecificationByIdProductt(Id);
+            ViewBag.Get_ListImage = _imageProductRepository.GetListByIdProduct(Id);
+            ViewBag.Rw_Product = _context.product_Reviews.Where(x=> x.ProductId == item_Product.Id).ToList();
+
+            return View(item_Product);
+        }
         public IActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Title");

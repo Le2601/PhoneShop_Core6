@@ -12,6 +12,8 @@ namespace PhoneShop.DI.Specification
 
         void UpdateSpecificationByIdProduct(int IdProduct, SpecificationsData model);
 
+        public SpecificationsViewModel GetSpecificationByIdProductt(int id);
+
 
 
         //end Specifications

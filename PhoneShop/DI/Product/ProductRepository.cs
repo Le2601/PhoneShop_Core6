@@ -65,7 +65,9 @@ namespace PhoneShop.DI.Product
                 Description = x.Description,
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
-                ImageDefaultName = x.ImageDefaultName
+                ImageDefaultName = x.ImageDefaultName,
+                InputPrice = x.InputPrice
+         
             };
             return itemVM;
 

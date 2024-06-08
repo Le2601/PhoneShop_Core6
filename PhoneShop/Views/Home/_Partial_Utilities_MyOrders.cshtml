@@ -31,14 +31,14 @@
                     <th>Ngày đặt hàng</th>
                     <th>Trạng thái</th>
                     <th>Tổng tiền</th>
-                    <th>Xem chi tiết</th>
+                   
                 </tr>
             </thead>
             <tbody>
                 @foreach (var i in Model)
                 {
                     <tr>
-                        <td>@i.Id_Order</td>
+                        <td><a class="Detail_Order_Account" href="#" data-id_or="@i.Id_Order">@i.Id_Order</a></td>
                         @if(i.PaymentMethod == 1)
                         {
                             <td>khi nhận hàng</td>
@@ -57,7 +57,7 @@
                             <td>Đã xác nhận</td>
                         }
                         <td>@Extension.ToVnd((double)i.Total_Order)</td>
-                        <td> <a class="Detail_Order_Account btn btn-success" href="#" data-id_or="@i.Id_Order">Xem chi tiết đơn hàng @i.Id_Order</a></td>
+                     
                     </tr>
                 }
 

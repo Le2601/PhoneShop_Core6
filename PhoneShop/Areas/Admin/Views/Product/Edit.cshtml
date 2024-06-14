@@ -86,14 +86,19 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label asp-for="Price" class="control-label"></label>
+                                        <label asp-for="Price" class="control-label">Giá bán</label>
                                         <input asp-for="Price" class="form-control" />
                                         <span asp-validation-for="Price" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="Discount" class="control-label"></label>
+                                        <label asp-for="Discount" class="control-label">Giảm giá</label>
                                         <input asp-for="Discount" asp-for="Discount" class="form-control" />
                                         <span asp-validation-for="Discount" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="InputPrice" class="control-label">Giá nhập</label>
+                                        <input asp-for="InputPrice" asp-for="Discount" class="form-control" />
+                                        <span asp-validation-for="InputPrice" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="Quantity" class="control-label">Số lượng</label>

@@ -8,8 +8,55 @@
     DeliveryProcessViewModel IsDeliveryProcess = ViewBag.item_DeliveryProcesses;
 }
 <style>
-    .coler_title{
-        color: red;
+    h3 {
+        color: #333;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: auto;
+    }
+
+    select, input[type="text"], input[type="date"], input[type="submit"] {
+        display: block;
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin: 10px auto;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+    .order-status {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    .coler_title {
+        color: #FF5722;
+    }
+
+    .order-status h5 {
+        margin: 10px 0;
     }
 </style>
 <h3>Cập nhật trạng thái giao hàng</h3>
@@ -22,51 +69,49 @@
         <option value="4">Đã giao hàng</option>
         <option value="0">Hủy đơn hàng</option>
     </select>
-    <input type="text" name="Order_Id"  value="@Model.Id_Order" hidden />
-    <input type="date" name="DeliveryDate" required placeholder="Ngay nhan hang du kien" />
+    <input type="text" name="Order_Id" value="@Model.Id_Order" hidden />
+    <input type="date" name="DeliveryDate" required placeholder="Ngày nhận hàng dự kiến" />
     @if (IsDeliveryProcess != null)
     {
-        <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Dia chi nhan hang" value="@IsDeliveryProcess.DeliveryAddress" />
-
+        <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@IsDeliveryProcess.DeliveryAddress" />
     }
     else
     {
-        <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Dia chi nhan hang" value="@ViewBag.Address_Order" />
-
+        <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@ViewBag.Address_Order" />
     }
     <input type="submit" value="Xác nhận">
-
 </form>
-<h3>Trạng thái giao hàng hiện tại</h3>
 
-@if (IsDeliveryProcess != null && ViewBag.Comfirm_item == 1)
-{
-    
-    @if (IsDeliveryProcess.DeliveryStatus == 1)
+<h3>Trạng thái giao hàng hiện tại</h3>
+<div class="order-status">
+    @if (IsDeliveryProcess != null && ViewBag.Comfirm_item == 1)
     {
-        <h5 class="coler_title">Trạng thái đơn hàng: Đang xử lý</h5>
-    }
-    else if (IsDeliveryProcess.DeliveryStatus == 2)
-    {
-        <h5 class="coler_title">Trạng thái đơn hàng: CHuẩn bị hàng</h5>
-    }
-    else if (IsDeliveryProcess.DeliveryStatus == 3)
-    {
-        <h5 class="coler_title">Trạng thái đơn hàng: Đang giao hàng</h5>
-    }
-    else if (IsDeliveryProcess.DeliveryStatus == 4)
-    {
-        <h5 class="coler_title">Trạng thái đơn hàng: Đã giao hàng</h5>
+        @if (IsDeliveryProcess.DeliveryStatus == 1)
+        {
+            <h5 class="coler_title">Trạng thái đơn hàng: Đang xử lý</h5>
+        }
+        else if (IsDeliveryProcess.DeliveryStatus == 2)
+        {
+            <h5 class="coler_title">Trạng thái đơn hàng: Chuẩn bị hàng</h5>
+        }
+        else if (IsDeliveryProcess.DeliveryStatus == 3)
+        {
+            <h5 class="coler_title">Trạng thái đơn hàng: Đang giao hàng</h5>
+        }
+        else if (IsDeliveryProcess.DeliveryStatus == 4)
+        {
+            <h5 class="coler_title">Trạng thái đơn hàng: Đã giao hàng</h5>
+        }
+        else
+        {
+            <h5 class="coler_title">Trạng thái đơn hàng: Hủy đơn hàng</h5>
+        }
+
+        <h5>Ngày giao hàng dự kiến: @IsDeliveryProcess.DeliveryDate</h5>
+        <h5>Địa chỉ nhận hàng: @IsDeliveryProcess.DeliveryAddress</h5>
     }
     else
     {
-        <h5 class="coler_title">Trạng thái đơn hàng: Hủy đơn hàng</h5>
+        <h5>Hiện tại chưa có thông tin giao hàng</h5>
     }
-
-    <h5>Ngày giao hàng dự kiến: @IsDeliveryProcess.DeliveryDate</h5>
-    <h5>Địa chỉ nhận hàng: @IsDeliveryProcess.DeliveryAddress</h5>
-}
-else
-{
-    <h5>Hiện tại chưa có</h5>
-}
+</div>

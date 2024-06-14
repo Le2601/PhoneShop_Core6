@@ -65,6 +65,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item" style="font-size: 18px;"><a href="/~">Trang chủ</a></li>
             <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Giỏ hàng</li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Đặt hàng thành công</li>
         </ol>
     </nav>
 
@@ -75,23 +76,25 @@
 
     <div class="order-info">
         <h2>Thông tin đơn hàng</h2>
-        <p>Mã đơn hàng: @Model.Id_Order</p>
-        <p>Ngày đặt hàng: @Model.Order_Date</p>
-        <p>Tổng tiền: @Model.Total_Order</p>
+        <p><b>Mã đơn hàng:</b> @Model.Id_Order</p>
+        <p><b>Ngày đặt hàng:</b> @Model.Order_Date</p>
+        <p><b>Tổng tiền:</b> @PhoneShop.Extension.Extension.ToVnd((double)Model.Total_Order)</p>
         @if(Model.PaymentMethod == 1)
         {
-            <p>Phương thức thanh toán: Thanh toán khi nhận hàng</p>
+            <p><b>Phương thức thanh toán:</b> Thanh toán khi nhận hàng</p>
         }
         else
         {
-            <p>Phương thức thanh toán: Thanh toán trực tuyến</p>
+            <p><b>Phương thức thanh toán:</b> Thanh toán trực tuyến</p>
         }
 
-        <p>Địa chỉ giao hàng: @Is_Info_Address.Address</p>
+        <p><b>Địa chỉ giao hàng:</b> @Is_Info_Address.Address</p>
+        <a class="btn btn-success" href="~/">Trở về trang chủ</a>
     </div>
 
+    <br />
     
-    <a class="btn btn-success" href="~/">Trở về trang chủ</a>
+   
 </div>
 
 

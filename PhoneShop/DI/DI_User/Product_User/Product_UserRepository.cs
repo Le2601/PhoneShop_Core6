@@ -91,6 +91,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                    {
                        Id = p.Id,   
                        Title = p.Title,
+                       Alias = p.Alias,
                        ImageDefaultName = p.ImageDefaultName,
                        Price = p.Price,
                        Discount = p.Discount

@@ -21,8 +21,8 @@ namespace PhoneShop.Libraries
             // Cấu hình SmtpClient
             using (var client = new SmtpClient())
             {
-                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                client.Authenticate("ngoclewill2002@gmail.com", "xrkq zfvc vfeb yegz");
+                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls); //ket noi SMTP
+                client.Authenticate("ngoclewill2002@gmail.com", "xrkq zfvc vfeb yegz"); 
 
                 // Gửi email
                 client.Send(message);

@@ -644,24 +644,24 @@ namespace PhoneShop.Controllers
             HttpContext.Session.Set("Cart", CartItems);
 
 
-            
+
             //KHONG DUOC XOA
             //send mail 
 
-            //string toEmail = Email;
-            //string subject = "Đặt hàng thành công!" + DateTime.Now;
+            string toEmail = Email;
+            string subject = "Đặt hàng thành công!" + DateTime.Now;
 
-            //double doubleValue = (double)cartVM.OrderTotal;
+            double doubleValue = (double)cartVM.OrderTotal;
 
-            //string body = "Đơn hàng đã đặt thành công với thành tiền: " + PhoneShop.Extension.Extension.ToVnd(doubleValue);
+            string body = "Đơn hàng đã đặt thành công với thành tiền: " + PhoneShop.Extension.Extension.ToVnd(doubleValue);
 
-            //_emailService.SendEmail(toEmail, subject, body);
+            _emailService.SendEmail(toEmail, subject, body);
 
             //end send mail
 
 
 
-           
+
 
             //return RedirectToRoute("Cart");
             return RedirectToAction("Order_Success");

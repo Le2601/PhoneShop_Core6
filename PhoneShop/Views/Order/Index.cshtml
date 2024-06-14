@@ -36,24 +36,34 @@
 <h3>Ngày nhận hàng dự kiến</h3>
 @if (IsDeliveryProcess != null)
 {
-    <p>Ngày nhận hàng: @IsDeliveryProcess.DeliveryDate</p>
-    
-    <p>@IsDeliveryProcess.DeliveryAddress</p>
+   
     @if (IsDeliveryProcess.DeliveryStatus == 1)
     {
         <h5 class="coler_title">Trạng thái đơn hàng: Đang xử lý</h5>
+        <p>Ngày xác nhận: @IsDeliveryProcess.DeliveryDate</p>
+
+        <p>@IsDeliveryProcess.DeliveryAddress</p>
     }
     else if (IsDeliveryProcess.DeliveryStatus == 2)
     {
         <h5 class="coler_title">Trạng thái đơn hàng: CHuẩn bị hàng</h5>
+        <p>Ngày xác nhận: @IsDeliveryProcess.DeliveryDate</p>
+
+        <p>@IsDeliveryProcess.DeliveryAddress</p>
     }
     else if (IsDeliveryProcess.DeliveryStatus == 3)
     {
         <h5 class="coler_title">Trạng thái đơn hàng: Đang giao hàng</h5>
+        <p>Ngày nhận hàng: @IsDeliveryProcess.DeliveryDate</p>
+
+        <p>@IsDeliveryProcess.DeliveryAddress</p>
     }
     else if (IsDeliveryProcess.DeliveryStatus == 4)
     {
         <h5 class="coler_title">Trạng thái đơn hàng: Đã giao hàng</h5>
+        <p>Ngày xác nhận: @IsDeliveryProcess.DeliveryDate</p>
+
+        <p>@IsDeliveryProcess.DeliveryAddress</p>
     }
     else
     {

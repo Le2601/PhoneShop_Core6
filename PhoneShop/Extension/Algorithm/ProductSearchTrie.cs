@@ -39,11 +39,15 @@ namespace PhoneShop.Extension.Algorithm
 
         public List<Product_Search_Trie> Search(string prefix)
         {
+            //can = c ca can
+
             TrieNode node = root;
+            //doi tuong ds rong
             List<Product_Search_Trie> results = new List<Product_Search_Trie>();
 
             foreach (char c in prefix.ToLower())
             {
+                //ko tont tai
                 if (!node.Children.ContainsKey(c))
                 {
                     return results;
@@ -52,7 +56,7 @@ namespace PhoneShop.Extension.Algorithm
                 node = node.Children[c];
             }
 
-
+            
             GetProductsFromNode(node, results);
             return results;
         }
@@ -60,11 +64,16 @@ namespace PhoneShop.Extension.Algorithm
 
         private void GetProductsFromNode(TrieNode node, List<Product_Search_Trie> results)
         {
+            //kiem tra co phai node cuoi hay k
             if (node.IsEndOfWord)
             {
                 results.AddRange(node.Products);
             }
+
+
+
             //de quy
+            
             foreach (var child in node.Children.Values)
             {
                 GetProductsFromNode(child, results);

@@ -145,10 +145,10 @@ namespace PhoneShop.Models
            .HasForeignKey(p => p.ProductId);
 
 
-            modelBuilder.Entity<Evaluate_Product>()
-                 .HasOne(e => e.Product)
-                 .WithOne(p => p.Evaluate_Product)
-                 .HasForeignKey<Evaluate_Product>(e => e.ProductId);
+            //modelBuilder.Entity<Evaluate_Product>()
+            //     .HasOne(e => e.Product)
+            //     .WithOne(p => p.Evaluate_Product)
+            //     .HasForeignKey<Evaluate_Product>(e => e.ProductId);
 
 
             modelBuilder.Entity<Order>()

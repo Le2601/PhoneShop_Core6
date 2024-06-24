@@ -13,7 +13,7 @@
 
     <div class="input-group mb-3">
         @* @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", placeholder = "Tai khoan" })*@
-        <input type="text" asp-for="Email" value="thuylinh@gmail.com" placeholder="Email" class="form-control">
+        <input type="text" asp-for="Email"  placeholder="Email" class="form-control">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -23,7 +23,7 @@
 
     <div class="input-group mb-3">
         @* @Html.TextBoxFor(x => x.Password, new { @class = "form-control", placeholder = "mat khai" })*@
-        <input type="password" asp-for="Password" value="123456" placeholder="Mật khẩu" class="form-control">
+        <input type="password" asp-for="Password" placeholder="Mật khẩu" class="form-control">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-lock"></span>

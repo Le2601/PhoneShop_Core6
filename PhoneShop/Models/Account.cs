@@ -25,5 +25,7 @@ namespace PhoneShop.Models
 
         public virtual Role Role { get; set; }
 
+        public ICollection<Evaluate_Product> evaluate_Products { get; set; }
+
     }
 }

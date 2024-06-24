@@ -151,7 +151,9 @@
     @* // search_trie *@
     <script>
         document.getElementById('searchInput').addEventListener('input', function () {
+            //tien to
             const query = this.value;
+
             if (query.length > 0) {
                 fetch(`/Product/demoget?query=${query}`)
                     .then(response => response.json())

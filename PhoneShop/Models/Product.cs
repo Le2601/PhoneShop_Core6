@@ -65,7 +65,7 @@ namespace PhoneShop.Models
 
         public virtual Category Category { get; set; }
 
-        public Evaluate_Product Evaluate_Product { get; set; }
+        //public Evaluate_Product Evaluate_Product { get; set; }
 
 
         public virtual ICollection<ImageProduct> ImageProducts { get; set; }
@@ -78,7 +78,10 @@ namespace PhoneShop.Models
 
         public virtual ICollection<Product_Review> Product_Reviews { get; set; }
 
-       
+
+        public  ICollection<Evaluate_Product> evaluate_Products { get; set; }
+
+
 
 
     }

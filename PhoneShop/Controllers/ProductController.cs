@@ -170,7 +170,7 @@ namespace PhoneShop.Controllers
 
 
         }
-
+        //anh xa
         //[HttpGet]
         //[Route("demothoi/{query}")]
         public IActionResult demoget(string query)

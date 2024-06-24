@@ -169,7 +169,7 @@ namespace PhoneShop.Controllers
             ViewBag.otpramdom = otpramdom;
 
             //gui otp den sms
-            //_smsService.SendOtpSms(FormatPhone, otpramdom);
+            _smsService.SendOtpSms(FormatPhone, otpramdom);
             //khi nao can thi mo ra 
 
 

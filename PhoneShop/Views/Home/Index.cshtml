@@ -24,7 +24,13 @@
     List<ProductViewModel> List_Selling = ViewBag.ListSelling;
     List<ProductViewModel> New_Product = ViewBag.New_Product;
 
-    
+    List<Product> List_CollaborativeFiltering = new List<Product>();
+    if (ViewBag.CheckAccount == 1)
+    {
+       List_CollaborativeFiltering = ViewBag.CollaborativeFiltering_List;
+    }
+   
+
 
 }
 
@@ -124,7 +130,14 @@
         </div>
     </div>
 </div> <!-- End promo area -->
+@if (ViewBag.CheckAccount == 1)
+{
+    @await Html.PartialAsync("_Partial_CollaborativeFiltering",List_CollaborativeFiltering)
+}
+
+
 @await Html.PartialAsync("_Partial_NewProducts_Home",New_Product)
+
 
 <div class="product-widget-area">
     <div class="zigzag-bottom"></div>

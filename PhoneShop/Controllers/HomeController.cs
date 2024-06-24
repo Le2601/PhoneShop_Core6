@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using PagedList;
 using PagedList.Core;
 using PhoneShop.Extension;
+using PhoneShop.Extension.CollaborativeFiltering;
 
 namespace PhoneShop.Controllers
 {
@@ -56,13 +57,16 @@ namespace PhoneShop.Controllers
 
         private readonly IEvaluate_ProductRepository _evaluate_ProductRepository;
 
+        private readonly CollaborativeFilteringService _collaborativeFilteringService;
+
 
 
         public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,
             IBanner_UserRepository banner_UserRepository,IPaymentResponse_Repository paymentResponse_Repository,
             IImageProduct_UserRepository imageProduct_UserRepository,
             ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository,
-            IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository)
+            IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository
+            , CollaborativeFilteringService collaborativeFilteringService)
         {
             _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
@@ -75,6 +79,7 @@ namespace PhoneShop.Controllers
             _voucher_UserRepository = voucher_UserRepository;
             _order_userRepository = order_UserRepository;
             _evaluate_ProductRepository = evaluate_ProductRepository;
+            _collaborativeFilteringService = collaborativeFilteringService;
 
         }
 
@@ -104,6 +109,28 @@ namespace PhoneShop.Controllers
 
             //selling take 4     
             ViewBag.ListSelling = _productRepository.GetList_Selling();
+
+           
+
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+           
+
+            if (taikhoanID != null)
+            {
+                int AccountInt = int.Parse(taikhoanID);
+                var CollaborativeFiltering_List = _collaborativeFilteringService.CollaborativeFiltering(AccountInt);
+                ViewBag.CheckAccount = 1;
+
+                ViewBag.CollaborativeFiltering_List = CollaborativeFiltering_List;
+            }
+            else
+            {
+                ViewBag.CheckAccount = 0;
+            }
+            
+
+            //
+
 
 
             return View(item);

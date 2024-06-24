@@ -28,6 +28,7 @@ using PhoneShop.DI.Specification;
 using PhoneShop.DI.SupportContent;
 using PhoneShop.DI.SupportDirectory;
 using PhoneShop.DI.Voucher;
+using PhoneShop.Extension.CollaborativeFiltering;
 using PhoneShop.Libraries;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -100,6 +101,9 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<IMyAddress_UserRepository, MyAddress_UserRepository>();
 
         builder.Services.AddScoped<IEvaluate_ProductRepository, Evaluate_ProductRepository>();
+
+        //thuat toan goi y
+        builder.Services.AddScoped<CollaborativeFilteringService>();
 
 
 

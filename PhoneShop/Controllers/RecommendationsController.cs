@@ -14,13 +14,7 @@ namespace PhoneShop.Controllers
         [Route("/goiy.html")]
         public IActionResult Index()
         {
-            var IVM = new Product
-            {
-                Id = 0,
-                Title = "",
-
-
-            };
+            
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
 
@@ -49,7 +43,7 @@ namespace PhoneShop.Controllers
                 Id = x.Id,
                 Title = x.Title,
                 evaluate_Products = x.evaluate_Products
-            });
+            }).ToList();
 
 
             return Json(itemm);

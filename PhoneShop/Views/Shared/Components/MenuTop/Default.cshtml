@@ -13,7 +13,12 @@
             <div class="user-menu">
                 <ul>
                   
-                    <li><a href="#"><i class="fa-regular fa-message"></i> Thông báo</a></li>
+                    
+                     @if (ViewBag.GetNameLogin != null)
+                        {
+                        <li><a href="#"><i class="fa-regular fa-message"></i> Kênh người bán</a></li>
+
+                        }
                     <li><a href="/dang-nhap.html"><i class="fa fa-heart"></i> Admin</a></li>
                     <li><a href="/support.html"><i class="fa-solid fa-circle-info"></i> Hỗ trợ</a></li>
                     <li><a href="#"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>

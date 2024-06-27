@@ -88,6 +88,8 @@ namespace PhoneShop.Areas.Admin.Controllers
         {
 
                 var GetIdProduct = 0;
+                var taikhoanID = HttpContext.Session.GetString("AccountId_Admin")!;
+                int IdAccount = int.Parse(taikhoanID);
                 //kiem tra neu trung ten
                 var CheckTitle = _productRepository.CheckTitleCreate(model.Title);
                 if (CheckTitle == 0)
@@ -118,7 +120,9 @@ namespace PhoneShop.Areas.Admin.Controllers
                             model.Create_at = DateTime.Now;
                             model.Update_at = DateTime.Now;
                             model.ImageDefaultName = imageName;
-                            
+                            model.Create_Id = IdAccount;
+
+
 
                            var CreateProduct = _productRepository.Create(model);
                             GetIdProduct = CreateProduct;

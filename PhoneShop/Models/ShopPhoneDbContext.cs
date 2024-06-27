@@ -73,10 +73,15 @@ namespace PhoneShop.Models
         public DbSet<DeliveryProcess> DeliveryProcesses { get; set; }
 
 
+        //nguoi ban hang
 
 
+        public DbSet<Booth_Information> Booth_Information { get; set; }
 
+        public DbSet<ShopAddress> ShopAddress { get; set; }
 
+        public DbSet<Shipping_Method> ShopShipping_MethodAddress { get; set; }
+        public DbSet<Bank_Account> Bank_Account { get; set; }
 
 
 
@@ -203,6 +208,23 @@ namespace PhoneShop.Models
              .HasOne(p => p.District)
              .WithMany(p => p.Wards)
              .HasForeignKey(p => p.IdDistrict);
+
+            //nguoi ban hang
+
+            modelBuilder.Entity<ShopAddress>()
+            .HasOne(p => p.Booth_Information)
+            .WithMany(p => p.ShopAddresses)
+            .HasForeignKey(p => p.BoothId);
+
+            modelBuilder.Entity<Shipping_Method>()
+           .HasOne(p => p.Booth_Information)
+           .WithMany(p => p.Shipping_Methods)
+           .HasForeignKey(p => p.BoothId);
+
+            modelBuilder.Entity<Bank_Account>()
+           .HasOne(p => p.Booth_Information)
+           .WithMany(p => p.Bank_Accounts)
+           .HasForeignKey(p => p.BoothId);
 
 
         }

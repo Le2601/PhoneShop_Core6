@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -54,9 +55,11 @@ namespace PhoneShop.Models
 
         public int CategoryId { get; set; }
 
-        public DateTime? Create_at { get; set; }
+        public DateTime? Create_at { get; set; } = DateAndTime.Now;
 
         public DateTime? Update_at { get; set; }
+
+        public int Create_Id { get; set; }
 
       
 

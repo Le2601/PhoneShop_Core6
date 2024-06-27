@@ -88,6 +88,9 @@
                         <th>
                             Hãng
                         </th>
+                        <th>
+                            Người tạo
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -125,6 +128,16 @@
                                         }
                                     }
 
+                                </td>
+                                <td>
+                                    @if(item.Create_Id == 6)
+                                    {
+                                        <p> Quản trị viên</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Gian hàng</p>
+                                    }
                                 </td>
                                 <td>
                                     <a class="btn btn-danger" href="/admin/Product/Edit/@item.Id">Sửa</a>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhoneShop.Models;
 
@@ -11,9 +12,10 @@ using PhoneShop.Models;
 namespace PhoneShop.Migrations
 {
     [DbContext(typeof(ShopPhoneDbContext))]
-    partial class ShopPhoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240627125023_createid_product")]
+    partial class createid_product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,44 +72,6 @@ namespace PhoneShop.Migrations
                     b.ToTable("Account");
                 });
 
-            modelBuilder.Entity("PhoneShop.Models.Bank_Account", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Bank_Account_Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Bank_Account_Number")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BoothId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CMND")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name_Bank")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BoothId");
-
-                    b.ToTable("Bank_Account");
-                });
-
             modelBuilder.Entity("PhoneShop.Models.Banner", b =>
                 {
                     b.Property<int>("Id")
@@ -131,37 +95,6 @@ namespace PhoneShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BannerProducts");
-                });
-
-            modelBuilder.Entity("PhoneShop.Models.Booth_Information", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Creare_At")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShopName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Booth_Information");
                 });
 
             modelBuilder.Entity("PhoneShop.Models.Category", b =>
@@ -614,60 +547,6 @@ namespace PhoneShop.Migrations
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("PhoneShop.Models.Shipping_Method", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BoothId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("COD")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Online_Payment")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BoothId");
-
-                    b.ToTable("Shipping_Method");
-                });
-
-            modelBuilder.Entity("PhoneShop.Models.ShopAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Address_Detail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BoothId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BoothId");
-
-                    b.ToTable("ShopAddress");
-                });
-
             modelBuilder.Entity("PhoneShop.Models.specifications", b =>
                 {
                     b.Property<int>("Id")
@@ -875,17 +754,6 @@ namespace PhoneShop.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("PhoneShop.Models.Bank_Account", b =>
-                {
-                    b.HasOne("PhoneShop.Models.Booth_Information", "Booth_Information")
-                        .WithMany("Bank_Accounts")
-                        .HasForeignKey("BoothId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booth_Information");
-                });
-
             modelBuilder.Entity("PhoneShop.Models.DeliveryProcess", b =>
                 {
                     b.HasOne("PhoneShop.Models.Order", "order")
@@ -986,28 +854,6 @@ namespace PhoneShop.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("PhoneShop.Models.Shipping_Method", b =>
-                {
-                    b.HasOne("PhoneShop.Models.Booth_Information", "Booth_Information")
-                        .WithMany("Shipping_Methods")
-                        .HasForeignKey("BoothId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booth_Information");
-                });
-
-            modelBuilder.Entity("PhoneShop.Models.ShopAddress", b =>
-                {
-                    b.HasOne("PhoneShop.Models.Booth_Information", "Booth_Information")
-                        .WithMany("ShopAddresses")
-                        .HasForeignKey("BoothId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booth_Information");
-                });
-
             modelBuilder.Entity("PhoneShop.Models.specifications", b =>
                 {
                     b.HasOne("PhoneShop.Models.Product", "Product")
@@ -1044,15 +890,6 @@ namespace PhoneShop.Migrations
             modelBuilder.Entity("PhoneShop.Models.Account", b =>
                 {
                     b.Navigation("evaluate_Products");
-                });
-
-            modelBuilder.Entity("PhoneShop.Models.Booth_Information", b =>
-                {
-                    b.Navigation("Bank_Accounts");
-
-                    b.Navigation("Shipping_Methods");
-
-                    b.Navigation("ShopAddresses");
                 });
 
             modelBuilder.Entity("PhoneShop.Models.Category", b =>

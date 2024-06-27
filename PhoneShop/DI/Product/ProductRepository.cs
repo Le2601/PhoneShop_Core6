@@ -36,6 +36,7 @@ namespace PhoneShop.DI.Product
                 Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
                 InputPrice = x.InputPrice,
+                Create_Id = x.Create_Id
             };
 
             _context.Products.Add(item);
@@ -129,7 +130,8 @@ namespace PhoneShop.DI.Product
                 Description = x.Description,
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
-                ImageDefaultName = x.ImageDefaultName
+                ImageDefaultName = x.ImageDefaultName,
+                Create_Id = x.Create_Id
             }).OrderBy(x=> x.Id).ToList();
 
             return items;

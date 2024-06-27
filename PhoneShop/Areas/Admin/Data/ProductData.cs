@@ -52,6 +52,8 @@ namespace PhoneShop.Areas.Admin.Data
 
         public DateTime? Update_at { get; set; }
 
+        public int Create_Id { get; set; }
+
 
         //public virtual Category Category { get; set; }
 

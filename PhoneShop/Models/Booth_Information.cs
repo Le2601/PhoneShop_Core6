@@ -7,8 +7,8 @@ namespace PhoneShop.Models
     public class Booth_Information
     {
         [Key]
-
         public int Id { get; set; }
+        public int Code_Info { get; set; }
 
         public string ShopName { get; set; }
 

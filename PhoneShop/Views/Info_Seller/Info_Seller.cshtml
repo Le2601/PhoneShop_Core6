@@ -4,66 +4,72 @@
     Layout = "~/Views/Shared/Seller/_InfoSellerLayout.cshtml";
 }
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-<style>
-     
-      form {
-      border: 5px solid #f1f1f1;
-      }
-      input[type=text], input[type=password] {
-      width: 100%;
-      padding: 16px 8px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      }
-      button {
-      background-color: #8ebf42;
-      color: white;
-      padding: 14px 0;
-      margin: 10px 0;
-      border: none;
-      cursor: grabbing;
-      width: 100%;
-      }
-      h1 {
-      text-align:center;
-      fone-size:18;
-      }
-      button:hover {
-      opacity: 0.8;
-      }
-      .formcontainer {
-      text-align: left;
-      margin: 24px 50px 12px;
-      }
-      .container {
-      padding: 16px 0;
-      text-align:left;
-      }
-      span.psw {
-      float: right;
-      padding-top: 0;
-      padding-right: 15px;
-      }
-      /* Change styles for span on extra small screens */
-    
-    </style>
-    <form action="/action_page.php">
-      <h1>Login Form</h1>
-      <div class="formcontainer">
-      <hr/>
-      <div class="container">
-        <label for="uname"><strong>Username</strong></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
-        <label for="psw"><strong>Password</strong></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-      </div>
-      <button type="submit">Login</button>
-      <div class="container" style="background-color: #eee">
-        <label style="padding-left: 15px">
-        <input type="checkbox"  checked="checked" name="remember"> Remember me
-        </label>
-        <span class="psw"><a href="#"> Forgot password?</a></span>
-      </div>
-    </form>
+<link href="~/user/custom/seller/infoseller.css" rel="stylesheet" />
+<form id="regForm" asp-action="Create" asp-controller="Info_Seller" method="post" >
+
+    <h1>Đăng ký gian hàng:</h1>
+
+    <!-- One "tab" for each step in the form: -->
+    <div class="tab">
+        Thông tin shop:
+        <p><input type="text" placeholder="Tên gian hàng..." name="ShopName" oninput="this.className = ''"></p>
+        <p><input type="text" placeholder="Email..." name="Email" oninput="this.className = ''"></p>
+        <p><input type="text" placeholder="Số điện thoại..." name="Phone" oninput="this.className = ''"></p>
+    </div>
+
+    <div class="tab">
+        Địa chỉ lấy hàng:
+        <p><input type="text" placeholder="Tên người đại diện..." name="FullName" oninput="this.className = ''"></p>
+        <p><input type="text" placeholder="Địa chỉ..." name="Address" oninput="this.className = ''"></p>
+        <p><input type="text" placeholder="Địa chỉ chi tiết..." name="Address_Detail" oninput="this.className = ''"></p>
+    </div>
+
+    <div class="tab">
+        Phương thức thanh toán:
+        <p>
+            Thanh toán khi nhận hàng
+            <select name="COD">
+                Thanh toán khi nhận hàng
+                <option oninput="this.className = ''"></option>
+                <option value="1">Có</option>
+                <option value="0">không</option>
+            </select>
+        </p>
+       
+        <p>
+            Thanh toán trực tuyến
+            <select name="Online_Payment">
+                Thanh toán khi nhận hàng
+                <option oninput="this.className = ''"></option>
+                <option value="1">Có</option>
+                <option value="0">không</option>
+            </select>
+        </p>
+       
+    </div>
+
+    @* <div class="tab">
+        Login Info:
+        <p><input placeholder="Username..." oninput="this.className = ''"></p>
+        <p><input placeholder="Password..." oninput="this.className = ''"></p>
+    </div> *@
+
+    <div style="overflow:auto;">
+        <div style="float:right;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+    </div>
+
+    <!-- Circles which indicates the steps of the form: -->
+    <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+@*         <span class="step"></span>
+ *@    </div>
+
+</form>
+@section Scripts_Seller{
+        <script src="~/user/custom/seller/infoseller.js"></script>
+}

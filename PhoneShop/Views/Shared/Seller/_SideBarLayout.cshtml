@@ -1,0 +1,171 @@
+﻿
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+            <a href="#" class="d-block">Quản trị viên</a>
+        </div>
+
+    </div>
+
+
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a href="/Home_Seller/Index" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                       Thông tin gian hàng
+                        @*<i class="right fas fa-angle-left"></i>*@
+                    </p>
+                </a>
+
+            </li>
+            <li class="nav-item">
+                <a href="/admin/Statistical/index" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        Thống kê
+                        @*<i class="right fas fa-angle-left"></i>*@
+                    </p>
+                </a>
+
+            </li>               
+
+           
+
+
+            <li class="nav-item">
+                <a href="/Category" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        Quản lý sản phẩm
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/admin/Role/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Tất cả sản phẩm</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/Accounts/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Thêm sản phẩm</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="/Category" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                       Chăm sóc khách hàng
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/admin/Role/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Quản lý Chat</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/Accounts/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Quản lý Đánh Giá</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="/Category" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        Kênh Marketing
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/admin/Role/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Flash Sale của Shop</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/Accounts/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Mã giảm giá của Shop</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="/Category" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        Tài chính
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/admin/Role/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Doanh Thu</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/Accounts/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Số dư TK</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/Accounts/index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Quản lý TK Ngân hàng</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+
+            <li class="nav-item">
+                <a href="/logout.html" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Đăng xuất
+                        @*<span class="right badge badge-danger">New</span>*@
+                    </p>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->
+@*@if (Request.IsAuthenticated)
+{
+<div style="display:none">
+    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+    {
+    @Html.AntiForgeryToken()
+    }
+
+</div>
+}
+*@

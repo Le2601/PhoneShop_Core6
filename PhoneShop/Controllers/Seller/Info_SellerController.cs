@@ -16,10 +16,17 @@ namespace PhoneShop.Controllers.Seller
         [Route("/kenh-nguoi-ban.html")]
         public IActionResult Info_Seller()
         {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+            var Check_Seller = _context.Booth_Information.Where(x=> x.AccountId == AccountInt).FirstOrDefault();
+            if (Check_Seller != null)
+            {
+                return RedirectToAction("Index","Home_Seller");
+            }  
+
             return View();
         }
         [HttpPost]
-
         public IActionResult Create(IFormCollection form)
         {
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
@@ -56,9 +63,9 @@ namespace PhoneShop.Controllers.Seller
             _context.Booth_Information.Add(item_Booth_Information);
             _context.SaveChanges();
            
-            var get_Booth_Information = _context.Booth_Information.Where(x=> x.Code_Info == randomNumber_Id).First();
+            var get_Booth_Information = _context.Booth_Information.Where(x=> x.Code_Info == randomNumber_Id).FirstOrDefault()!;
 
-
+           
 
             //insert ShopAddress 
             var item_ShopAddress = new ShopAddress
@@ -70,11 +77,28 @@ namespace PhoneShop.Controllers.Seller
 
             };
             _context.ShopAddress.Add(item_ShopAddress);
+
+            //insert ship method
+            var item_ShipMethod = new Shipping_Method
+            {
+                COD = int.Parse(COD),
+                Online_Payment = int.Parse(Online_Payment),
+                BoothId = get_Booth_Information.Id,
+
+            };
+            _context.ShopShipping_MethodAddress.Add(item_ShipMethod);
+
             _context.SaveChanges();
 
+            if(get_Booth_Information != null)
+            {
+                return RedirectToAction("Index", "Home_Seller");
+            }
+
+            return View(form);
 
 
-            return Json(item_Booth_Information, item_ShopAddress);
+            
         }
     }
 }

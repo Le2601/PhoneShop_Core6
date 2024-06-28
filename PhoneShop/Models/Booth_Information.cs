@@ -6,6 +6,13 @@ namespace PhoneShop.Models
     [Table("Booth_Information")]
     public class Booth_Information
     {
+        public Booth_Information()
+        {
+            ShopAddresses = new HashSet<ShopAddress>();
+
+
+
+        }
         [Key]
         public int Id { get; set; }
         public int Code_Info { get; set; }

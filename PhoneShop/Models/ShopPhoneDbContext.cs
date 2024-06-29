@@ -83,6 +83,8 @@ namespace PhoneShop.Models
         public DbSet<Shipping_Method> ShopShipping_MethodAddress { get; set; }
         public DbSet<Bank_Account> Bank_Account { get; set; }
 
+        public DbSet<WarehousedProducts> WarehousedProducts { get; set; }
+
 
 
         //fluent
@@ -225,6 +227,11 @@ namespace PhoneShop.Models
            .HasOne(p => p.Booth_Information)
            .WithMany(p => p.Bank_Accounts)
            .HasForeignKey(p => p.BoothId);
+
+            modelBuilder.Entity<WarehousedProducts>()
+          .HasOne(p => p.Product)
+          .WithMany(p => p.WarehousedProducts)
+          .HasForeignKey(p => p.ProductId);
 
 
         }

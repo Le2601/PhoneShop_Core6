@@ -84,6 +84,8 @@ namespace PhoneShop.Models
 
         public  ICollection<Evaluate_Product> evaluate_Products { get; set; }
 
+        public ICollection<WarehousedProducts> WarehousedProducts { get; set; }
+
 
 
 

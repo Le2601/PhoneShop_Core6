@@ -14,12 +14,48 @@
 <link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="~/clients/dist/css/adminlte.min.css">
+
+
+
 <section class="content">
 
     <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Danh sách sản phẩm</h3>
+
+
+               @*  MODAL *@
+              @*   <div class="card-body">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                        Launch Default Modal
+                    </button>
+                
+                </div>
+                <div class="modal fade" id="modal-default">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Default Modal</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>One fine body&hellip;</p>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div> *@
+
+                @*  MODAL *@
+                
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -45,15 +81,15 @@
                                    @i.Title
                                 </td>
                                 <td>
-                                    <a class="imgproduct" href="#" data-id="@i.Id">
+                                    <a class="imgproduct"  data-id="@i.Id">
                                         <img src="~/images/Product/@i.ImageDefaultName" width="100" height="100" style="border: solid 1px " />
                                     </a>
                                 </td>
                                 <td> @PhoneShop.Extension.Extension.ToVnd((double)i.Price)</td>
-                                <td> 4</td>
+                                <td> @PhoneShop.Extension.Extension.ToVnd((double)i.Discount)</td>
                                 <td> @i.Category.Title</td>
-                                <td>@i.Create_Id</td>
-                                <td></td>
+                                <td>@i.Quantity</td>
+                                <td><a><i class="fas fa-trash-alt" style="color: #d11f43;"></i></a>   <br> <a><i class="fas fa-edit" style="color: #3070df;"></i></a></td>
                             </tr>
                         }
 
@@ -66,6 +102,9 @@
         </div>
     </div>
 </section>
+<div id="dialog">
+    <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
+</div>
 @section scripts_SellerHome{
     <!-- jQuery -->
     <script src="~/clients/plugins/jquery/jquery.min.js"></script>
@@ -85,7 +124,7 @@
     <script src="~/clients/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/clients/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
-    
+  
    
 
 
@@ -93,8 +132,8 @@
     <!-- AdminLTE App -->
     <script src="~/clients/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="~/clients/dist/js/demo.js"></script>
-    <!-- Page specific script -->
+@*     <script src="~/clients/dist/js/demo.js"></script>
+ *@    <!-- Page specific script -->
     <script>
         $(function () {
             $("#example1").DataTable({
@@ -111,6 +150,52 @@
                 "responsive": true,
             });
         });
+    </script>
+   @*  <script>
+        $(function () {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            $('.swalDefaultSuccess').click(function () {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+    </script> *@
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            //dialog anh
+
+            $("#dialog").dialog({
+                autoOpen: false,
+                show: "fade",
+                hide: "fade",
+                modal: true,
+                height: '600',
+                width: '700',
+                resizable: true,
+                title: '          ',
+                close: function () {
+                    window.location.reload();
+                }
+            });
+            $('body').on('click', '.imgproduct', function () {
+
+                var proid = $(this).attr("data-id");
+                $("#dialog #myiframe").attr("src", "/Product_Seller/GetListImage?id=" + proid);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+
+        });
+
     </script>
 
 

@@ -1,0 +1,36 @@
+﻿@model List<PhoneShop.ModelViews.ImageProductViewModel>
+@{
+    ViewData["Title"] = "GetListImage";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+}
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Thêm file JavaScript của Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+ @if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        
+             <div id="trow_@item.Id">
+
+            <img src="~/images/Product/@item.DataName" width="200px" height="200px" style="border: solid 1px " />
+            <a href="~/delete_Image/@item.Id" class="btn btn-success" >Xoa</a>
+
+
+            
+           
+             </div>
+            
+        
+      
+
+
+
+    }
+}
+

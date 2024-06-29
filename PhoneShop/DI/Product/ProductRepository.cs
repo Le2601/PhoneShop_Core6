@@ -40,6 +40,7 @@ namespace PhoneShop.DI.Product
             };
 
             _context.Products.Add(item);
+           
             _context.SaveChanges();
 
 

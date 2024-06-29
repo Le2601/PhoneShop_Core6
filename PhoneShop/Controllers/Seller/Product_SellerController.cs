@@ -80,6 +80,15 @@ namespace PhoneShop.Controllers.Seller
 
                             var CreateProduct = _productRepository.Create(model);
                             GetIdProduct = CreateProduct;
+
+                            //add kho hang
+                            var item_WarehouseProduct = new WarehousedProducts
+                            {
+                                ProductId = GetIdProduct,
+                                Quantity = model.Quantity,
+
+                            };
+                            _context.WarehousedProducts.Add(item_WarehouseProduct);
                             //add thong so ky thuat
 
                             string Display = form["Display"];
@@ -187,6 +196,14 @@ namespace PhoneShop.Controllers.Seller
                 return RedirectToAction("index");
             }
 
+           
+
+        }
+
+        public IActionResult GetListImage(int? id)
+        {
+            var items = _imageProductRepository.GetListByIdProduct(id);
+            return View(items);
         }
     }
 }

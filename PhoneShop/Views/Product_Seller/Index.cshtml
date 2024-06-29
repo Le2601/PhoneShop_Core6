@@ -1,0 +1,118 @@
+﻿@model IEnumerable<PhoneShop.Models.Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+    int index = 1;
+}
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="~/clients/plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="~/clients/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="~/clients/dist/css/adminlte.min.css">
+<section class="content">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách sản phẩm</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Hình ảnh</th>
+                            <th>Giá bán</th>
+                            <th>Giảm giá</th>
+                            <th>Danh mục</th>
+                            <th>Số lượng</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var i in Model)
+                        {
+                            <tr>
+                                <td>@(index++)</td>
+                                <td>
+                                   @i.Title
+                                </td>
+                                <td>
+                                    <a class="imgproduct" href="#" data-id="@i.Id">
+                                        <img src="~/images/Product/@i.ImageDefaultName" width="100" height="100" style="border: solid 1px " />
+                                    </a>
+                                </td>
+                                <td> @PhoneShop.Extension.Extension.ToVnd((double)i.Price)</td>
+                                <td> 4</td>
+                                <td> @i.Category.Title</td>
+                                <td>@i.Quantity</td>
+                                <td></td>
+                            </tr>
+                        }
+
+                       
+                    </tbody>
+                   
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+</section>
+@section scripts_SellerHome{
+    <!-- jQuery -->
+    <script src="~/clients/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/clients/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/clients/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/clients/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/clients/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/jszip/jszip.min.js"></script>
+    <script src="~/clients/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/clients/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    
+   
+
+
+
+    <!-- AdminLTE App -->
+    <script src="~/clients/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/clients/dist/js/demo.js"></script>
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+
+}
+

@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
 
     ShopAddress IsAddress = ViewBag.Address;
+    Shipping_Method IsShipping = ViewBag.Shipping_Method;
 }
 
 @section naviheader{
@@ -26,27 +27,106 @@
 <!-- Main content -->
 <section class="content">
 
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Thông tin</h3>
+    <div class="col-12">
+        <div class="callout callout-info">
+            <h5><i class="fas fa-info"></i> Note:</h5>
+            This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
+        </div>
 
-            <div class="card-tools">
-                <a href="/admin/Category/Create" class="btn btn-danger">Thêm mới</a>
+
+        <!-- Main content -->
+        <div class="invoice p-3 mb-3">
+            <!-- title row -->
+            <div class="row">
+               
+                <!-- /.col -->
             </div>
+            <!-- info row -->
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    <strong>Thông tin <a href="/editInfoSeller-@Model.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
+                    <address>
+                      
+                        Tên gian hàng: @Model.ShopName<br>
+                        Email: @Model.Email<br>
+                        Phone: @Model.Phone<br>
+                        Ngày tạo: @Model.Creare_At
+                    </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                    <strong> Địa chỉ lấy hàng <a href="/editAddressShop-@IsAddress.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
+                    <address>
+                        
+                        Người đại diện: @IsAddress.FullName<br>
+                        Địa chỉ: @IsAddress.Address_Detail-@IsAddress.Address<br>                     
+                    </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                    <strong> Phương thức thanh toán <a href="/editShipping-@IsShipping.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
+                    <address>
+
+                       
+                        Thanh toán trực tuyến:
+                        @if (IsShipping.Online_Payment == 1)
+                        {
+                            <i class="fas fa-check" style="color: #2b99ee;"></i><br>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times" style="color: #e63d45;"></i> <br>                          
+                        }
+                        COD:  @if (IsShipping.COD == 1)
+                        {
+                            <i class="fas fa-check" style="color: #2b99ee;"></i>
+
+                            <br>
+                        }
+                        else
+                        {
+                            <i class="fas fa-times" style="color: #e63d45;"></i> <br>
+                        }<br>
+                       
+                    </address>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Qty</th>
+                                <th>Product</th>
+                                <th>Serial #</th>
+                                <th>Description</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Call of Duty</td>
+                                <td>455-981-221</td>
+                                <td>El snort testosterone trophy driving gloves handsome</td>
+                                <td>$64.50</td>
+                            </tr>
+                         
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+           
+          
         </div>
-        <div class="card-body">
-
-            <p>@Model.ShopName</p>
-           @*  <p>@Model.ShopAddresses.Where(x=> x.BoothId == Model.Id).FirstOrDefault().Address_Detail</p> *@
-         
-
-        </div>
-        <!-- /.card-body -->
-        <!-- /.card-footer-->
-    </div>
-    <!-- /.card -->
-
+        <!-- /.invoice -->
+    </div><!-- /.col -->
 </section>
 
 

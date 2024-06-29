@@ -1,15 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Models;
+using System.Net.Http;
 
 namespace PhoneShop.Controllers.Seller
 {
     public class Home_SellerController : Controller
     {
         private readonly ShopPhoneDbContext _context;
-
-        public Home_SellerController(ShopPhoneDbContext context)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public Home_SellerController(ShopPhoneDbContext context, IHttpClientFactory httpClientFactory)
         {
-            _context = context;
+                _context = context;
+            _httpClientFactory = httpClientFactory;
         }
         public IActionResult Index()
         {
@@ -22,5 +24,7 @@ namespace PhoneShop.Controllers.Seller
 
             return View(item_Booth_Information);
         }
+        
+        
     }
 }

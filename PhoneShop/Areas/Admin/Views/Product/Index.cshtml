@@ -1,7 +1,6 @@
 ﻿@using PhoneShop.ModelViews;
-﻿@using PagedList.Core.Mvc
 @using System.Globalization;﻿
-@model PagedList.Core.IPagedList<PhoneShop.ModelViews.ProductViewModel>
+@model IEnumerable<PhoneShop.ModelViews.ProductViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -73,7 +72,7 @@
         </div>
         <div class="card-body" style="min-height:590px">
 
-            <table class="table">
+            <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>
@@ -162,14 +161,7 @@
            
 
         </div>
-        @*  note *@
-        <div aria-label="Page navigation example">
-            <ul class="pagination">
-                <pager class="pager-container" list="@Model" asp-controller="Product" asp-action="Index" asp-area="Admin" />
-
-            </ul>
-        </div>
-        @*  note *@
+      
     </div>
     <!-- /.card -->
   

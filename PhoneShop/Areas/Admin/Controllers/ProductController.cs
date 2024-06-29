@@ -50,18 +50,13 @@ namespace PhoneShop.Areas.Admin.Controllers
            
             var items = _productRepository.GetAllProducts();
 
-            IQueryable<ProductViewModel> models = items.AsQueryable();
-
-            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-            var pageSize = 4;
-            PagedList<ProductViewModel> item = new PagedList<ProductViewModel>(models, pageNumber, pageSize);
-
+            
 
             ViewBag.imageproduct =  _context.ImageProducts.ToList();
 
             ViewBag.ListCategory =await _categoryRepository.GetAll();
 
-            return View(item);
+            return View(items);
         }
         //return RedirectToAction("NotFoundApp", "Home");
 

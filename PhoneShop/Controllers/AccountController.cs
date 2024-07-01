@@ -232,11 +232,11 @@ namespace PhoneShop.Controllers
             if(taikhoanID != null)
             {
                 var Check_Role = _context.Accounts.Where(x => x.Id == int.Parse(taikhoanID)).FirstOrDefault()!;
-                if (Check_Role.RoleId != 3)
+                if (Check_Role.RoleId != 3 || Check_Role.RoleId != 14)
                 {
                     return View();
                 }
-                else if (Check_Role.RoleId == 3)
+                else if (Check_Role.RoleId == 3 || Check_Role.RoleId == 14)
                 {
 
                     ViewBag.ReturnUrl = returnUrl;
@@ -287,7 +287,7 @@ namespace PhoneShop.Controllers
                         ViewBag.Error = "Mật khẩu sai";
                         return View(model);
                     }
-                    if (kh != null && kh.RoleId == 3)
+                    if (kh != null && kh.RoleId == 3 || kh.RoleId == 14)
                     {
                         //dang nhap thanh cong
 

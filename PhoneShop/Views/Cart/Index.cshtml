@@ -236,9 +236,9 @@
                                    
                                     <tr>
                                         <td class="actions" colspan="6">
-                                         
-                                           
-                                            @if (User.Identity.IsAuthenticated && (User.IsInRole("Staff")))
+
+
+                                            @if (User.Identity.IsAuthenticated && (User.IsInRole("User")) || (User.IsInRole("Seller")))
                                             {
                                                 <input type="submit" value="Thanh Toán" name="proceed" class="checkout-button button alt wc-forward">
 

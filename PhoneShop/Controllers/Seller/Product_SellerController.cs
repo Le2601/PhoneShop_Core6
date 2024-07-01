@@ -27,7 +27,9 @@ namespace PhoneShop.Controllers.Seller
         }
         public IActionResult Index()
         {
-            var items = _context.Products.ToList();
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+            var items = _context.Products.Where(x=> x.Create_Id == AccountInt).ToList();
             ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
             return View(items);
         }

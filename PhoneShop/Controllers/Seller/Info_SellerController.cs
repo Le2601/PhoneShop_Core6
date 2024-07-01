@@ -31,6 +31,11 @@ namespace PhoneShop.Controllers.Seller
         {
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
+            
+            if(taikhoanID == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }   
 
             Random random = new Random();
 
@@ -87,6 +92,16 @@ namespace PhoneShop.Controllers.Seller
 
             };
             _context.ShopShipping_MethodAddress.Add(item_ShipMethod);
+
+
+            var Change_RoleId_Account = _context.Accounts.Where(x=> x.Id == AccountInt).FirstOrDefault();
+            if (Change_RoleId_Account == null)
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
+            Change_RoleId_Account.RoleId = 14;
+            _context.Accounts.Update(Change_RoleId_Account);
 
             _context.SaveChanges();
 

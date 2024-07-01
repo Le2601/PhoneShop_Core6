@@ -211,7 +211,9 @@ app.Use(async (context, next) =>
         // Chuyển hướng đến trang lỗi tùy chỉnh 
         context.Response.Redirect("/error/pageNotFound");
     }
+   
 });
+
 
 app.UseEndpoints(endpoints =>
 {

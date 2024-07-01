@@ -1,11 +1,13 @@
 ﻿@model PhoneShop.Models.Booth_Information
 @using PhoneShop.Models
+@using PhoneShop.ModelViews
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
 
     ShopAddress IsAddress = ViewBag.Address;
     Shipping_Method IsShipping = ViewBag.Shipping_Method;
+    List<Check_Product_Purchases> IsCheckProductPurchases = ViewBag.JoinProduct;
 }
 
 @section naviheader{
@@ -99,21 +101,25 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Qty</th>
-                                <th>Product</th>
-                                <th>Serial #</th>
-                                <th>Description</th>
-                                <th>Subtotal</th>
+                                <th>#</th>
+                                <th>Tên Sp</th>
+                                <th>Hình Ảnh</th>
+                                <th>Đã Bán</th>
+                                <th>Còn lại</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Call of Duty</td>
-                                <td>455-981-221</td>
-                                <td>El snort testosterone trophy driving gloves handsome</td>
-                                <td>$64.50</td>
-                            </tr>
+                            @foreach (var i in IsCheckProductPurchases)
+                            {
+                                <tr>
+                                    <td>@i.Id</td>
+                                    <td>@i.Title</td>
+                                    <td>455-981-221</td>
+                                    <td>@i.Sold_Product</td>
+                                    <td>@i.Remaining_Product</td>
+                                </tr>
+                            }
+                           
                          
                         </tbody>
                     </table>

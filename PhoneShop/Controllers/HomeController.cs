@@ -83,8 +83,8 @@ namespace PhoneShop.Controllers
 
         }
 
-   
-  
+
+       
 
         public async Task<IActionResult> Index(int? page)
         {   

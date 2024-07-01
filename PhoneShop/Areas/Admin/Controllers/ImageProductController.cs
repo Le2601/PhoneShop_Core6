@@ -32,12 +32,13 @@ namespace PhoneShop.Areas.Admin.Controllers
             _context = context;
 
         }
+        [AllowAnonymous]
         public IActionResult Index(int? id)
         {
             var items = _imageProductRepository.GetListByIdProduct(id);
             return View(items);
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetListImage(int id)
         {
@@ -55,6 +56,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         }
 
         [Route("/delete_Image/{Id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> DelImage( int Id)
         {
             var item = _imageProductRepository.GetById(Id);

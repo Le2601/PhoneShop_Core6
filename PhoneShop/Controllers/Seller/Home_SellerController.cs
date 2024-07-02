@@ -38,7 +38,8 @@ namespace PhoneShop.Controllers.Seller
                                   Image = p.ImageDefaultName,
                                   Title = p.Title,
                                   Remaining_Product = p.Quantity,
-                                  Sold_Product = e.Quantity - p.Quantity
+                                  Sold_Product = e.Quantity - p.Quantity,
+                                  Input_Quantity = e.Quantity + p.Quantity
 
                               }).ToList();
            

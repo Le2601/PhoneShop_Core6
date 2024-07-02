@@ -59,6 +59,8 @@ namespace PhoneShop.Controllers
 
         private readonly CollaborativeFilteringService _collaborativeFilteringService;
 
+       
+
 
 
         public HomeController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IProduct_UserRepository productRepository,
@@ -80,6 +82,7 @@ namespace PhoneShop.Controllers
             _order_userRepository = order_UserRepository;
             _evaluate_ProductRepository = evaluate_ProductRepository;
             _collaborativeFilteringService = collaborativeFilteringService;
+           
 
         }
 
@@ -87,7 +90,9 @@ namespace PhoneShop.Controllers
        
 
         public async Task<IActionResult> Index(int? page)
-        {   
+        {
+
+           
 
             var All_Product =await _productRepository.AllProducts();
 
@@ -136,7 +141,7 @@ namespace PhoneShop.Controllers
             return View(item);
         }
         //DEMO EXPORT FILE
-
+        
         [HttpGet("/Export_File")]
         public IActionResult DemoExport_File()
         {

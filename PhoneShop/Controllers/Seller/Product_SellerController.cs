@@ -207,5 +207,216 @@ namespace PhoneShop.Controllers.Seller
             var items = _imageProductRepository.GetListByIdProduct(id);
             return View(items);
         }
+        public IActionResult Edit(int id)
+        {
+
+            var item = _productRepository.GetByIdVM(id);
+
+            ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Title");
+
+            var itemThongSo = _specificationRepository.GetSpecificationByIdProduct(item.Id);
+
+            ViewBag.itemThongSo = itemThongSo;
+
+
+
+
+
+            return View(item);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Product model, List<Microsoft.AspNetCore.Http.IFormFile> files, IFormCollection form)
+        {
+
+            if (model == null)
+            {
+                return View(model);
+            }
+            else
+            {
+
+                if (files.Count > 0)
+                {
+
+                    model.ImageDefaultName = model.ImageDefaultName;
+
+                    model.Alias = Helpper.Utilities.SEOUrl(model.Title);
+
+                    model.Update_at = DateTime.Now;
+
+                    _productRepository.UpdateProduct(model);
+
+
+                    //add thong so ky thuat
+
+                    //var itemNewspecifications = _context.specifications.Where(x => x.ProductId == model.Id).FirstOrDefault();
+
+                    var UpdateSpecification = new SpecificationsData
+                    {
+                        Display = form["Display"],
+                        Model = model.Title,
+                        OperatingSystem = form["OperatingSystem"],
+                        Processor = form["Processor"],
+                        InternalStorage = form["InternalStorage"],
+                        Camera = form["Camera"],
+                        RandomAccessMemory = form["RandomAccessMemory"],
+                        Battery = form["Battery"],
+                        WaterResistance = form["WaterResistance"],
+                        DimensionsAndeight = form["DimensionsAndeight"],
+                        Color = form["Color"],
+                        Connectivity = form["Connectivity"],
+                    };
+
+
+
+
+                    //_context.specifications.Update(itemNewspecifications!);
+                    //await _context.SaveChangesAsync();
+
+                    _specificationRepository.UpdateSpecificationByIdProduct(model.Id, UpdateSpecification);
+
+
+
+
+
+
+                    var iSum = 0;
+
+
+                    foreach (var img in files)
+                    {
+                        //xu ly hinh anh
+                        if (img != null)
+                        {
+
+                            string extension = Path.GetExtension(img.FileName);
+                            string imageName = Utilities.SEOUrl(img.FileName + iSum) + extension;
+
+                            var mol_Image = await Utilities.UploadFile(img, @"Product", imageName.ToLower());
+
+
+                            var AddImages = new ImageProduct
+                            {
+                                ProductId = model.Id,
+                                DataName = mol_Image,
+                                Create_at = DateTime.Now,
+                                IsDefault = false
+
+                            };
+
+                            await _context.ImageProducts.AddAsync(AddImages);
+                            await _context.SaveChangesAsync();
+
+
+                        }
+
+
+
+                    }
+                }
+                else
+                {
+                    //neu khong cap nhat hinh anh 
+
+                    //lay ra hinh anh default
+
+
+
+                    model.ImageDefaultName = model.ImageDefaultName;
+
+                    model.Alias = Helpper.Utilities.SEOUrl(model.Title);
+
+                    model.Update_at = DateTime.Now;
+
+                    _productRepository.UpdateProduct(model);
+
+
+
+                    //add thong so ky thuat
+
+                    //var itemNewspecifications = _context.specifications.Where(x => x.ProductId == model.Id).FirstOrDefault();
+
+                    var UpdateSpecification = new SpecificationsData
+                    {
+                        Display = form["Display"],
+                        Model = model.Title,
+                        OperatingSystem = form["OperatingSystem"],
+                        Processor = form["Processor"],
+                        InternalStorage = form["InternalStorage"],
+                        Camera = form["Camera"],
+                        RandomAccessMemory = form["RandomAccessMemory"],
+                        Battery = form["Battery"],
+                        WaterResistance = form["WaterResistance"],
+                        DimensionsAndeight = form["DimensionsAndeight"],
+                        Color = form["Color"],
+                        Connectivity = form["Connectivity"],
+                    };
+
+
+
+
+                    //_context.specifications.Update(itemNewspecifications!);
+                    //await _context.SaveChangesAsync();
+
+                    _specificationRepository.UpdateSpecificationByIdProduct(model.Id, UpdateSpecification);
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                return RedirectToAction("index");
+            }
+
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = _productRepository.GetByIdVM(id);
+            if (item == null)
+            {
+                return Json(new { success = false, msg = "San pham khong ton tai" });
+
+            }
+            var Del_Image = _imageProductRepository.GetListByIdProduct(item.Id);
+
+            if (Del_Image.Count > 0)
+            {
+                foreach (var img in Del_Image)
+                {
+                    string pathimg = "/Product/" + img.DataName;
+                    //xoa hinh anh trong folder
+                    string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Product/" + img.DataName);
+                    if (System.IO.File.Exists(pathFile))
+                    {
+                        // Xóa hình ảnh
+                        System.IO.File.Delete(pathFile);
+
+                    }
+
+                    _imageProductRepository.DeleteImage(img.Id);
+
+                }
+            }
+
+            _productRepository.DeleteProduct(item.Id);
+
+            return Json(new { success = true, msg = "Xoa thanh cong" });
+
+
+        }
     }
 }

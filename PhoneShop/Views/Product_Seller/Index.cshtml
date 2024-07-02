@@ -25,37 +25,7 @@
                 <h3 class="card-title">Danh sách sản phẩm</h3>
 
 
-               @*  MODAL *@
-              @*   <div class="card-body">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                        Launch Default Modal
-                    </button>
-                
-                </div>
-                <div class="modal fade" id="modal-default">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Default Modal</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>One fine body&hellip;</p>
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div> *@
-
-                @*  MODAL *@
-                
+             
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -75,7 +45,7 @@
                     <tbody>
                         @foreach(var i in Model)
                         {
-                            <tr>
+                            <tr id="trow_@i.Id">
                                 <td>@(index++)</td>
                                 <td>
                                    @i.Title
@@ -89,7 +59,9 @@
                                 <td> @PhoneShop.Extension.Extension.ToVnd((double)i.Discount)</td>
                                 <td> @i.Category.Title</td>
                                 <td>@i.Quantity</td>
-                                <td><a><i class="fas fa-trash-alt" style="color: #d11f43;"></i></a>   <br> <a><i class="fas fa-edit" style="color: #3070df;"></i></a></td>
+                                <td><a class="btnDelete" data-id="@i.Id"><i class="fas fa-trash-alt" style="color: #d11f43;"></i>
+                                    </a> <br> <a href="/Product_Seller/Edit/@i.Id"><i class="fas fa-edit" style="color: #3070df;"></i></a>
+                                </td>
                             </tr>
                         }
 
@@ -196,6 +168,33 @@
 
         });
 
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("ban muoon xoa chua");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Product_Seller/Delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
     </script>
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +39,7 @@ using Stripe;
 using System;
 using System.Configuration;
 using Twilio.Clients;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -126,6 +128,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 });
 
 
+
+
 //cau hinh xac thuc sdt
 builder.Services.ConfigureOptions<ConfigureTwilioSettings>();
 // Đăng ký TwilioClient
@@ -165,6 +169,7 @@ builder.Services.AddDbContext<ShopPhoneDbContext>(options =>
 {
     options.UseSqlServer("Server=LAPTOP-LH4CD5VL;Database=PhoneShop_Core6;Trusted_Connection=True;Connect Timeout=60;MultipleActiveResultSets=True");
 });
+
 
 
 

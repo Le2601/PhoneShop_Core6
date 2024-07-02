@@ -15,6 +15,8 @@ namespace PhoneShop.Models
         }
         [Key]
         public int Id { get; set; }
+
+        public string Avatar { get; set; }
         public int Code_Info { get; set; }
 
         public string ShopName { get; set; }
@@ -30,6 +32,8 @@ namespace PhoneShop.Models
          public virtual ICollection<ShopAddress> ShopAddresses { get; set; }
         public virtual ICollection<Shipping_Method> Shipping_Methods { get; set; }
         public virtual ICollection<Bank_Account> Bank_Accounts { get; set; }
+
+        public virtual ICollection<Booth_Tracking> Booth_Trackings { get; set; }
 
     }
 }

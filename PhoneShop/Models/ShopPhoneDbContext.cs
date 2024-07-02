@@ -84,6 +84,7 @@ namespace PhoneShop.Models
         public DbSet<Bank_Account> Bank_Account { get; set; }
 
         public DbSet<WarehousedProducts> WarehousedProducts { get; set; }
+        public DbSet<Booth_Tracking> Booth_Trackings { get; set; }
 
 
 
@@ -232,6 +233,11 @@ namespace PhoneShop.Models
           .HasOne(p => p.Product)
           .WithMany(p => p.WarehousedProducts)
           .HasForeignKey(p => p.ProductId);
+
+            modelBuilder.Entity<Booth_Tracking>()
+         .HasOne(p => p.Booth_Information)
+         .WithMany(p => p.Booth_Trackings)
+         .HasForeignKey(p => p.BoothId);
 
 
         }

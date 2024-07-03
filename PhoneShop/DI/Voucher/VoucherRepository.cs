@@ -2,6 +2,7 @@
 using PhoneShop.Areas.Admin.Data;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
+using static Microsoft.ML.Transforms.Text.LatentDirichletAllocationTransformer.ModelParameters;
 
 namespace PhoneShop.DI.Voucher
 {
@@ -37,6 +38,10 @@ namespace PhoneShop.DI.Voucher
                 ExpiryDate = model.ExpiryDate,
                 Quantity = model.Quantity,
                 IsActive = model.IsActive,
+                Description = model.Description,
+                Start_At = model.Start_At,
+                BoothId = model.BoothId
+
             };
 
             _context.Vouchers.Add(item);
@@ -83,6 +88,7 @@ namespace PhoneShop.DI.Voucher
                 ExpiryDate = model.ExpiryDate,
                 Quantity = model.Quantity,
                 IsActive = model.IsActive,
+                Description = model.Description
             };
 
             return IVM;
@@ -93,19 +99,19 @@ namespace PhoneShop.DI.Voucher
         {
            var item = _context.Vouchers.FirstOrDefault(x => x.Id == model.Id);
 
-            var IUpdate = new PhoneShop.Models.Voucher
-            {
-                
-                Code = model.Code,
-                DiscountAmount = model.DiscountAmount,
-                DiscountConditions = model.DiscountConditions,
-                ExpiryDate = model.ExpiryDate,
-                Quantity = model.Quantity,
-                IsActive = model.IsActive,
 
-            };
 
-            _context.Vouchers.Update(IUpdate);
+            item.Code = model.Code;
+            item.DiscountAmount = model.DiscountAmount;
+            item.DiscountConditions = model.DiscountConditions;
+            item.ExpiryDate = model.ExpiryDate;
+            item.Quantity = model.Quantity;
+            item.IsActive = model.IsActive;
+            item.Description = model.Description;
+
+           
+
+            _context.Vouchers.Update(item);
             _context.SaveChanges();
 
 

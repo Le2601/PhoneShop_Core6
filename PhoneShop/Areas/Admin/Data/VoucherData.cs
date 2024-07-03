@@ -21,5 +21,10 @@ namespace PhoneShop.Areas.Admin.Data
 
         
         public bool IsActive { get; set; }
+        public int BoothId { get; set; }
+
+        public int Start_At { get; set; }
+
+        public string Description { get; set; } = string.Empty;
     }
 }

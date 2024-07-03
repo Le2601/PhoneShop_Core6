@@ -840,8 +840,8 @@ namespace PhoneShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Create_At")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Date_Start")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()

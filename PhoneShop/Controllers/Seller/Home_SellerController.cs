@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -19,11 +20,18 @@ namespace PhoneShop.Controllers.Seller
         
         public IActionResult Index()
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+
             
 
-            var item_Booth_Information = _context.Booth_Information.Where(x=> x.AccountId == AccountInt).FirstOrDefault();
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+           
+            var item_Booth_Information = _context.Booth_Information.Where(x=> x.AccountId == AccountInt).FirstOrDefault()!;
+            HttpContext.Session.SetString("IdBoothShop", item_Booth_Information.Id.ToString());
+
+
+
             ViewBag.Address = _context.ShopAddress.Where(x=> x.BoothId == item_Booth_Information!.Id).FirstOrDefault();
             ViewBag.Shipping_Method = _context.ShopShipping_MethodAddress.Where(x => x.BoothId == item_Booth_Information!.Id).FirstOrDefault();
 

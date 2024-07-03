@@ -34,6 +34,7 @@
                         <tr>
                             <th>#</th>
                             <th>Tên sản phẩm</th>
+                            <th>Trạng thái</th>
                             <th>Hình ảnh</th>
                             <th>Giá bán</th>
                             <th>Giảm giá</th>
@@ -48,7 +49,18 @@
                             <tr id="trow_@i.Id">
                                 <td>@(index++)</td>
                                 <td>
-                                   @i.Title
+                                    <a href="/Product_Seller/Detail_Product_Seller/@i.Id">@i.Title</a>
+                                </td>
+                                <td>
+                                    @if(i.IsActive == true)
+                                    {
+                                        <p style="text-align:center"><i class="fas fa-check" style="color: #2268e2;"></i></p>
+                                    }
+                                    else
+                                    {
+                                        <p style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></p>
+                                        
+                                    }
                                 </td>
                                 <td>
                                     <a class="imgproduct"  data-id="@i.Id">

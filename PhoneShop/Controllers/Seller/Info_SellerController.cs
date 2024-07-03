@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhoneShop.Models;
 
 namespace PhoneShop.Controllers.Seller
 {
+   
     public class Info_SellerController : Controller
     {
         private readonly ShopPhoneDbContext _context;
@@ -12,7 +14,7 @@ namespace PhoneShop.Controllers.Seller
         {
             _context = context;
         }
-
+       
         [Route("/kenh-nguoi-ban.html")]
         public IActionResult Info_Seller()
         {

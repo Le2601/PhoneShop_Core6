@@ -19,5 +19,14 @@
 
 
         public bool IsActive { get; set; }
+
+
+       
+
+        public int BoothId { get; set; }
+
+        public int Create_At { get; set; }
+
+        public string Description { get; set; } = string.Empty;
     }
 }

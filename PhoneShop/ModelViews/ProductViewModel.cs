@@ -18,8 +18,8 @@ namespace PhoneShop.ModelViews
         public string Title { get; set; }
       
         public string Alias { get; set; }
+        public Boolean IsActive { get; set; }
 
-      
 
         public decimal Price { get; set; }
         public decimal InputPrice { get; set; }

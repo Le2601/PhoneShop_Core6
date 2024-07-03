@@ -25,6 +25,9 @@ namespace PhoneShop.Models
         }
         [Key]
         public int Id { get; set; }
+
+        public Boolean IsActive { get; set; }
+
         [Display(Name = "Tiêu đề")]
         [Required(ErrorMessage = "Không thể bỏ trống")]
         public string Title { get; set; }

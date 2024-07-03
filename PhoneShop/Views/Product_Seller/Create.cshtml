@@ -18,7 +18,12 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 <div class="card-body">
-                   
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" asp-for="IsActive" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">Hiển thị</label>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label asp-for="Title" class="control-label"></label>
                         <input asp-for="Title" class="form-control" />
@@ -71,16 +76,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Select</label>
-                        <select class="form-control">
-                            <option>option 1</option>
-                            <option>option 2</option>
-                            <option>option 3</option>
-                            <option>option 4</option>
-                            <option>option 5</option>
-                        </select>
-                    </div>
+
+                   
                     <h3 style="color: #333; background-color: #f2f2f2; padding: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
                         Thông số kỹ thuật
                     </h3>

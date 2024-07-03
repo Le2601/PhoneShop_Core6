@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PhoneShop.Areas.Admin.Data;
 using PhoneShop.DI.Category;
@@ -10,6 +11,7 @@ using PhoneShop.Models;
 
 namespace PhoneShop.Controllers.Seller
 {
+    [Authorize(Roles = "Seller")]
     public class Product_SellerController : Controller
     {
         private readonly ShopPhoneDbContext _context;
@@ -71,7 +73,7 @@ namespace PhoneShop.Controllers.Seller
 
 
 
-
+                           
                             model.Alias = Helpper.Utilities.SEOUrl(model.Title);
                             model.Create_at = DateTime.Now;
                             model.Update_at = DateTime.Now;
@@ -417,6 +419,16 @@ namespace PhoneShop.Controllers.Seller
             return Json(new { success = true, msg = "Xoa thanh cong" });
 
 
+        }
+
+        
+        public IActionResult Detail_Product_Seller(int Id)
+        {
+            var item = _context.Products.Where(x=> x.Id == Id).FirstOrDefault();
+
+            ViewBag.GetListImage = _context.ImageProducts.Where(x=> x.ProductId == Id).ToList();
+
+            return View(item);
         }
     }
 }

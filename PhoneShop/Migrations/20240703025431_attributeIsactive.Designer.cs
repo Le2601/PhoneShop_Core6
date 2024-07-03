@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhoneShop.Models;
 
@@ -11,9 +12,10 @@ using PhoneShop.Models;
 namespace PhoneShop.Migrations
 {
     [DbContext(typeof(ShopPhoneDbContext))]
-    partial class ShopPhoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240703025431_attributeIsactive")]
+    partial class attributeIsactive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -833,17 +835,7 @@ namespace PhoneShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BoothId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Create_At")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using System.Net.Http;
 
 namespace PhoneShop.Controllers.Seller
 {
+    [Authorize(Roles = "Seller")]
     public class Home_SellerController : Controller
     {
         private readonly ShopPhoneDbContext _context;

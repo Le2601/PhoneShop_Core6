@@ -64,7 +64,8 @@ namespace PhoneShop.Controllers.Seller
                 Phone = Phone,
                 Creare_At = DateTime.Now,
                 AccountId = AccountInt,  
-                Code_Info = randomNumber_Id
+                Code_Info = randomNumber_Id,
+                Avatar = "default.png"
             };
            
             _context.Booth_Information.Add(item_Booth_Information);
@@ -117,5 +118,44 @@ namespace PhoneShop.Controllers.Seller
 
             
         }
+
+        [HttpGet]
+        public IActionResult Update(int Id)
+        {
+            var item = _context.Booth_Information.Where(x => x.Id == Id).FirstOrDefault();
+            return View(item);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(Booth_Information model)
+        {
+            _context.Booth_Information.Update(model);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Home_Seller");
+        }
+
+        /////
+        //public IActionResult Update_Shipping(int ShippingId)
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult Update_Shipping(Shipping_Method model)
+        //{
+        //    return RedirectToAction("Index", "Home_Seller");
+        //}
+
+
+        ////
+        //public IActionResult Update_Address_Seller(int AddressId)
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult Update_Address_Seller(ShopAddress model)
+        //{
+        //    return RedirectToAction("Index", "Home_Seller");
+        //}
     }
 }

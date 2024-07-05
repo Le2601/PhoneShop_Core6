@@ -89,7 +89,8 @@ namespace PhoneShop.Controllers.Seller
                            Price = p.Price,
                            Discount = p.Discount,
                            Order_Status = o.Order_Status,
-                           Info_Order_Address_Id = od.Id
+                           Info_Order_Address_Id = od.Id,
+                           
 
 
                        }).ToList();

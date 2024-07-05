@@ -17,6 +17,8 @@ namespace PhoneShop.Models
 
         public string DeliveryAddress { get; set; } = string.Empty;
 
+        public int Order_Detail_Id { get; set; }
+
         public virtual Order order {  get; set; }
 
  

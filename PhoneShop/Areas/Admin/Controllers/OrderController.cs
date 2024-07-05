@@ -168,6 +168,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             string DeliveryAddress = form["DeliveryAddress"];
             //check DeliveryProcess co ton tai hay ko
             var Check_DeliveryProcess_Order =await _deliveryProcessRepository.GetById(Order_Id);
+            
             if(Check_DeliveryProcess_Order != null)
             {
                
@@ -188,7 +189,8 @@ namespace PhoneShop.Areas.Admin.Controllers
                     DeliveryStatus = int.Parse(DeliveryStatus),
                     Order_Id = Order_Id,
                     DeliveryDate = DateTime.Parse(DeliveryDate),
-                    DeliveryAddress = DeliveryAddress
+                    DeliveryAddress = DeliveryAddress,
+                    
 
                 };
                _deliveryProcessRepository.Create(Create_Item);

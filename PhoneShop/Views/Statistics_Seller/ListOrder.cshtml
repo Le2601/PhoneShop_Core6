@@ -67,19 +67,19 @@
                                
                                 <td>@if (i.Order_Status == 1)
                                     {
-                                        
-                                        <p>Đã XN</p>
+                                        <a class="btn btn-block btn-primary btn-sm">Đã xác nhân</a>
+                                       
                                     }
                                     else
                                     {
-                                        <p>Chưa XN</p>
+                                        <a class="btn btn-block btn-warning btn-sm btnView" data-id="@i.Order_Status">Chưa xác nhận</a>
                                     }
                                 </td>
-                                <td><a href="/Statistics_Seller/Info_Order_Address/@i.Info_Order_Address_Id">Xem</a></td>
+                                <td><a class="btn btn-block btn-info btn-sm" href="/Statistics_Seller/Info_Order_Address/@i.Info_Order_Address_Id">Xem</a></td>
                                 <td>
                                     <a class="btnDelete" data-id="@i.Id">
                                         @* <i class="fas fa-trash-alt" style="color: #d11f43;"></i> *@
-                                    </a> <br> <a href="/Statistics_Seller/Update_Order/@i.Order_Id"><i class="fas fa-edit" style="color: #3070df;"></i></a>
+                                    </a> <br> <a href="/DeliveryProcess_Seller/Update_DeliveryProcess_Order_COD/@i.Order_Id"><i class="fas fa-edit" style="color: #3070df;"></i></a>
                                 </td>
                             </tr>
                         }
@@ -154,6 +154,30 @@
                     $.ajax({
 
                         url: '/Product_Seller/Delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+
+            $('body').on('click', '.btnView', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Bạn muốn xác nhận đơn hàng chứ ");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Order_Seller/ComfirmStatus',
                         type: 'post',
                         data: { id: id },
                         success: function (rs) {

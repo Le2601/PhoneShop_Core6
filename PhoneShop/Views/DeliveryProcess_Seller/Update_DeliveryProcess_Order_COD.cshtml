@@ -1,4 +1,4 @@
-﻿@model PhoneShop.Models.Order
+﻿@model PhoneShop.Models.Order_Details
 @using PhoneShop.Models;
 @{
     ViewData["Title"] = "Update_DeliveryProcess_Order_COD";
@@ -59,7 +59,7 @@
     }
 </style>
 <h3>Cập nhật trạng thái giao hàng</h3>
-<form method="post" asp-action="Create_DeliveryProcess" asp-controller="Order">
+<form method="post" asp-action="Create_DeliveryProcess" asp-controller="DeliveryProcess_Seller">
     <select id="fruit" name="DeliveryStatus" required>
         <option>Chọn trạng thái</option>
         <option value="1">Đang xử lý</option>
@@ -68,8 +68,9 @@
         <option value="4">Đã giao hàng</option>
         <option value="0">Hủy đơn hàng</option>
     </select>
-    <input type="text" name="Order_Id" value="@Model.Id_Order" hidden />
-    <input type="date" name="DeliveryDate" required placeholder="Ngày nhận hàng dự kiến" />
+    <input type="text" name="Order_Detail_Id" value="@Model.Id" hidden />
+    <input type="text" name="Order_Id" value="@Model.OrderId" hidden />
+    <input type="date" name="DeliveryDate"  required placeholder="Ngày nhận hàng dự kiến" />
     @if (IsDeliveryProcess != null)
     {
         <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@IsDeliveryProcess.DeliveryAddress" />

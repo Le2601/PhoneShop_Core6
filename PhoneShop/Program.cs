@@ -128,7 +128,7 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 });
 
 
-
+builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 
 //cau hinh xac thuc sdt
 builder.Services.ConfigureOptions<ConfigureTwilioSettings>();

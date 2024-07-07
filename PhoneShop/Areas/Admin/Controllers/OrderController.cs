@@ -180,7 +180,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                  };
                 
 
-               _deliveryProcessRepository.Update(Update_DeliveryProcess, Order_Id);
+               //_deliveryProcessRepository.Update(Update_DeliveryProcess, Order_Id);
             }
             else
             {

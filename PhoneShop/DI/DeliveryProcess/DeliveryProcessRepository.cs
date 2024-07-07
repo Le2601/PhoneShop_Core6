@@ -21,6 +21,7 @@ namespace PhoneShop.DI.DeliveryProcess
                 Order_Id = model.Order_Id,
                 DeliveryDate = model.DeliveryDate,
                 DeliveryAddress = model.DeliveryAddress,
+                Order_Detail_Id = model.Order_Detail_Id,
 
             };
 
@@ -35,6 +36,7 @@ namespace PhoneShop.DI.DeliveryProcess
                 DeliveryAddress = x.DeliveryAddress,
                 DeliveryStatus = x.DeliveryStatus,
                 DeliveryDate = x.DeliveryDate,
+                Order_Detail_Id = x.Order_Detail_Id
 
             }).FirstOrDefaultAsync();
 
@@ -43,9 +45,9 @@ namespace PhoneShop.DI.DeliveryProcess
 
         }
 
-        public void Update(DeliveryProcessData model, string id)
+        public void Update(DeliveryProcessData model, int id)
         {
-            var Check_DeliveryProcess_Order = _shopPhoneDbContext.DeliveryProcesses.Where(x => x.Order_Id == id).FirstOrDefault()!;
+            var Check_DeliveryProcess_Order = _shopPhoneDbContext.DeliveryProcesses.Where(x => x.Order_Detail_Id == id).FirstOrDefault()!;
 
             Check_DeliveryProcess_Order.DeliveryDate = model.DeliveryDate;
             Check_DeliveryProcess_Order.DeliveryStatus = model.DeliveryStatus;

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using NuGet.Packaging;
 using PhoneShop.Models;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,16 @@ namespace PhoneShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
+   
     public class StatisticalController : Controller
     {
         private readonly ShopPhoneDbContext db;
 
-
+        public class AreaData
+        {
+            public int X { get; set; }
+            public decimal Y { get; set; }
+        }
 
         public StatisticalController(ShopPhoneDbContext context)
         {
@@ -31,6 +37,23 @@ namespace PhoneShop.Areas.Admin.Controllers
            
 
             return View();
+        }
+
+        public IActionResult sodo()
+        {
+            //demo get data 
+            var areaData = new List<AreaData>();
+            var step = 1;
+            var demo = db.Products.ToList();
+            foreach (var item in demo)
+            {
+                step++;
+                areaData.Add(new AreaData { X = step, Y = item.Price });
+            }
+
+            //end demo get data 
+
+            return View(areaData);
         }
 
         public JsonResult GetChartDataCurrentDate()
@@ -57,6 +80,9 @@ namespace PhoneShop.Areas.Admin.Controllers
         //7 ngay trc do
         public JsonResult GetChartDataLastWeek()
         {
+
+
+
             // Lấy dữ liệu từ bảng Order
             List<Order> orders = db.Orders.ToList();
 
@@ -69,6 +95,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             List<string> dateRange = new List<string>();
 
+           
 
 
             while (startDate <= endDate)
@@ -87,8 +114,14 @@ namespace PhoneShop.Areas.Admin.Controllers
                 decimal loinhuan = orders
                        .Where(order => order.Order_Date.Date == startDate)
                        .Sum(order => order.Profit);
+
+                
                 ArrDoanhThu.Add(doanhthu);
                 ArrLoiNhuan.Add(loinhuan);
+
+               
+                
+
 
 
 

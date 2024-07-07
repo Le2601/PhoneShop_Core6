@@ -9,7 +9,7 @@ namespace PhoneShop.DI.DeliveryProcess
 
         public Task<DeliveryProcessData> GetById(string id);
 
-        void Update(DeliveryProcessData model, string id);
+        void Update(DeliveryProcessData model, int id);
 
         void Create(DeliveryProcessData model);
         

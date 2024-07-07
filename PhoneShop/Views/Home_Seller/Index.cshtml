@@ -1,14 +1,16 @@
 ﻿@model PhoneShop.Models.Booth_Information
 @using PhoneShop.Models
 @using PhoneShop.ModelViews
+@using PhoneShop.Controllers.Seller.DataView
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
 
     ShopAddress IsAddress = ViewBag.Address;
     Shipping_Method IsShipping = ViewBag.Shipping_Method;
-    List<Check_Product_Purchases> IsCheckProductPurchases = ViewBag.JoinProduct;
+
     Booth_Tracking IsTracking = ViewBag.GetBooth_Tracking;
+    List<AreaData> ChartData = ViewBag.ChartData;
     int count = 1;
 }
 <!-- Google Font: Source Sans Pro -->
@@ -127,39 +129,7 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
-            <h3>Thống kê số lượng sản phẩm || Tổng sản phẩm đã bán: @ViewBag.Sold_Quantity</h3>
-            <!-- Table row -->
-            <div class="row">
-                <div class="col-12 table-responsive">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tên Sp</th>
-                                <th>Nhập vào</th>
-                                <th>Đã Bán</th>
-                                <th>Còn lại</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var i in IsCheckProductPurchases)
-                            {
-                                <tr >
-                                    <td>@(count++)</td>
-                                    <td>@i.Title</td>
-                                    <td>@i.Input_Quantity</td>
-                                    <td>@i.Sold_Product</td>
-                                    <td>@i.Remaining_Product</td>
-                                </tr>
-                            }
-                           
-                         
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
+            @await Html.PartialAsync("_Partial_ChartData",ChartData)
 
            
           

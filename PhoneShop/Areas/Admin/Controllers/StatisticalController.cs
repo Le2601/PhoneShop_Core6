@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.ML;
 using Microsoft.VisualBasic;
 using NuGet.Packaging;
 using PhoneShop.Models;
+using PhoneShop.ModelViews;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,11 +22,7 @@ namespace PhoneShop.Areas.Admin.Controllers
     {
         private readonly ShopPhoneDbContext db;
 
-        public class AreaData
-        {
-            public int X { get; set; }
-            public decimal Y { get; set; }
-        }
+      
 
         public StatisticalController(ShopPhoneDbContext context)
         {
@@ -39,22 +38,9 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult sodo()
-        {
-            //demo get data 
-            var areaData = new List<AreaData>();
-            var step = 1;
-            var demo = db.Products.ToList();
-            foreach (var item in demo)
-            {
-                step++;
-                areaData.Add(new AreaData { X = step, Y = item.Price });
-            }
+       
 
-            //end demo get data 
-
-            return View(areaData);
-        }
+        
 
         public JsonResult GetChartDataCurrentDate()
         {

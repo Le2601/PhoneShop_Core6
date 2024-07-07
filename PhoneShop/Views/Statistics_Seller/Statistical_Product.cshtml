@@ -1,0 +1,166 @@
+﻿@model List<PhoneShop.ModelViews.Check_Product_Purchases>
+@{
+    ViewData["Title"] = "Statistical_Product";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+    int count = 1;
+}
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="~/clients/plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="~/clients/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="~/clients/dist/css/adminlte.min.css">
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thống kê</a>
+        </li>
+    </ul>
+}
+<br />
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="col-12">
+
+
+
+        <!-- Main content -->
+        <div class="invoice p-3 mb-3">
+
+            <!-- /.row -->
+            <h3>Thống kê số lượng sản phẩm || Tổng sản phẩm đã bán: @ViewBag.Sold_Quantity</h3>
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên Sp</th>
+                                <th>Nhập vào</th>
+                                <th>Đã Bán</th>
+                                <th>Còn lại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model)
+                            {
+                                <tr>
+                                    <td>@(count++)</td>
+                                    <td>@i.Title</td>
+                                    <td>@i.Input_Quantity</td>
+                                    <td>@i.Sold_Product</td>
+                                    <td>@i.Remaining_Product</td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+
+
+        </div>
+        <!-- /.invoice -->
+    </div><!-- /.col -->
+</section>
+
+
+
+
+
+
+<!-- /.content -->
+@section scripts_SellerHome{
+    <!-- jQuery -->
+    <script src="~/clients/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/clients/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/clients/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/clients/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/clients/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/jszip/jszip.min.js"></script>
+    <script src="~/clients/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/clients/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+
+
+
+
+    <!-- AdminLTE App -->
+    <script src="~/clients/dist/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("ban muoon xoa chua");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Category/Delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+}
+
+

@@ -96,5 +96,38 @@ namespace PhoneShop.Controllers.Seller
                        }).ToList();
             return View(demo);
         }
+
+        public IActionResult Statistical_Product()
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
+            var items_WarehousedProducts = _context.WarehousedProducts.ToList();
+            var Item_Product_Quantity = (from p in items_Products
+                                         join e in items_WarehousedProducts
+                                         on p.Id equals e.ProductId
+                                         select new Check_Product_Purchases
+                                         {
+                                             Id = p.Id,
+                                             Image = p.ImageDefaultName,
+                                             Title = p.Title,
+                                             Remaining_Product = p.Quantity,
+                                             Sold_Product = e.Quantity - p.Quantity,
+                                             Input_Quantity = e.Quantity + p.Quantity
+
+                                         }).ToList();
+
+
+            int Sold_Quantity = 0;
+
+            foreach (var item in Item_Product_Quantity)
+            {
+                Sold_Quantity += item.Sold_Product;
+            }
+            ViewBag.Sold_Quantity = Sold_Quantity;
+
+            return View(Item_Product_Quantity);
+        }
     }
 }

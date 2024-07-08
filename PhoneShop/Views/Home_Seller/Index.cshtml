@@ -10,7 +10,7 @@
     Shipping_Method IsShipping = ViewBag.Shipping_Method;
 
     Booth_Tracking IsTracking = ViewBag.GetBooth_Tracking;
-    List<AreaData> ChartData = ViewBag.ChartData;
+    
     int count = 1;
 }
 <!-- Google Font: Source Sans Pro -->
@@ -66,7 +66,7 @@
                 </div>
             </address>
             <a href="/Update_BoothTracking/@Model.Id-@ViewBag.Sold_Quantity" class="btn btn-outline-danger">Cập nhật thông số</a>
-            <a href="/Statistics_Seller/ListOrder" class="btn btn-outline-danger">demo</a>
+           
         </div>
 
 
@@ -129,7 +129,7 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
-            @await Html.PartialAsync("_Partial_ChartData",ChartData)
+            @await Html.PartialAsync("_Partial_ChartData")
 
            
           

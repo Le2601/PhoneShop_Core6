@@ -16,6 +16,8 @@
 
         public int Info_Order_Address_Id { get; set; }
 
+        public string ImageDefault { get; set; }
+
        
     }
 }

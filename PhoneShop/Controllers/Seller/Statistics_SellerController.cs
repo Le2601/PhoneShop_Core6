@@ -90,7 +90,9 @@ namespace PhoneShop.Controllers.Seller
                            Discount = p.Discount,
                            Order_Status = o.Order_Status,
                            Info_Order_Address_Id = od.Id,
-                           
+                           ImageDefault = p.ImageDefaultName
+
+
 
 
                        }).ToList();
@@ -107,6 +109,7 @@ namespace PhoneShop.Controllers.Seller
             var Item_Product_Quantity = (from p in items_Products
                                          join e in items_WarehousedProducts
                                          on p.Id equals e.ProductId
+                                         
                                          select new Check_Product_Purchases
                                          {
                                              Id = p.Id,
@@ -114,7 +117,9 @@ namespace PhoneShop.Controllers.Seller
                                              Title = p.Title,
                                              Remaining_Product = p.Quantity,
                                              Sold_Product = e.Quantity - p.Quantity,
-                                             Input_Quantity = e.Quantity + p.Quantity
+                                             Input_Quantity = e.Quantity,
+                                             
+
 
                                          }).ToList();
 
@@ -128,6 +133,58 @@ namespace PhoneShop.Controllers.Seller
             ViewBag.Sold_Quantity = Sold_Quantity;
 
             return View(Item_Product_Quantity);
+        }
+
+        public IActionResult Revenue_EveryDay()
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+            var areaData = new List<AreaData>();
+            var step = 0;
+            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
+            //lay ra nhung san pham da ban dc 
+            var DbJoin_Order = (from p in items_Products
+                                join od in _context.Order_Details on p.Id equals od.ProductId
+                                join o in _context.Orders on od.OrderId equals o.Id_Order
+
+                                select new OrderByUser
+                                {
+                                    Id = p.Id,
+                                    Title = p.Title,
+                                    Quantity_Purchase = od.Quantity,
+                                    Date_Purchase = o.Order_Date,
+                                    Info_User = o.AccountId,
+                                    Order_Id = od.OrderId,
+                                    InputPrice = p.InputPrice,
+                                    Price = p.Price,
+                                    Discount = p.Discount,
+                                    Order_Status = o.Order_Status,
+                                    Info_Order_Address_Id = od.Id,
+
+
+
+                                }).ToList();
+            var ChartData = DbJoin_Order.GroupBy(x => x.Date_Purchase.Date)
+                .Select(g => new OrderSummary
+                {
+                    OrderDate = g.Key,
+                    TotalPrice = g.Sum(o => o.Price),
+
+                })
+                .OrderBy(g => g.OrderDate)
+                .ToList();
+            foreach (var item in ChartData)
+            {
+                step++;
+
+                areaData.Add(new AreaData { X = item.OrderDate, Y = item.TotalPrice, formattedPrice = Extension.Extension.ToVnd((double)item.TotalPrice) });
+            }
+
+            ViewBag.ChartData = areaData;
+
+            //end get data 
+            return View(areaData);
         }
     }
 }

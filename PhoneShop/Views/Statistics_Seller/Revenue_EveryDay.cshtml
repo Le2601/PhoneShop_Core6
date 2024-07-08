@@ -1,0 +1,65 @@
+﻿@model List<PhoneShop.Controllers.Seller.DataView.AreaData>
+@{
+    ViewData["Title"] = "Revenue_EveryDay";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<section class="content">
+
+    <div class="col-12">
+
+        <h3>Doanh thu hằng ngày</h3>
+        <div style="width: 80%; margin: auto;">
+            <canvas id="areaChart"></canvas>
+        </div>
+
+    </div></section>
+
+    @section scripts_SellerHome{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById('areaChart').getContext('2d');
+            var labels = @Html.Raw(Json.Serialize(Model.Select(data => data.X.ToString("dd/MM/yyyy"))));
+            var data = @Html.Raw(Json.Serialize(Model.Select(data => data.Y)));
+            var formattedData = @Html.Raw(Json.Serialize(Model.Select(data => data.formattedPrice)));
+
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Area Data',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'category',
+                            labels: labels
+                        },
+                        y: {
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    return formattedData[index];
+                                }
+                            }
+                        }
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return formattedData[tooltipItem.index];
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    
+    }
+

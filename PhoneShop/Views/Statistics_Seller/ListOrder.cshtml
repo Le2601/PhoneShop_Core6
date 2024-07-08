@@ -38,7 +38,7 @@
                             <th>Số lượng</th>
                             <th>Giá mua</th>
                            
-                            <th>Trạng thái</th>
+                           <th>Hình ảnh</th>
                             <th>Thông tin</th>
                             <th>Cập nhật</th>
                         </tr>
@@ -64,17 +64,9 @@
 
                                     }
                                 </td>
-                               
-                                <td>@if (i.Order_Status == 1)
-                                    {
-                                        <a class="btn btn-block btn-primary btn-sm">Đã xác nhân</a>
-                                       
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-block btn-warning btn-sm btnView" data-id="@i.Order_Status">Chưa xác nhận</a>
-                                    }
-                                </td>
+
+                                <td> <img src="~/images/Product/@i.ImageDefault" width="100" height="100" style="border: solid 1px " /></td>
+                                
                                 <td><a class="btn btn-block btn-info btn-sm" href="/DeliveryProcess_Seller/Info_Order_Address/@i.Info_Order_Address_Id">Xem</a></td>
                                 <td>
                                     <a class="btnDelete" data-id="@i.Id">

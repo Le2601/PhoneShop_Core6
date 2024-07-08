@@ -67,37 +67,7 @@ namespace PhoneShop.Controllers.Seller
             return Json(demo);
         }
 
-        public IActionResult ListOrder()
-        {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
-            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
-            //lay ra nhung san pham da ban dc 
-            var demo = (from p in items_Products
-                       join od in _context.Order_Details on p.Id equals od.ProductId
-                       join o in _context.Orders on od.OrderId equals o.Id_Order
-                       
-                       select new OrderByUser
-                       {
-                           Id = p.Id,
-                           Title = p.Title,
-                           Quantity_Purchase = od.Quantity,
-                           Date_Purchase = o.Order_Date,
-                           Info_User = o.AccountId,
-                           Order_Id = od.OrderId,
-                           InputPrice = p.InputPrice,
-                           Price = p.Price,
-                           Discount = p.Discount,
-                           Order_Status = o.Order_Status,
-                           Info_Order_Address_Id = od.Id,
-                           ImageDefault = p.ImageDefaultName
-
-
-
-
-                       }).ToList();
-            return View(demo);
-        }
+       
 
         public IActionResult Statistical_Product()
         {

@@ -7,6 +7,12 @@ namespace PhoneShop.Models
     [Table("Order_Details")]
     public class Order_Details
     {
+        private int _Status_OrderDetail;
+        public Order_Details()
+        {
+
+            _Status_OrderDetail = 0;
+        }
         [Key]
         public int Id { get; set; }
 
@@ -29,6 +35,12 @@ namespace PhoneShop.Models
 
         public string Email { get; set; }
 
+        public int Status_OrderDetail
+        {
+            get => _Status_OrderDetail;
+            set => _Status_OrderDetail = value;
+        }
+
 
         public string OrderId { get; set; }
 
@@ -36,7 +48,8 @@ namespace PhoneShop.Models
 
         public virtual Product Product { get; set; }
 
-      
+       
+
 
 
     }

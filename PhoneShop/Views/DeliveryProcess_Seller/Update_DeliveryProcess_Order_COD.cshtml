@@ -66,7 +66,7 @@
         <option value="2">Chuẩn bị hàng</option>
         <option value="3">Đang giao hàng</option>
         <option value="4">Đã giao hàng</option>
-        <option value="0">Hủy đơn hàng</option>
+        <option value="5">Hủy đơn hàng</option>
     </select>
     <input type="text" name="Order_Detail_Id" value="@Model.Id" hidden />
     <input type="text" name="Order_Id" value="@Model.OrderId" hidden />
@@ -102,7 +102,7 @@
         {
             <h5 class="coler_title">Trạng thái đơn hàng: Đã giao hàng</h5>
         }
-        else
+        else if (IsDeliveryProcess.DeliveryStatus == 5)
         {
             <h5 class="coler_title">Trạng thái đơn hàng: Hủy đơn hàng</h5>
         }

@@ -21,6 +21,10 @@
 
         public decimal Total_Order_DetailByProduct { get; set; }
 
-       
+         public int Status_OrderDetail { get; set; }
+
+
+
+
     }
 }

@@ -157,24 +157,38 @@ namespace PhoneShop.Controllers.Seller
                                     Info_User = o.AccountId,
                                     Order_Id = od.OrderId,
                                     InputPrice = p.InputPrice,
-                                    Price = p.Price,
+                                    Price = p.Discount > 0 ? p.Discount : p.Price,
                                     Discount = p.Discount,
                                     Order_Status = o.Order_Status,
                                     Info_Order_Address_Id = od.Id,
+                                    Total_Order_DetailByProduct = od.Quantity * (p.Discount > 0 ? p.Discount : p.Price)
 
 
 
                                 }).ToList();
-            var ChartData = DbJoin_Order.GroupBy(x => x.Date_Purchase.Date)
+            //tinh tong tien cac san pham theo ngay-gio
+            var ChartData_TotalPrice = DbJoin_Order.GroupBy(x => x.Date_Purchase)
                 .Select(g => new OrderSummary
                 {
                     OrderDate = g.Key,
-                    TotalPrice = g.Sum(o => o.Price),
+                    TotalPrice = g.Sum(o => o.Total_Order_DetailByProduct),
 
-                })
-                .OrderBy(g => g.OrderDate)
+                }).OrderBy(g => g.OrderDate)
                 .ToList();
-            foreach (var item in ChartData)
+
+            //tinh tong tien san pham theo ngay ----- hien thi bieu do
+            var ChartData_Show = ChartData_TotalPrice.GroupBy(x=> x.OrderDate.Date)
+             .Select(g => new OrderSummary
+             {
+                 OrderDate = g.Key,
+                 TotalPrice = g.Sum(o => o.TotalPrice),
+
+             }).OrderBy(g => g.OrderDate)
+             .ToList();
+
+
+
+            foreach (var item in ChartData_Show)
             {
                 step++;
 

@@ -18,6 +18,9 @@
 
         public string ImageDefault { get; set; }
 
+
+        public decimal Total_Order_DetailByProduct { get; set; }
+
        
     }
 }

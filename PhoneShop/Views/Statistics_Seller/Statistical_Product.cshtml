@@ -17,8 +17,8 @@
 <link rel="stylesheet" href="~/clients/dist/css/adminlte.min.css">
 <style>
     #chartContainer {
-        width: 800px; 
-        height: 800px; 
+        width: 600px; 
+        height: 350px; 
     }
 </style>
 
@@ -41,16 +41,19 @@
 
 <!-- Main content -->
 <section class="content">
-
+   
     <div class="col-">
 
-
+       
 
         <!-- Main content -->
         <div class="invoice p-3 mb-3">
 
             <!-- /.row -->
             <h3>Thống kê số lượng sản phẩm || Tổng sản phẩm đã bán: @ViewBag.Sold_Quantity</h3>
+            <div id="chartContainer">
+                <canvas id="productChart"></canvas>
+            </div>
             <!-- Table row -->
             <div class="row">
                 <div class="col-12 table-responsive">
@@ -91,9 +94,7 @@
     </div><!-- /.col -->
 
 
-    <div id="chartContainer">
-        <canvas id="productChart"></canvas>
-    </div>
+    
 </section>
 
 

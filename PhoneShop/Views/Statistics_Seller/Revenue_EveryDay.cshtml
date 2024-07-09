@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Revenue_EveryDay";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+
+    
 }
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <section class="content">
@@ -22,7 +24,8 @@
             var labels = @Html.Raw(Json.Serialize(Model.Select(data => data.X.ToString("dd/MM/yyyy"))));
             var data = @Html.Raw(Json.Serialize(Model.Select(data => data.Y)));
             var formattedData = @Html.Raw(Json.Serialize(Model.Select(data => data.formattedPrice)));
-
+         
+            
             var chart = new Chart(ctx, {
                 type: 'line',
                 data: {

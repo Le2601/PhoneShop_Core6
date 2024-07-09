@@ -1,0 +1,119 @@
+﻿@model List<PhoneShop.Controllers.Seller.DataView.RevenueStatistics>
+@using PhoneShop.Controllers.Seller.DataView;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+    List<RevenueStatistics_DataViewChart> GetData = ViewBag.GetData_Chart;
+    int count = 1;
+}
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Nội dung cho cột thứ nhất -->
+            <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                <canvas id="revenueProfitChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <!-- Nội dung cho cột thứ hai -->
+            <div class="invoice p-3 mb-3">
+                <h3>Doanh thu hằng tuần</h3>
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Đơn hàng</th>
+                                    <th>Tên Sp</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá bán</th>
+                                    <th>Giá nhập</th>
+                                    <th>Ngày đặt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var i in Model)
+                                {
+                                    <tr>
+                                        <td>@i.OrderDetailId</td>
+                                        <td>@i.TitleProduct</td>
+                                        <td>@i.QuantityPurchased</td>
+                                        <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PricePurchased)</td>
+                                        <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Input_Price)</td>
+                                        <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+ @section scripts_SellerHome{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById('revenueProfitChart').getContext('2d');
+            var labels = @Html.Raw(Json.Serialize(GetData.Select(m => m.Date_Purchase.ToString("dd/MM/yyyy"))));
+            var revenueData = @Html.Raw(Json.Serialize(GetData.Select(m => m.TotalRevenue)));
+            var profitData = @Html.Raw(Json.Serialize(GetData.Select(m => m.TotalProfit)));
+
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Doanh thu',
+                            data: revenueData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Lợi nhuận',
+                            data: profitData,
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.raw.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+ 
+ }

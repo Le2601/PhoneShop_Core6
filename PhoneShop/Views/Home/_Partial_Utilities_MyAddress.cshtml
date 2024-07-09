@@ -8,7 +8,7 @@
 
 
 @{
-    if (User.Identity.IsAuthenticated && (User.IsInRole("Staff,Seller")))
+    if (User.Identity.IsAuthenticated)
     {
         <a class="imgproduct btn btn-primary btn-sm" href="#" data-id="@ViewData["IdAccount"]">Xem địa chỉ của bạn</a>
         <div>

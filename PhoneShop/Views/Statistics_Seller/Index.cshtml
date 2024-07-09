@@ -4,24 +4,28 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
     List<RevenueStatistics_DataViewChart> GetData = ViewBag.GetData_Chart;
+
+    List<RevenueStatistics> GetData_Chart_SelectedDate = ViewBag.GetData_Chart_SelectedDate;
+    
     int count = 1;
 }
 
 <section class="content">
-
+    <h3 class="text-center mb-3">Doanh thu tuần qua</h3>
     <div class="row">
+       
         <div class="col-md-6">
-            <!-- Nội dung cho cột thứ nhất -->
+           
             <div class="chart-container" style="position: relative; height:40vh; width:100%">
                 <canvas id="revenueProfitChart"></canvas>
             </div>
         </div>
         <div class="col-md-6">
-            <!-- Nội dung cho cột thứ hai -->
+           
             <div class="invoice p-3 mb-3">
-                <h3>Doanh thu hằng tuần</h3>
+                
                 <div class="row">
-                    <div class="col-12 table-responsive">
+                    <div class="col-12 table-responsive" style="height:35vh; overflow-y: auto;">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -52,6 +56,53 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <h3 class="text-center mb-3">Doanh thu theo ngày</h3>
+    <div class="form-group">
+
+        <form method="post" asp-action="Index" asp-controller="Statistics_Seller">
+            <div class="form-group">
+                <label for="selectedDate">Chọn ngày</label>
+                <input type="date" class="form-control" id="selectedDate" name="selectedDate">
+            </div>
+            <button type="submit" class="btn btn-primary">Xem doanh thu</button>
+        </form>
+
+        @if (ViewBag.GetData_Chart_SelectedDate != null)
+        {
+            <div class="row">
+                <div class="col-12 table-responsive" style="height:35vh; overflow-y: auto;">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Đơn hàng</th>
+                                <th>Tên Sp</th>
+                                <th>Số lượng</th>
+                                <th>Giá bán</th>
+                                <th>Giá nhập</th>
+                                <th>Ngày đặt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in GetData_Chart_SelectedDate)
+                            {
+                                <tr>
+                                    <td>@i.OrderDetailId</td>
+                                    <td>@i.TitleProduct</td>
+                                    <td>@i.QuantityPurchased</td>
+                                    <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PricePurchased)</td>
+                                    <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Input_Price)</td>
+                                    <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+        }
     </div>
 </section>
 
@@ -115,5 +166,7 @@
             });
         });
     </script>
- 
+
+
+   
  }

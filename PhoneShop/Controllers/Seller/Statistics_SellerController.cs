@@ -14,8 +14,12 @@ namespace PhoneShop.Controllers.Seller
                _context = shopPhoneDbContext;
 
         }
-        public IActionResult Index()
+        public IActionResult Index(string? SelectedDate)
         {
+
+            
+
+
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
             //dthu tuan
@@ -50,6 +54,9 @@ namespace PhoneShop.Controllers.Seller
 
                         }).ToList();
 
+          
+
+
             //lay ra thong tin doanh thu cac don hang da ban
             var GetOrder_Week = demo.Where(x => x.Date_Purchase >= StartDate && x.Date_Purchase <= EndDate)
                 .Select(g => new RevenueStatistics
@@ -65,6 +72,46 @@ namespace PhoneShop.Controllers.Seller
                     Input_Price = g.InputPrice,
                     QuantityPurchased = g.Quantity_Purchase
                 }).ToList();
+
+
+            //neu co tim kiem doanh thu theo ngay
+            if (SelectedDate != null)
+            {
+               
+
+               
+                var SelectedDate_Order = demo.Where(x => x.Date_Purchase.ToString("yyyy-MM-dd") == SelectedDate)
+               .Select(g => new RevenueStatistics
+               {
+                   ProductId = g.Id,
+                   OrderId = g.Order_Id,
+                   OrderDetailId = g.Info_Order_Address_Id,
+                   Date_Purchase = g.Date_Purchase.Date,
+                   TotalRevenue = g.Quantity_Purchase * (g.Discount > 0 ? g.Discount : g.Price),
+                   TotalProfit = g.Quantity_Purchase * ((g.Discount > 0 ? g.Discount : g.Price) - g.InputPrice),
+                   TitleProduct = g.Title,
+                   PricePurchased = g.Discount > 0 ? g.Discount : g.Price,
+                   Input_Price = g.InputPrice,
+                   QuantityPurchased = g.Quantity_Purchase
+               }).ToList();
+
+                //lay ra tong tien hang ngay trong 7 ngay 
+                var GetData_Chart_SelectedDate = GetOrder_Week.GroupBy(x => x.Date_Purchase)
+                     .Select(g => new RevenueStatistics_DataViewChart
+                     {
+                         Date_Purchase = g.Key,
+                         TotalRevenue = g.Sum(o => o.TotalRevenue),
+                         TotalProfit = g.Sum(o => o.TotalProfit)
+
+                     }).OrderBy(g => g.Date_Purchase)
+                    .ToList();
+
+                ViewBag.GetData_Chart_SelectedDate = SelectedDate_Order;
+
+
+
+
+            }
 
             //lay ra tong tien hang ngay trong 7 ngay 
             var GetData_Chart = GetOrder_Week.GroupBy(x=> x.Date_Purchase)
@@ -83,7 +130,19 @@ namespace PhoneShop.Controllers.Seller
             return View(GetOrder_Week);
         }
 
-       
+        [HttpPost]
+        public IActionResult Index(IFormCollection form)
+        {
+            var SelectedDate = form["SelectedDate"];
+
+           
+
+            
+
+            return RedirectToAction("Index", new { SelectedDate });
+        }
+
+
 
         public IActionResult Statistical_Product()
         {

@@ -96,7 +96,7 @@ namespace PhoneShop.Controllers.Seller
                }).ToList();
 
                 //lay ra tong tien hang ngay trong 7 ngay 
-                var GetData_Chart_SelectedDate = GetOrder_Week.GroupBy(x => x.Date_Purchase)
+                var GetData_Chart_SelectedDate = SelectedDate_Order.GroupBy(x => x.Date_Purchase)
                      .Select(g => new RevenueStatistics_DataViewChart
                      {
                          Date_Purchase = g.Key,
@@ -104,8 +104,10 @@ namespace PhoneShop.Controllers.Seller
                          TotalProfit = g.Sum(o => o.TotalProfit)
 
                      }).OrderBy(g => g.Date_Purchase)
-                    .ToList();
+                    .FirstOrDefault();
 
+
+                ViewBag.GeDate_PriceTotal = GetData_Chart_SelectedDate;
                 ViewBag.GetData_Chart_SelectedDate = SelectedDate_Order;
 
 
@@ -245,5 +247,39 @@ namespace PhoneShop.Controllers.Seller
             //end get data 
             return View(areaData);
         }
+
+
+        public IActionResult BestSellers()
+        {
+
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+          
+            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
+            //
+            var top5Products = (from p in items_Products
+                                join od in _context.Order_Details on p.Id equals od.ProductId
+                                join o in _context.Orders on od.OrderId equals o.Id_Order
+                                group new { p, od } by new { p.Id, p.Title, p.InputPrice, p.Price, p.Discount, p.ImageDefaultName } into g
+                                select new
+                                {
+                                    ProductId = g.Key.Id,
+                                    Title = g.Key.Title,
+                                    TotalQuantityPurchased = g.Sum(x => x.od.Quantity),
+                                    InputPrice = g.Key.InputPrice,
+                                    Price = g.Key.Price,
+                                    Discount = g.Key.Discount,
+                                    ImageDefault = g.Key.ImageDefaultName
+                                })
+                    .OrderByDescending(x => x.TotalQuantityPurchased)
+                    .Take(1)
+                    .ToList();
+
+
+            return Json(top5Products);
+        }
+
+
+
     }
 }

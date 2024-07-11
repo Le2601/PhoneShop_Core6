@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Controllers.Seller.DataView;
+
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using Stripe;
@@ -26,39 +27,12 @@ namespace PhoneShop.Controllers.Seller
             var StartDate = DateTime.Now.AddDays(-7).Date;
             var EndDate = DateTime.Now.Date;
 
-
-            
-            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
-            //lay ra nhung san pham da ban dc 
-            var demo = (from p in items_Products
-                        join od in _context.Order_Details on p.Id equals od.ProductId
-                        join o in _context.Orders on od.OrderId equals o.Id_Order
-                        select new OrderByUser
-                        {
-                            Id = p.Id,
-                            Title = p.Title,
-                            Quantity_Purchase = od.Quantity,
-                            Date_Purchase = o.Order_Date,
-                            Info_User = o.AccountId,
-                            Order_Id = od.OrderId,
-                            InputPrice = p.InputPrice,
-                            Price = p.Price,
-                            Discount = p.Discount,
-                            Order_Status = o.Order_Status,
-                            Info_Order_Address_Id = od.Id,
-                            ImageDefault = p.ImageDefaultName,
-                            Status_OrderDetail = od.Status_OrderDetail,
-
-
-
-
-                        }).ToList();
-
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
+     
+            //
           
-
-
             //lay ra thong tin doanh thu cac don hang da ban
-            var GetOrder_Week = demo.Where(x => x.Date_Purchase >= StartDate && x.Date_Purchase <= EndDate)
+            var GetOrder_Week = ListProduct_Purchase.Where(x => x.Date_Purchase >= StartDate && x.Date_Purchase <= EndDate)
                 .Select(g => new RevenueStatistics
                 {
                     ProductId = g.Id,
@@ -72,6 +46,19 @@ namespace PhoneShop.Controllers.Seller
                     Input_Price = g.InputPrice,
                     QuantityPurchased = g.Quantity_Purchase
                 }).ToList();
+            //lay ra tong tien hang ngay trong 7 ngay 
+            var GetData_Chart = GetOrder_Week.GroupBy(x => x.Date_Purchase)
+                 .Select(g => new RevenueStatistics_DataViewChart
+                 {
+                     Date_Purchase = g.Key,
+                     TotalRevenue = g.Sum(o => o.TotalRevenue),
+                     TotalProfit = g.Sum(o => o.TotalProfit)
+
+                 }).OrderBy(g => g.Date_Purchase)
+                .ToList();
+
+            ViewBag.GetData_Chart = GetData_Chart;
+
 
 
             //neu co tim kiem doanh thu theo ngay
@@ -80,7 +67,7 @@ namespace PhoneShop.Controllers.Seller
                
 
                
-                var SelectedDate_Order = demo.Where(x => x.Date_Purchase.ToString("yyyy-MM-dd") == SelectedDate)
+                var SelectedDate_Order = ListProduct_Purchase.Where(x => x.Date_Purchase.ToString("yyyy-MM-dd") == SelectedDate)
                .Select(g => new RevenueStatistics
                {
                    ProductId = g.Id,
@@ -115,18 +102,7 @@ namespace PhoneShop.Controllers.Seller
 
             }
 
-            //lay ra tong tien hang ngay trong 7 ngay 
-            var GetData_Chart = GetOrder_Week.GroupBy(x=> x.Date_Purchase)
-                 .Select(g => new RevenueStatistics_DataViewChart
-                 {
-                     Date_Purchase = g.Key,
-                     TotalRevenue = g.Sum(o => o.TotalRevenue),
-                     TotalProfit = g.Sum(o => o.TotalProfit)
-
-                 }).OrderBy(g => g.Date_Purchase)
-                .ToList();
-
-            ViewBag.GetData_Chart = GetData_Chart;
+          
 
 
             return View(GetOrder_Week);
@@ -151,35 +127,20 @@ namespace PhoneShop.Controllers.Seller
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
 
-            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
-            var items_WarehousedProducts = _context.WarehousedProducts.ToList();
-            var Item_Product_Quantity = (from p in items_Products
-                                         join e in items_WarehousedProducts
-                                         on p.Id equals e.ProductId
-                                         
-                                         select new Check_Product_Purchases
-                                         {
-                                             Id = p.Id,
-                                             Image = p.ImageDefaultName,
-                                             Title = p.Title,
-                                             Remaining_Product = p.Quantity,
-                                             Sold_Product = e.Quantity - p.Quantity,
-                                             Input_Quantity = e.Quantity,
-                                             
+            var List_Item_Product_Quantity = Public_MethodController.List_Item_Product_Quantity(_context, AccountInt);
 
-
-                                         }).ToList();
+           
 
 
             int Sold_Quantity = 0;
 
-            foreach (var item in Item_Product_Quantity)
+            foreach (var item in List_Item_Product_Quantity)
             {
                 Sold_Quantity += item.Sold_Product;
             }
             ViewBag.Sold_Quantity = Sold_Quantity;
 
-            return View(Item_Product_Quantity);
+            return View(List_Item_Product_Quantity);
         }
 
         public IActionResult Revenue_EveryDay()
@@ -189,32 +150,11 @@ namespace PhoneShop.Controllers.Seller
 
             var areaData = new List<AreaData>();
             var step = 0;
-            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
-            //lay ra nhung san pham da ban dc 
-            var DbJoin_Order = (from p in items_Products
-                                join od in _context.Order_Details on p.Id equals od.ProductId
-                                join o in _context.Orders on od.OrderId equals o.Id_Order
 
-                                select new OrderByUser
-                                {
-                                    Id = p.Id,
-                                    Title = p.Title,
-                                    Quantity_Purchase = od.Quantity,
-                                    Date_Purchase = o.Order_Date,
-                                    Info_User = o.AccountId,
-                                    Order_Id = od.OrderId,
-                                    InputPrice = p.InputPrice,
-                                    Price = p.Discount > 0 ? p.Discount : p.Price,
-                                    Discount = p.Discount,
-                                    Order_Status = o.Order_Status,
-                                    Info_Order_Address_Id = od.Id,
-                                    Total_Order_DetailByProduct = od.Quantity * (p.Discount > 0 ? p.Discount : p.Price)
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
 
-
-
-                                }).ToList();
             //tinh tong tien cac san pham theo ngay-gio
-            var ChartData_TotalPrice = DbJoin_Order.GroupBy(x => x.Date_Purchase)
+            var ChartData_TotalPrice = ListProduct_Purchase.GroupBy(x => x.Date_Purchase)
                 .Select(g => new OrderSummary
                 {
                     OrderDate = g.Key,
@@ -257,23 +197,7 @@ namespace PhoneShop.Controllers.Seller
           
             var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
             //
-            var top5Products = (from p in items_Products
-                                join od in _context.Order_Details on p.Id equals od.ProductId
-                                join o in _context.Orders on od.OrderId equals o.Id_Order
-                                group new { p, od } by new { p.Id, p.Title, p.InputPrice, p.Price, p.Discount, p.ImageDefaultName } into g
-                                select new BestSellers_Product
-                                {
-                                    Id = g.Key.Id,
-                                    Title = g.Key.Title,
-                                    TotalQuantityPurchased = g.Sum(x => x.od.Quantity),
-                                    //InputPrice = g.Key.InputPrice,
-                                    //Price = g.Key.Price,
-                                    //Discount = g.Key.Discount,
-                                    ImageProductDefault = g.Key.ImageDefaultName
-                                })
-                    .OrderByDescending(x => x.TotalQuantityPurchased)
-                    .Take(2)
-                    .ToList();
+            var TopSellersProducts = Public_MethodController.TopSellersProducts(_context, items_Products);
 
             //% tren tong
             int TotalQuantityProduct = 0;
@@ -286,9 +210,107 @@ namespace PhoneShop.Controllers.Seller
 
             //return Json(top5Products);
 
-            return View(top5Products);
+            return View(TopSellersProducts);
 
 
+        }
+
+        public IActionResult StatisticsByMonth()
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+            //lay ra ra thang
+            var CurrentDate = DateTime.Now;
+
+            var FirstDayOfPreviousMonth = new DateTime(CurrentDate.Year, CurrentDate.Month, 1).AddMonths(-1);
+            var LastDayOfPreviousMonth = FirstDayOfPreviousMonth.AddMonths(1).AddDays(-1);
+
+
+
+
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
+
+            //
+
+            //lay ra thong tin doanh thu cac don hang da ban
+            var GetOrder_PreviousMonth = ListProduct_Purchase.Where(x => x.Date_Purchase >= FirstDayOfPreviousMonth && x.Date_Purchase <= LastDayOfPreviousMonth)
+                .Select(g => new RevenueStatistics
+                {
+                    ProductId = g.Id,
+                    OrderId = g.Order_Id,
+                    OrderDetailId = g.Info_Order_Address_Id,
+                    Date_Purchase = g.Date_Purchase.Date,
+                    TotalRevenue = g.Quantity_Purchase * (g.Discount > 0 ? g.Discount : g.Price),
+                    TotalProfit = g.Quantity_Purchase * ((g.Discount > 0 ? g.Discount : g.Price) - g.InputPrice),
+                    TitleProduct = g.Title,
+                    PricePurchased = g.Discount > 0 ? g.Discount : g.Price,
+                    Input_Price = g.InputPrice,
+                    QuantityPurchased = g.Quantity_Purchase
+                }).ToList();
+            //lay ra tong tien hang ngay trong 7 ngay 
+            var GetData_Chart = GetOrder_PreviousMonth.GroupBy(x => x.Date_Purchase)
+                 .Select(g => new RevenueStatistics_DataViewChart
+                 {
+                     Date_Purchase = g.Key,
+                     TotalRevenue = g.Sum(o => o.TotalRevenue),
+                     TotalProfit = g.Sum(o => o.TotalProfit)
+
+                 }).OrderBy(g => g.Date_Purchase)
+                .ToList();
+
+            ViewBag.GetData_Chart = GetData_Chart;
+
+            return View(GetOrder_PreviousMonth);
+        }
+
+        public IActionResult StatisticsByYear()
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+            //lay nam hien tai
+            var CurrentYear = DateTime.Now.Year;
+
+            
+
+
+
+
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
+
+            //
+
+            //lay ra thong tin doanh thu cac don hang da ban
+            var GetOrder_ByYear = ListProduct_Purchase.Where(x => x.Date_Purchase.Year >= CurrentYear)
+                .Select(g => new RevenueStatistics
+                {
+                    ProductId = g.Id,
+                    OrderId = g.Order_Id,
+                    OrderDetailId = g.Info_Order_Address_Id,
+                    Date_Purchase = g.Date_Purchase.Date,
+                    TotalRevenue = g.Quantity_Purchase * (g.Discount > 0 ? g.Discount : g.Price),
+                    TotalProfit = g.Quantity_Purchase * ((g.Discount > 0 ? g.Discount : g.Price) - g.InputPrice),
+                    TitleProduct = g.Title,
+                    PricePurchased = g.Discount > 0 ? g.Discount : g.Price,
+                    Input_Price = g.InputPrice,
+                    QuantityPurchased = g.Quantity_Purchase
+                }).ToList();
+            //lay ra tong tien hang ngay trong 7 ngay 
+            var GetData_Chart = GetOrder_ByYear.GroupBy(x => x.Date_Purchase)
+                 .Select(g => new RevenueStatistics_DataViewChart
+                 {
+                     Date_Purchase = g.Key,
+                     TotalRevenue = g.Sum(o => o.TotalRevenue),
+                     TotalProfit = g.Sum(o => o.TotalProfit)
+
+                 }).OrderBy(g => g.Date_Purchase)
+                .ToList();
+
+            ViewBag.GetData_Chart = GetData_Chart;
+
+
+            return View(GetOrder_ByYear);
         }
 
 

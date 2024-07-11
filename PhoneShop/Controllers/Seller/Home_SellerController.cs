@@ -18,7 +18,7 @@ namespace PhoneShop.Controllers.Seller
         {
                 _context = context;
             _httpClientFactory = httpClientFactory;
-        }
+        }     
         
         public IActionResult Index()
         {

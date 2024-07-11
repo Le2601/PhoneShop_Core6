@@ -261,22 +261,34 @@ namespace PhoneShop.Controllers.Seller
                                 join od in _context.Order_Details on p.Id equals od.ProductId
                                 join o in _context.Orders on od.OrderId equals o.Id_Order
                                 group new { p, od } by new { p.Id, p.Title, p.InputPrice, p.Price, p.Discount, p.ImageDefaultName } into g
-                                select new
+                                select new BestSellers_Product
                                 {
-                                    ProductId = g.Key.Id,
+                                    Id = g.Key.Id,
                                     Title = g.Key.Title,
                                     TotalQuantityPurchased = g.Sum(x => x.od.Quantity),
-                                    InputPrice = g.Key.InputPrice,
-                                    Price = g.Key.Price,
-                                    Discount = g.Key.Discount,
-                                    ImageDefault = g.Key.ImageDefaultName
+                                    //InputPrice = g.Key.InputPrice,
+                                    //Price = g.Key.Price,
+                                    //Discount = g.Key.Discount,
+                                    ImageProductDefault = g.Key.ImageDefaultName
                                 })
                     .OrderByDescending(x => x.TotalQuantityPurchased)
-                    .Take(1)
+                    .Take(2)
                     .ToList();
 
+            //% tren tong
+            int TotalQuantityProduct = 0;
+            foreach (var item in items_Products)
+            {
+                TotalQuantityProduct += item.Quantity;
+            }
+            ViewBag.TotalQuantityProduct = TotalQuantityProduct;
 
-            return Json(top5Products);
+
+            //return Json(top5Products);
+
+            return View(top5Products);
+
+
         }
 
 

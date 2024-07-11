@@ -23,6 +23,8 @@
 
          public int Status_OrderDetail { get; set; }
 
+         public int ShippingMethod { get; set; }
+
 
 
 

@@ -1,9 +1,11 @@
-﻿@model List<PhoneShop.Controllers.Seller.DataView.OrderByUser>
+﻿@model List<PhoneShop.Controllers.Seller.DataView.BestSellers_Product>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "BestSellers";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
     int index = 1;
+    double PercentOfTheTotal = ViewBag.TotalQuantityProduct;
 }
+
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->
@@ -22,80 +24,48 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách đơn hàng</h3>
+                <h3 class="card-title">Top bán chạy</h3>
 
 
 
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Ngày đặt hàng</th>
-                            <th>Số lượng</th>
-                            <th>Giá mua</th>
-
-                            <th>Hình ảnh</th>
-                            <th>PTTT</th>
-                            <th>Thông tin</th>
-                            <th>Cập nhật</th>
+                            <th style="width: 100px">#</th>
+                            <th>Tên Sp</th>
+                            <th style="width: 200px">Hình ảnh</th>
+                            <th style="width: 100px">Đã bán</th>
+                            <th style="width: 150px">Trên tổng Sp</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var i in Model)
+                       @foreach (var item in Model)
                         {
-                            <tr id="trow_@i.Id">
+                            <tr>
                                 <td>@(index++)</td>
+                                <td>@item.Title</td>
+                                <td><img src="~/images/Product/@item.ImageProductDefault" width="100" height="100" style="border: solid 1px " /></td>
                                 <td>
-                                    <a href="/Product_Seller/Detail_Product_Seller/@i.Id">@i.Title</a>
+                                    @item.TotalQuantityPurchased
                                 </td>
-                                <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
-                                <td>@i.Quantity_Purchase</td>
-                                <td>
-                                    @if (i.Discount == 0)
-                                    {
-                                        <p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.Price)</p>
-                                    }
-                                    else
-                                    {
-                                        <p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.Discount)</p>
-
-                                    }
-                                </td>
-
-                                <td> <img src="~/images/Product/@i.ImageDefault" width="100" height="100" style="border: solid 1px " /></td>
-                                <td>@i.ShippingMethod</td>
-                                <td><a class="btn btn-block btn-info btn-sm" href="/DeliveryProcess_Seller/Info_Order_Address/@i.Info_Order_Address_Id">Xem</a></td>
-                                <td>
-                                   
-                                    @if (@i.Status_OrderDetail == 1)
-                                    {
-                                        <a class="btnDelete" data-id="@i.Id">
-                                        </a> <br> <a href="/DeliveryProcess_Seller/Update_DeliveryProcess_Order_COD/@i.Info_Order_Address_Id"><i class="fas fa-edit" style="color: #3070df;"></i></a>
-                                    }
-                                    else
-                                    {
-                                        <a href="/Order_Seller/ComfirmStatus/@i.Info_Order_Address_Id">Xác nhận</a>
-                                    }
-
-                                    
-                                </td>
+                                <td>@(Math.Round((item.TotalQuantityPurchased / PercentOfTheTotal) * 100,2))%</td>
+                                <td><span class="badge bg-danger">Xem</span></td>
                             </tr>
                         }
-
-
+                       
                     </tbody>
-
                 </table>
             </div>
             <!-- /.card-body -->
         </div>
     </div>
 </section>
-
+<div id="dialog">
+    <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
+</div>
 @section scripts_SellerHome{
     <!-- jQuery -->
     <script src="~/clients/plugins/jquery/jquery.min.js"></script>
@@ -142,38 +112,25 @@
             });
         });
     </script>
-
-
-    <script>
-        $(document).ready(function () {
-            $('body').on('click', '.btnDelete', function () {
-                var id = $(this).data('id');
-
-                var conf = confirm("ban muoon xoa chua");
-
-                if (conf == true) {
-
-                    $.ajax({
-
-                        url: '/Product_Seller/Delete',
-                        type: 'post',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                                $('trow_' + id).remove();
-                                location.reload();
-                            }
-                        }
-
-                    });
-
-                }
+    @*  <script>
+        $(function () {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
             });
-
-            
-        });
-    </script>
+            $('.swalDefaultSuccess').click(function () {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+    </script> *@
+    
+   
 
 
 }
+
 

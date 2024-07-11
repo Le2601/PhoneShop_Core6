@@ -74,6 +74,7 @@ namespace PhoneShop.Controllers.Seller
                             Info_Order_Address_Id = od.Id,
                             ImageDefault = p.ImageDefaultName,
                             Status_OrderDetail = od.Status_OrderDetail,
+                            ShippingMethod = o.PaymentMethod
 
 
 

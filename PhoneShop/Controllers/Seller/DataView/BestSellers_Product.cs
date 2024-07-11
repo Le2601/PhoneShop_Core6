@@ -6,9 +6,11 @@
 
         public int Id { get; set; }
 
-        public int Title { get; set; }
+        public string Title { get; set; }
 
         public string ImageProductDefault { get; set; }
+
+        public int TotalQuantityPurchased { get; set; }
 
 
 

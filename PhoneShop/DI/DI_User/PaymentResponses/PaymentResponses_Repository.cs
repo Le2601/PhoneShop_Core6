@@ -14,20 +14,26 @@ namespace PhoneShop.DI.DI_User.PaymentResponses
         }
         public void Create(PaymentResponeData response)
         {
-            var item = new PaymentResponse
+            if(response.Success == true)
             {
-                OrderDescription = response.OrderDescription,
-                TransactionId = response.TransactionId,
-                OrderId = response.OrderId,
-                PaymentMethod = response.PaymentMethod,
-                PaymentId = response.PaymentId,
-                Success = response.Success,
-                Token = response.Token,
-                VnPayResponseCode = response.VnPayResponseCode
-            };
+                var item = new PaymentResponse
+                {
+                    OrderDescription = response.OrderDescription,
+                    TransactionId = response.TransactionId,
+                    OrderId = response.OrderId,
+                    PaymentMethod = response.PaymentMethod,
+                    PaymentId = response.PaymentId,
+                    Success = response.Success,
+                    Token = response.Token,
+                    VnPayResponseCode = response.VnPayResponseCode
+                };
 
-            _context.paymentResponses.Add(item);
-            _context.SaveChanges();
+                _context.paymentResponses.Add(item);
+                _context.SaveChanges();
+            }
+
+
+            
 
         }
     }

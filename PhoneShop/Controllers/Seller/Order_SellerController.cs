@@ -109,5 +109,20 @@ namespace PhoneShop.Controllers.Seller
 
             
         }
+
+        public IActionResult Info_Order_Address(int id)
+        {
+
+            var item = _context.Order_Details.Where(x=> x.Id == id).FirstOrDefault()!;
+            
+            ViewBag.GetOrder = _context.Orders.Where(x=> x.Id_Order == item.OrderId).FirstOrDefault();
+
+            ViewBag.GetProduct = _context.Products.Where(x=> x.Id == item.ProductId).FirstOrDefault();
+
+            ViewBag.GetPaymentResponse = _context.paymentResponses.Where(x=> x.OrderId ==  item.OrderId && x.Success == true).FirstOrDefault();
+
+            return View(item);
+
+        }
     }
 }

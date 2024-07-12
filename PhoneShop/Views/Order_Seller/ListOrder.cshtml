@@ -67,8 +67,18 @@
                                 </td>
 
                                 <td> <img src="~/images/Product/@i.ImageDefault" width="100" height="100" style="border: solid 1px " /></td>
-                                <td>@i.ShippingMethod</td>
-                                <td><a class="btn btn-block btn-info btn-sm" href="/DeliveryProcess_Seller/Info_Order_Address/@i.Info_Order_Address_Id">Xem</a></td>
+                                <td>@if (i.ShippingMethod == 1)
+                                    {
+                                        
+                                        <p>COD</p>
+
+                                    }
+                                    else
+                                    {
+                                        <p>Truc tuyen</p>
+                                    }
+                                </td>
+                                <td><a class="btn btn-block btn-info btn-sm" href="/Order_Seller/Info_Order_Address/@i.Info_Order_Address_Id">Xem</a></td>
                                 <td>
                                    
                                     @if (@i.Status_OrderDetail == 1)

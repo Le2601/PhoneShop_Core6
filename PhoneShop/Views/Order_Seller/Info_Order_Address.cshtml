@@ -1,0 +1,253 @@
+﻿@model PhoneShop.Models.Order_Details
+@using PhoneShop.Models;
+@{
+    ViewData["Title"] = "Info_Order_Address";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+    Order GetOrder = ViewBag.GetOrder;
+    Product GetProduct = ViewBag.GetProduct;
+    PaymentResponse GetPaymentResponse = ViewBag.GetPaymentResponse;
+}
+
+<!-- DataTables -->
+<link rel="stylesheet" href="~/clients/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+
+
+
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thông tin đơn hàng</a>
+        </li>
+    </ul>
+}
+<br />
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="col-12">
+
+
+       
+
+        <!-- Main content -->
+        <div class="invoice p-3 mb-3">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-12">
+                    <h4>
+                       
+                        <small class="float-right">Ngày đặt hàng: @GetOrder.Order_Date.ToString("dd/MM/yyyy")</small>
+                    </h4>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- info row -->
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    Thông tin người nhận
+                    <address>
+                        <strong>Tên người nhận:</strong> Nguyễn Văn A<br>
+                        <strong>Địa chỉ:</strong> 123 Đường ABC, Quận 1, TP. HCM<br>
+                        <strong>Số điện thoại:</strong> 0123 456 789<br>
+                        <strong>Email:</strong> <a href="mailto:nguyenvana@example.com">nguyenvana@example.com</a><br>
+                        <strong>Loại địa chỉ:</strong> @Model.AddressType<br>
+                        <strong>Ghi chú:</strong> @Model.Description<br>
+                    </address>
+
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  Thông tin đơn hàng
+                    <address>
+                        <strong>Mã đơn hàng:</strong> @Model.OrderId<br>
+
+                        @if (Model.Status_OrderDetail == 1)
+                        {
+                            <strong>Trạng thái đơn hàng:</strong>
+
+                            <span>Đã xác nhận</span>
+                        }
+                        else
+                        {
+                            <strong>Trạng thái đơn hàng:</strong>
+
+                            <span>Chưa xác nhận</span>
+                        }
+                       
+                        <br>
+                    </address>
+                </div>
+                <!-- /.col -->
+               
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                               
+                                <th>Tên</th>
+                                <th>Hình ảnh</th>
+                                <th>Số lượng</th>
+                                <th>Giá</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                               
+                                <td>@GetProduct.Title</td>
+                                <td>455-981-221</td>
+                                <td>@Model.Quantity</td>
+                                <td>@GetProduct.Price</td>
+                                <td>$64.50</td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <!-- accepted payments column -->
+                <div class="col-6">
+                   
+                    @if (GetOrder.PaymentMethod == 1)
+                    {
+                        <p>Phương thức thanh toán :COD</p>
+                    }
+                    else
+                    {
+                        <p>Phương thức thanh toán: @GetPaymentResponse.PaymentMethod</p>
+                        <p>Trạng thái: @GetPaymentResponse.Success</p>
+                        
+                       
+                        <p>@GetPaymentResponse.OrderDescription</p>
+                       
+                       
+                        <div>
+                            <p>VnPayResponseCode: @GetPaymentResponse.VnPayResponseCode</p>
+                            Mã VnPayResponseCode tương ứng với giá trị
+                            <ul>
+                                <li>00: Giao dịch thành công.</li>
+                                <li>01: Giao dịch đã tồn tại hoặc không hợp lệ.</li>
+                                <li>02: Ngân hàng từ chối thanh toán.</li>
+                                <li>99: Lỗi chưa xác định.</li>
+                                <li>24: Hủy giao dịch.</li>
+                            </ul>
+
+                        </div>
+                        <p>Mã token thanh toán: @GetPaymentResponse.Token</p>
+
+                    }
+
+                  
+
+                    
+                </div>
+                <!-- /.col -->
+                <div class="col-6">
+                    <p class="lead">Amount Due 2/22/2014</p>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th style="width:50%">Subtotal:</th>
+                                <td>$250.30</td>
+                            </tr>
+                            <tr>
+                                <th>Tax (9.3%)</th>
+                                <td>$10.34</td>
+                            </tr>
+                            <tr>
+                                <th>Shipping:</th>
+                                <td>$5.80</td>
+                            </tr>
+                            <tr>
+                                <th>Total:</th>
+                                <td>$265.24</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <!-- this row will not appear when printing -->
+            <div class="row no-print">
+                <div class="col-12">
+                    <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                    <button type="button" class="btn btn-success float-right">
+                        <i class="far fa-credit-card"></i> Submit
+                        Payment
+                    </button>
+                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                        <i class="fas fa-download"></i> Generate PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- /.invoice -->
+
+
+        </div>
+        </section>
+
+
+<!-- /.content -->
+@section scripts_SellerHome{
+    <!-- jQuery -->
+    <script src="~/clients/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/clients/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+
+    <!-- AdminLTE App -->
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("ban muoon xoa chua");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Category/Delete',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+}

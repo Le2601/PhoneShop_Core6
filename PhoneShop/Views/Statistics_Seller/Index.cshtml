@@ -1,10 +1,20 @@
-﻿@model List<PhoneShop.Controllers.Seller.DataView.RevenueStatistics>
-@using PhoneShop.Controllers.Seller.DataView;
+﻿@using PhoneShop.Controllers.Seller.DataView;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
-    List<RevenueStatistics_DataViewChart> GetData = ViewBag.GetData_Chart;
+    //tuan
+    List<RevenueStatistics_DataViewChart> GetData = ViewBag.GetData_Chart_Week;
+    List<RevenueStatistics> getDate_Week = ViewBag.getDate_Week;
 
+    //thang
+    List<RevenueStatistics_DataViewChart> GetData_Month = ViewBag.GetData_Chart_Month;
+    List<RevenueStatistics> getDate_Month = ViewBag.getDate_Month;
+
+    //nam 
+    List<RevenueStatistics_DataViewChart> GetData_Year = ViewBag.GetData_Chart_Year;
+    List<RevenueStatistics> getDate_Year = ViewBag.getDate_Year;
+
+    //thong ke ngay
     List<RevenueStatistics> GetData_Chart_SelectedDate = ViewBag.GetData_Chart_SelectedDate;
     
 
@@ -14,53 +24,7 @@
 }
 
 <section class="content">
-    <h3 class="text-center mb-3">Doanh thu tuần qua</h3>
-    <div class="row">
-       
-        <div class="col-md-6">
-           
-            <div class="chart-container" style="position: relative; height:40vh; width:100%">
-                <canvas id="revenueProfitChart"></canvas>
-            </div>
-        </div>
-        <div class="col-md-6">
-           
-            <div class="invoice p-3 mb-3">
-                
-                <div class="row">
-                    <div class="col-12 table-responsive" style="height:35vh; overflow-y: auto;">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Đơn hàng</th>
-                                    <th>Tên Sp</th>
-                                    <th>Số lượng</th>
-                                    <th>Giá bán</th>
-                                    <th>Giá nhập</th>
-                                    <th>Ngày đặt</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var i in Model)
-                                {
-                                    <tr>
-                                        <td>@i.OrderDetailId</td>
-                                        <td>@i.TitleProduct</td>
-                                        <td>@i.QuantityPurchased</td>
-                                        <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PricePurchased)</td>
-                                        <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Input_Price)</td>
-                                        <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
-                                    </tr>
-                                }
-                            </tbody>
-                           
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+   
     <h3 class="text-center mb-3">Doanh thu theo ngày</h3>
     <div class="form-group">
 
@@ -124,6 +88,250 @@
 
         }
     </div>
+
+
+    @* demo *@
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Tuần</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Tháng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Năm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#year" data-toggle="tab">Quý</a></li>
+
+                </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="activity">
+                        <!-- Post -->
+                        <h3 class="text-center mb-3">Doanh thu tuần</h3>
+
+                        <div class="callout callout-info">
+                            <h5><i class="fas fa-info"></i> Note:</h5>
+                           
+                           
+                                @Html.Raw(ViewBag.TotalRevenueAndlProfit_Week)
+                          
+                            
+                        </div>
+                        
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                                    <canvas id="revenueProfitChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="invoice p-3 mb-3">
+
+                                    <div class="row">
+                                        <div class="col-12 table-responsive" style="height:35vh; overflow-y: auto;">
+                                            <table id="example1" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Đơn hàng</th>
+                                                        <th>Tên Sp</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Giá bán</th>
+                                                        <th>Giá nhập</th>
+                                                        <th>Ngày đặt</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var i in getDate_Week)
+                                                    {
+                                                        <tr>
+                                                            <td>@i.OrderDetailId</td>
+                                                            <td>@i.TitleProduct</td>
+                                                            <td>@i.QuantityPurchased</td>
+                                                            <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PricePurchased)</td>
+                                                            <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Input_Price)</td>
+                                                            <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.post -->
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane " id="timeline">
+                        <!-- The timeline -->
+                        <h3 class="text-center mb-3">Doanh thu Tháng</h3>
+                        <div class="callout callout-info">
+                            <h5><i class="fas fa-info"></i> Note:</h5>
+                          
+                                @Html.Raw(ViewBag.TotalRevenueAndlProfit_Month)
+                           
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                                    <canvas id="revenueProfitChart_Month"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="invoice p-3 mb-3">
+
+                                    <div class="row">
+                                        <div class="col-12 table-responsive" style="height:35vh; overflow-y: auto;">
+                                            <table id="example1" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Đơn hàng</th>
+                                                        <th>Tên Sp</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Giá bán</th>
+                                                        <th>Giá nhập</th>
+                                                        <th>Ngày đặt</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var i in getDate_Month)
+                                                    {
+                                                        <tr>
+                                                            <td>@i.OrderDetailId</td>
+                                                            <td>@i.TitleProduct</td>
+                                                            <td>@i.QuantityPurchased</td>
+                                                            <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PricePurchased)</td>
+                                                            <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Input_Price)</td>
+                                                            <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="settings">
+                        <h3 class="text-center mb-3">Doanh thu năm</h3>
+                        <div class="callout callout-info">
+                            <h5><i class="fas fa-info"></i> Note:</h5>
+                          
+                                @Html.Raw(ViewBag.TotalRevenueAndlProfit_Year)
+                           
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                                    <canvas id="revenueProfitChart_Year"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="invoice p-3 mb-3">
+
+                                    <div class="row">
+                                        <div class="col-12 table-responsive" style="height:35vh; overflow-y: auto;">
+                                            <table id="example1" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Đơn hàng</th>
+                                                        <th>Tên Sp</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Giá bán</th>
+                                                        <th>Giá nhập</th>
+                                                        <th>Ngày đặt</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var i in getDate_Year)
+                                                    {
+                                                        <tr>
+                                                            <td>@i.OrderDetailId</td>
+                                                            <td>@i.TitleProduct</td>
+                                                            <td>@i.QuantityPurchased</td>
+                                                            <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PricePurchased)</td>
+                                                            <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Input_Price)</td>
+                                                            <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="year">
+                        <form class="form-horizontal">
+                            <div class="form-group row">
+                                <label for="inputName" class="col-sm-2 col-form-label">year</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-sm-2 col-sm-10">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-sm-2 col-sm-10">
+                                    <button type="submit" class="btn btn-danger">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
 </section>
 
  @section scripts_SellerHome{
@@ -135,6 +343,120 @@
             var labels = @Html.Raw(Json.Serialize(GetData.Select(m => m.Date_Purchase.ToString("dd/MM/yyyy"))));
             var revenueData = @Html.Raw(Json.Serialize(GetData.Select(m => m.TotalRevenue)));
             var profitData = @Html.Raw(Json.Serialize(GetData.Select(m => m.TotalProfit)));
+
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Doanh thu',
+                            data: revenueData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Lợi nhuận',
+                            data: profitData,
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.raw.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById('revenueProfitChart_Month').getContext('2d');
+            var labels = @Html.Raw(Json.Serialize(GetData_Month.Select(m => m.Date_Purchase.ToString("dd/MM/yyyy"))));
+            var revenueData = @Html.Raw(Json.Serialize(GetData_Month.Select(m => m.TotalRevenue)));
+            var profitData = @Html.Raw(Json.Serialize(GetData_Month.Select(m => m.TotalProfit)));
+
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Doanh thu',
+                            data: revenueData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Lợi nhuận',
+                            data: profitData,
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.raw.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById('revenueProfitChart_Year').getContext('2d');
+            var labels = @Html.Raw(Json.Serialize(GetData_Year.Select(m => m.Date_Purchase.ToString("dd/MM/yyyy"))));
+            var revenueData = @Html.Raw(Json.Serialize(GetData_Year.Select(m => m.TotalRevenue)));
+            var profitData = @Html.Raw(Json.Serialize(GetData_Year.Select(m => m.TotalProfit)));
 
             var chart = new Chart(ctx, {
                 type: 'bar',

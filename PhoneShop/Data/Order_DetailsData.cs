@@ -13,6 +13,7 @@
 
 
         public int ProductId { get; set; }
+        public decimal PurchasePrice_Product { get; set; }
 
         public int Quantity { get; set; }
 

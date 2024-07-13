@@ -42,12 +42,12 @@ namespace PhoneShop.Controllers.Seller
                             Info_User = o.AccountId,
                             Order_Id = od.OrderId,
                             InputPrice = p.InputPrice,
-                            Price = p.Discount > 0 ? p.Discount : p.Price,
+                            Price = od.PurchasePrice_Product,//p.Discount > 0 ? p.Discount : p.Price
                             Discount = p.Discount,
                             Order_Status = o.Order_Status,
                             Info_Order_Address_Id = od.Id,
 
-                            Total_Order_DetailByProduct = od.Quantity * (p.Discount > 0 ? p.Discount : p.Price),
+                            Total_Order_DetailByProduct = od.Quantity * od.PurchasePrice_Product,//(p.Discount > 0 ? p.Discount : p.Price)
                             ImageDefault = p.ImageDefaultName,
                             Status_OrderDetail = od.Status_OrderDetail,
 

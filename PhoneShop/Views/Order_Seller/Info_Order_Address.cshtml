@@ -6,6 +6,9 @@
     Order GetOrder = ViewBag.GetOrder;
     Product GetProduct = ViewBag.GetProduct;
     PaymentResponse GetPaymentResponse = ViewBag.GetPaymentResponse;
+
+    
+
 }
 
 <!-- DataTables -->
@@ -58,11 +61,31 @@
                 <div class="col-sm-4 invoice-col">
                     Thông tin người nhận
                     <address>
-                        <strong>Tên người nhận:</strong> Nguyễn Văn A<br>
-                        <strong>Địa chỉ:</strong> 123 Đường ABC, Quận 1, TP. HCM<br>
-                        <strong>Số điện thoại:</strong> 0123 456 789<br>
-                        <strong>Email:</strong> <a href="mailto:nguyenvana@example.com">nguyenvana@example.com</a><br>
-                        <strong>Loại địa chỉ:</strong> @Model.AddressType<br>
+                        <strong>Tên người nhận:</strong>@Model.Order_Name<br>
+                        <strong>Địa chỉ:</strong> @Model.Address<br>
+                        <strong>Số điện thoại:</strong> @Model.Phone<br>
+                        <strong>Email:</strong> <a href="#">@Model.Email</a><br>
+
+                        
+                        @if (Model.AddressType == "1")
+                        {
+                            <strong>Loại địa chỉ:</strong>
+                            <span> Chỗ ở cá nhân</span>
+
+                        }
+                        else if (Model.AddressType == "2")
+                        {
+                            <strong>Loại địa chỉ:</strong>
+                            <span> Nơi làm việc</span>
+
+                        }
+                        else
+                        {
+                            <strong>Loại địa chỉ:</strong>
+                            <span> Khác</span>
+                        }
+                        <br />
+
                         <strong>Ghi chú:</strong> @Model.Description<br>
                     </address>
 
@@ -105,17 +128,17 @@
                                 <th>Hình ảnh</th>
                                 <th>Số lượng</th>
                                 <th>Giá</th>
-                                <th>Subtotal</th>
+                                <th>Tổng tiền</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                
                                 <td>@GetProduct.Title</td>
-                                <td>455-981-221</td>
+                                <td><img src="~/images/Product/@GetProduct.ImageDefaultName" width="100" height="100" style="border: solid 1px " /></td>
                                 <td>@Model.Quantity</td>
-                                <td>@GetProduct.Price</td>
-                                <td>$64.50</td>
+                                <td>@PhoneShop.Extension.Extension.ToVnd((double)Model.PurchasePrice_Product)</td>
+                                <td>@PhoneShop.Extension.Extension.ToVnd((double)Model.PurchasePrice_Product * Model.Quantity )</td>
                             </tr>
                            
                         </tbody>
@@ -169,8 +192,8 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
-                                <th style="width:50%">Subtotal:</th>
-                                <td>$250.30</td>
+                                <th style="width:50%">Tổng tiền đơn hàng:</th>
+                                <td>@PhoneShop.Extension.Extension.ToVnd((double)Model.PurchasePrice_Product * Model.Quantity )</td>
                             </tr>
                             <tr>
                                 <th>Tax (9.3%)</th>
@@ -193,14 +216,14 @@
             <!-- this row will not appear when printing -->
             <div class="row no-print">
                 <div class="col-12">
-                    <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                    <button type="button" class="btn btn-success float-right">
-                        <i class="far fa-credit-card"></i> Submit
-                        Payment
-                    </button>
-                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                        <i class="fas fa-download"></i> Generate PDF
-                    </button>
+                    <a href="/Order_Seller/ComfirmStatus/@Model.Id"  class="btn btn-default"><i class="fas fa-print"></i> Xác nhận DH </a>
+
+                    @if (Model.Status_OrderDetail == 1) // Kiểm tra nếu đơn hàng đã xác nhận
+                    {
+                        <a href="/DeliveryProcess_Seller/Update_DeliveryProcess_Order_COD/@Model.Id" class="btn btn-primary float-right" style="margin-right: 5px;">
+                            <i class="fas fa-download"></i> Cập nhật trạng thái
+                        </a>
+                    }
                 </div>
             </div>
         </div>

@@ -436,7 +436,7 @@ namespace PhoneShop.Controllers
             int PaymentMethod = Convert.ToInt32(form["PaymentMethod"]);
 
 
-            //xu ly decimal
+            //xu ly decimal  giam gia tien voucher vao don hang hang
             decimal _DiscountAmount = 0;
             var result = "";
             var GetDiscountAmount = HttpContext.Session.GetString("DiscountAmount"); //
@@ -516,6 +516,7 @@ namespace PhoneShop.Controllers
                         Description = Description,
                         AddressType = AddressType,
                         Email = Email,
+                        PurchasePrice_Product = item.Price
 
 
 
@@ -603,6 +604,7 @@ namespace PhoneShop.Controllers
                     Description = Description,
                     AddressType = AddressType,
                     Email = Email,
+                    PurchasePrice_Product = item.Price
 
 
 

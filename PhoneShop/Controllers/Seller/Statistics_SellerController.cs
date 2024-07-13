@@ -83,24 +83,24 @@ namespace PhoneShop.Controllers.Seller
 
            
 
-            //doanh thu, loi nhuan
-            if (getData_Year.Item2.Count <= 0 || getData_Year.Item2 == null)
-            {
-                ViewBag.TotalRevenueAndlProfit_Year = "Hiện chưa có dữ liệu";
+                    //doanh thu, loi nhuan
+                    if (getData_Year.Item2.Count <= 0 || getData_Year.Item2 == null)
+                    {
+                        ViewBag.TotalRevenueAndlProfit_Year = "Hiện chưa có dữ liệu";
                 
-            }
-            else
-            {
-                decimal TotalRevenue_Year = 0;
-                decimal TotalProfit_Year = 0;
-                foreach (var item in getData_Year.Item2)
-                {
-                    TotalRevenue_Year += item.TotalRevenue;
-                    TotalProfit_Year += item.TotalProfit;
+                    }
+                    else
+                    {
+                        decimal TotalRevenue_Year = 0;
+                        decimal TotalProfit_Year = 0;
+                        foreach (var item in getData_Year.Item2)
+                        {
+                            TotalRevenue_Year += item.TotalRevenue;
+                            TotalProfit_Year += item.TotalProfit;
 
-                }
-                ViewBag.TotalRevenueAndlProfit_Year = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Year) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Year);
-            }
+                        }
+                        ViewBag.TotalRevenueAndlProfit_Year = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Year) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Year);
+                    }
 
 
             var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
@@ -117,10 +117,10 @@ namespace PhoneShop.Controllers.Seller
                    OrderId = g.Order_Id,
                    OrderDetailId = g.Info_Order_Address_Id,
                    Date_Purchase = g.Date_Purchase.Date,
-                   TotalRevenue = g.Quantity_Purchase * (g.Discount > 0 ? g.Discount : g.Price),
-                   TotalProfit = g.Quantity_Purchase * ((g.Discount > 0 ? g.Discount : g.Price) - g.InputPrice),
+                   TotalRevenue = g.Quantity_Purchase * g.Price,
+                   TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
                    TitleProduct = g.Title,
-                   PricePurchased = g.Discount > 0 ? g.Discount : g.Price,
+                   PricePurchased = g.Price,
                    Input_Price = g.InputPrice,
                    QuantityPurchased = g.Quantity_Purchase
                }).ToList();
@@ -278,10 +278,10 @@ namespace PhoneShop.Controllers.Seller
                     OrderId = g.Order_Id,
                     OrderDetailId = g.Info_Order_Address_Id,
                     Date_Purchase = g.Date_Purchase.Date,
-                    TotalRevenue = g.Quantity_Purchase * (g.Discount > 0 ? g.Discount : g.Price),
-                    TotalProfit = g.Quantity_Purchase * ((g.Discount > 0 ? g.Discount : g.Price) - g.InputPrice),
+                    TotalRevenue = g.Quantity_Purchase * g.Price,
+                    TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
                     TitleProduct = g.Title,
-                    PricePurchased = g.Discount > 0 ? g.Discount : g.Price,
+                    PricePurchased = g.Price,
                     Input_Price = g.InputPrice,
                     QuantityPurchased = g.Quantity_Purchase
                 }).ToList();
@@ -324,10 +324,10 @@ namespace PhoneShop.Controllers.Seller
                     OrderId = g.Order_Id,
                     OrderDetailId = g.Info_Order_Address_Id,
                     Date_Purchase = g.Date_Purchase.Date,
-                    TotalRevenue = g.Quantity_Purchase * (g.Discount > 0 ? g.Discount : g.Price),
-                    TotalProfit = g.Quantity_Purchase * ((g.Discount > 0 ? g.Discount : g.Price) - g.InputPrice),
+                    TotalRevenue = g.Quantity_Purchase * g.Price,
+                    TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
                     TitleProduct = g.Title,
-                    PricePurchased = g.Discount > 0 ? g.Discount : g.Price,
+                    PricePurchased = g.Price,
                     Input_Price = g.InputPrice,
                     QuantityPurchased = g.Quantity_Purchase
                 }).ToList();
@@ -366,10 +366,10 @@ namespace PhoneShop.Controllers.Seller
                     OrderId = g.Order_Id,
                     OrderDetailId = g.Info_Order_Address_Id,
                     Date_Purchase = g.Date_Purchase.Date,
-                    TotalRevenue = g.Quantity_Purchase * (g.Discount > 0 ? g.Discount : g.Price),
-                    TotalProfit = g.Quantity_Purchase * ((g.Discount > 0 ? g.Discount : g.Price) - g.InputPrice),
+                    TotalRevenue = g.Quantity_Purchase * g.Price,
+                    TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
                     TitleProduct = g.Title,
-                    PricePurchased = g.Discount > 0 ? g.Discount : g.Price,
+                    PricePurchased = g.Price,
                     Input_Price = g.InputPrice,
                     QuantityPurchased = g.Quantity_Purchase
                 }).ToList();

@@ -55,15 +55,7 @@
                                 <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
                                 <td>@i.Quantity_Purchase</td>
                                 <td>
-                                    @if (i.Discount == 0)
-                                    {
-                                        <p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.Price)</p>
-                                    }
-                                    else
-                                    {
-                                        <p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.Discount)</p>
-
-                                    }
+                                    <p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.Price)</p>
                                 </td>
 
                                 <td> <img src="~/images/Product/@i.ImageDefault" width="100" height="100" style="border: solid 1px " /></td>

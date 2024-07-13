@@ -42,7 +42,8 @@ namespace PhoneShop.DI.DI_User.Order_User
                 Quantity = model.Quantity,
                 Description = model.Description,
                 AddressType = model.AddressType,
-                 Email = model.Email,
+                Email = model.Email,
+                PurchasePrice_Product = model.PurchasePrice_Product
 
 
 

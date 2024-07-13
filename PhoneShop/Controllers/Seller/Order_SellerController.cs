@@ -68,7 +68,7 @@ namespace PhoneShop.Controllers.Seller
                             Info_User = o.AccountId,
                             Order_Id = od.OrderId,
                             InputPrice = p.InputPrice,
-                            Price = p.Price,
+                            Price = od.PurchasePrice_Product,
                             Discount = p.Discount,
                             Order_Status = o.Order_Status,
                             Info_Order_Address_Id = od.Id,
@@ -101,13 +101,13 @@ namespace PhoneShop.Controllers.Seller
             _context.Order_Details.Update(item);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("ListOrder");
+            return Redirect(Request.Headers["Referer"].ToString());
 
 
 
 
 
-            
+
         }
 
         public IActionResult Info_Order_Address(int id)

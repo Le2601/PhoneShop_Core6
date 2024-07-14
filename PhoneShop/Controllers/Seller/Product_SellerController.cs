@@ -48,6 +48,11 @@ namespace PhoneShop.Controllers.Seller
             var GetIdProduct = 0;
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int IdAccount = int.Parse(taikhoanID);
+
+            //get idBooth
+
+            var GetBooth = _context.Booth_Information.Where(x=> x.AccountId ==  IdAccount).FirstOrDefault()!;
+
             //kiem tra neu trung ten
             var CheckTitle = _productRepository.CheckTitleCreate(model.Title);
             if (CheckTitle == 0)
@@ -79,6 +84,7 @@ namespace PhoneShop.Controllers.Seller
                             model.Update_at = DateTime.Now;
                             model.ImageDefaultName = imageName;
                             model.Create_Id = IdAccount;
+                            model.Booth_InformationId = GetBooth.Id;
 
 
 

@@ -37,7 +37,9 @@ namespace PhoneShop.DI.Product
                 ImageDefaultName = x.ImageDefaultName,
                 InputPrice = x.InputPrice,
                 Create_Id = x.Create_Id,
-                IsActive = x.IsActive
+                IsActive = x.IsActive,
+                Booth_InformationId = x.Booth_InformationId
+
             };
 
             _context.Products.Add(item);

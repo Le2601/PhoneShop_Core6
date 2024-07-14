@@ -56,7 +56,7 @@ namespace PhoneShop.Models
         
         public string Description { get; set; }
 
-        public int CategoryId { get; set; }
+       
 
         public DateTime? Create_at { get; set; } = DateAndTime.Now;
 
@@ -64,12 +64,19 @@ namespace PhoneShop.Models
 
         public int Create_Id { get; set; }
 
-      
+        public int CategoryId { get; set; }
+
+       
+        public int Booth_InformationId { get; set; }
+
+
 
 
 
 
         public virtual Category Category { get; set; }
+
+      
 
         //public Evaluate_Product Evaluate_Product { get; set; }
 

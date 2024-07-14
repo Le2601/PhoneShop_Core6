@@ -57,6 +57,8 @@ namespace PhoneShop.Areas.Admin.Data
 
         public int Create_Id { get; set; }
 
+        public int Booth_InformationId { get; set; }
+
 
         //public virtual Category Category { get; set; }
 

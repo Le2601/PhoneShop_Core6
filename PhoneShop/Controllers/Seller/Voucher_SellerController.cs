@@ -33,7 +33,7 @@ namespace PhoneShop.Controllers.Seller
         {
             var getId_Booth = HttpContext.Session.GetString("IdBoothShop")!;
             model.BoothId = int.Parse(getId_Booth);
-            model.Start_At = 1;
+           
 
             _voucherRepository.Create(model);
             return RedirectToAction("Index", "Voucher_Seller");

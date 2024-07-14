@@ -35,5 +35,8 @@ namespace PhoneShop.Models
 
         public virtual ICollection<Booth_Tracking> Booth_Trackings { get; set; }
 
+      
+
+
     }
 }

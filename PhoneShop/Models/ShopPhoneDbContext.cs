@@ -126,10 +126,12 @@ namespace PhoneShop.Models
             .Property(p => p.DiscountConditions)
             .HasColumnType("decimal(18, 0)");
 
-            modelBuilder.Entity<Product>()
+           
+                  modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Product)
                 .HasForeignKey(p => p.CategoryId);
+
 
             modelBuilder.Entity<Account>()
                .HasOne(p => p.Role)

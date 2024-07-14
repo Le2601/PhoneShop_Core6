@@ -25,8 +25,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Code" class="control-label"></label>
-                        <input asp-for="Code" class="form-control" />
+                        <label asp-for="Code" class="control-label">Mã giảm giá</label>
+                        <input asp-for="Code" class="form-control" value="123" />
                         <span asp-validation-for="Code" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -35,10 +35,10 @@
                         <span asp-validation-for="DiscountAmount" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="DiscountConditions" class="control-label">Điều kiện</label>
+                        <label asp-for="DiscountConditions" class="control-label">Điều kiện tối thiểu</label>
                         <input asp-for="DiscountConditions" class="form-control" />
                         <span asp-validation-for="DiscountConditions" class="text-danger"></span>
-                    </div>
+                    </div>               
                     <div class="form-group">
                         <label asp-for="ExpiryDate" class="control-label">Ngày hết hạn</label>
                         <input asp-for="ExpiryDate" class="form-control" />
@@ -80,6 +80,7 @@
             height: 100
         });
     </script>
+   
 }
 
 

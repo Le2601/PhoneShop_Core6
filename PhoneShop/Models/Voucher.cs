@@ -19,6 +19,8 @@ namespace PhoneShop.Models
 
         [Display(Name = "Hạn sử dụng")]
         public DateTime ExpiryDate { get; set; }
+        public DateTime StartDate { get; set; }
+
 
         [Display(Name = "Số lượng")]
         public int Quantity { get; set; }
@@ -28,13 +30,15 @@ namespace PhoneShop.Models
 
         public bool IsActive { get; set; }
 
+        public bool IsAdmin { get; set; }
+
         public int BoothId { get; set; }
 
        
 
         public string Description { get; set; } = string.Empty;
 
-        public int Start_At { get; set; }
+        
 
 
     }

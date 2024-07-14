@@ -39,7 +39,7 @@ namespace PhoneShop.DI.Voucher
                 Quantity = model.Quantity,
                 IsActive = model.IsActive,
                 Description = model.Description,
-                Start_At = model.Start_At,
+                StartDate = model.StartDate,
                 BoothId = model.BoothId
 
             };

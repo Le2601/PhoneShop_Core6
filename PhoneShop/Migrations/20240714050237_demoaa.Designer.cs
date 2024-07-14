@@ -12,8 +12,8 @@ using PhoneShop.Models;
 namespace PhoneShop.Migrations
 {
     [DbContext(typeof(ShopPhoneDbContext))]
-    [Migration("20240713143124_addattributePurchase_Price")]
-    partial class addattributePurchase_Price
+    [Migration("20240714050237_demoaa")]
+    partial class demoaa
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -565,6 +565,9 @@ namespace PhoneShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Booth_InformationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -867,11 +870,14 @@ namespace PhoneShop.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("Start_At")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

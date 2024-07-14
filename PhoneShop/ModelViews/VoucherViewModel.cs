@@ -13,7 +13,7 @@
 
         public DateTime ExpiryDate { get; set; }
 
-
+        public decimal DiscountProduct { get; set; }
         public int Quantity { get; set; }
 
 

@@ -11,8 +11,11 @@ namespace PhoneShop.Models
         public int Id { get; set; }
 
         public string Code { get; set; }
-        [Display(Name = "Tiền giảm")]
+        [Display(Name = "Tiền giảm cho đơn hàng ")]
         public decimal DiscountAmount { get; set; }
+
+        [Display(Name = "Tiền giảm cho sản phẩm ")]
+        public decimal DiscountProduct{ get; set; }
         //dien kien giam gia
         [Display(Name = "Điều kiện giảm")]
         public decimal DiscountConditions { get; set; }

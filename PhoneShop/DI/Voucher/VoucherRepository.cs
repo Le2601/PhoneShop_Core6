@@ -40,7 +40,9 @@ namespace PhoneShop.DI.Voucher
                 IsActive = model.IsActive,
                 Description = model.Description,
                 StartDate = model.StartDate,
-                BoothId = model.BoothId
+                BoothId = model.BoothId,
+                IsAdmin = model.IsAdmin,
+                DiscountProduct = model.DiscountProduct,
 
             };
 
@@ -67,6 +69,7 @@ namespace PhoneShop.DI.Voucher
                 ExpiryDate = model.ExpiryDate,
                 Quantity = model.Quantity,
                 IsActive = model.IsActive,
+                DiscountProduct = model.DiscountProduct
             }).ToListAsync();
 
             return items;
@@ -108,6 +111,7 @@ namespace PhoneShop.DI.Voucher
             item.Quantity = model.Quantity;
             item.IsActive = model.IsActive;
             item.Description = model.Description;
+            item.DiscountProduct = model.DiscountProduct;
 
            
 

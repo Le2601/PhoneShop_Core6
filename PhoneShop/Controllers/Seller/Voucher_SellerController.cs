@@ -33,6 +33,8 @@ namespace PhoneShop.Controllers.Seller
         {
             var getId_Booth = HttpContext.Session.GetString("IdBoothShop")!;
             model.BoothId = int.Parse(getId_Booth);
+            model.IsAdmin = false;
+            model.StartDate = DateTime.Now;
            
 
             _voucherRepository.Create(model);
@@ -76,7 +78,7 @@ namespace PhoneShop.Controllers.Seller
 
 
 
-            return RedirectToAction("Index", "Vocuher_Seller");
+            return RedirectToAction("Index", "Voucher_Seller");
         }
     }
 }

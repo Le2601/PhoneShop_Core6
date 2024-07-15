@@ -1,0 +1,96 @@
+﻿@model List<PhoneShop.Models.Voucher>
+@using PhoneShop.Extension;
+@{
+    ViewData["Title"] = "List_Voucher_Booth";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+}
+<style>
+    .voucher-card {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background-color: #f9f9f9;
+    }
+
+    .voucher-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+        .voucher-header h3 {
+            margin: 0;
+        }
+
+    .voucher-body {
+        margin-top: 10px;
+    }
+
+        .voucher-body p {
+            margin-bottom: 10px;
+        }
+
+        .voucher-body strong {
+            font-weight: bold;
+            margin-right: 5px;
+            display: inline-block;
+            width: 120px;
+        }
+
+    .btn-use-voucher {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-use-voucher:hover {
+            background-color: #218838;
+        }
+
+        .btn-use-voucher:focus {
+            outline: none;
+        }
+
+</style>
+
+@if(Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <div class="voucher-card">
+            <div class="voucher-content">
+                <div class="voucher-header">
+                    <h3>Nội dung voucher</h3>
+                </div>
+                <div class="voucher-body">
+                    <p><strong>Mã giảm giá:</strong>@item.Code </p>
+                    <p><strong>Giảm: </strong> @Extension.ToVnd((double)item.DiscountProduct)</p>
+                    <p><strong>Điều kiện giảm:</strong> @Extension.ToVnd((double)item.DiscountConditions)</p>
+                    <p><strong>Số lượng:</strong> @item.Quantity</p>
+                    <p><strong>Ngày hết hạn:</strong> @item.ExpiryDate.ToString("dd/MM/yyyy")</p>
+                </div>
+                <form>
+                    <input style="width:30px" class="btn-use-voucher" value="Lưu">
+                </form>
+                
+            </div>
+        </div>
+    }
+   
+
+
+}
+else
+{
+    <a>CHua co voicher</a>
+}
+

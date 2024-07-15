@@ -152,7 +152,18 @@ namespace PhoneShop.Controllers
 
             ViewBag.ListSelling = _productRepository.GetList_Selling();
 
+
+            
+
+
             return View(cartVM);
+        }
+
+        public IActionResult List_Voucher_Booth(int Id)
+        {
+            var ListVoucherByBooth = _dbContext.Vouchers.Where(x=> x.BoothId ==  Id).ToList();
+
+            return View(ListVoucherByBooth);
         }
 
         //ap dung voucher cap nhat lai gio hang

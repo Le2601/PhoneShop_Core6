@@ -70,66 +70,9 @@
         @TempData["OrderSuccess"]
     </div>
 }
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link href="~/user/custom/cards_user.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-<style>
-    .minus {
-        font-size: 20px;
-        color: #000;
-        text-decoration: none;
-    }
-
-        .minus:hover {
-            color: #888;
-            text-decoration: none;
-        }
-
-    td.product-name {
-        font-size: 14px;
-    }
-
-    table.shop_table th {
-        
-        font-size: 13px;
-       
-    }
-
-   /*  danh sach voucher */
-    .voucher-list {
-        margin-top: 30px;
-    }
-
-        .voucher-list h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-    .voucher-items {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .voucher-item {
-        background-color: #f5f5f5;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-        .voucher-item h3 {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .voucher-item p {
-            margin: 5px 0;
-        }
-
-
-</style>
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -145,27 +88,15 @@
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            
 
-
-                <div class="single-sidebar">
-                    <h2 class="sidebar-title">Bài đăng gần đây</h2>
-
-                  
-
-
-                </div>
-
-
-            </div>
-
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="product-content-right">
                     <div class="woocommerce">
                         <form method="post" asp-action="CheckOut" asp-controller="Cart" >
-                            <table cellspacing="0" class="shop_table cart">
-                                <thead>
-                                    <tr>
+                            <table cellspacing="0" class="shop_table cart table no-border">
+                                <thead style="background:#fff3ed">
+                                    <tr >
                                         <th class="product-remove">&nbsp;</th>
                                         <th class="product-thumbnail">&nbsp;</th>
                                         <th class="product-name">Sản phẩm</th>
@@ -181,11 +112,11 @@
                                         @foreach(var item in Model.CartItems)
                                         {
                                             <tr class="cart_item" id="trow_@item.ProductId">
-                                                <td >
+                                                <td>
                                                     <a class="btnDelete"  data-id="@item.ProductId">x</a>
                                                 </td>
 
-                                                <td class="product-thumbnail">
+                                                <td class="product-thumbnail ">
                                                     <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="~/images/Product/@item.DataNameImage"></a>
                                                 </td>
 
@@ -203,7 +134,7 @@
                                                 </td>
 
                                                 <td class="product-quantity">
-                                                    <div class="quantity buttons_added" style="width: 200px;">
+                                                    <div class="quantity buttons_added" style="width: 200px; margin:auto">
                                                         <a asp-action="tru" asp-controller="Cart" asp-route-id="@item.ProductId" class="btn btn-link minus" style="font-size: 12px;"><i class="fa fa-minus"></i></a>
                                                         <input type="number" size="4" class="input-text qty text" title="Qty" value="@item.Quantity" min="0" step="1" readonly style="font-size: 12px;">
                                                         <a asp-action="cong" asp-controller="Cart" asp-route-id="@item.ProductId" class="btn btn-link minus" style="font-size: 12px;"><i class="fa fa-plus"></i></a>
@@ -219,6 +150,20 @@
                                                     <span style="font-size: 13px;color:red" class="amount">@formattedPriceTotal</span>
                                                 </td>
                                             </tr>
+                                           
+                                           
+                                            <tr style="border-bottom:1px solid">
+                                                <td colspan="3">
+                                                    <div class="voucher-container">
+                                                        <a href="#" class="List_Voucher" data-id="@item.BoothId">Xem Voucher</a>
+                                                       
+                                                    </div>
+                                                </td>
+                                                <td colspan ="3">Gian hàng</td>
+                                                
+                                               
+                                            </tr>
+                                           
                                         }
                                     }
                                     else{
@@ -336,7 +281,9 @@
         </div>
     </div>
 </div>
-
+    <div id="dialog">
+        <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
+    </div>
 
 @section Scripts{
     
@@ -368,6 +315,42 @@
             });
         });
     </script>
+
+        <script>
+            $(document).ready(function () {
+
+                //dialog anh
+
+                $("#dialog").dialog({
+                    autoOpen: false,
+                    show: "fade",
+                    hide: "fade",
+                    modal: true,
+                    height: '600',
+                    width: '700',
+                    resizable: true,
+                    title: '',
+                    close: function () {
+                        window.location.reload();
+                    }
+                });
+                $('body').on('click', '.List_Voucher', function () {
+
+                    var proid = $(this).attr("data-id");
+                    $("#dialog #myiframe").attr("src", "/Cart/List_Voucher_Booth?id=" + proid);
+                    $("#dialog").dialog('open');
+                    return false;
+
+                });
+
+
+
+            });
+
+
+        </script>
+       
+
 
 
 }

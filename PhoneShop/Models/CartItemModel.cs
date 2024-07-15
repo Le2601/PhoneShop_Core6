@@ -35,6 +35,8 @@ namespace PhoneShop.Models
         public decimal InputPrice { get; set; }
 
         public string DataNameImage { get; set; }
+
+        public int BoothId { get; set; }
         
 
         public decimal Total
@@ -76,6 +78,7 @@ namespace PhoneShop.Models
             //var GetItemImage = _dbContext.ImageProducts.Where(p => p.ProductId == model.Id && p.IsDefault == true).FirstOrDefault().DataName;
 
             DataNameImage = model.ImageDefaultName;
+            BoothId = model.Booth_InformationId;
 
         }
 

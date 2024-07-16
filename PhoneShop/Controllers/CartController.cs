@@ -179,31 +179,50 @@ namespace PhoneShop.Controllers
         [HttpPost]
         public IActionResult Apply_VoucherByProduct(IFormCollection form) {
 
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
+
+            //ko ap dung voucher
+            if (form["NoApplyVoucher"].Count > 0)
+            {
+                int NoApplyVoucher_ProductId = int.Parse(form["NoApplyVoucher"]);
+                if (NoApplyVoucher_ProductId > 0)
+                {
+                    var CheckCartNoApply = CartItems.Where(x => x.ProductId == NoApplyVoucher_ProductId).FirstOrDefault()!;
+                    CheckCartNoApply.Discount_Product = 0;
+
+                    HttpContext.Session.Set("Cart", CartItems);
+                    TempData["NoApplyVoucher"] = "Không sử dụng phiếu giảm giá";
+                    return RedirectToAction("List_Voucher_Booth", new { Id = CheckCartNoApply.ProductId });
+
+                }
+            }
+
+            
+
+
             int VoucherId = int.Parse(form["VoucherId"]);
             int ProductId = int.Parse(form["ProductId"]);
-
-
-
-            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
 
             var CheckVoucher = _dbContext.Vouchers.Where(x => x.Id == VoucherId).FirstOrDefault()!;
             var CheckCart = CartItems.Where(x => x.ProductId == ProductId).FirstOrDefault()!;
 
+
+
             //ngay
-            if( DateTime.Now > CheckVoucher.ExpiryDate)
+            if ( DateTime.Now > CheckVoucher.ExpiryDate)
             {
                 TempData["CheckDate"] = "Đã quá hạn!";
-                return RedirectToAction("List_Voucher_Booth", ProductId);
+                return RedirectToAction("List_Voucher_Booth", new { Id = ProductId });
             }
             if(CheckCart.Total < CheckVoucher.DiscountConditions)
             {
                 TempData["CheckPrice"] = "Số tiền không đủ điều kiện!";
-                return RedirectToAction("List_Voucher_Booth", ProductId);
+                return RedirectToAction("List_Voucher_Booth", new { Id = ProductId });
             }
             if(CheckVoucher.Quantity <= 0)
             {
                 TempData["CheckQuantityVoucher"] = "Hết mã giảm giá!";
-                return RedirectToAction("List_Voucher_Booth", ProductId);
+                return RedirectToAction("List_Voucher_Booth", new { Id = ProductId });
             }
 
             //apply giam gia

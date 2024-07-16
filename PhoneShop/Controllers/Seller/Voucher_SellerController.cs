@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhoneShop.Areas.Admin.Data;
 using PhoneShop.DI.Voucher;
 using PhoneShop.Models;
@@ -19,7 +20,11 @@ namespace PhoneShop.Controllers.Seller
         }
         public async Task<IActionResult> Index()
         {
-            var items = await _voucherRepository.GetAll();
+            int getId_Booth = int.Parse(HttpContext.Session.GetString("IdBoothShop")!);
+
+            var items =await _context.Vouchers.Where(x=> x.BoothId ==  getId_Booth).ToListAsync();
+
+            
             return View(items);
         }
         [HttpGet]

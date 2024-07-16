@@ -163,7 +163,16 @@
                                                        
                                                     </div>
                                                 </td>
-                                                <td colspan ="3">Gian hàng</td>
+                                                <td colspan ="3">
+                                                    @if(item.Discount_Product > 0)
+                                                    {
+                                                        <p style="color:#99ebff">Đã giảm @Extension.ToVnd((double)item.Discount_Product)</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p style="color:red">Hiện chưa sử dụng phiếu giảm giá</p>
+                                                    }
+                                                </td>
                                                 
                                                
                                             </tr>

@@ -34,6 +34,9 @@ namespace PhoneShop.Models
 
         public decimal InputPrice { get; set; }
 
+        //giam gia neu co apply voucher
+        public decimal Discount_Product { get; set; }
+
         public string DataNameImage { get; set; }
 
         public int BoothId { get; set; }
@@ -41,7 +44,11 @@ namespace PhoneShop.Models
 
         public decimal Total
         {
-            get { return Quantity * Price; }
+           
+           get { return (Quantity * Price) - Discount_Product; }
+
+
+
         }
 
 

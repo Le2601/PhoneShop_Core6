@@ -1,8 +1,10 @@
 ﻿@model List<PhoneShop.Models.Voucher>
 @using PhoneShop.Extension;
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "List_Voucher_Booth";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+   
 }
 <style>
     .voucher-card {
@@ -61,7 +63,24 @@
         }
 
 </style>
-
+@if (TempData["CheckDate"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["CheckDate"]
+    </div>
+}
+@if (TempData["CheckPrice"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["CheckPrice"]
+    </div>
+}
+@if (TempData["CheckQuantityVoucher"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["CheckQuantityVoucher"]
+    </div>
+}
 @if(Model != null)
 {
     @foreach (var item in Model)
@@ -78,8 +97,11 @@
                     <p><strong>Số lượng:</strong> @item.Quantity</p>
                     <p><strong>Ngày hết hạn:</strong> @item.ExpiryDate.ToString("dd/MM/yyyy")</p>
                 </div>
-                <form>
-                    <input style="width:30px" class="btn-use-voucher" value="Lưu">
+                <form asp-action="Apply_VouvcherByProduct" asp-controller="Cart" method="post">
+                    <input hidden type="text" value="@item.Id" name="VoucherId" >
+                    <input hidden type="text" value="@ViewBag.CheckProductInCart" name="ProductId">
+
+                    <input type="submit" style="width:30px" class="btn-use-voucher" value="Lưu">
                 </form>
                 
             </div>

@@ -21,55 +21,59 @@
     List<ProductViewModel> List_Selling = ViewBag.ListSelling;
 
 }
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div>
 
-@if (TempData["Check_Quantity_Product"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Check_Quantity_Product"]
-    </div>
-}
-@if (TempData["VoucherNull"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["VoucherNull"]
-    </div>
-}
-@if (TempData["OutOfDiscount"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["OutOfDiscount"]
-    </div>
-}
-@if (TempData["ValueNull"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ValueNull"]
-    </div>
-}
-@if (TempData["VoucherNull_Cart"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["VoucherNull_Cart"]
-    </div>
-}
+    @if (TempData["Check_Quantity_Product"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Check_Quantity_Product"]
+        </div>
+    }
+    @if (TempData["VoucherNull"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["VoucherNull"]
+        </div>
+    }
+    @if (TempData["OutOfDiscount"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["OutOfDiscount"]
+        </div>
+    }
+    @if (TempData["ValueNull"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ValueNull"]
+        </div>
+    }
+    @if (TempData["VoucherNull_Cart"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["VoucherNull_Cart"]
+        </div>
+    }
 
-@if (TempData["ApplySuccess"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["ApplySuccess"]
-    </div>
-}
+    @if (TempData["ApplySuccess"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["ApplySuccess"]
+        </div>
+    }
 
-@if (TempData["OrderSuccess"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["OrderSuccess"]
-    </div>
-}
+    @if (TempData["OrderSuccess"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["OrderSuccess"]
+        </div>
+    }
+</div>
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link href="~/user/custom/cards_user.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
@@ -342,6 +346,8 @@
                     return false;
 
                 });
+
+               
 
 
 

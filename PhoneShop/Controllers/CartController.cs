@@ -138,8 +138,8 @@ namespace PhoneShop.Controllers
             CartItemViewModel cartVM = new()
             {
                 CartItems = CartItems,
-                GrandTotal = CartItems.Sum(x => x.Quantity * x.Price),
-                OrderTotal = CartItems.Sum(x => x.Quantity * x.Price) - _DiscountAmount
+                GrandTotal = CartItems.Sum(x => x.Total),
+                OrderTotal = CartItems.Sum(x => x.Total) - _DiscountAmount
 
             };
 
@@ -177,7 +177,7 @@ namespace PhoneShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Apply_VouvcherByProduct(IFormCollection form) {
+        public IActionResult Apply_VoucherByProduct(IFormCollection form) {
 
             int VoucherId = int.Parse(form["VoucherId"]);
             int ProductId = int.Parse(form["ProductId"]);
@@ -193,17 +193,17 @@ namespace PhoneShop.Controllers
             if( DateTime.Now > CheckVoucher.ExpiryDate)
             {
                 TempData["CheckDate"] = "Đã quá hạn!";
-                return RedirectToAction("List_Voucher_Booth");
+                return RedirectToAction("List_Voucher_Booth", ProductId);
             }
             if(CheckCart.Total < CheckVoucher.DiscountConditions)
             {
                 TempData["CheckPrice"] = "Số tiền không đủ điều kiện!";
-                return RedirectToAction("List_Voucher_Booth");
+                return RedirectToAction("List_Voucher_Booth", ProductId);
             }
             if(CheckVoucher.Quantity <= 0)
             {
                 TempData["CheckQuantityVoucher"] = "Hết mã giảm giá!";
-                return RedirectToAction("List_Voucher_Booth");
+                return RedirectToAction("List_Voucher_Booth", ProductId);
             }
 
             //apply giam gia
@@ -215,11 +215,10 @@ namespace PhoneShop.Controllers
             HttpContext.Session.Set("Cart", CartItems);
 
 
-            List<CartItemModel> CartItemss = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
+            
 
-
-
-            return RedirectToRoute("Cart");
+            TempData["ApplyVoucherSuccess"] = "Giảm thành công " + Discount_Product + "VND vào Sp "+ CheckCart.ProductName;
+            return RedirectToAction("List_Voucher_Booth", new { Id = ProductId });
 
         }
 

@@ -63,24 +63,35 @@
         }
 
 </style>
-@if (TempData["CheckDate"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["CheckDate"]
-    </div>
-}
-@if (TempData["CheckPrice"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["CheckPrice"]
-    </div>
-}
-@if (TempData["CheckQuantityVoucher"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["CheckQuantityVoucher"]
-    </div>
-}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<div>
+    @if (TempData["ApplyVoucherSuccess"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["ApplyVoucherSuccess"]
+        </div>
+    }
+    @if (TempData["CheckDate"] != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            @TempData["CheckDate"]
+        </div>
+    }
+    @if (TempData["CheckPrice"] != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            @TempData["CheckPrice"]
+        </div>
+    }
+    @if (TempData["CheckQuantityVoucher"] != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            @TempData["CheckQuantityVoucher"]
+        </div>
+    }
+</div>
+
 @if(Model != null)
 {
     @foreach (var item in Model)
@@ -88,7 +99,7 @@
         <div class="voucher-card">
             <div class="voucher-content">
                 <div class="voucher-header">
-                    <h3>Nội dung voucher</h3>
+                    <h3>@item.Description</h3>
                 </div>
                 <div class="voucher-body">
                     <p><strong>Mã giảm giá:</strong>@item.Code </p>
@@ -97,7 +108,7 @@
                     <p><strong>Số lượng:</strong> @item.Quantity</p>
                     <p><strong>Ngày hết hạn:</strong> @item.ExpiryDate.ToString("dd/MM/yyyy")</p>
                 </div>
-                <form asp-action="Apply_VouvcherByProduct" asp-controller="Cart" method="post">
+                <form asp-action="Apply_VoucherByProduct" asp-controller="Cart" method="post">
                     <input hidden type="text" value="@item.Id" name="VoucherId" >
                     <input hidden type="text" value="@ViewBag.CheckProductInCart" name="ProductId">
 

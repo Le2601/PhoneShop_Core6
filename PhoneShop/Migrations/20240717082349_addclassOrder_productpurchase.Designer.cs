@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhoneShop.Models;
 
@@ -11,9 +12,10 @@ using PhoneShop.Models;
 namespace PhoneShop.Migrations
 {
     [DbContext(typeof(ShopPhoneDbContext))]
-    partial class ShopPhoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240717082349_addclassOrder_productpurchase")]
+    partial class addclassOrder_productpurchase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -521,6 +523,9 @@ namespace PhoneShop.Migrations
                     b.Property<int>("OrderDetail_Id")
                         .HasColumnType("int");
 
+                    b.Property<int>("Order_DetailsId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
@@ -529,9 +534,9 @@ namespace PhoneShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderDetail_Id");
+                    b.HasIndex("Order_DetailsId");
 
-                    b.ToTable("Order_ProductPurchasePrices");
+                    b.ToTable("Order_ProductPurchasePrice");
                 });
 
             modelBuilder.Entity("PhoneShop.Models.PaymentResponse", b =>
@@ -1087,7 +1092,7 @@ namespace PhoneShop.Migrations
                 {
                     b.HasOne("PhoneShop.Models.Order_Details", "Order_Details")
                         .WithMany("Order_ProductPurchasePrices")
-                        .HasForeignKey("OrderDetail_Id")
+                        .HasForeignKey("Order_DetailsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

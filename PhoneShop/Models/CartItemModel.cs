@@ -37,6 +37,8 @@ namespace PhoneShop.Models
         //giam gia neu co apply voucher
         public decimal Discount_Product { get; set; }
 
+        public int? VoucherId { get; set; }
+
         public string DataNameImage { get; set; }
 
         public int BoothId { get; set; }

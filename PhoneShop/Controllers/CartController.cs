@@ -230,6 +230,7 @@ namespace PhoneShop.Controllers
             decimal Discount_Product = CheckVoucher.DiscountProduct;
 
             CheckCart.Discount_Product = Discount_Product;
+            CheckCart.VoucherId  = CheckVoucher.Id;
 
             HttpContext.Session.Set("Cart", CartItems);
 
@@ -590,7 +591,7 @@ namespace PhoneShop.Controllers
                 {
                     Get_Quantity_Product_Order = item.Quantity;
                
-
+                    
                     var newOrder_Details = new Order_DetailsData
                     {
                         Order_Name = Order_Name,

@@ -86,6 +86,9 @@ namespace PhoneShop.Models
         public DbSet<WarehousedProducts> WarehousedProducts { get; set; }
         public DbSet<Booth_Tracking> Booth_Trackings { get; set; }
 
+        public DbSet<Order_ProductPurchasePrice> Order_ProductPurchasePrices { get; set; }
+
+
 
 
         //fluent
@@ -173,6 +176,11 @@ namespace PhoneShop.Models
               .HasOne(p => p.Order)
               .WithMany(p => p.Order_Details)
               .HasForeignKey(p => p.OrderId);
+
+            modelBuilder.Entity<Order_ProductPurchasePrice>()
+             .HasOne(p => p.Order_Details)
+             .WithMany(p => p.Order_ProductPurchasePrices)
+             .HasForeignKey(p => p.OrderDetail_Id);
 
             modelBuilder.Entity<DeliveryProcess>()
              .HasOne(p => p.order)

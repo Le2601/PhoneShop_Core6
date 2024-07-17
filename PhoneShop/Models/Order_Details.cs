@@ -50,6 +50,9 @@ namespace PhoneShop.Models
 
         public virtual Product Product { get; set; }
 
+
+        public virtual ICollection<Order_ProductPurchasePrice> Order_ProductPurchasePrices { get; set; }
+
        
 
 

@@ -33,6 +33,7 @@ namespace PhoneShop.Controllers.Seller
             var demo = (from p in items_Products
                         join od in context.Order_Details on p.Id equals od.ProductId
                         join o in context.Orders on od.OrderId equals o.Id_Order
+                        join oPrice in context.Order_ProductPurchasePrices on od.Id equals oPrice.OrderDetail_Id
                         select new OrderByUser
                         {
                             Id = p.Id,
@@ -47,9 +48,10 @@ namespace PhoneShop.Controllers.Seller
                             Order_Status = o.Order_Status,
                             Info_Order_Address_Id = od.Id,
 
-                            Total_Order_DetailByProduct = od.Quantity * od.PurchasePrice_Product,//(p.Discount > 0 ? p.Discount : p.Price)
+                            Total_Order_DetailByProduct = (decimal)oPrice.FinalAmount,//(p.Discount > 0 ? p.Discount : p.Price)
                             ImageDefault = p.ImageDefaultName,
                             Status_OrderDetail = od.Status_OrderDetail,
+                            Price_Apply_Voucher = (decimal)oPrice.DiscountAmount
 
 
 

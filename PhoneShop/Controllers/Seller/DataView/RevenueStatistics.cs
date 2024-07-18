@@ -27,6 +27,8 @@
 
         public int QuantityPurchased { get; set; }
 
+        public decimal Price_Apply_Voucher { get; set; }
+
 
 
 

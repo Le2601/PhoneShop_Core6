@@ -14,6 +14,7 @@ namespace PhoneShop.Models
             _Status_OrderDetail = 0;
         }
         [Key]
+       
         public int Id { get; set; }
 
         public string Order_Name { get; set; }

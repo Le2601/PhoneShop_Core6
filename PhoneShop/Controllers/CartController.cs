@@ -559,6 +559,8 @@ namespace PhoneShop.Controllers
                 OrderTotal = CartItems.Sum(x => x.Quantity * x.Price) - _DiscountAmount,
                 Profit = CartItems.Sum(x=> x.Quantity * x.InputPrice)
             };
+            
+
 
 
             Random random = new Random();
@@ -696,7 +698,22 @@ namespace PhoneShop.Controllers
 
 
                 };
-                _order_UserRepository.Create_Order_Detail(newOrder_Details);
+                int Create_OrderDetail_getId = _order_UserRepository.Create_Order_Detail(newOrder_Details);
+
+
+                //theem db Order_ProductPurchasePrice
+                var Create_Order_ProductPurchasePrice = new Order_ProductPurchasePrice
+                {
+                    VoucherId = item.VoucherId,
+                    OrderDetail_Id = Create_OrderDetail_getId,
+                    TotalAmount = item.Price * item.Quantity,
+                    DiscountAmount = item.Discount_Product,
+                    FinalAmount = item.Total
+                };
+                _dbContext.Order_ProductPurchasePrices.Add(Create_Order_ProductPurchasePrice);
+                //end db Order_ProductPurchasePrice
+
+
 
                 //demo xu ly dependency
                 //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products

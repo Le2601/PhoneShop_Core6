@@ -450,10 +450,7 @@ namespace PhoneShop.Migrations
             modelBuilder.Entity("PhoneShop.Models.Order_Details", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()

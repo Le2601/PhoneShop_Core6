@@ -8,7 +8,7 @@ namespace PhoneShop.DI.DI_User.Order_User
 
         void Create(OrderData model);
 
-        void Create_Order_Detail(Order_DetailsData model);
+       public  int Create_Order_Detail(Order_DetailsData model);
 
         public Task<List<OrderViewModel>> ListOrder_User(int IdAccount);
 

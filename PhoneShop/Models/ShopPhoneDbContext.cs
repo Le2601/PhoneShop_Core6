@@ -95,6 +95,9 @@ namespace PhoneShop.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            
+
             modelBuilder.Entity<Product>(entity => {
 
                 entity.Property(e => e.Id).HasColumnName("Id");

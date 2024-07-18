@@ -30,7 +30,7 @@ namespace PhoneShop.DI.DI_User.Order_User
             _context.SaveChanges();
         }
 
-        public void Create_Order_Detail(Order_DetailsData model)
+        public int Create_Order_Detail(Order_DetailsData model)
         {
             var item = new Order_Details
             {
@@ -50,6 +50,10 @@ namespace PhoneShop.DI.DI_User.Order_User
             };
             _context.Order_Details.Add(item);
             _context.SaveChanges();
+
+            var getId_OrderDetail = item.Id;
+
+            return getId_OrderDetail;
         }
 
         public void Create_Order_Detai_Payment_Onll(Order_DetailsData model)

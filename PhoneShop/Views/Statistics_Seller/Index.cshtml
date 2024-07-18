@@ -57,6 +57,10 @@
                                     <th>Giá bán</th>
                                     <th>Giá nhập</th>
                                     <th>Ngày đặt</th>
+                                    <th>Doanh thu</th>
+                                    <th>Lợi nhuận</th>
+                                    <th>Giảm giá</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,6 +73,9 @@
                                         <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PricePurchased)</td>
                                         <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Input_Price)</td>
                                         <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
+                                        <td>@PhoneShop.Extension.Extension.ToVnd((double)i.TotalRevenue)</td>
+                                        <td>@PhoneShop.Extension.Extension.ToVnd((double)i.TotalProfit)</td>
+                                        <td style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.Price_Apply_Voucher)</td>
                                     </tr>
                                 }
                             </tbody>

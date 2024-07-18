@@ -117,12 +117,13 @@ namespace PhoneShop.Controllers.Seller
                    OrderId = g.Order_Id,
                    OrderDetailId = g.Info_Order_Address_Id,
                    Date_Purchase = g.Date_Purchase.Date,
-                   TotalRevenue = g.Quantity_Purchase * g.Price,
+                   TotalRevenue = g.Total_Order_DetailByProduct,
                    TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
                    TitleProduct = g.Title,
                    PricePurchased = g.Price,
                    Input_Price = g.InputPrice,
-                   QuantityPurchased = g.Quantity_Purchase
+                   QuantityPurchased = g.Quantity_Purchase,
+                   Price_Apply_Voucher = g.Price_Apply_Voucher
                }).ToList();
 
                 //lay ra tong tien hang ngay trong 7 ngay 

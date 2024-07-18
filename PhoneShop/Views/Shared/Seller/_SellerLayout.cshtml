@@ -30,7 +30,8 @@
     <!-- Theme style -->
     @*<script src="~/clients/dist/js/adminlte.min.js"></script>*@
     <link rel="stylesheet" href="~/clients/dist/css/adminlte.min.css">
-
+<link href="~/clients/plugins/overlayscrollbars/css/overlayscrollbars.css" rel="stylesheet" />
+<link href="~/clients/plugins/overlayscrollbars/css/overlayscrollbars.min.css" rel="stylesheet" />
 
     @*     <link href="~/summernote-0.8.18-dist/summernote-bs4.min.css" rel="stylesheet" />
     *@
@@ -230,6 +231,13 @@
     <script src="~/clients/plugins/dropzone/min/dropzone.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/clients/dist/js/adminlte.min.js"></script>
+
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+
+    <script src="~/clients/plugins/overlayscrollbars/js/jquery.overlayscrollbars.min.js"></script>
+
 
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/clients/plugins/chart.js/Chart.min.js"></script>

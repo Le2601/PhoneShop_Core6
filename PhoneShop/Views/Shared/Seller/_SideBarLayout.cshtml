@@ -15,6 +15,7 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            
             <li class="nav-item">
                 <a href="/Home_Seller/Index" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -36,14 +37,45 @@
                 </a>
 
                 <ul class="nav nav-treeview">
+                  
                     <li class="nav-item">
-                        <a href="/Statistics_Seller/index" class="nav-link">
+                        <a class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Thống kê doanh thu</p>
+                            <p>
+                                Thống kê
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview" style="display: none;">
+                            <li class="nav-item">
+                                <a href="/Statistics_Seller/index" class="nav-link">
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>Ngày</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Statistics_Seller/Week" class="nav-link">
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>Tuần</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Statistics_Seller/Month" class="nav-link">
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>Tháng</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Statistics_Seller/Year" class="nav-link">
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>Năm</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                        
 
-                    </li>
+                  
                     <li class="nav-item">
                         <a href="/Statistics_Seller/BestSellers" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>

@@ -24,83 +24,10 @@ namespace PhoneShop.Controllers.Seller
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
 
-            //get Data_Week
-            var getData_Week = StatisticsByWeek(_context, AccountInt);
-            ViewBag.GetData_Chart_Week = getData_Week.Item2;
-            ViewBag.getDate_Week = getData_Week.Item1;
-
-           
-            //doanh thu, loi nhuan
-            if (getData_Week.Item2.Count <= 0 || getData_Week.Item2 == null)
-            {
-                ViewBag.TotalRevenueAndlProfit_Week = "Hiện chưa có dữ liệu";
-              
-            }
-            else
-            {
-                decimal TotalRevenue_Week = 0;
-                decimal TotalProfit_Week = 0;
-                foreach (var item in getData_Week.Item2)
-                {
-                    TotalRevenue_Week += item.TotalRevenue;
-                    TotalProfit_Week += item.TotalProfit;
-
-                }
-                ViewBag.TotalRevenueAndlProfit_Week = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Week) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Week);
-            }
+            
 
 
-        //get Data_Month
-        var getData_Month = StatisticsByMonth(_context, AccountInt);    
-            ViewBag.GetData_Chart_Month = getData_Month.Item2;
-            ViewBag.getDate_Month = getData_Month.Item1;
-
-           
-
-                //doanh thu, loi nhuan
-                if (getData_Month.Item2.Count <= 0 || getData_Month.Item2 == null)
-                {
-                    ViewBag.TotalRevenueAndlProfit_Month = "Hiện chưa có dữ liệu";
-                   
-                }
-                else
-                {
-                    decimal TotalRevenue_Month = 0;
-                    decimal TotalProfit_Month = 0;
-                    foreach (var item in getData_Month.Item2)
-                    {
-                        TotalRevenue_Month += item.TotalRevenue;
-                        TotalProfit_Month += item.TotalProfit;
-
-                    }
-                    ViewBag.TotalRevenueAndlProfit_Month = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Month) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Month);
-                }
-
-            //get Data_Year
-            var getData_Year = StatisticsByYear(_context, AccountInt);
-            ViewBag.GetData_Chart_Year = getData_Year.Item2;
-            ViewBag.getDate_Year = getData_Year.Item1;
-
-           
-
-                    //doanh thu, loi nhuan
-                    if (getData_Year.Item2.Count <= 0 || getData_Year.Item2 == null)
-                    {
-                        ViewBag.TotalRevenueAndlProfit_Year = "Hiện chưa có dữ liệu";
-                
-                    }
-                    else
-                    {
-                        decimal TotalRevenue_Year = 0;
-                        decimal TotalProfit_Year = 0;
-                        foreach (var item in getData_Year.Item2)
-                        {
-                            TotalRevenue_Year += item.TotalRevenue;
-                            TotalProfit_Year += item.TotalProfit;
-
-                        }
-                        ViewBag.TotalRevenueAndlProfit_Year = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Year) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Year);
-                    }
+          
 
 
             var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
@@ -118,7 +45,7 @@ namespace PhoneShop.Controllers.Seller
                    OrderDetailId = g.Info_Order_Address_Id,
                    Date_Purchase = g.Date_Purchase.Date,
                    TotalRevenue = g.Total_Order_DetailByProduct,
-                   TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
+                   TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice))- g.Price_Apply_Voucher,
                    TitleProduct = g.Title,
                    PricePurchased = g.Price,
                    Input_Price = g.InputPrice,
@@ -145,12 +72,48 @@ namespace PhoneShop.Controllers.Seller
 
 
             }
+            else
+            {
+                string DateNow = DateTime.Now.ToString("yyyy-MM-dd");
+                var SelectedDate_Order = ListProduct_Purchase.Where(x => x.Date_Purchase.ToString("yyyy-MM-dd") == DateNow)
+               .Select(g => new RevenueStatistics
+               {
+                   ProductId = g.Id,
+                   OrderId = g.Order_Id,
+                   OrderDetailId = g.Info_Order_Address_Id,
+                   Date_Purchase = g.Date_Purchase.Date,
+                   TotalRevenue = g.Total_Order_DetailByProduct,
+                   TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice)) - g.Price_Apply_Voucher,
+                   TitleProduct = g.Title,
+                   PricePurchased = g.Price,
+                   Input_Price = g.InputPrice,
+                   QuantityPurchased = g.Quantity_Purchase,
+                   Price_Apply_Voucher = g.Price_Apply_Voucher
+               }).ToList();
 
-          
+                //lay ra tong tien hang ngay trong 7 ngay 
+                var GetData_Chart_SelectedDate = SelectedDate_Order.GroupBy(x => x.Date_Purchase)
+                     .Select(g => new RevenueStatistics_DataViewChart
+                     {
+                         Date_Purchase = g.Key,
+                         TotalRevenue = g.Sum(o => o.TotalRevenue),
+                         TotalProfit = g.Sum(o => o.TotalProfit)
+
+                     }).OrderBy(g => g.Date_Purchase)
+                    .FirstOrDefault();
+
+
+                ViewBag.GeDate_PriceTotal = GetData_Chart_SelectedDate;
+                ViewBag.GetData_Chart_SelectedDate = SelectedDate_Order;
+            }
+
+
 
 
             return View();
         }
+
+        
 
         [HttpPost]
         public IActionResult Index(IFormCollection form)
@@ -164,7 +127,166 @@ namespace PhoneShop.Controllers.Seller
             return RedirectToAction("Index", new { SelectedDate });
         }
 
+        public IActionResult Week() {
 
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+            //get Data_Week
+            var getData_Week = StatisticsByWeek(_context, AccountInt);
+            ViewBag.GetData_Chart_Week = getData_Week.Item2;
+            ViewBag.getDate_Week = getData_Week.Item1;
+
+
+            //doanh thu, loi nhuan
+            if (getData_Week.Item2.Count <= 0 || getData_Week.Item2 == null)
+            {
+                ViewBag.TotalRevenueAndlProfit_Week = "Hiện chưa có dữ liệu";
+
+            }
+            else
+            {
+                decimal TotalRevenue_Week = 0;
+                decimal TotalProfit_Week = 0;
+                foreach (var item in getData_Week.Item2)
+                {
+                    TotalRevenue_Week += item.TotalRevenue;
+                    TotalProfit_Week += item.TotalProfit;
+
+                }
+                ViewBag.TotalRevenueAndlProfit_Week = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Week) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Week);
+            }
+
+
+            return View();
+        }
+        public IActionResult Month(string? getMonth)
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
+
+            //ds thang
+            List<string> months = new List<string>();
+            DateTime currentMonth = DateTime.Now;
+            int currentYear = currentMonth.Year;
+
+            for (int i = 0; i < currentMonth.Month; i++)
+            {
+                months.Add(new DateTime(currentYear, i + 1, 1).ToString("MM/yyyy"));
+            }
+            ViewBag.ListMonths = months;
+
+            if(getMonth == null)
+            {
+                //get Data_Month
+                var getData_Month = StatisticsByMonth(_context, AccountInt);
+                ViewBag.GetData_Chart_Month = getData_Month.Item2;
+                ViewBag.getDate_Month = getData_Month.Item1;
+
+                ViewBag.GetMonth = DateTime.Now.ToString("MMMM");
+
+
+
+                //doanh thu, loi nhuan
+                if (getData_Month.Item2.Count <= 0 || getData_Month.Item2 == null)
+                {
+                    ViewBag.TotalRevenueAndlProfit_Month = "Hiện chưa có dữ liệu";
+
+                }
+                else
+                {
+                    decimal TotalRevenue_Month = 0;
+                    decimal TotalProfit_Month = 0;
+                    foreach (var item in getData_Month.Item2)
+                    {
+                        TotalRevenue_Month += item.TotalRevenue;
+                        TotalProfit_Month += item.TotalProfit;
+
+                    }
+                    ViewBag.TotalRevenueAndlProfit_Month = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Month) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Month);
+                }
+            }
+            else
+            {
+                var GetMonthSpecified = getMonth;
+                ViewBag.GetMonth = GetMonthSpecified;
+                //get Data_Month
+                var getData_Month = StatisticsByMonthSpecified(_context, AccountInt, GetMonthSpecified);
+                ViewBag.GetData_Chart_Month = getData_Month.Item2;
+                ViewBag.getDate_Month = getData_Month.Item1;
+
+
+
+                //doanh thu, loi nhuan
+                if (getData_Month.Item2.Count <= 0 || getData_Month.Item2 == null)
+                {
+                    ViewBag.TotalRevenueAndlProfit_Month = "Hiện chưa có dữ liệu";
+
+                }
+                else
+                {
+                    decimal TotalRevenue_Month = 0;
+                    decimal TotalProfit_Month = 0;
+                    foreach (var item in getData_Month.Item2)
+                    {
+                        TotalRevenue_Month += item.TotalRevenue;
+                        TotalProfit_Month += item.TotalProfit;
+
+                    }
+                    ViewBag.TotalRevenueAndlProfit_Month = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Month) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Month);
+                }
+
+            }
+
+
+
+
+
+
+            
+
+
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Month(IFormCollection form)
+        {
+            var getMonth = form["getMonth"];
+            return RedirectToAction("Month", new { getMonth });
+        }
+        public IActionResult Year()
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+            //get Data_Year
+            var getData_Year = StatisticsByYear(_context, AccountInt);
+            ViewBag.GetData_Chart_Year = getData_Year.Item2;
+            ViewBag.getDate_Year = getData_Year.Item1;
+
+
+
+            //doanh thu, loi nhuan
+            if (getData_Year.Item2.Count <= 0 || getData_Year.Item2 == null)
+            {
+                ViewBag.TotalRevenueAndlProfit_Year = "Hiện chưa có dữ liệu";
+
+            }
+            else
+            {
+                decimal TotalRevenue_Year = 0;
+                decimal TotalProfit_Year = 0;
+                foreach (var item in getData_Year.Item2)
+                {
+                    TotalRevenue_Year += item.TotalRevenue;
+                    TotalProfit_Year += item.TotalProfit;
+
+                }
+                ViewBag.TotalRevenueAndlProfit_Year = "Doanh thu: " + Extension.Extension.ToVnd((double)TotalRevenue_Year) + "<br/> Lợi nhuận: " + Extension.Extension.ToVnd((double)TotalProfit_Year);
+            }
+            return View();
+        }
 
         public IActionResult Statistical_Product()
         {
@@ -279,12 +401,13 @@ namespace PhoneShop.Controllers.Seller
                     OrderId = g.Order_Id,
                     OrderDetailId = g.Info_Order_Address_Id,
                     Date_Purchase = g.Date_Purchase.Date,
-                    TotalRevenue = g.Quantity_Purchase * g.Price,
-                    TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
+                    TotalRevenue = g.Total_Order_DetailByProduct,
+                    TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice)) - g.Price_Apply_Voucher,
                     TitleProduct = g.Title,
                     PricePurchased = g.Price,
                     Input_Price = g.InputPrice,
-                    QuantityPurchased = g.Quantity_Purchase
+                    QuantityPurchased = g.Quantity_Purchase,
+                    Price_Apply_Voucher = g.Price_Apply_Voucher
                 }).ToList();
             //lay ra tong tien hang ngay trong 7 ngay 
             var GetData_Chart = GetOrder_Week.GroupBy(x => x.Date_Purchase)
@@ -325,12 +448,61 @@ namespace PhoneShop.Controllers.Seller
                     OrderId = g.Order_Id,
                     OrderDetailId = g.Info_Order_Address_Id,
                     Date_Purchase = g.Date_Purchase.Date,
-                    TotalRevenue = g.Quantity_Purchase * g.Price,
-                    TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
+                    TotalRevenue = g.Total_Order_DetailByProduct,
+                    TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice)) - g.Price_Apply_Voucher,
                     TitleProduct = g.Title,
                     PricePurchased = g.Price,
                     Input_Price = g.InputPrice,
-                    QuantityPurchased = g.Quantity_Purchase
+                    QuantityPurchased = g.Quantity_Purchase,
+                    Price_Apply_Voucher = g.Price_Apply_Voucher
+                }).ToList();
+            //lay ra tong tien hang ngay trong 7 ngay 
+            var GetData_Chart = GetOrder_PreviousMonth.GroupBy(x => x.Date_Purchase)
+                 .Select(g => new RevenueStatistics_DataViewChart
+                 {
+                     Date_Purchase = g.Key,
+                     TotalRevenue = g.Sum(o => o.TotalRevenue),
+                     TotalProfit = g.Sum(o => o.TotalProfit)
+
+                 }).OrderBy(g => g.Date_Purchase)
+                .ToList();
+
+
+
+            return (GetOrder_PreviousMonth, GetData_Chart);
+        }
+
+        public static (List<RevenueStatistics>, List<RevenueStatistics_DataViewChart>) StatisticsByMonthSpecified(ShopPhoneDbContext _context, int AccountInt,string GetMonthSpecified)
+        {
+
+
+            //lay ra ra thang
+            var GetMonth = GetMonthSpecified;
+
+           
+
+
+
+
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
+
+            //
+
+            //lay ra thong tin doanh thu cac don hang da ban
+            var GetOrder_PreviousMonth = ListProduct_Purchase.Where(x => x.Date_Purchase.ToString("MM/yyyy") == GetMonth)
+                .Select(g => new RevenueStatistics
+                {
+                    ProductId = g.Id,
+                    OrderId = g.Order_Id,
+                    OrderDetailId = g.Info_Order_Address_Id,
+                    Date_Purchase = g.Date_Purchase.Date,
+                    TotalRevenue = g.Total_Order_DetailByProduct,
+                    TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice)) - g.Price_Apply_Voucher,
+                    TitleProduct = g.Title,
+                    PricePurchased = g.Price,
+                    Input_Price = g.InputPrice,
+                    QuantityPurchased = g.Quantity_Purchase,
+                    Price_Apply_Voucher = g.Price_Apply_Voucher
                 }).ToList();
             //lay ra tong tien hang ngay trong 7 ngay 
             var GetData_Chart = GetOrder_PreviousMonth.GroupBy(x => x.Date_Purchase)
@@ -367,12 +539,13 @@ namespace PhoneShop.Controllers.Seller
                     OrderId = g.Order_Id,
                     OrderDetailId = g.Info_Order_Address_Id,
                     Date_Purchase = g.Date_Purchase.Date,
-                    TotalRevenue = g.Quantity_Purchase * g.Price,
-                    TotalProfit = g.Quantity_Purchase * (g.Price - g.InputPrice),
+                    TotalRevenue = g.Total_Order_DetailByProduct,
+                    TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice)) - g.Price_Apply_Voucher,
                     TitleProduct = g.Title,
                     PricePurchased = g.Price,
                     Input_Price = g.InputPrice,
-                    QuantityPurchased = g.Quantity_Purchase
+                    QuantityPurchased = g.Quantity_Purchase,
+                    Price_Apply_Voucher = g.Price_Apply_Voucher
                 }).ToList();
             //lay ra tong tien hang ngay trong 7 ngay 
             var GetData_Chart = GetOrder_ByYear.GroupBy(x => x.Date_Purchase)

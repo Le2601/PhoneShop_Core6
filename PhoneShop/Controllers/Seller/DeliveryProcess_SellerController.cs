@@ -111,7 +111,7 @@ namespace PhoneShop.Controllers.Seller
 
 
 
-            return RedirectToAction("Index","Home_Seller");
+            return RedirectToAction("Info_Order_Address", "Order_Seller",new {id = int.Parse(Order_Detail_Id) });
 
         }
     }

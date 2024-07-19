@@ -121,6 +121,10 @@ namespace PhoneShop.Controllers.Seller
 
             ViewBag.GetPaymentResponse = _context.paymentResponses.Where(x=> x.OrderId ==  item.OrderId && x.Success == true).FirstOrDefault();
 
+            ViewBag.GetDeliveryProcesses = _context.DeliveryProcesses.Where(x=> x.Order_Detail_Id == item.Id).FirstOrDefault();
+
+            ViewBag.GetOrder_ProductPurchasePrices = _context.Order_ProductPurchasePrices.Where(x=>x.OrderDetail_Id == id).FirstOrDefault();
+
             return View(item);
 
         }

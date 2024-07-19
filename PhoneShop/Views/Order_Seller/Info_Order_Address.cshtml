@@ -6,6 +6,8 @@
     Order GetOrder = ViewBag.GetOrder;
     Product GetProduct = ViewBag.GetProduct;
     PaymentResponse GetPaymentResponse = ViewBag.GetPaymentResponse;
+    DeliveryProcess GetDeliveryProcesses = ViewBag.GetDeliveryProcesses;
+    Order_ProductPurchasePrice GetOrder_ProductPurchasePrice = ViewBag.GetOrder_ProductPurchasePrices;
 
     
 
@@ -51,7 +53,7 @@
                 <div class="col-12">
                     <h4>
                        
-                        <small class="float-right">Ngày đặt hàng: @GetOrder.Order_Date.ToString("dd/MM/yyyy")</small>
+                        <small style="color:blue" class="float-right">Ngày đặt hàng: @GetOrder.Order_Date.ToString("dd/MM/yyyy")</small>
                     </h4>
                 </div>
                 <!-- /.col -->
@@ -98,9 +100,42 @@
 
                         @if (Model.Status_OrderDetail == 1)
                         {
-                            <strong>Trạng thái đơn hàng:</strong>
+                           
+                            @if (GetDeliveryProcesses != null)
+                            {
 
-                            <span>Đã xác nhận</span>
+                                <strong>Ngày cập nhật:</strong> @GetDeliveryProcesses.DeliveryDate.ToString("dd/MM/yyyy")
+
+                                <br>
+
+                                if(GetDeliveryProcesses.DeliveryStatus == 1)
+                                {
+                                    <strong>Tình trạng đơn hàng:</strong>  <span>Đang xử lý</span>
+                                }
+                                else if (GetDeliveryProcesses.DeliveryStatus == 2)
+                                {
+                                    <strong>Tình trạng đơn hàng:</strong>  <span>Chuẩn bị hàng</span>
+                                }
+                                else if (GetDeliveryProcesses.DeliveryStatus == 3)
+                                {
+                                    <strong>Tình trạng đơn hàng:</strong>  <span>Đang giao hàng</span>
+                                }
+                                else if (GetDeliveryProcesses.DeliveryStatus == 4)
+                                {
+                                    <strong>Tình trạng đơn hàng:</strong>  <span>Đã giao hàng</span>
+                                }
+                                else
+                                {
+                                    <strong>Tình trạng đơn hàng:</strong>  <span>Hủy đơn hàng</span>
+                                }
+
+                            }
+                            else
+                            {
+                                <strong>Trạng thái đơn hàng:</strong>
+
+                                <span>Đã xác nhận</span>
+                            }
                         }
                         else
                         {
@@ -111,6 +146,8 @@
                        
                         <br>
                     </address>
+
+                   
                 </div>
                 <!-- /.col -->
                
@@ -128,7 +165,9 @@
                                 <th>Hình ảnh</th>
                                 <th>Số lượng</th>
                                 <th>Giá</th>
-                                <th>Tổng tiền</th>
+                                <th>Tổng tiền   </th>
+                                <th>Giảm MKM   </th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -138,7 +177,8 @@
                                 <td><img src="~/images/Product/@GetProduct.ImageDefaultName" width="100" height="100" style="border: solid 1px " /></td>
                                 <td>@Model.Quantity</td>
                                 <td>@PhoneShop.Extension.Extension.ToVnd((double)Model.PurchasePrice_Product)</td>
-                                <td>@PhoneShop.Extension.Extension.ToVnd((double)Model.PurchasePrice_Product * Model.Quantity )</td>
+                                <td>@PhoneShop.Extension.Extension.ToVnd((double)GetOrder_ProductPurchasePrice.FinalAmount!)</td>
+                                <td>@PhoneShop.Extension.Extension.ToVnd((double)GetOrder_ProductPurchasePrice.DiscountAmount!)</td>
                             </tr>
                            
                         </tbody>
@@ -187,25 +227,25 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-6">
-                    <p class="lead">Amount Due 2/22/2014</p>
+                    <p class="lead">Ngày đặt hàng: @GetOrder.Order_Date.ToString("dd/MM/yyyy")</p>
 
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
                                 <th style="width:50%">Tổng tiền đơn hàng:</th>
-                                <td>@PhoneShop.Extension.Extension.ToVnd((double)Model.PurchasePrice_Product * Model.Quantity )</td>
+                                <td>@PhoneShop.Extension.Extension.ToVnd((double)GetOrder_ProductPurchasePrice.TotalAmount!)</td>
                             </tr>
                             <tr>
-                                <th>Tax (9.3%)</th>
-                                <td>$10.34</td>
+                                <th>Voucher giảm giá</th>
+                                <td>@PhoneShop.Extension.Extension.ToVnd((double)GetOrder_ProductPurchasePrice.DiscountAmount!)</td>
                             </tr>
                             <tr>
-                                <th>Shipping:</th>
-                                <td>$5.80</td>
+                                <th>Vận chuyển:</th>
+                                <td>0 đ</td>
                             </tr>
                             <tr>
                                 <th>Total:</th>
-                                <td>$265.24</td>
+                                <td>@PhoneShop.Extension.Extension.ToVnd((double)GetOrder_ProductPurchasePrice.FinalAmount!)</td>
                             </tr>
                         </table>
                     </div>

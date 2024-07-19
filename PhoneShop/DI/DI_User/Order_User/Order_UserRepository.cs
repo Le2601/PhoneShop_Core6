@@ -56,7 +56,7 @@ namespace PhoneShop.DI.DI_User.Order_User
             return getId_OrderDetail;
         }
 
-        public void Create_Order_Detai_Payment_Onll(Order_DetailsData model)
+        public int Create_Order_Detai_Payment_Onll(Order_DetailsData model)
         {
             var item = new Order_Details
             {
@@ -69,11 +69,14 @@ namespace PhoneShop.DI.DI_User.Order_User
                 Description = model.Description,
                 AddressType = model.AddressType,
                 Email = model.Email,
+                PurchasePrice_Product = model.PurchasePrice_Product
 
 
 
             };
             _context.Order_Details.Add(item);
+            _context.SaveChanges();
+            return item.Id;
         }
 
         public void Create_Order_Payment_Onl(OrderData model)

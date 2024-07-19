@@ -592,8 +592,8 @@ namespace PhoneShop.Controllers
                 foreach (var item in CartItems)
                 {
                     Get_Quantity_Product_Order = item.Quantity;
-               
-                    
+
+
                     var newOrder_Details = new Order_DetailsData
                     {
                         Order_Name = Order_Name,
@@ -610,7 +610,12 @@ namespace PhoneShop.Controllers
 
 
                     };
-                    _order_UserRepository.Create_Order_Detai_Payment_Onll(newOrder_Details);
+                    int Create_OrderDetail_getId = _order_UserRepository.Create_Order_Detai_Payment_Onll(newOrder_Details);
+
+                    ApplyVoucher_Payment(_dbContext, Create_OrderDetail_getId, item);
+
+
+
 
                     //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
                     _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountInt);
@@ -700,18 +705,10 @@ namespace PhoneShop.Controllers
                 };
                 int Create_OrderDetail_getId = _order_UserRepository.Create_Order_Detail(newOrder_Details);
 
+                //tao db Order_ProductPurchasePrice va tru so luong voucher khi ap dung 
+                ApplyVoucher_Payment(_dbContext,Create_OrderDetail_getId, item);
 
-                //theem db Order_ProductPurchasePrice
-                var Create_Order_ProductPurchasePrice = new Order_ProductPurchasePrice
-                {
-                    VoucherId = item.VoucherId,
-                    OrderDetail_Id = Create_OrderDetail_getId,
-                    TotalAmount = item.Price * item.Quantity,
-                    DiscountAmount = item.Discount_Product,
-                    FinalAmount = item.Total
-                };
-                _dbContext.Order_ProductPurchasePrices.Add(Create_Order_ProductPurchasePrice);
-                //end db Order_ProductPurchasePrice
+                
 
 
 
@@ -809,7 +806,37 @@ namespace PhoneShop.Controllers
 
         }
 
-       
+
+        public static void ApplyVoucher_Payment(ShopPhoneDbContext _dbContext, int IdOrderDetail, CartItemModel item)
+        {
+            //giam voucher neu co apply
+            var GetVoucher = _dbContext.Vouchers.Where(x => x.Id == item.VoucherId).FirstOrDefault();
+            if (GetVoucher != null)
+            {
+                GetVoucher.Quantity = GetVoucher.Quantity - 1;
+
+                _dbContext.Update(GetVoucher);
+                _dbContext.SaveChanges();
+
+            }
+
+            //end giam voucher neu co apply
+
+
+            //theem db Order_ProductPurchasePrice
+            var Create_Order_ProductPurchasePrice = new Order_ProductPurchasePrice
+            {
+                VoucherId = item.VoucherId,
+                OrderDetail_Id = IdOrderDetail,
+                TotalAmount = item.Price * item.Quantity,
+                DiscountAmount = item.Discount_Product,
+                FinalAmount = item.Total
+            };
+            _dbContext.Order_ProductPurchasePrices.Add(Create_Order_ProductPurchasePrice);
+            //end db Order_ProductPurchasePrice
+        }
+
+
 
     }
 }

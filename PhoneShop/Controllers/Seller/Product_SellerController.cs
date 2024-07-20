@@ -431,8 +431,16 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Detail_Product_Seller(int Id)
         {
             var item = _context.Products.Where(x=> x.Id == Id).FirstOrDefault();
+
+            if (item == null)
+            {
+                return RedirectToAction("PageNotFound", "Eroor");
+            }
+
             ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
             ViewBag.GetListImage = _context.ImageProducts.Where(x=> x.ProductId == Id).ToList();
+
+            ViewBag.GetReviewProduct = _context.product_Reviews.Where(x=> x.ProductId == item.Id).ToList();
 
             return View(item);
         }

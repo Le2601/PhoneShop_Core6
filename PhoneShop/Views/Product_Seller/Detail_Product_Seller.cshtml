@@ -5,7 +5,46 @@
     ViewData["Title"] = "Detail_Product_Seller";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
     List<ImageProduct> ListImageByProduct = ViewBag.GetListImage;
+    List<Product_Review> ListRwProduct = ViewBag.GetReviewProduct;
 }
+<style>
+    .post {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .user-block {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+        .user-block .img-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-block .username a {
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .user-block .description {
+            color: #999;
+            font-size: 14px;
+        }
+
+    .post p {
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+</style>
 
 <section class="content">
 
@@ -92,59 +131,43 @@
                                     <div class="nav nav-tabs" id="product-tab" role="tablist">
                                         <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Mô tả</a>
                                         <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Bình luận đánh giá</a>
-                                        <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
+                                        <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Thông số</a>
                                     </div>
                                 </nav>
                                 <div class="tab-content p-3" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">@Html.Raw(Model.Description)</div>
-                                <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
+                                <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab" >
+                                   
+                                    
+                                    @foreach (var item in ListRwProduct)
+                                    {
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                                                <p class="username">
+                                                    <a style="color:black" href="#">@item.UserName <br>@item.UserEmail</a>
+                                                </p>
+                                                <span class="description">@item.CreateAt.ToString("dd/MM/yyyy")</span>
+                                            </div>
+                                            <!-- /.user-block -->
+                                            <p>
+                                                @item.Content
+                                            </p>
 
-                                    <div class="post">
-                                        <div class="user-block">
-                                            <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                                            <span class="username">
-                                                <a href="#">Jonathan Burke Jr.</a>
-                                            </span>
-                                            <span class="description">Shared publicly - 7:45 PM today</span>
+
                                         </div>
-                                        <!-- /.user-block -->
-                                        <p>
-                                            Lorem ipsum represents a long-held tradition for designers,
-                                            typographers and the like. Some people hate it and argue for
-                                            its demise, but others ignore.
-                                        </p>
+                                    }
 
-                                        <p>
-                                            <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
-                                        </p>
-                                    </div>
 
-                                    <div class="post">
-                                        <div class="user-block">
-                                            <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                                            <span class="username">
-                                                <a href="#">Jonathan Burke Jr.</a>
-                                            </span>
-                                            <span class="description">Shared publicly - 7:45 PM today</span>
-                                        </div>
-                                        <!-- /.user-block -->
-                                        <p>
-                                            Lorem ipsum represents a long-held tradition for designers,
-                                            typographers and the like. Some people hate it and argue for
-                                            its demise, but others ignore.
-                                        </p>
-
-                                        <p>
-                                            <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
-                                        </p>
-                                    </div>
 
 
                                 </div>
-                                    <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
+                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
+
+
                                 </div>
 
-                            </div>
+                           
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -159,7 +182,9 @@
 
 </div></div></section>
 @section scripts_SellerHome{
-
+    <!-- AdminLTE App -->
+    <script src="~/clients/dist/js/adminlte.min.js"></script>
+  
     <script>
         $(document).ready(function () {
             $('.product-image-thumb').on('click', function () {
@@ -170,4 +195,6 @@
             })
         })
     </script>
+
+   
 }

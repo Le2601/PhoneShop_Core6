@@ -1,6 +1,4 @@
-﻿﻿@using PagedList.Core.Mvc
-@model PagedList.Core.IPagedList<PhoneShop.ModelViews.OrderViewModel>
-@using System.Globalization;
+﻿@model List<PhoneShop.ModelViews.OrderViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,12 +7,16 @@
 
     //format tien
 
-    // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
-    CultureInfo culture = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-                                    .FirstOrDefault(c => c.Name.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
-                           ?? CultureInfo.CurrentCulture;
+
+
+    
 
 }
+
+<!-- DataTables -->
+<link rel="stylesheet" href="~/clients/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 @section naviheader{
     <!-- Left navbar links -->
@@ -46,7 +48,7 @@
         </div>
         <div class="card-body" style="min-height:700px">
 
-            <table class="table">
+            <table id="example12" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>
@@ -56,16 +58,13 @@
                             Ngày đặt
                         </th>
                         <th>
-                            Phương thức thanh toán
+                            PT thanh toán
                         </th>
                         <th>
                             Trạng thái
                         </th>
-                        <th>
-                           Tổng tiền
-                        </th>
-                        <th>Tổng giá nhập</th>
-                        <th>Lợi nhuận</th>
+                       
+                       
                         <th></th>
                     </tr>
                 </thead>
@@ -108,30 +107,10 @@
                                     }
                                 }
                                 
-                                <td>
-                                    @{
-                                        string formattedPrice = item.Total_Order.ToString("C", culture); // "C" là định dạng tiền tệ
+                               
+                             
 
-                                    }
-                                    @formattedPrice
-                                </td>
-
-                                <td>
-                                    @{
-                                        decimal GiaNhap = item.Total_Order - item.Profit;
-                                        string tonggianhap = GiaNhap.ToString("C", culture); // "C" là định dạng tiền tệ
-
-                                    }
-                                    @tonggianhap
-                                </td>
-
-                                <td>
-                                    @{
-                                       
-                                        string loinhuan = item.Profit.ToString("C", culture);
-                                    }
-                                    @loinhuan
-                                </td>
+                               
                                 <td>
                                     <a class="btn btn-danger" href="/admin/Order/ViewOrder/@item.Id_Order">Xem</a>
                                     <a class="btn btn-outline-primary btnDelete" data-id="@item.Id_Order" href="#">Delete</a>
@@ -154,14 +133,7 @@
 
 
         </div>
-        @*  note *@
-        <div aria-label="Page navigation example">
-            <ul class="pagination">
-                <pager class="pager-container" list="@Model" asp-controller="Order" asp-action="Index" asp-area="Admin" />
-
-            </ul>
-        </div>
-        @*  note *@
+      
     </div>
     <!-- /.card -->
 
@@ -175,6 +147,42 @@
 <!-- /.content -->
 @section scripts{
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!-- jQuery -->
+    <script src="~/clients/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/clients/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- DataTables  & Plugins -->
+    <script src="~/clients/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/clients/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/clients/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/jszip/jszip.min.js"></script>
+    <script src="~/clients/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/clients/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/clients/dist/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+            $("#example12").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function () {

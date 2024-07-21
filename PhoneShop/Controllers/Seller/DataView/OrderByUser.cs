@@ -27,6 +27,8 @@
 
         public decimal Price_Apply_Voucher { get; set; }
 
+        
+
 
 
 

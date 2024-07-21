@@ -86,6 +86,8 @@ namespace PhoneShop.DI.Order
 
         public List<OrderViewModel> GetAll()
         {
+            
+
             var items = _context.Orders.OrderBy(x => x.Id_Order).Select(x=> new OrderViewModel
             {
                 Id_Order = x.Id_Order,

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PhoneShop.Models.Order_Details>
+﻿@model List<PhoneShop.Models.Order_Details>
+@using PhoneShop.Controllers.Seller.DataView;
 @using PhoneShop.Models
 @using System.Globalization;
 @{
@@ -16,6 +17,8 @@
     string Phone = "";
     string Address = "";
     string Order_Id = "";
+
+    List<OrderByUser> getDetail_Order = ViewBag.getDetail_Order;
 
 
     List<Product> IsProduct = ViewBag.IsProduct;
@@ -114,7 +117,7 @@
                         <th>
                            Hinh
                         </th>
-                        <th>So luong</th>
+                        <th>Số lượng</th>
                         <th>
                             Giá tiền
                         </th> 
@@ -128,28 +131,20 @@
                
                 <tbody>
                    
-                    @foreach (var item in Model)
+                    @foreach (var item in getDetail_Order)
                     {
                     <tr id="trow_@item.Id">
 
-                        <td>@item.Product.Title</td>
-                        <td> <img src="~/images/Product/@item.Product.ImageDefaultName" width="100" height="100" style="border: solid 1px " /></td>
-                        <td>@item.Quantity</td>
+                        <td>@item.Title</td>
+                        <td> <img src="~/images/Product/@item.ImageDefault" width="100" height="100" style="border: solid 1px " /></td>
+                        <td>@item.Quantity_Purchase</td>
                         <td>
-                                @{
-                                    string formattedPrice = @item.Product.Price.ToString("C", culture); // "C" là định dạng tiền tệ
-
-                                }
-                                @formattedPrice
+                                @PhoneShop.Extension.Extension.ToVnd((double)item.Price)
                             
                          </td>
                             <td>
 
-                                @{
-                                    string formattedPrice1 = @SumTotal(item.Quantity, item.Product.Price).ToString("C", culture); // "C" là định dạng tiền tệ
-
-                                }
-                                @formattedPrice1
+                                @PhoneShop.Extension.Extension.ToVnd((double)item.Total_Order_DetailByProduct)
                                 
                             </td>
 

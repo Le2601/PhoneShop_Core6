@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using NuGet.Versioning;
 using PagedList.Core;
 using PhoneShop.Areas.Admin.Data;
+using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.DI.DeliveryProcess;
 using PhoneShop.DI.Order;
 using PhoneShop.Models;
@@ -35,15 +36,11 @@ namespace PhoneShop.Areas.Admin.Controllers
             _orderRepository = orderRepository;
             _deliveryProcessRepository = deliveryProcessRepository;
         }
-        public IActionResult Index(int? page)
+        public IActionResult Index()
         {
             var ListOrder = _orderRepository.GetAll();
-            IQueryable<OrderViewModel> models = ListOrder.AsQueryable();
-
-            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-            var pageSize = 10;
-            PagedList<OrderViewModel> item = new PagedList<OrderViewModel>(models, pageNumber, pageSize);
-            return View(item);
+           
+            return View(ListOrder);
         }
 
         [HttpPost]
@@ -82,6 +79,30 @@ namespace PhoneShop.Areas.Admin.Controllers
             ViewBag.PaymentMethodOrder = _orderRepository.GetPaymentMethod(id);
 
             ViewBag.Product = new SelectList(_context.Products.ToList(), "Id", "Title");
+
+
+            var getDetail_Order = (from o in _context.Orders.Where(x => x.Id_Order == id)
+                                   join od in _context.Order_Details on o.Id_Order equals od.OrderId
+                                   join p_or in _context.Order_ProductPurchasePrices on od.Id equals p_or.OrderDetail_Id
+                                   join p in _context.Products on od.ProductId equals p.Id
+                                   select new OrderByUser
+                                   {
+                                       Title = p.Title,
+                                       ImageDefault = p.ImageDefaultName,
+                                       Price = od.PurchasePrice_Product,
+                                       Quantity_Purchase = od.Quantity,
+                                       Total_Order_DetailByProduct = (decimal)p_or.FinalAmount!,
+                                       Price_Apply_Voucher = (decimal)p_or.DiscountAmount!
+
+
+
+                                   }
+                                   ).ToList();
+
+            ViewBag.getDetail_Order = getDetail_Order;
+
+
+
 
 
 

@@ -27,7 +27,15 @@
 
         public decimal Price_Apply_Voucher { get; set; }
 
+
+        //info booth
+        public string BoothName { get; set; }
+
+        public int BoothId { get; set; }
+
         
+
+
 
 
 

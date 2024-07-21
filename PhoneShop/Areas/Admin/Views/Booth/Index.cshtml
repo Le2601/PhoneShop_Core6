@@ -1,22 +1,18 @@
-﻿@model List<PhoneShop.ModelViews.OrderViewModel>
+﻿@model List<PhoneShop.Models.Booth_Information>
 
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-    List<ImageProduct> IsCourseContents = ViewBag.imageproduct;
-
-    //format tien
-
-
-
-    
-
+    List<Booth_Tracking> booth_Tracking = ViewBag.getTracking;
 }
 
 <!-- DataTables -->
 <link rel="stylesheet" href="~/clients/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="~/clients/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+
 
 @section naviheader{
     <!-- Left navbar links -->
@@ -28,7 +24,7 @@
             <a href="#" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Quản lý đơn hàng</a>
+            <a href="#" class="nav-link">Quản lý gian hàng</a>
         </li>
     </ul>
 }
@@ -42,9 +38,9 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách đơn hàng</h3>
-            <a style="margin-left:959px" class="btn btn-danger btnDelete_All" href="">Xóa tất cả</a>
-           
+            <h3 class="card-title">Danh sách gian hàng</h3>
+            
+
         </div>
         <div class="card-body" style="min-height:700px">
 
@@ -52,71 +48,61 @@
                 <thead>
                     <tr>
                         <th>
-                            Mã đơn hàng
+                            Ngày tạo
                         </th>
                         <th>
-                            Ngày đặt
+                           Tên gian hàng
+                        </th>  
+                        <th>
+                          Sản phẩm đã bán
                         </th>
                         <th>
-                            PT thanh toán
+                            Xem sản phẩm
                         </th>
-                        <th>
-                            Trạng thái
-                        </th>
-                       
-                       
-                        <th></th>
+
+
+
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model != null)
-                    {
-                        foreach (var item in Model)
+                   
+                        @foreach (var item in Model)
                         {
-                            <tr id="trow_@item.Id_Order">
+                            <tr id="trow_@item.Id">
 
-                               
+
 
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Id_Order)
+                                    @item.Creare_At.ToString("dd/MM/yyyy")
                                 </td>
                                 <td>
-                                    @item.Order_Date
+                                    @item.ShopName
                                 </td>
-                               
-                                    @{
-                                        if(item.PaymentMethod == 2)
-                                        {
-                                        <td>Thanh toán trực tuyến</td>
-                                        }
-                                        else
-                                        {
-                                        <td>COD</td>
-                                        }
-                                    }
-
-                                
-                                
-                               
-                             
 
                                
+                            @foreach (var i in booth_Tracking)
+                            {
+                                if(i.BoothId == item.Id)
+                                {
+                                    <td>@i.Quantity_Product</td>
+                                }
+                            }
+
+
+
+
+
+
                                 <td>
-                                    <a class="btn btn-danger" href="/admin/Order/ViewOrder/@item.Id_Order">Xem</a>
-                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id_Order" href="#">Delete</a>
+                                    <a class="btn btn-danger" href="/admin/Order/ViewOrder/">Xem</a>
+                                   
                                 </td>
                             </tr>
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td>Chưa có bảng ghi</td>
-
-
-                        </tr>
-                    }
+                    
+                  
 
                 </tbody>
             </table>
@@ -124,17 +110,11 @@
 
 
         </div>
-      
+
     </div>
     <!-- /.card -->
 
 </section>
-
-
-
-
-
-
 <!-- /.content -->
 @section scripts{
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -142,7 +122,7 @@
     <script src="~/clients/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/clients/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- DataTables  & Plugins -->
+    <!-- DataTables  & Plugins -->
     <script src="~/clients/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/clients/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/clients/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -175,36 +155,7 @@
         });
     </script>
 
-    <script>
-        $(document).ready(function () {
-           
-
-            $('body').on('click', '.btnDelete', function () {
-                var id = $(this).data('id');
-
-                var conf = confirm("Bạn muốn xoa chứ ");
-
-                if (conf == true) {
-
-                    $.ajax({
-
-                        url: '/admin/Order/delete',
-                        type: 'post',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                                $('trow_' + id).remove();
-                                location.reload();
-                            }
-                        }
-
-                    });
-
-                }
-            });
-            
-        });
-    </script>
+   
 
 
 }

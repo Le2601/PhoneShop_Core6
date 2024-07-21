@@ -71,20 +71,24 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult ViewOrder(string id)
         {
-            var item = _context.Order_Details.Where(x=> x.OrderId == id).ToList();
+            var item = _context.Order_Details.Where(x=> x.OrderId == id).FirstOrDefault()!;
 
-            //lay ra order
+            
+            ViewBag.GetOrder = _context.Orders.Where(x=>x.Id_Order == id).FirstOrDefault()!;
 
-            ViewBag.SumPriceOrder = _orderRepository.GetTotal_Order(id);
-            ViewBag.PaymentMethodOrder = _orderRepository.GetPaymentMethod(id);
+                
 
-            ViewBag.Product = new SelectList(_context.Products.ToList(), "Id", "Title");
+
+            
 
 
             var getDetail_Order = (from o in _context.Orders.Where(x => x.Id_Order == id)
                                    join od in _context.Order_Details on o.Id_Order equals od.OrderId
                                    join p_or in _context.Order_ProductPurchasePrices on od.Id equals p_or.OrderDetail_Id
                                    join p in _context.Products on od.ProductId equals p.Id
+                                   join b in _context.Booth_Information on p.Booth_InformationId equals b.Id
+                                   
+                                   
                                    select new OrderByUser
                                    {
                                        Title = p.Title,
@@ -92,7 +96,13 @@ namespace PhoneShop.Areas.Admin.Controllers
                                        Price = od.PurchasePrice_Product,
                                        Quantity_Purchase = od.Quantity,
                                        Total_Order_DetailByProduct = (decimal)p_or.FinalAmount!,
-                                       Price_Apply_Voucher = (decimal)p_or.DiscountAmount!
+                                       Price_Apply_Voucher = (decimal)p_or.DiscountAmount!,
+                                       Discount = (decimal)p_or.DiscountAmount,
+                                       //info booth
+                                       BoothName = b.ShopName,
+                                       BoothId = b.Id,
+
+
 
 
 
@@ -121,109 +131,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             return View(item);
         }
-        [Route("/Order/repository_payment-{Id}")]
-        public async Task<IActionResult> repository_payment(string id)
-        {
-
-            //xem kho luu tru khi thanh toan truc tuyen
-
-            var GetRepositoryPayment = await _orderRepository.GetRepositoryPaymentById(id);
-
-
-
-            return View(GetRepositoryPayment);
-        }
-      
-        [Route("/Order/repository_payment_COD-{Id}")]
-
-        public async Task<IActionResult> repository_payment_COD(string id)
-        {
-            
-            var item_DeliveryProcesses = await _orderRepository.GetDeliveryProcessById(id);
-            ViewBag.Address_Order = _orderRepository.Get_Address_Order(id);
-
-            var Check_Empty_DeliveryProcesses = _context.DeliveryProcesses.Where(x=> x.Order_Id == id).FirstOrDefault();
-
-            //neu da ton tai qua trinh giao hang roi thi hien thi ra
-
-            if (Check_Empty_DeliveryProcesses != null)
-            {
-             
-                ViewBag.item_DeliveryProcesses = item_DeliveryProcesses;
-                ViewBag.Comfirm_item = 1;
-                
-               
-            }
-            else
-            {
-                ViewBag.item_DeliveryProcesses = null;
-                ViewBag.Comfirm_item = 0;
-
-            }
-            
-          
-                var item_Orders = _orderRepository.GetById(id);
-                return View(item_Orders);
-           
-            
-
-           
-
-
-
-
-
-
-
-            //return View(item);
-        }
-       
-
-
-        [HttpPost]
-        public async Task<IActionResult> Create_DeliveryProcess(IFormCollection form)
-        {
-            string DeliveryStatus = form["DeliveryStatus"];
-            string Order_Id = form["Order_Id"];
-            string DeliveryDate = form["DeliveryDate"];
-            string DeliveryAddress = form["DeliveryAddress"];
-            //check DeliveryProcess co ton tai hay ko
-            var Check_DeliveryProcess_Order =await _deliveryProcessRepository.GetById(Order_Id);
-            
-            if(Check_DeliveryProcess_Order != null)
-            {
-               
-                var Update_DeliveryProcess = new DeliveryProcessData
-                {
-                     DeliveryDate = DateTime.Parse(DeliveryDate),
-                     DeliveryStatus = int.Parse(DeliveryStatus),
-                     DeliveryAddress = DeliveryAddress,
-                 };
-                
-
-               //_deliveryProcessRepository.Update(Update_DeliveryProcess, Order_Id);
-            }
-            else
-            {
-                var Create_Item = new DeliveryProcessData
-                {
-                    DeliveryStatus = int.Parse(DeliveryStatus),
-                    Order_Id = Order_Id,
-                    DeliveryDate = DateTime.Parse(DeliveryDate),
-                    DeliveryAddress = DeliveryAddress,
-                    
-
-                };
-               _deliveryProcessRepository.Create(Create_Item);
-
-            }
-           
-
-
-
-            return RedirectToAction("Index");
-
-        }
+        
         public async Task<IActionResult> delete(string id)
         {
             var item_Order = _orderRepository.GetById_Data(id);
@@ -264,22 +172,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             return Json(new {success = true});
         }
 
-        public async Task<IActionResult> delete_all()
-        {
-            var items =await _context.Orders.ToListAsync();
-            if(items.Count <= 0)
-            {
-                return Json(new { success = false });
-            }
-
-            foreach (var item in items)
-            {
-                _context.Orders.Remove(item);
-                
-            }
-            await _context.SaveChangesAsync();
-            return Json(new { success = true });
-        }
+        
 
 
 

@@ -70,7 +70,16 @@ namespace PhoneShop.Controllers.Seller
            
             _context.Booth_Information.Add(item_Booth_Information);
             _context.SaveChanges();
-           
+
+            //create booth_tracking
+            var Create_BoothTracking = new Booth_Tracking
+            {
+                BoothId = item_Booth_Information.Id
+            };
+            _context.Booth_Trackings.Add(Create_BoothTracking);
+            _context.SaveChanges();
+
+
             var get_Booth_Information = _context.Booth_Information.Where(x=> x.Code_Info == randomNumber_Id).FirstOrDefault()!;
 
            

@@ -1,10 +1,19 @@
 ﻿@model PhoneShop.Models.Booth_Tracking
 @using PhoneShop.Models;
+@using PhoneShop.Controllers.Seller.DataView;
 @{
     ViewData["Title"] = "Detail_Booth";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 
     List<Product> ListProduct = ViewBag.ListProduct;
+
+
+    ShopAddress GetShopAddress = ViewBag.GetShopAddress;
+    Shipping_Method GetShipping_Method = ViewBag.Shipping_Method;
+
+    List<OrderByUser> ListOrder = ViewBag.ListOrder;
+    int index = 1;
+
 }
 <!-- DataTables -->
 <link rel="stylesheet" href="~/clients/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -34,11 +43,7 @@
                 <!-- Profile Image -->
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
-                        <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="../../dist/img/user4-128x128.jpg"
-                                 alt="User profile picture">
-                        </div>
+                        
 
                         <h3 class="profile-username text-center">@Model.Booth_Information.ShopName</h3>
 
@@ -67,39 +72,37 @@
                 <!-- About Me Box -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">About Me</h3>
+                        <h3 class="card-title">Thông tin</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <strong><i class="fas fa-book mr-1"></i> Education</strong>
+                        
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Gian hàng</strong>
+                        <br />
+                        
+                        <strong>Email: </strong>@Model.Booth_Information.Email <br />
+                        <strong>SDT: </strong> @Model.Booth_Information.Phone<br />
+                        <strong>Ngày tạo: </strong> @Model.Booth_Information.Creare_At.ToString("dd/MM/yyyy")<br />
+                            
+                       
+                        <hr>
 
-                        <p class="text-muted">
-                            B.S. in Computer Science from the University of Tennessee at Knoxville
-                        </p>
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Địa chỉ</strong>
+                        <br />
+                        <strong>Tên quản lý: </strong> @GetShopAddress.FullName<br />
+                        <strong>Địa chỉ: </strong>@GetShopAddress.Address<br />
+                        <strong>Địa chỉ chi tiết: </strong>@GetShopAddress.Address_Detail<br />
 
                         <hr>
 
-                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
-
-                        <p class="text-muted">Malibu, California</p>
-
-                        <hr>
-
-                        <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-
-                        <p class="text-muted">
-                            <span class="tag tag-danger">UI Design</span>
-                            <span class="tag tag-success">Coding</span>
-                            <span class="tag tag-info">Javascript</span>
-                            <span class="tag tag-warning">PHP</span>
-                            <span class="tag tag-primary">Node.js</span>
-                        </p>
+                        <strong><i class="fas fa-pencil-alt mr-1"></i> Phương thức thanh toán</strong>
+                        <br />
+                        <strong>Trực tuyến: VnPay </strong> @GetShipping_Method.Online_Payment<br />
+                        <strong>Khi nhận hàng</strong> @GetShipping_Method.COD<br />
 
                         <hr>
 
-                        <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                        
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -119,14 +122,63 @@
                         <div class="tab-content">
                             <div class="active tab-pane" id="activity">
                                 <!-- Post -->
-                                @Html.RenderPartialAsync("_Partial_ProductByBooth.cshtml",ListProduct)
+                                @await Html.PartialAsync("_Partial_ProductByBooth.cshtml",ListProduct)
                                 <!-- /.post -->
                                
                             </div>
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="timeline">
-                                <!-- The timeline -->
-                                <div>Nội dung 1</div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Ngày đặt hàng</th>
+                                                <th>Số lượng</th>
+                                                <th>Giá mua</th>
+
+                                                <th>Hình ảnh</th>
+                                                <th>PTTT</th>
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var i in ListOrder)
+                                            {
+                                                <tr id="trow_@i.Id">
+                                                    <td>@(index++)</td>
+                                                    <td>
+                                                        <a href="/Product_Seller/Detail_Product_Seller/@i.Id">@i.Title</a>
+                                                    </td>
+                                                    <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
+                                                    <td>@i.Quantity_Purchase</td>
+                                                    <td>
+                                                        <p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.Price)</p>
+                                                    </td>
+
+                                                    <td> <img src="~/images/Product/@i.ImageDefault" width="100" height="100" style="border: solid 1px " /></td>
+                                                    <td>
+                                                        @if (i.ShippingMethod == 1)
+                                                        {
+
+                                                            <p>COD</p>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>Truc tuyen</p>
+                                                        }
+                                                    </td>
+                                                    
+                                                </tr>
+                                            }
+
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
                             </div>
                             <!-- /.tab-pane -->
 

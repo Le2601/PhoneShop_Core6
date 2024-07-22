@@ -2,7 +2,7 @@
 {
     public class BoothData
     {
-
+        public int AccountId { get; set; }
         public int OrderDetailId { get; set; }
         public int BoothId { get; set; }
 

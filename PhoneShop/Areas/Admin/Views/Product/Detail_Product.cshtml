@@ -1,90 +1,203 @@
-﻿@model PhoneShop.ModelViews.ProductViewModel
-@using PhoneShop.ModelViews;
+﻿@model PhoneShop.Models.Product
+@using PhoneShop.Models
 @{
     ViewData["Title"] = "Detail_Product";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 
-    List<ImageProductViewModel> I_Image = ViewBag.Get_ListImage;
-    SpecificationsViewModel I_Spec = ViewBag.Get_Specifi;
-    List<PhoneShop.Models.Product_Review> List_Rw = ViewBag.Rw_Product;
+    List<ImageProduct> ListImageByProduct = ViewBag.GetListImage;
+    List<Product_Review> ListRwProduct = ViewBag.GetReviewProduct;
 
 }
 
 
-@section naviheader{
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Trang chủ</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Quản lý sản phẩm</a>
-        </li>
-    </ul>
-}
+<style>
+    .post {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+    }
 
-<br />
+    .user-block {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+        .user-block .img-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-block .username a {
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .user-block .description {
+            color: #999;
+            font-size: 14px;
+        }
+
+    .post p {
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+</style>
+
 <section class="content">
 
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">@Model.Title</h3>
+    <div class="col-12">
+        <div class="card">
+
+            <!-- Content Wrapper. Contains page content -->
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>@Model.Title</h1>
+                        </div>
+
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="card card-solid">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <h3 class="d-inline-block d-sm-none">LOWA Men’s Renegade GTX Mid Hiking Boots Review12</h3>
+                                <div class="col-12">
+                                    <img src="~/images/Product/@Model.ImageDefaultName" class="product-image" alt="Product Image">
+                                </div>
+                                <div class="col-12 product-image-thumbs">
+
+                                    <div class="product-image-thumb"><img src="~/images/Product/@Model.ImageDefaultName" alt="Product Image"></div>
+                                    @foreach (var item in ListImageByProduct)
+                                    {
+                                        <div class="product-image-thumb"><img src="~/images/Product/@item.DataName" alt="Product Image"></div>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+
+                                <h4 class="my-3">Danh mục: @Model.Category.Title</h4>
+                                <h5 class="my-3">Ngày đăng: @Model.Create_at</h5>
+
+
+
+
+
+                                <div class="bg-gray py-2 px-3 mt-4">
+                                    <h2 class="mb-0">
+                                        Giá nhập: @PhoneShop.Extension.Extension.ToVnd((double)Model.InputPrice)
+                                    </h2>
+                                    <h4 class="mt-0">
+                                        <small>Giá bán: @PhoneShop.Extension.Extension.ToVnd((double)Model.Price) </small>
+                                    </h4>
+                                    <h4 class="mt-0">
+                                        <small>Giảm giá: @PhoneShop.Extension.Extension.ToVnd((double)Model.Discount) </small>
+                                    </h4>
+                                </div>
+
+
+                                <div class="mt-4 product-share">
+                                    <a href="#" class="text-gray">
+                                        <i class="fab fa-facebook-square fa-2x"></i>
+                                    </a>
+                                    <a href="#" class="text-gray">
+                                        <i class="fab fa-twitter-square fa-2x"></i>
+                                    </a>
+                                    <a href="#" class="text-gray">
+                                        <i class="fas fa-envelope-square fa-2x"></i>
+                                    </a>
+                                    <a href="#" class="text-gray">
+                                        <i class="fas fa-rss-square fa-2x"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <nav class="w-100">
+                                <div class="nav nav-tabs" id="product-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Mô tả</a>
+                                    <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Bình luận đánh giá</a>
+                                    <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Thông số</a>
+                                </div>
+                            </nav>
+                            <div class="tab-content p-3" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">@Html.Raw(Model.Description)</div>
+                                <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
+
+
+                                    @foreach (var item in ListRwProduct)
+                                    {
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                                                <p class="username">
+                                                    <a style="color:black" href="#">@item.UserName <br>@item.UserEmail</a>
+                                                </p>
+                                                <span class="description">@item.CreateAt.ToString("dd/MM/yyyy")</span>
+                                            </div>
+                                            <!-- /.user-block -->
+                                            <p>
+                                                @item.Content
+                                            </p>
+
+
+                                        </div>
+                                    }
+
+
+
+
+                                </div>
+                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
+                                </div>
+
+
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+
+            </section>
+            <!-- /.content -->
+
+
+
 
 
         </div>
-        <div class="card-body">
-            <div class="bs-stepper-content">
-
-                <div class="row">
-                    <div class="col-6">
-                       <div><b>Tiêu đề: </b> @Model.Title</div>
-                        <div><b>Alias: </b> @Model.Alias</div>
-                        <div><b>Giá nhập:</b> @PhoneShop.Extension.Extension.ToVnd((double)Model.InputPrice)</div>
-                        <div><b>Giá bán ra:</b> @PhoneShop.Extension.Extension.ToVnd((double)Model.Price)</div>
-                        <div><b>Giảm giá:</b> @PhoneShop.Extension.Extension.ToVnd((double)Model.Discount)</div>
-                        <div><b>Số lượng: </b> @Model.Quantity</div>
-                        <div><b>Ngày tạo: </b> @Model.Create_at</div>
-                        @foreach(var item in I_Image)
-                        {
-                            <img width="100px" src="~/images/Product/@item.DataName" />
-                        }
-                    </div>
-                    <div class="col-6">
-                        <div><b>Màn hình: </b>@I_Spec.Display</div>
-                        <div><b>Hệ điều hành: </b>@I_Spec.OperatingSystem</div>
-                        <div><b>Camera: </b>@I_Spec.Camera</div>
-                        <div><b>Bộ nhớ: </b>@I_Spec.RandomAccessMemory</div>
-                        <div><b>Pin: </b>@I_Spec.Battery</div>
-                        <div><b>Thông lượng: </b>@I_Spec.DimensionsAndeight</div>
-                        <div><b>Kết nối: </b>@I_Spec.Connectivity</div>
-
-
-                    </div>
-
-                </div>
-                <hr />
-                <h3>Đánh giá sản phẩm</h3>
-                @foreach (var item in List_Rw)
-                {
-                    <p> @item.Content || @item.CreateAt</p>
-                    <hr />
-                }
-
-                <div>
-                    @Html.ActionLink("Trở về", "Index")
-                </div>
-
-            </div>
-
-        </div>
-        <!-- /.card-body -->
-        <!-- /.card-footer-->
     </div>
-
-    <!-- /.card -->
-
 </section>
+
+@section scripts{
+    <!-- AdminLTE App -->
+    <script src="~/clients/dist/js/adminlte.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.product-image-thumb').on('click', function () {
+                var $image_element = $(this).find('img')
+                $('.product-image').prop('src', $image_element.attr('src'))
+                $('.product-image-thumb.active').removeClass('active')
+                $(this).addClass('active')
+            })
+        })
+    </script>
+
+
+}

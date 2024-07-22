@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Areas.Admin.Data;
+using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
+using Stripe;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -27,8 +30,10 @@ namespace PhoneShop.Areas.Admin.Controllers
 
 
             ViewBag.getData = BoothData();
-                
-                
+
+           
+
+
 
             return View(item);
         }
@@ -47,15 +52,52 @@ namespace PhoneShop.Areas.Admin.Controllers
             //get booth Tracking
             var Tracking = _context.Booth_Trackings.Where(x=> x.BoothId == item.Id).FirstOrDefault();
 
+            
+
+            ViewBag.GetShopAddress = _context.ShopAddress.Where(x=> x.BoothId == item.Id).FirstOrDefault();
+
+            ViewBag.Shipping_Method = _context.ShopShipping_MethodAddress.Where(x=> x.BoothId== item.Id).FirstOrDefault();
+
 
 
 
             ViewBag.ListProduct = _context.Products.Where(x=> x.Booth_InformationId == item.Id).ToList();
 
 
+            //get Order List
+            var items_Products = _context.Products.Where(x => x.Create_Id == item.AccountId).ToList();
+            //lay ra nhung san pham da ban dc 
+            ViewBag.ListOrder = (from p in items_Products
+                        join od in _context.Order_Details on p.Id equals od.ProductId
+                        join o in _context.Orders on od.OrderId equals o.Id_Order
+                        select new OrderByUser
+                        {
+                            Id = p.Id,
+                            Title = p.Title,
+                            Quantity_Purchase = od.Quantity,
+                            Date_Purchase = o.Order_Date,
+                            Info_User = o.AccountId,
+                            Order_Id = od.OrderId,
+                            InputPrice = p.InputPrice,
+                            Price = od.PurchasePrice_Product,
+                            Discount = p.Discount,
+                            Order_Status = o.Order_Status,
+                            Info_Order_Address_Id = od.Id,
+                            ImageDefault = p.ImageDefaultName,
+                            Status_OrderDetail = od.Status_OrderDetail,
+                            ShippingMethod = o.PaymentMethod
+
+
+
+
+                        }).ToList();
+
 
             return View(Tracking);
         }
+
+
+        
 
         public List<BoothData> BoothData()
         {
@@ -68,7 +110,8 @@ namespace PhoneShop.Areas.Admin.Controllers
                     BoothId = p.Booth_InformationId,
                     OrderDetailId = od.Id,
                     TotalPrice_Booth = op.FinalAmount,
-                   
+                    AccountId = p.Create_Id
+
 
 
                 }
@@ -79,6 +122,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             {
                 TotalPrice_Booth = x.Sum(s => s.TotalPrice_Booth),
                 BoothId = x.Key,
+                
 
             })).ToList();
 

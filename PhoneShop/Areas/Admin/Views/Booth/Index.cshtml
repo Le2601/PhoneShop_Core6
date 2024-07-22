@@ -1,10 +1,11 @@
 ﻿@model List<PhoneShop.Models.Booth_Information>
-
+@using PhoneShop.Areas.Admin.Data;
 @using PhoneShop.Models;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
     List<Booth_Tracking> booth_Tracking = ViewBag.getTracking;
+    List<BoothData> getDataTotal = ViewBag.getData;
 }
 
 <!-- DataTables -->
@@ -56,8 +57,9 @@
                         <th>
                           Sản phẩm đã bán
                         </th>
+                        <th>Doanh Thu</th>
                         <th>
-                            Xem sản phẩm
+                           Thông tin gian hàng
                         </th>
 
 
@@ -86,8 +88,16 @@
                             {
                                 if(i.BoothId == item.Id)
                                 {
-                                    <td>@i.Quantity_Product</td>
+                                    <td>@i.Total_Sold</td>
                                 }
+                            }
+                            @foreach (var item_Total in getDataTotal)
+                            {
+                                if (item_Total.BoothId == item.Id)
+                                {
+                                    <td>@PhoneShop.Extension.Extension.ToVnd((double)item_Total.TotalPrice_Booth)</td>
+                                }
+                               
                             }
 
 
@@ -96,7 +106,7 @@
 
 
                                 <td>
-                                    <a class="btn btn-danger" href="/admin/Order/ViewOrder/">Xem</a>
+                                    <a class="btn btn-danger" href="/admin/Booth/Detail_Booth/@item.Id">Xem</a>
                                    
                                 </td>
                             </tr>

@@ -1,0 +1,38 @@
+﻿@model List<PhoneShop.Models.Product>
+
+<div class="card-body" style="min-height:700px">
+
+    <table id="example12" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Tên Sp
+                </th>
+                <th>
+                   Giá bán
+                </th>
+                <th>
+                    Số lượng
+                </th>
+               
+
+
+                
+            </tr>
+        </thead>
+        <tbody>
+           @foreach (var item in Model)
+            {
+                <tr>
+                   <td>@item.Title</td>
+                    <td>2</td>
+                    <td>3</td>
+               </tr>
+            }
+
+        </tbody>
+    </table>
+
+
+
+</div>

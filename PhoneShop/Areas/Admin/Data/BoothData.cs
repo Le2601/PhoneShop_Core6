@@ -8,6 +8,8 @@
 
         public decimal? TotalPrice_Booth { get; set; }
 
+        public int Quantity_Price { get; set; }
+
 
     }
 }

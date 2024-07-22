@@ -1,8 +1,15 @@
-﻿
+﻿@model PhoneShop.Models.Booth_Tracking
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "Detail_Booth";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    List<Product> ListProduct = ViewBag.ListProduct;
 }
+<!-- DataTables -->
+<link rel="stylesheet" href="~/clients/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -18,6 +25,7 @@
     </ul>
 }
 
+
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -32,23 +40,26 @@
                                  alt="User profile picture">
                         </div>
 
-                        <h3 class="profile-username text-center">Tên gian hàng</h3>
+                        <h3 class="profile-username text-center">@Model.Booth_Information.ShopName</h3>
 
-                        <p class="text-muted text-center">Doanh thu</p>
+                        
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>Người theo dõi</b> <a class="float-right">1,322</a>
+                                <b>Người theo dõi</b> <a class="float-right">@Model.Followers</a>
                             </li>
                             <li class="list-group-item">
-                                <b>Tổng sản phẩm</b> <a class="float-right">543</a>
+                                <b>Tổng sản phẩm</b> <a class="float-right">@Model.Quantity_Product</a>
                             </li>
                             <li class="list-group-item">
-                                <b>Đã bán</b> <a class="float-right">13,287</a>
+                                <b>Đã bán</b> <a class="float-right">@Model.Total_Sold</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Doanh thu</b> <p style="color:red" class="text-muted text-center">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GetTotalPrice)</p>
                             </li>
                         </ul>
 
-                        <a href="#" class="btn btn-primary btn-block"><b>Cập nhật</b></a>
+                        <a href="#" class="btn btn-block btn-warning"><b>Cập nhật</b></a>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -108,7 +119,7 @@
                         <div class="tab-content">
                             <div class="active tab-pane" id="activity">
                                 <!-- Post -->
-                                <div>Nội dung</div>
+                                @Html.RenderPartialAsync("_Partial_ProductByBooth.cshtml",ListProduct)
                                 <!-- /.post -->
                                
                             </div>
@@ -179,4 +190,46 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
+@section scripts{
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!-- jQuery -->
+    <script src="~/clients/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/clients/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/clients/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/clients/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/clients/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/clients/plugins/jszip/jszip.min.js"></script>
+    <script src="~/clients/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/clients/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/clients/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/clients/dist/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+            $("#example12").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 
+   
+
+
+}

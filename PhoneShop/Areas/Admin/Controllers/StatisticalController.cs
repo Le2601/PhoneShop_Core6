@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.ML;
 using Microsoft.VisualBasic;
 using NuGet.Packaging;
+using PhoneShop.Areas.Admin.Data;
+using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using Stripe;
@@ -32,220 +34,132 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            //lay ra nhung san pham da ban dc 
+            var demo = (from p in db.Products
+                        join od in db.Order_Details on p.Id equals od.ProductId
+                        join o in db.Orders on od.OrderId equals o.Id_Order
+                        join oPrice in db.Order_ProductPurchasePrices on od.Id equals oPrice.OrderDetail_Id
+                        join b in db.Booth_Information on p.Booth_InformationId equals b.Id
+                        select new OrderByUser
+                        {
+                            Id = p.Id,
+                            Title = p.Title,
+                            Quantity_Purchase = od.Quantity,
+                            Date_Purchase = o.Order_Date,
+                            Info_User = o.AccountId,
+                            Order_Id = od.OrderId,
+                            InputPrice = p.InputPrice,
+                            Price = od.PurchasePrice_Product,//p.Discount > 0 ? p.Discount : p.Price
+                            Discount = p.Discount,
+                            Order_Status = o.Order_Status,
+                            Info_Order_Address_Id = od.Id,
 
-           
+                            Total_Order_DetailByProduct = (decimal)oPrice.FinalAmount,//(p.Discount > 0 ? p.Discount : p.Price)
+                            ImageDefault = p.ImageDefaultName,
+                            Status_OrderDetail = od.Status_OrderDetail,
+                            Price_Apply_Voucher = (decimal)oPrice.DiscountAmount,
+                            BoothId = p.Booth_InformationId,
+                            BoothName = b.ShopName,
+                            Inventory = p.Quantity
 
-            return View();
+
+
+
+
+
+                        }).ToList();
+
+            var GetData = demo.GroupBy(x => x.BoothId)
+           .Select(x => new Statistical_ProductBooth
+           {
+               BoothId = x.Key,
+               BoothName = x.First().BoothName,
+               TotalQuantityPrice = x.Sum(x => x.Quantity_Purchase),
+               TotalPrice = x.Sum(x => x.Total_Order_DetailByProduct),
+               Inventory = x.Sum(x => x.Inventory)
+
+
+
+           }).ToList();
+
+
+
+
+            return View(GetData);
         }
 
        
 
         
 
-        public JsonResult GetChartDataCurrentDate()
-        {
-            // Lấy dữ liệu từ bảng Order
-            List<Order> orders = db.Orders.Where(x=> x.Order_Status == 1).ToList();
+      
 
-            // Lấy dữ liệu cho ngày hiện tại
-            DateTime currentDate = DateTime.Today;
 
-            var formatDate = currentDate.ToString("dd/MM/yyyy");
-
-            // Tính tổng doanh thu và lợi nhuận
-            decimal doanhthu = orders
-                .Where(order => order.Order_Date.Date == currentDate)
-                .Sum(order => order.Total_Order);
-            decimal loinhuan = orders
-                .Where(order => order.Order_Date.Date == currentDate)
-                .Sum(order => order.Profit);
-
-            return Json(new { doanhthu = doanhthu,loinhuan = loinhuan, ngayhientai = formatDate });
-
-        }
-        //7 ngay trc do
-        public JsonResult GetChartDataLastWeek()
+        public IActionResult Statistical_ProductBooth()
         {
 
-
-
-            // Lấy dữ liệu từ bảng Order
-            List<Order> orders = db.Orders.ToList();
-
-            // Lấy dữ liệu trong 7 trước đó
-            DateTime startDate = DateTime.Today.AddDays(-7);
-            DateTime endDate = DateTime.Today.AddDays(-1);
-
-            List<decimal> ArrDoanhThu = new List<decimal>();
-            List<decimal> ArrLoiNhuan = new List<decimal>();
-
-            List<string> dateRange = new List<string>();
-
-           
-
-
-            while (startDate <= endDate)
-            {
-                //format dd/mm/yyyy
-     
-                string formattedDate = startDate.ToString("dd/MM/yyyy");
-
-
-                dateRange.Add(formattedDate);
-
-
-                decimal doanhthu = orders
-                       .Where(order => order.Order_Date.Date == startDate)
-                       .Sum(order => order.Total_Order);
-                decimal loinhuan = orders
-                       .Where(order => order.Order_Date.Date == startDate)
-                       .Sum(order => order.Profit);
-
-                
-                ArrDoanhThu.Add(doanhthu);
-                ArrLoiNhuan.Add(loinhuan);
-
-               
-                
-
-
-
-
-                startDate = startDate.AddDays(1);
-            }
-
-
-
-
-
-            // Lấy dữ liệu trong 7 trước đó
-            DateTime startDateList = DateTime.Today.AddDays(-7);
-            DateTime endDateeList = DateTime.Today.AddDays(-1);
-
-            List<Order> ordersInPreviousWeek = orders
-              .Where(order => order.Order_Date >= startDateList && order.Order_Date <= endDateeList)
-              .ToList();
-
-
-
-
-
-            return Json(new { doanhthu = ArrDoanhThu, loinhuan = ArrLoiNhuan, date = dateRange, ListOrder = ordersInPreviousWeek });
-        }
-
-        public IActionResult GetListOrdeLastWeek()
-        {
-            // Lấy dữ liệu từ bảng Order
-            List<Order> orders = db.Orders.Where(x => x.Order_Status == 1).ToList();
-            // Lấy dữ liệu trong 7 trước đó
-            DateTime startDateList = DateTime.Today.AddDays(-7);
-            DateTime endDateeList = DateTime.Today.AddDays(-1);
-
-            List<Order> ordersInPreviousWeek = orders
-              .Where(order => order.Order_Date >= startDateList && order.Order_Date <= endDateeList)
-              .ToList();
-
-            return Json(ordersInPreviousWeek);
-
-        }
-
-        public IActionResult GetListOrderCurrentDate()
-        {
-            // Lấy dữ liệu từ bảng Order
-            List<Order> orders = db.Orders.Where(x => x.Order_Status == 1).ToList();
-            // Lấy dữ liệu cho ngày hiện tại
-            DateTime currentDate = DateTime.Today;
-
-            List<Order> ordersInPreviousWeek = orders
-               .Where(order => order.Order_Date.Date == currentDate)
-              .ToList();
-
-            return Json(ordersInPreviousWeek);
-
-        }
-
-
-
-
-
-
-
-
-        [HttpGet("/Export_File_Statistical")]
-
-        public IActionResult Export_File_Statistical()
-        {
-            // Lấy dữ liệu từ bảng Order
-            List<Order> orders = db.Orders.Where(x => x.Order_Status == 1).ToList();
-            // Lấy dữ liệu cho ngày hiện tại
-            DateTime currentDate = DateTime.Today;
-
-            List<Order> ordersInPreviousWeek = orders
-               .Where(order => order.Order_Date.Date == currentDate)
-              .ToList();
-
-
-           
-           
-
-            string directoryPath = @"D:\DA4\Order_current";
-
-            DemoExport_File(ordersInPreviousWeek, directoryPath);
-
-            return RedirectToAction("Index");
-        }
-
-        public void DemoExport_File(List<Order>  ListOrders, string directoryPath)
-        {
-            //demo export file
-            var items = ListOrders;
-
-
-            DateTime currentDate = DateTime.Today;
-            string formattedDate = currentDate.ToString("ddMMyyyy");
-            SaveToText(directoryPath, "Order_current_" + formattedDate + ".txt", ListOrders);
-            
-
-           
-        }
-
-
-
-        public void SaveToText(string directoryPath, string fileName, List<PhoneShop.Models.Order> diaryEntries)
-        {
-            try
-            {
-                // Tạo thư mục nếu nó chưa tồn tại
-                Directory.CreateDirectory(directoryPath);
-
-                string filePath = Path.Combine(directoryPath, fileName);
-
-                using (TextWriter tw = new StreamWriter(filePath))
-                {
-                    foreach (var s in diaryEntries)
-                    {
-                        tw.WriteLine($"Nguoi dat hang: {s.PaymentMethod}");
-                        tw.WriteLine($"Ngay dat hang: {s.Order_Date}");
-                        tw.WriteLine($"Tong don hang: {s.Total_Order}");
-                        tw.WriteLine($"--------------------------------");
-
-                        if (diaryEntries.IndexOf(s) != diaryEntries.Count - 1)
+            //lay ra nhung san pham da ban dc 
+            var demo = (from p in db.Products
+                        join od in db.Order_Details on p.Id equals od.ProductId
+                        join o in db.Orders on od.OrderId equals o.Id_Order
+                        join oPrice in db.Order_ProductPurchasePrices on od.Id equals oPrice.OrderDetail_Id
+                        join b in db.Booth_Information on p.Booth_InformationId equals b.Id
+                        select new OrderByUser
                         {
-                            tw.WriteLine(Environment.NewLine);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Xử lý ngoại lệ
-            }
+                            Id = p.Id,
+                            Title = p.Title,
+                            
+                            Quantity_Purchase = od.Quantity,
+                            Date_Purchase = o.Order_Date,
+                            Info_User = o.AccountId,
+                            Order_Id = od.OrderId,
+                            InputPrice = p.InputPrice,
+                            Price = od.PurchasePrice_Product,//p.Discount > 0 ? p.Discount : p.Price
+                            Discount = p.Discount,
+                            Order_Status = o.Order_Status,
+                            Info_Order_Address_Id = od.Id,
+
+                            Total_Order_DetailByProduct = (decimal)oPrice.FinalAmount,//(p.Discount > 0 ? p.Discount : p.Price)
+                            ImageDefault = p.ImageDefaultName,
+                            Status_OrderDetail = od.Status_OrderDetail,
+                            Price_Apply_Voucher = (decimal)oPrice.DiscountAmount,
+                            BoothId = p.Booth_InformationId,
+                            BoothName = b.ShopName,
+                            Inventory = p.Quantity
+
+
+
+
+
+                        }).ToList();
+
+            var GetData = demo.GroupBy(x => x.Id)
+           .Select(x => new Statistical_ProductBooth
+           {
+               BoothId = x.First().BoothId,
+               BoothName = x.First().BoothName,
+               TitleProduct = x.First().Title,
+               ProductId = x.First().Id,
+               ImageProduct = x.First().ImageDefault,
+               TotalQuantityPrice = x.Sum(x=> x.Quantity_Purchase),
+               TotalPrice = x.Sum(x=> x.Total_Order_DetailByProduct),
+               Inventory = x.Sum(x => x.Inventory)
+
+
+           }).ToList();
+
+
+
+
+            return View(GetData);
         }
 
 
 
 
     }
+
+
 
 
 }

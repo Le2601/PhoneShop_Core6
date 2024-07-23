@@ -33,7 +33,7 @@
 
         public int BoothId { get; set; }
 
-        
+        public int Inventory { get; set; }
 
 
 

@@ -1,0 +1,90 @@
+﻿@model List<PhoneShop.Data.BoothData>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Styling for the booth list */
+    .booth-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-gap: 20px;
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .booth-item {
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .booth-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+    .booth-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .booth-name {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .booth-description {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .booth-details {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #888;
+    }
+</style>
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Gian hàng</li>
+           
+        </ol>
+    </nav>
+</div>
+
+<div class="container">
+
+    <ul class="booth-list">
+        @foreach (var item in Model)
+        {
+            <a style="text-decoration: none;">
+            <li class="booth-item">
+                <img src="booth1.jpg" alt="Booth 1" class="booth-image">
+                <h3 class="booth-name">@item.BoothName</h3>
+                <p class="booth-description">Đánh giá: 0</p>
+
+                <div class="booth-details">
+                    <span>Sản phẩm: @item.Quantity_Product</span>
+                    <span>Người theo dõi: @item.Followers</span>
+                </div>
+            </li>
+            </a>
+        }
+        
+     
+    </ul>
+
+</div>

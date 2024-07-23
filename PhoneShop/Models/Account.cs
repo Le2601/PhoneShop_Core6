@@ -27,5 +27,7 @@ namespace PhoneShop.Models
 
         public ICollection<Evaluate_Product> evaluate_Products { get; set; }
 
+        public ICollection<UserFollows> UserFollows { get; set; }
+
     }
 }

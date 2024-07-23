@@ -89,6 +89,9 @@ namespace PhoneShop.Models
         public DbSet<Order_ProductPurchasePrice> Order_ProductPurchasePrices { get; set; }
 
 
+        public DbSet<UserFollows> UserFollows { get; set; }
+
+
 
 
         //fluent
@@ -251,6 +254,18 @@ namespace PhoneShop.Models
          .HasOne(p => p.Booth_Information)
          .WithMany(p => p.Booth_Trackings)
          .HasForeignKey(p => p.BoothId);
+
+
+            modelBuilder.Entity<UserFollows>()
+              .HasOne(p => p.Account)
+              .WithMany(p => p.UserFollows)
+              .HasForeignKey(p => p.UserID);
+
+            modelBuilder.Entity<UserFollows>()
+              .HasOne(p => p.Booth_Information)
+              .WithMany(p => p.UserFollows)
+              .HasForeignKey(p => p.BoothID);
+
 
 
         }

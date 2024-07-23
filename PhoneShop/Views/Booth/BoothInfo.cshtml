@@ -1,0 +1,301 @@
+﻿@model List<PhoneShop.Models.Product>
+@using PhoneShop.Data
+@{
+    ViewData["Title"] = "BoothInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    BoothData Booth = ViewBag.Booth;
+
+    var tienO = 0;
+
+
+}
+<style>
+    .shop-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .follow-btn-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .follow-btn {
+        background-color: #2874f0;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+        .follow-btn i {
+            margin-right: 8px;
+        }
+
+        .follow-btn:hover {
+            background-color: #1c5fbe;
+        }
+    .shop-card {
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .shop-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .shop-logo img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 16px;
+    }
+
+    .shop-name {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .shop-created-at {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .shop-metrics {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .metric {
+        text-align: center;
+        flex: 1;
+    }
+
+    .metric-value {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .metric-label {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .shop-reviews .section-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .review-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .review-item {
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        padding: 12px;
+    }
+
+    .review-text {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .review-author {
+        color: #666;
+        font-size: 12px;
+    }
+</style>
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Gian hàng</li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">@Booth.BoothName</li>
+
+        </ol>
+    </nav>
+</div>  
+
+<div class="container" style="min-height:700px">
+
+    <div class="shop-card">
+        <div class="shop-header">
+            <div class="shop-info">
+                <h3 class="shop-name">@Booth.BoothName</h3>
+                <p class="shop-created-at">Tham gia từ @Booth.Create_Booth.ToString("dd/MM/yyyy")</p>
+            </div>
+
+           
+
+                @if (ViewBag.CheckFollow == 0)
+                {
+                    <div class="follow-btn-container">
+                        <a href="/Booth/FollowBooth/@Booth.BoothId" style="text-decoration: none;" class="follow-btn">
+                            <i class="fas fa-plus"></i> Theo dõi
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="follow-btn-container">
+                    <a href="/Booth/UnFollowBooth/@Booth.BoothId" style="text-decoration: none;" class="follow-btn">
+                            <i class="fas fa-plus"></i> Đang theo dõi
+                        </a>
+                    </div>
+                }
+
+            
+
+           
+        </div>
+
+        <div class="shop-metrics">
+            <div class="metric">
+                <div class="metric-value">@Booth.Quantity_Product</div>
+                <div class="metric-label">Sản phẩm</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">@Booth.Total_Sold</div>
+                <div class="metric-label">Sản phẩm đã bán</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">1</div>
+                <div class="metric-label">Đánh giá</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">@Booth.Followers</div>
+                <div class="metric-label">Người theo dõi</div>
+            </div>
+            
+        </div>
+
+      
+    </div>
+    <div class="row">
+
+        <div style="margin-bottom: 10px;padding-left: 13px;" class="section-title">
+            <h3 style="text-align: left; margin-bottom:0PX;">Sản phẩm của shop </h3>
+        </div>
+
+
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="single-product">
+                        <div class="product-f-image">
+                            @*                                         <img src="~/User/img/product-1.jpg" alt="">
+                    *@            <img src="~/images/Product/@item.ImageDefaultName" style="border: solid 1px;height:296px; width:220px" />
+
+                            <div class="product-hover">
+                                <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                            </div>
+                        </div>
+                        <div style="height:45px">  <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2></div>
+
+
+                        <div class="product-carousel-price">
+
+
+                            @{
+                                if (item.Discount == 0 || item.Discount == null || item.Discount is string)
+                                {
+                                    <ins>
+                                        @{
+
+
+
+
+
+
+                                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+
+                                        }
+                                        @formattedPrice
+                                    </ins>
+                                }
+                                else
+                                {
+                                    <ins>
+                                        @{
+
+
+
+
+
+                                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
+
+
+                                        }
+                                        @formattedPrice
+                                    </ins>
+                                }
+                            }
+
+                            <del>
+                                @{
+                                    string formattedPrice2;
+                                    if (item.Discount > 0)
+                                    {
+
+                                        formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                    }
+                                    else
+                                    {
+
+
+                                        formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
+                                    }
+
+
+                                }
+                                @formattedPrice2
+
+
+
+
+                            </del>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        }
+
+        <!-- Các sản phẩm tiếp theo -->
+    </div>
+
+
+
+</div>
+
+@section Scripts{
+   
+
+
+}
+

@@ -21,7 +21,7 @@
 <h1>Danh sách đơn hàng của tôi</h1>
 
 @{
-    if (User.Identity.IsAuthenticated)
+    if (User.IsInRole("Seller") || User.IsInRole("User"))
     {
         <table>
             <thead>

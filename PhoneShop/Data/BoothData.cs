@@ -9,6 +9,8 @@
 
         public int QuantityProductBooth { get; set; }
 
+        public DateTime Create_Booth { get; set; }
+
         // Booth_Tracking
 
         public int Quantity_Product { get; set; }

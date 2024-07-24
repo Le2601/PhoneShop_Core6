@@ -59,6 +59,9 @@ namespace PhoneShop.Controllers
 
         private readonly CollaborativeFilteringService _collaborativeFilteringService;
 
+
+
+
        
 
 
@@ -82,6 +85,8 @@ namespace PhoneShop.Controllers
             _order_userRepository = order_UserRepository;
             _evaluate_ProductRepository = evaluate_ProductRepository;
             _collaborativeFilteringService = collaborativeFilteringService;
+
+
            
 
         }
@@ -132,7 +137,7 @@ namespace PhoneShop.Controllers
             {
                 ViewBag.CheckAccount = 0;
             }
-            
+
 
             //
 
@@ -140,8 +145,9 @@ namespace PhoneShop.Controllers
 
             return View(item);
         }
+       
         //DEMO EXPORT FILE
-        
+
         [HttpGet("/Export_File")]
         public IActionResult DemoExport_File()
         {

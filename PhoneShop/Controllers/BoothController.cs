@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Data;
 using PhoneShop.Models;
 
-namespace PhoneShop.Controllers.Components
+namespace PhoneShop.Controllers
 {
     [Authorize(Roles = "Seller,User")]
     public class BoothController : Controller
@@ -11,56 +11,47 @@ namespace PhoneShop.Controllers.Components
 
         private readonly ShopPhoneDbContext _context;
 
-        public BoothController(ShopPhoneDbContext shopPhoneDbContext) {
-            
+        public BoothController(ShopPhoneDbContext shopPhoneDbContext)
+        {
+
             _context = shopPhoneDbContext;
 
-        
+
         }
-        
+       
+        [Authorize(Roles = "Seller,User")]
         [Route("/gian-hang.html")]
         
         public IActionResult Index()
         {
-            if (User.IsInRole("Seller") || User.IsInRole("User"))
-            {
+           
                 var items = (
-                from b in _context.Booth_Information
-                join t in _context.Booth_Trackings on b.Id equals t.BoothId
-                select new BoothData
-                {
-                    BoothId = b.Id,
-                    BoothName = b.ShopName,
-                    QuantityProductBooth = 0,
-                    Quantity_Product = t.Quantity_Product,
-                    Total_Sold = t.Total_Sold,
-                    Followers = t.Followers,
-
-                }
-
-
+                    from b in _context.Booth_Information
+                    join t in _context.Booth_Trackings on b.Id equals t.BoothId
+                    select new BoothData
+                    {
+                        BoothId = b.Id,
+                        BoothName = b.ShopName,
+                        QuantityProductBooth = 0,
+                        Quantity_Product = t.Quantity_Product,
+                        Total_Sold = t.Total_Sold,
+                        Followers = t.Followers,
+                    }
                 ).ToList();
                 return View(items);
-            }
 
-            return RedirectToAction("Account", "Login");
-
-
-
-           
-
-           
-            
         }
+
+
         [Route("/detail_booth/{Id}")]
-       
+
         public IActionResult BoothInfo(int Id)
         {
 
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
             ViewBag.Booth = (
-               from b in _context.Booth_Information.Where(x=> x.Id == Id)
+               from b in _context.Booth_Information.Where(x => x.Id == Id)
                join t in _context.Booth_Trackings on b.Id equals t.BoothId
                select new BoothData
                {
@@ -111,12 +102,12 @@ namespace PhoneShop.Controllers.Components
             _context.SaveChanges();
 
             //update tracking booth
-            var Update_BoothTracking = _context.Booth_Trackings.Where(x=> x.BoothId == Id).FirstOrDefault()!;
-            if(Update_BoothTracking != null)
+            var Update_BoothTracking = _context.Booth_Trackings.Where(x => x.BoothId == Id).FirstOrDefault()!;
+            if (Update_BoothTracking != null)
             {
                 Update_BoothTracking.Followers += 1;
                 _context.Booth_Trackings.Update(Update_BoothTracking);
-                _context.SaveChanges() ;
+                _context.SaveChanges();
             }
 
 
@@ -128,7 +119,7 @@ namespace PhoneShop.Controllers.Components
 
 
 
-            return RedirectToAction("BoothInfo",new { Id = Id});
+            return RedirectToAction("BoothInfo", new { Id });
         }
         public IActionResult UnFollowBooth(int Id)
         {
@@ -138,7 +129,7 @@ namespace PhoneShop.Controllers.Components
             //check follow        
             var CheckFolow = _context.UserFollows.Where(x => x.BoothID == Id && x.UserID == AccountInt).FirstOrDefault()!;
 
-         
+
             _context.UserFollows.Remove(CheckFolow);
             _context.SaveChanges();
 
@@ -158,7 +149,7 @@ namespace PhoneShop.Controllers.Components
 
 
 
-            return RedirectToAction("BoothInfo", new { Id = Id });
+            return RedirectToAction("BoothInfo", new { Id });
         }
 
 

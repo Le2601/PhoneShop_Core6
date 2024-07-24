@@ -18,13 +18,13 @@ namespace PhoneShop.Controllers
         {
             return View();
         }
-        [HttpPost]
-
+        [HttpPost]       
+        
         public IActionResult Delete_Comment(int Id)
         {
             if (HttpContext.Session.GetString("AccountId") == null)
             {
-                return Json(new { success = false });
+                return Redirect(Request.Headers["Referer"].ToString());
             }
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
@@ -40,11 +40,11 @@ namespace PhoneShop.Controllers
                 _context.product_Reviews.Remove(checkRwProduct);
                 _context.SaveChanges();
                 //giu nguyen trang
-                return Redirect(Request.Headers["Referer"].ToString());
+                return RedirectToRoute("Details_Product", new { Alias = GetProduct.Alias, Id = GetProduct.Id });
 
             }
 
-
+            
 
             //giu nguyen trang
             return Redirect(Request.Headers["Referer"].ToString());

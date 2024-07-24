@@ -29,6 +29,7 @@ using PhoneShop.DI.Specification;
 using PhoneShop.DI.SupportContent;
 using PhoneShop.DI.SupportDirectory;
 using PhoneShop.DI.Voucher;
+using PhoneShop.Extension;
 using PhoneShop.Extension.CollaborativeFiltering;
 using PhoneShop.Libraries;
 using PhoneShop.Models;
@@ -152,8 +153,17 @@ builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.IsEssential = true;
+
+    
+
 });
+
+
+
+
 builder.Services.AddResponseCaching();
+
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(p =>
               {
@@ -241,7 +251,7 @@ app.UseEndpoints(endpoints =>
         name: "demoroute",
         pattern: "demothoi/{Title}",
         defaults: new { controller = "ProductController", action = "demoget" });
-
+    
 
 
 });

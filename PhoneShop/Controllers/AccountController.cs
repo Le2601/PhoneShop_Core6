@@ -240,6 +240,7 @@ namespace PhoneShop.Controllers
                 {
 
                     ViewBag.ReturnUrl = returnUrl;
+                   
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -325,7 +326,14 @@ namespace PhoneShop.Controllers
 
 
                         //return Json(new { closeModal = true });
+
+                       
+                        
+
+
                         return RedirectToAction("Index", "Home");
+                        
+                        
                     }
                     else
                     {

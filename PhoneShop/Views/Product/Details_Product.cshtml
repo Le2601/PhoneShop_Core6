@@ -301,7 +301,7 @@
 
                                  <textarea id="comment" name="content" placeholder="Nhập bình luận của bạn..." style="width: 666px;resize: none;" required></textarea>
 
-                                @if (User.Identity.IsAuthenticated )
+                                @if (User.IsInRole("Seller") || User.IsInRole("User"))   
                                 {
                                     <input type="submit" value="Gửi bình luận">
                                 }

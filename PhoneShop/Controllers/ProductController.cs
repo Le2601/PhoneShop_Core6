@@ -45,7 +45,7 @@ namespace PhoneShop.Controllers
             return View();
         }
 
-        [Route("/chi-tiet/{Alias}-{Id}")]
+        [Route("/chi-tiet/{Alias}-{Id}", Name = "Details_Product")]
         public async Task<IActionResult> Details_Product(string Alias, int Id)
         {
             var item = await _userRepository.ProductById(Alias, Id);

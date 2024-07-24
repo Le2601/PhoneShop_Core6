@@ -2,20 +2,67 @@
 
 @model List<Product_ReviewModelView>
 
+    <style>
+    .comment-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .comment-content {
+        flex-grow: 1;
+    }
+
+    .delete-button-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .delete-button-trigger {
+        cursor: pointer;
+    }
+
+    .delete-comment {
+        position: absolute;
+        right: 0;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: none;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    </style>
+
 @if (Model != null && Model.Count() > 0)
 {
 
     foreach (var item in Model)
     {
         <div class="comment-container">
-            <span class="comment-author">@item.UserName:</span>
-            <p class="comment-content">@item.Content</p>
+            <div class="comment-content">
+                <span class="comment-author">@item.UserName:</span>
+                <p class="comment-text">@item.Content</p>
+            </div>
+           
+                <a href="/#" data-id="@item.Id" class="deltecmt">Xóa</a>
+           
+           
         </div>
+        
 
     
 
 
     }
 }
+
+
+
+
 
 

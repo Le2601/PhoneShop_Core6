@@ -105,21 +105,21 @@
                                 @{
                                     if (itemm.Discount == 0 || itemm.Discount == null || itemm.Discount is string)
                                     {
-                                        <ins>
-                                            @{
+                                            <ins>
+                                                @{
                                                 string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
-                                            }
-                                            @formattedPrice
-                                        </ins>
+                                                }
+                                                @formattedPrice
+                                            </ins>
                                     }
                                     else
                                     {
-                                        <ins>
-                                            @{
+                                            <ins>
+                                                @{
                                                 string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Discount); // "C" là định dạng tiền tệ
-                                            }
-                                            @formattedPrice
-                                        </ins>
+                                                }
+                                                @formattedPrice
+                                            </ins>
                                     }
                                 }
 
@@ -193,8 +193,8 @@
                                     @{
                                         if (Model.Discount == 0 || Model.Discount == null || Model.Discount is string)
                                         {
-                                            <ins>
-                                                @{
+                                                <ins>
+                                                    @{
 
 
 
@@ -203,14 +203,14 @@
 
 
 
-                                                }
-                                                @formattedPrice
-                                            </ins>
+                                                    }
+                                                    @formattedPrice
+                                                </ins>
                                         }
                                         else
                                         {
-                                            <ins>
-                                                @{
+                                                <ins>
+                                                    @{
 
 
 
@@ -219,9 +219,9 @@
 
 
 
-                                                }
-                                                @formattedPrice
-                                            </ins>
+                                                    }
+                                                    @formattedPrice
+                                                </ins>
                                         }
                                     }
 
@@ -342,6 +342,33 @@
                             if (rs.success) {                              
                                 // alert(rs.msg);
                                 location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+
+            $('body').on('click', '.deltecmt', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xác nhận xóa bình luận");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/ProductReview/Delete_Comment',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                // alert(rs.msg);
+                                window.location.href = window.location.href;
+                            }
+                            else {
+                                window.location.href = window.location.href;
                             }
                         }
 

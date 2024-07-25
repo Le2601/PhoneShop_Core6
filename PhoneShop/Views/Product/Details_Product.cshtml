@@ -25,6 +25,32 @@
 
 
 <style>
+    textarea#comment {
+        width: 666px;
+        resize: none;
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+
+    .submit-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: inherit;
+        margin-top: 12px;
+    }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
     .comment-container {
         background-color: #f4f4f4;
         padding: 10px;
@@ -286,37 +312,40 @@
 
                               <!--  binh luan-->
 
-                    <h1>Bình luận sản phẩm</h1>
-
-                    <div id="comment-section">
-                        @await Html.PartialAsync("_PartialProductReview",IsReview)
-
-                        <div id="load-more-comments">Xem thêm bình luận</div>
-                    </div>
-
-                          <!-- Form bình luận -->
-                          <form id="comment-form" asp-action="Review_Product" asp-controller="Product" asp-route-id="@Model.Id" method="post">
-
-                              <br />
-
-                                 <textarea id="comment" name="content" placeholder="Nhập bình luận của bạn..." style="width: 666px;resize: none;" required></textarea>
-
-                                @if (User.IsInRole("Seller") || User.IsInRole("User"))   
-                                {
-                                    <input type="submit" value="Gửi bình luận">
-                                }
-                                else
-                                {
-                                    <a href="/Login.html" class="btn btn-success" style="color:white; margin-bottom:23px">Cần đăng nhập</a>
-                                }
-
-                          </form>
+                    
 
                           <!--  end binh luan-->
-                    @await Html.PartialAsync("_PartialDetail_ProductRelated",IsSellingProduct)
+                    
                     
                 </div>
             </div>
+            <h1>Bình luận</h1>
+
+            <div id="comment-section" style="height:400px">
+                @await Html.PartialAsync("_PartialProductReview",IsReview)
+
+
+            </div>
+
+            <!-- Form bình luận -->
+            <form id="comment-form" asp-action="Review_Product" asp-controller="Product" asp-route-id="@Model.Id" method="post">
+
+                <br />
+
+                <textarea id="comment" name="content" placeholder="Nhập bình luận của bạn..." style="width: 666px;resize: none;" required></textarea>
+               
+
+                @if (User.IsInRole("Seller") || User.IsInRole("User"))
+                {
+                    <input type="submit" value="Gửi bình luận">
+                }
+                else
+                {
+                    <a href="/Login.html" class="btn btn-success" style="color:white; margin-bottom:23px">Cần đăng nhập</a>
+                }
+
+            </form>
+            @await Html.PartialAsync("_PartialDetail_ProductRelated",IsSellingProduct)
         </div>
     </div>
 </div>
@@ -350,74 +379,12 @@
                 }
             });
 
-            $('body').on('click', '.deltecmt', function () {
-                var id = $(this).data('id');
-
-                var conf = confirm("Xác nhận xóa bình luận");
-
-                if (conf == true) {
-
-                    $.ajax({
-
-                        url: '/ProductReview/Delete_Comment',
-                        type: 'post',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                                // alert(rs.msg);
-                                window.location.href = window.location.href;
-                            }
-                            else {
-                                window.location.href = window.location.href;
-                            }
-                        }
-
-                    });
-
-                }
-            });
+           
 
            
         });
     </script>
 
-   @*  <script>
-        var searchInput = document.getElementById('searchInput');
-        var items = document.getElementById('items');
-        var options = [];
-        // Xóa tất cả các tùy chọn hiện có
-        while (items.firstChild) {
-            items.removeChild(items.firstChild);
-        }
-        // Lưu danh sách tùy chọn vào một mảng JavaScript
-        @foreach (var i in IsSuggestProduct)
-        {
-            @:options.push("@i.Title");
-        }
-
-            searchInput.addEventListener('input', function () {
-                var keyword = searchInput.value.toLowerCase();
-
-                // Xóa tất cả các tùy chọn hiện có
-                while (items.firstChild) {
-                    items.removeChild(items.firstChild);
-                }
-
-                // Hiển thị gợi ý nếu từ khóa khớp với các tùy chọn
-                options.forEach(function (option) {
-                    if (option.toLowerCase().includes(keyword)) {
-                        var optionElement = document.createElement('option');
-                        optionElement.value = option;
-                        items.appendChild(optionElement);
-                    }
-                });
-
-               
-            });
-        // Xóa tất cả các tùy chọn hiện có
-        while (items.firstChild) {
-            items.removeChild(items.firstChild);
-        }
-    </script> *@
+  
 
 }

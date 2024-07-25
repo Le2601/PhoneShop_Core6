@@ -21,7 +21,9 @@ namespace PhoneShop.DI.DI_User.ReviewProduct_User
 
                 Id = x.Id,
                 Content = x.Content,
-                UserName = x.UserName
+                UserName = x.UserName,
+                UserEmail = x.UserEmail,
+                CreateAt = x.CreateAt,
 
             }).ToListAsync();
 

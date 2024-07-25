@@ -29,7 +29,9 @@ namespace PhoneShop.Models
 
          public int AccountId { get; set; }
 
-         public virtual ICollection<ShopAddress> ShopAddresses { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+
+        public virtual ICollection<ShopAddress> ShopAddresses { get; set; }
         public virtual ICollection<Shipping_Method> Shipping_Methods { get; set; }
         public virtual ICollection<Bank_Account> Bank_Accounts { get; set; }
 

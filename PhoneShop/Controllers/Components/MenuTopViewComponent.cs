@@ -25,7 +25,7 @@ namespace PhoneShop.Controllers.Components
                 return View();
             }
             int AccountInt = int.Parse(taikhoanID);
-            var IAccount = _context.Accounts.FirstOrDefault(x => x.Id == AccountInt);
+            var IAccount = _context.Accounts.FirstOrDefault(x => x.Id == AccountInt)!;
 
             ViewBag.GetNameLogin = IAccount!.FullName;
 

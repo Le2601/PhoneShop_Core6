@@ -76,6 +76,8 @@ namespace PhoneShop.Models
 
         public virtual Category Category { get; set; }
 
+        public virtual Booth_Information Booth_Information { get; set; }
+
       
 
         //public Evaluate_Product Evaluate_Product { get; set; }

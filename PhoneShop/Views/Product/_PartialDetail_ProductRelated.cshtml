@@ -15,59 +15,95 @@
 }
 <div class="related-products-wrapper">
     <h2 class="related-products-title">Bán chạy</h2>
-    <div class="related-products-carousel">
-        @foreach(var item in Model)
+    <div class="product-carousel">
+
+        @if (Model != null)
         {
-            <div class="single-product">
-                <div class="product-f-image">
-                    <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px;" alt="">
-                    <div class="product-hover">
-                        <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                        <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+            foreach (var item in Model)
+            {
+                <div class="single-product">
+                    <div class="product-f-image">
+                        @*                                         <img src="~/User/img/product-1.jpg" alt="">
+                *@            <img src="~/images/Product/@item.ImageDefaultName" style="border: solid 1px;height:296px; width:220px" />
+
+                        <div class="product-hover">
+                            <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                            <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                        </div>
                     </div>
-                </div>
 
-                <h2><a href="">@item.Title</a></h2>
-
-                <div class="product-carousel-price">
-                   
-                    @{
-                        if (item.Discount == 0 || item.Discount == null || item.Discount is string)
-                        {
-                            <ins>
-                                @{
+                    <div style="height:45px">
+                        <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
+                    </div>
 
 
+                    <div class="product-carousel-price">
 
-                                    string formattedPrice = item.Price.ToString("C", culture); // "C" là định dạng tiền tệ
 
+                        @{
+                            if (item.Discount == 0 || item.Discount == null || item.Discount is string)
+                            {
+                                <ins>
+                                    @{
 
 
 
-                                }
-                                @formattedPrice
-                            </ins>
+
+
+
+                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+
+                                    }
+                                    @formattedPrice
+                                </ins>
+                            }
+                            else
+                            {
+                                <ins>
+                                    @{
+
+
+
+
+
+                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
+
+
+                                    }
+                                    @formattedPrice
+                                </ins>
+                            }
                         }
-                        else
-                        {
-                            <ins>
-                                @{
+
+                        @{
+                            string formattedPrice2;
+                            if (item.Discount > 0)
+                            {
+
+
+                                formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                <del>@formattedPrice2</del>
+                            }
 
 
 
-                                    string formattedPrice = item.Discount.ToString("C", culture); // "C" là định dạng tiền tệ
-
-
-
-
-                                }
-                                @formattedPrice
-                            </ins>
                         }
-                    }
+
+
+
+
+
+
+                    </div>
+
                 </div>
-            </div>
+            }
         }
+
+
+
+
+
 
     </div>
 </div>

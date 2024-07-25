@@ -22,10 +22,7 @@ namespace PhoneShop.Controllers
         
         public IActionResult Delete_Comment(int Id)
         {
-            if (HttpContext.Session.GetString("AccountId") == null)
-            {
-                return Redirect(Request.Headers["Referer"].ToString());
-            }
+           
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
 
@@ -44,10 +41,10 @@ namespace PhoneShop.Controllers
 
             }
 
-            
+
 
             //giu nguyen trang
-            return Redirect(Request.Headers["Referer"].ToString());
+            return Json(new {success = false});
 
         }
     }

@@ -14,6 +14,8 @@ namespace PhoneShop.ModelViews
         }
       
         public int Id { get; set; }
+
+        public int BoothId { get; set; }
       
         public string Title { get; set; }
       

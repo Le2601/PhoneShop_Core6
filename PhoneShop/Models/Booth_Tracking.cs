@@ -18,6 +18,10 @@ namespace PhoneShop.Models
 
         public double Point_Evaluation { get; set; }
 
+        public int Total_Comments { get; set; }
+
+
+
         public int BoothId { get; set; }
 
         public Booth_Information Booth_Information { get; set; }

@@ -232,8 +232,8 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Discount = item.Discount,
                 ImageDefaultName = item.ImageDefaultName,
                 CategoryId = item.CategoryId,
-                Quantity = item.Quantity,
-
+                Quantity = item.Quantity,               
+                BoothId = item.Booth_InformationId
 
             };
             return newProduct;
@@ -252,7 +252,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 ImageDefaultName = item.ImageDefaultName,
                 CategoryId = item.CategoryId,
                 Quantity = item.Quantity,
-
+                BoothId = item.Booth_InformationId
 
             };
             return newProduct;

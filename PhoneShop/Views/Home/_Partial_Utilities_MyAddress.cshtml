@@ -7,9 +7,7 @@
 </style>
 
 
-@{
-    if (User.IsInRole("Seller") || User.IsInRole("User"))
-    {
+
         <a class="imgproduct btn btn-primary btn-sm" href="#" data-id="@ViewData["IdAccount"]">Xem địa chỉ của bạn</a>
         <div>
        
@@ -91,10 +89,5 @@
         </form>
 
 
-    }
-    else
-    {
-        <p>Bạn chưa đăng nhập. <a class="btn btn-success" href="/Login.html">Đăng nhập</a></p>
-    }
-}
+
 

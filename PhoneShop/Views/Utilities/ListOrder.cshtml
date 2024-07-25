@@ -1,8 +1,10 @@
-﻿@model List<PhoneShop.ModelViews.OrderViewModel>
-
-@using PhoneShop.Extension
+﻿@model List<PhoneShop.Models.Order>
+@{
+    ViewData["Title"] = "ListOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <style>
-    
+
     table {
         border-collapse: collapse;
         width: 100%;
@@ -18,7 +20,35 @@
         background-color: #f2f2f2;
     }
 </style>
-<h1>Danh sách đơn hàng của tôi</h1>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Tiện ích</li>
+        </ol>
+    </nav>
+</div>
+<nav class="navbar navbar-default" style="width:1211px; margin:auto">
+    <div class="container-fluid">
+
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+
+                <li><a href="/Utilities/Account">Account</a></li>
+                <li><a href="/Utilities/ListOrder">ListOrder</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" style="min-height:600px">
+
+    <div class="row">
+
+
+
+
+        <h1>Danh sách đơn hàng của tôi</h1>
 
 
         <table>
@@ -29,7 +59,7 @@
                     <th>Ngày đặt hàng</th>
                     <th>Trạng thái</th>
                     <th>Tổng tiền</th>
-                   
+
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +67,7 @@
                 {
                     <tr>
                         <td><a class="Detail_Order_Account" href="#" data-id_or="@i.Id_Order">@i.Id_Order</a></td>
-                        @if(i.PaymentMethod == 1)
+                        @if (i.PaymentMethod == 1)
                         {
                             <td>khi nhận hàng</td>
                         }
@@ -46,7 +76,7 @@
                             <td>VnPay</td>
                         }
                         <td>@i.Order_Date</td>
-                        @if(i.Order_Status == 0)
+                        @if (i.Order_Status == 0)
                         {
                             <td>Chưa xác nhận</td>
                         }
@@ -54,11 +84,19 @@
                         {
                             <td>Đã xác nhận</td>
                         }
-                        <td>@Extension.ToVnd((double)i.Total_Order)</td>
-                     
+                        <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Total_Order)</td>
+
                     </tr>
                 }
 
 
             </tbody>
         </table>
+
+
+
+
+    </div>
+</div>
+
+

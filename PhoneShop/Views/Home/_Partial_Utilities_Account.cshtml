@@ -38,9 +38,8 @@
 
 
 
-@{
-    if (User.IsInRole("Seller") || User.IsInRole("User"))
-    {
+
+    
        
     <h1>Thông tin cá nhân</h1>
     <p>Email: @Model.Email</p>
@@ -61,9 +60,4 @@
       </div>
     </form>
  
-    }
-    else
-    {
-       <p>Bạn chưa đăng nhập. <a class="btn btn-success" href="/Login.html">Đăng nhập</a></p>
-    }
-}
+   

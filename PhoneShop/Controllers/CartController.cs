@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Policy;
 using System.Threading.Tasks;
 
@@ -462,9 +463,29 @@ namespace PhoneShop.Controllers
 
         public async Task<IActionResult> SubmitCheckOut(IFormCollection form, PaymentInformationModel model)
         {
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+
 
             var Get_Quantity_Product_Order = 0;
            

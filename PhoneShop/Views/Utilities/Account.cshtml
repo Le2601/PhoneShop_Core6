@@ -1,0 +1,50 @@
+﻿@model PhoneShop.Models.Account
+@{
+    ViewData["Title"] = "a";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Tiện ích</li>
+        </ol>
+    </nav>
+</div>
+<nav class="navbar navbar-default" style="width:1211px; margin:auto" >
+    <div class="container-fluid">
+       
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                
+                <li><a href="/Utilities/Account">Account</a></li>
+                <li><a href="/Utilities/ListOrder">ListOrder</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" style="min-height:600px">
+
+    <div class="row">
+
+        <h1>Thông tin cá nhân</h1>
+        <p>Email: @Model.Email</p>
+        <p>Ngày tạo: @Model.CreateDate</p>
+        <form asp-action="Update" asp-controller="Account" method="post">
+            <input type="hidden" asp-for="Id">
+            <div class="form-group">
+                <label for="name">Họ và tên:</label>
+                <input type="text" asp-for="FullName" placeholder="Nhập họ và tên" required>
+            </div>
+            <div class="form-group">
+                <label for="Phone">Số điện thoại:</label>
+                <input type="text" asp-for="Phone" placeholder="Nhập số điện thoại" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Xác nhận chỉnh sửa</button>
+            </div>
+        </form>
+</div>
+</div>

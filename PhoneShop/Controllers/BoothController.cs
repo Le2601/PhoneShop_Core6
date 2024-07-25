@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Data;
 using PhoneShop.Models;
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers
 {
@@ -19,7 +20,7 @@ namespace PhoneShop.Controllers
 
         }
        
-        [Authorize(Roles = "Seller,User")]
+        
         [Route("/gian-hang.html")]
         
         public IActionResult Index()
@@ -36,6 +37,9 @@ namespace PhoneShop.Controllers
                         Quantity_Product = t.Quantity_Product,
                         Total_Sold = t.Total_Sold,
                         Followers = t.Followers,
+                        Total_Comment = t.Total_Comments
+                        
+
                     }
                 ).ToList();
                 return View(items);
@@ -47,9 +51,29 @@ namespace PhoneShop.Controllers
 
         public IActionResult BoothInfo(int Id)
         {
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if(taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                     AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                 AccountInt = int.Parse(taikhoanID);
+            }
+            
+
+
             ViewBag.Booth = (
                from b in _context.Booth_Information.Where(x => x.Id == Id)
                join t in _context.Booth_Trackings on b.Id equals t.BoothId
@@ -61,7 +85,8 @@ namespace PhoneShop.Controllers
                    Quantity_Product = t.Quantity_Product,
                    Total_Sold = t.Total_Sold,
                    Followers = t.Followers,
-                   Create_Booth = b.Creare_At
+                   Create_Booth = b.Creare_At,
+                   Total_Comment = t.Total_Comments
 
 
                }

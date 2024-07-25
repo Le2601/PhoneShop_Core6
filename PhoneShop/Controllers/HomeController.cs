@@ -31,6 +31,7 @@ using PagedList.Core;
 using PhoneShop.Extension;
 using PhoneShop.Extension.CollaborativeFiltering;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PhoneShop.Controllers
 {
@@ -105,13 +106,28 @@ namespace PhoneShop.Controllers
             //get cookie auth
             //neu đăng nhập r mà tắt tab thì sẽ còn lưu auth cookie 
             //lấy idaccount  auth cookie được tạo khi login  lưu vào session
-            var userPrincipal = HttpContext.User;
-            if (userPrincipal.Identity.IsAuthenticated)
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
             {
-                
-                var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                HttpContext.Session.SetString("AccountId", GetIDAccount);
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
             }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
 
 
 
@@ -138,12 +154,12 @@ namespace PhoneShop.Controllers
 
            
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            
            
 
             if (taikhoanID != null)
             {
-                int AccountInt = int.Parse(taikhoanID);
+                
                 var CollaborativeFiltering_List = _collaborativeFilteringService.CollaborativeFiltering(AccountInt);
                 ViewBag.CheckAccount = 1;
 
@@ -271,29 +287,49 @@ namespace PhoneShop.Controllers
         }
 
         [Route("/Utilities.html")]
+        [Authorize(Roles = "Seller,User")]
         public async Task<IActionResult> Utilities()
         {
+
+          
+
+
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
 
             var ObjAccount = new Models.Account();
             var ObjMyOrder = new List<OrderViewModel>();
 
 
-         
-           
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            var IAccount =await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Id == AccountInt);
 
-            //neu da login
-            if ( taikhoanID != null )
-            {
-                int AccountInt = int.Parse(taikhoanID);
-                var IAccount =await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Id == AccountInt);
                 ObjAccount = IAccount;
-                ViewData["IdAccount"] = AccountInt;
+                
 
 
                 //my Order
                  ObjMyOrder = await _order_userRepository.ListOrder_User(AccountInt);
-            }
+            
             ViewBag.MyOrders = ObjMyOrder;
 
 

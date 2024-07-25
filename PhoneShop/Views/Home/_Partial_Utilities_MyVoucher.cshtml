@@ -45,7 +45,7 @@
     }
 </style>
 
-@if (User.IsInRole("Seller") || User.IsInRole("User")){
+
     @if (Model.VoucherItems.Count == 0)
     {
         <div>Chưa có phiếu giảm giá nào của bạn</div>
@@ -76,4 +76,4 @@
 
 
     }
-}
+

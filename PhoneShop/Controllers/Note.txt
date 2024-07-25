@@ -1,0 +1,29 @@
+﻿kiểm tra sau khi login rồi tắt trình duyệt khi chưa logout vần còn lưu auth cookie trên trình duyệt
+lấy ra auth cookie đó
+    *
+
+	        int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if(taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                     AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                 AccountInt = int.Parse(taikhoanID);
+            }
+
+     *
+
+
+

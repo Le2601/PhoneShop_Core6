@@ -169,9 +169,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
               {
                   p.Cookie.Name = "UserLoginCookie";
                  
-                  p.ExpireTimeSpan = TimeSpan.FromHours(1);
+                  p.ExpireTimeSpan = TimeSpan.FromHours(1);// Thời gian phiên làm việc
                   p.LoginPath = "/Login.html";
-              
+                  p.SlidingExpiration = true; // Cho phép gia hạn thời gian phiên làm việc khi người dùng tương tác
+
+                  p.Cookie.HttpOnly = true; // Chỉ cho phép truy cập cookie thông qua HTTP, ngăn không cho JavaScript truy cập. Điều này giúp bảo vệ chống lại các cuộc tấn công XSS (Cross-Site Scripting).
+                  p.Cookie.IsEssential = true; // Đánh dấu cookie là cần thiết cho hoạt động của ứng dụng, đảm bảo cookie này sẽ được lưu trữ ngay cả khi người dùng không đồng ý với các cookie không cần thiết khác. Điều này hữu ích trong bối cảnh tuân thủ GDPR.
+                  p.Cookie.SameSite = SameSiteMode.Strict;
+
+
+                 
               });
 
 //connect db
@@ -196,8 +203,8 @@ if (!app.Environment.IsDevelopment())
     // Bật cơ chế HSTS
     app.UseHsts();
 }
-
-
+//kích hoạt middleware để hiển thị thông tin về cookie trên web.
+app.UseCookiePolicy();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

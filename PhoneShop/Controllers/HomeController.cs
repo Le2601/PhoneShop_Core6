@@ -30,6 +30,7 @@ using PagedList;
 using PagedList.Core;
 using PhoneShop.Extension;
 using PhoneShop.Extension.CollaborativeFiltering;
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers
 {
@@ -92,12 +93,27 @@ namespace PhoneShop.Controllers
         }
 
 
+
+
+
+
        
 
         public async Task<IActionResult> Index(int? page)
         {
 
-           
+            //get cookie auth
+            //neu đăng nhập r mà tắt tab thì sẽ còn lưu auth cookie 
+            //lấy idaccount  auth cookie được tạo khi login  lưu vào session
+            var userPrincipal = HttpContext.User;
+            if (userPrincipal.Identity.IsAuthenticated)
+            {
+                
+                var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                HttpContext.Session.SetString("AccountId", GetIDAccount);
+            }
+
+
 
             var All_Product =await _productRepository.AllProducts();
 

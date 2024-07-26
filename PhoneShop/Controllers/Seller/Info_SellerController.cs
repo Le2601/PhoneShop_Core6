@@ -200,14 +200,33 @@ namespace PhoneShop.Controllers.Seller
 
 
         ////
-        //public IActionResult Update_Address_Seller(int AddressId)
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public IActionResult Update_Address_Seller(ShopAddress model)
-        //{
-        //    return RedirectToAction("Index", "Home_Seller");
-        //}
+        public IActionResult Update_Address_Seller(int AddressId)
+        {
+            var item = _context.ShopAddress.Where(x=> x.Id ==  AddressId).FirstOrDefault();
+            return View(item);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update_Address_Seller(ShopAddress model)
+        {
+            // Lấy thực thể hiện tại từ cơ sở dữ liệu
+            var existingEntity = _context.ShopAddress.Find(model.Id);
+
+            if (existingEntity != null)
+            {
+                // Cập nhật các thuộc tính của thực thể hiện tại với các giá trị mới
+                _context.Entry(existingEntity).CurrentValues.SetValues(model);
+
+                // Lưu các thay đổi vào cơ sở dữ liệu
+                _context.SaveChanges();
+
+                // Chuyển hướng tới action mong muốn
+                return RedirectToAction("Index", "Home_Seller");
+            }
+
+            // Xử lý trường hợp thực thể không tồn tại trong cơ sở dữ liệu
+            // Bạn có thể trả về kết quả NotFound hoặc xử lý theo nhu cầu của bạn
+            return NotFound();
+        }
     }
 }

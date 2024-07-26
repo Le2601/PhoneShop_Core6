@@ -23,6 +23,9 @@
 <link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="~/clients/dist/css/adminlte.min.css">
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -91,7 +94,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                    <strong> Địa chỉ lấy hàng <a href="/Info_Seller/Update_Address_Seller/@IsAddress.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
+                    <strong> Địa chỉ lấy hàng <a class="IsAddress" href="#" data-id_or="@IsAddress.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
                     <address>
                         
                         Người đại diện: @IsAddress.FullName<br>
@@ -138,7 +141,9 @@
     </div><!-- /.col -->
 </section>
 
-
+<div id="dialog">
+    <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
+</div>
 
 
 
@@ -170,6 +175,39 @@
 
     <!-- AdminLTE App -->
     <script src="~/clients/dist/js/adminlte.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            //dialog anh
+
+            $("#dialog").dialog({
+                autoOpen: false,
+                show: "fade",
+                hide: "fade",
+                modal: true,
+                height: '600',
+                width: '700',
+                resizable: true,
+                title: '',
+                close: function () {
+                    window.location.reload();
+                }
+            });
+            $('body').on('click', '.IsAddress', function () {
+
+                var AddressId = $(this).attr("data-id_or");
+                $("#dialog #myiframe").attr("src", "/Info_Seller/Update_Address_Seller?AddressId=" + AddressId);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+
+
+        });
+
+
+    </script>
     <script>
         $(function () {
             $("#example1").DataTable({
@@ -187,33 +225,7 @@
             });
         });
     </script>
-    <script>
-        $(document).ready(function () {
-            $('body').on('click', '.btnDelete', function () {
-                var id = $(this).data('id');
-
-                var conf = confirm("ban muoon xoa chua");
-
-                if (conf == true) {
-
-                    $.ajax({
-
-                        url: '/admin/Category/Delete',
-                        type: 'post',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                                $('trow_' + id).remove();
-                                location.reload();
-                            }
-                        }
-
-                    });
-
-                }
-            });
-        });
-    </script>
+    
 
 
 }

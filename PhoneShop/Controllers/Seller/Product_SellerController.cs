@@ -8,6 +8,7 @@ using PhoneShop.DI.Product;
 using PhoneShop.DI.Specification;
 using PhoneShop.Helpper;
 using PhoneShop.Models;
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers.Seller
 {
@@ -29,8 +30,28 @@ namespace PhoneShop.Controllers.Seller
         }
         public IActionResult Index()
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
             var items = _context.Products.Where(x=> x.Create_Id == AccountInt).ToList();
             ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
             return View(items);
@@ -46,12 +67,33 @@ namespace PhoneShop.Controllers.Seller
         {
 
             var GetIdProduct = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int IdAccount = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+            
 
             //get idBooth
 
-            var GetBooth = _context.Booth_Information.Where(x=> x.AccountId ==  IdAccount).FirstOrDefault()!;
+            var GetBooth = _context.Booth_Information.Where(x=> x.AccountId == AccountInt).FirstOrDefault()!;
 
             //kiem tra neu trung ten
             var CheckTitle = _productRepository.CheckTitleCreate(model.Title);
@@ -77,13 +119,24 @@ namespace PhoneShop.Controllers.Seller
 
 
 
+                            //check attribute || model.InputPrice < model.Price
+                            if (model.Quantity <= 0 )
+                            {
+                                ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Title");
+                                ViewData["ErorrQtt"] = "Số lượng phải lớn hơn 0";
+                               
+                                return View(model);
+                            }
+
+
+
 
                            
                             model.Alias = Helpper.Utilities.SEOUrl(model.Title);
                             model.Create_at = DateTime.Now;
                             model.Update_at = DateTime.Now;
                             model.ImageDefaultName = imageName;
-                            model.Create_Id = IdAccount;
+                            model.Create_Id = AccountInt;
                             model.Booth_InformationId = GetBooth.Id;
 
 

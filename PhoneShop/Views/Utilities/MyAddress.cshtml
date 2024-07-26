@@ -159,13 +159,7 @@
                             <input name="Phone" type="text">
                         </div>
 
-                        <div class="input-group">
-                            <label>Chọn làm mặc định</label>
-                            <select name="IsDefault" class="form-control tinh">
-                                <option value="0">Không</option>
-                                <option value="1">Có</option>
-                            </select>
-                        </div>
+                       
 
                         <div class="input-group">
                             <input type="submit" class="btn btn-primary" value="Thêm">
@@ -180,75 +174,7 @@
 
     
     
-    <div class="form-container">
-        <form method="post" action="/MyAddress/Create">
-            <div class="input-group">
-                <label>Tên người nhận</label>
-                <input name="FullName" type="text">
-            </div>
-
-            <div class="input-group">
-                <label>Tỉnh</label>
-                <select name="City" class="form-control tinh">
-                    <option value="" selected>Lựa chọn</option>
-                    @foreach (var i in Model)
-                    {
-                        <option value="@i.Id">@i.Title</option>
-                    }
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Quận</label>
-                <select name="District" class="form-control quan">
-                    <option value="" selected>Lựa quận</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Phường</label>
-                <select name="Ward" class="form-control phuong">
-                    <option value="" selected>Lựa phường</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Địa chỉ chi tiết (số nhà,...)</label>
-                <input name="Description" type="text">
-            </div>
-
-            <div class="input-group">
-                <label>Loại địa chỉ</label>
-                <select name="AddressType" class="form-control tinh">
-                    <option value="1">Chỗ ở cá nhân</option>
-                    <option value="2">Nơi làm việc</option>
-                    <option value="3">Khác</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Email</label>
-                <input name="Email" type="text">
-            </div>
-
-            <div class="input-group">
-                <label>Số điện thoại</label>
-                <input name="Phone" type="text">
-            </div>
-
-            <div class="input-group">
-                <label>Chọn làm mặc định</label>
-                <select name="IsDefault" class="form-control tinh">
-                    <option value="0">Không</option>
-                    <option value="1">Có</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <input type="submit" class="btn btn-primary" value="Thêm">
-            </div>
-        </form>
-   </div>
+   
 
 
 </div>

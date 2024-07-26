@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhoneShop.Models;
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers.Seller
 {
-   
+    
     public class Info_SellerController : Controller
     {
         private readonly ShopPhoneDbContext _context;
@@ -18,8 +19,30 @@ namespace PhoneShop.Controllers.Seller
         [Route("/kenh-nguoi-ban.html")]
         public IActionResult Info_Seller()
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+
+
             var Check_Seller = _context.Booth_Information.Where(x=> x.AccountId == AccountInt).FirstOrDefault();
             if (Check_Seller != null)
             {
@@ -31,10 +54,30 @@ namespace PhoneShop.Controllers.Seller
         [HttpPost]
         public IActionResult Create(IFormCollection form)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
-            
-            if(taikhoanID == null)
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+
+            if (taikhoanID == null)
             {
                 return RedirectToAction("Index", "Home");
             }   

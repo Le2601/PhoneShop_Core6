@@ -262,6 +262,7 @@ namespace PhoneShop.Controllers.Seller
 
                     var UpdateSpecification = new SpecificationsData
                     {
+
                         Display = form["Display"],
                         Model = model.Title,
                         OperatingSystem = form["OperatingSystem"],

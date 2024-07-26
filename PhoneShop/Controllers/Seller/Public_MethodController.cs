@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -6,6 +7,7 @@ using Stripe;
 
 namespace PhoneShop.Controllers.Seller
 {
+    [Authorize(Roles = "Seller")]
     public class Public_MethodController : Controller
     {
         private readonly ShopPhoneDbContext _context;

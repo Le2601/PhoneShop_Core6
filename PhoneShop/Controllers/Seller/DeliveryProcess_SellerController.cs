@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Areas.Admin.Data;
 using PhoneShop.DI.DeliveryProcess;
 using PhoneShop.DI.Order;
@@ -6,6 +7,7 @@ using PhoneShop.Models;
 
 namespace PhoneShop.Controllers.Seller
 {
+    [Authorize(Roles = "Seller")]
     public class DeliveryProcess_SellerController : Controller
     {
         private readonly ShopPhoneDbContext _context;

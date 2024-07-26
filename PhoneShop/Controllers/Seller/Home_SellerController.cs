@@ -6,6 +6,7 @@ using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using System.Net.Http;
 using System.Globalization;
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers.Seller
 {
@@ -23,12 +24,34 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Index()
         {
 
-            
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
 
-           
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+
+
+
+
             var item_Booth_Information = _context.Booth_Information.Where(x=> x.AccountId == AccountInt).FirstOrDefault()!;
             HttpContext.Session.SetString("IdBoothShop", item_Booth_Information.Id.ToString());
 
@@ -106,8 +129,30 @@ namespace PhoneShop.Controllers.Seller
        
         public IActionResult Update_BoothTracking(int IdBooth, int Sold_Quantity)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+
+
             var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
 
             var Booth_Tracking = _context.Booth_Trackings.Where(x => x.BoothId == IdBooth).FirstOrDefault();

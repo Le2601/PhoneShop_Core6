@@ -60,7 +60,7 @@ namespace PhoneShop.Controllers
 
             string Description = form["Description"];
             string AddressType = form["AddressType"];
-            string IsDefault = form["IsDefault"];
+            
 
             var item = new MyAddressData
             {
@@ -70,7 +70,7 @@ namespace PhoneShop.Controllers
                 WardName = TitleWard,
                 Description = Description,
                 AddressType = int.Parse(AddressType),
-                IsDefault = int.Parse(IsDefault),
+                IsDefault = 0,
                 IdAccount = AccountInt,
                 Phone = Phone,
                 Email = Email,

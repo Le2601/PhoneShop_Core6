@@ -111,6 +111,7 @@ namespace PhoneShop.DI.Product
             item.Create_at = model.Create_at;
             item.Update_at = model.Update_at;
             item.ImageDefaultName = model.ImageDefaultName;
+            item.IsActive = model.IsActive;
 
             _context.SaveChanges();
 

@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Controllers.Seller.DataView;
 
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using Stripe;
-
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers.Seller
 {
+    [Authorize(Roles = "Seller")]
     public class Statistics_SellerController : Controller
     {
         private readonly ShopPhoneDbContext _context;
@@ -19,16 +21,36 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Index(string? SelectedDate)
         {
 
-            
 
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
 
-            
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
 
 
-          
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+
+
+
+
+
 
 
             var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
@@ -119,6 +141,7 @@ namespace PhoneShop.Controllers.Seller
         [HttpPost]
         public IActionResult Index(IFormCollection form)
         {
+
             var SelectedDate = form["SelectedDate"];
 
            
@@ -130,8 +153,28 @@ namespace PhoneShop.Controllers.Seller
 
         public IActionResult Week() {
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
 
             //get Data_Week
             var getData_Week = StatisticsByWeek(_context, AccountInt);

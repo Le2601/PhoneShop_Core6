@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PhoneShop.Areas.Admin.Data;
 using PhoneShop.DI.Voucher;
 using PhoneShop.Models;
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers.Seller
 {
@@ -20,6 +21,29 @@ namespace PhoneShop.Controllers.Seller
         }
         public async Task<IActionResult> Index()
         {
+
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
             int getId_Booth = int.Parse(HttpContext.Session.GetString("IdBoothShop")!);
 
             var items =await _context.Vouchers.Where(x=> x.BoothId ==  getId_Booth).ToListAsync();

@@ -22,13 +22,8 @@
                 @Html.ValidationSummary(true)
 
                 <div class="card">
-                    <div class="card-header p-2">
-                        <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin</a></li>
-                            @* <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>*@
-
-                        </ul>
-                    </div><!-- /.card-header -->
+                   
+                    
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="activity">
@@ -36,7 +31,12 @@
 
 
                                 <input type="hidden" asp-for="ImageDefaultName" class="form-control" value="@Model.ImageDefaultName" />
-
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" asp-for="IsActive" class="custom-control-input" id="customSwitch1">
+                                        <label class="custom-control-label" for="customSwitch1">Hiển thị</label>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label asp-for="Title" class="control-label"></label>
                                     <input asp-for="Title" class="form-control" value="@Model.Title" />

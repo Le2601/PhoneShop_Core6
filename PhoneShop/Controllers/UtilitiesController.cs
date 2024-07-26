@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.DI.DI_User.Voucher_User;
 using PhoneShop.Models;
@@ -7,6 +8,7 @@ using System.Security.Claims;
 
 namespace PhoneShop.Controllers
 {
+    [Authorize(Roles = "Seller,User")]
     public class UtilitiesController : Controller
     {
         private readonly ShopPhoneDbContext _dbContext;

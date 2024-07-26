@@ -53,9 +53,11 @@ namespace PhoneShop.Controllers
 
         private readonly IVoucher_UserRepository _voucher_UserRepository;
 
-        private readonly IIntroduceRepository _introduceRepository;
+        
 
         private readonly IOrder_UserRepository _order_userRepository;
+
+        private readonly IIntroduceRepository _introduceRepository;
 
         private readonly IEvaluate_ProductRepository _evaluate_ProductRepository;
 

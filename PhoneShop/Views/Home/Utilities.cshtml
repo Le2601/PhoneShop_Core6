@@ -55,20 +55,14 @@
 
 
 </style>
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
-            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Tiện ích</li>
-        </ol>
-    </nav>
-</div>
+    
 @await Component.InvokeAsync("MenuUtilities")
 <div class="container" style="min-height:600px">
     
     <div class="row">
-        @await Html.PartialAsync("_Layout_SideBar_Utilities")
-       
+
+@*         @await Html.PartialAsync("_Layout_SideBar_Utilities")
+ *@       
         <div class="content">
 
 
@@ -214,6 +208,8 @@
 
 
     </script>
+
+
    
 
    

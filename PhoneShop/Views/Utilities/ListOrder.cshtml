@@ -1,4 +1,4 @@
-﻿@model List<PhoneShop.Models.Order>
+﻿@model List<PhoneShop.ModelViews.OrderViewModel>
 @{
     ViewData["Title"] = "ListOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,27 +20,9 @@
         background-color: #f2f2f2;
     }
 </style>
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
-            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Tiện ích</li>
-        </ol>
-    </nav>
-</div>
-<nav class="navbar navbar-default" style="width:1211px; margin:auto">
-    <div class="container-fluid">
 
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
+@await Component.InvokeAsync("MenuUtilities")
 
-                <li><a href="/Utilities/Account">Account</a></li>
-                <li><a href="/Utilities/ListOrder">ListOrder</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
 <div class="container" style="min-height:600px">
 
     <div class="row">

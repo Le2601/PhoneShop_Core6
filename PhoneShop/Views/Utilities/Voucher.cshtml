@@ -1,0 +1,38 @@
+﻿@model PhoneShop.ModelViews.VoucherItemViewModel
+@using PhoneShop.Extension
+@{
+    ViewData["Title"] = "Voucher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@await Component.InvokeAsync("MenuUtilities")
+
+@if (Model.VoucherItems.Count == 0)
+{
+    <div>Chưa có phiếu giảm giá nào của bạn</div>
+}
+else
+{
+
+    <div class="voucher-container">
+        <h2>Vouchers Tích Lũy</h2>
+        <ul class="voucher-list">
+
+            @foreach (var i in Model.VoucherItems)
+            {
+
+                <li class="voucher-item">
+                    <div class="voucher-info">
+                        <h3>Mã giảm giá: @i.Code</h3>
+                        <p>Giảm @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount) cho đơn hàng</p>
+                        <p>Hạn sử dụng: @i.ExpiryDate</p>
+                    </div>
+                    <button class="voucher use-voucher-btn" data-id="@i.Id">Xóa</button>
+                </li>
+
+            }
+
+        </ul>
+    </div>
+
+
+}

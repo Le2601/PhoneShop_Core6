@@ -101,6 +101,90 @@ namespace PhoneShop.Controllers
             return View(voucherVM);
         }
 
+        public IActionResult MyAddress()
+        {
+
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+
+            var iCity = _dbContext.Cities.ToList();
+
+            var GetMyAddress = _dbContext.MyAddresses.Where(x=> x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault()!;
+
+            if(GetMyAddress == null)
+            {
+                ViewBag.MyAddress = new MyAddress()
+                {
+                    FullName = "null"
+                };
+            }
+            else
+            {
+                ViewBag.MyAddress = GetMyAddress;
+            }
+
+
+            ViewBag.AccountInt = AccountInt;
+
+
+            return View(iCity);
+        }
+        public IActionResult GetDistricts(int id)
+        {
+            var iCity = _dbContext.Districts.Where(x => x.IdCity == id).ToList();
+
+            string arr = "";
+
+            foreach (var i in iCity)
+            {
+                string v = $"<option value='{i.Id}'>{i.Title}</option>";
+                arr += v;
+            }
+
+
+
+
+            return Ok(arr);
+        }
+
+        public IActionResult GetWards(int id)
+        {
+            var iWards = _dbContext.Wards.Where(x => x.IdDistrict == id).ToList();
+
+            string arr = "";
+
+            foreach (var i in iWards)
+            {
+                string v = $"<option value='{i.Id}'>{i.Title}</option>";
+                arr += v;
+            }
+
+
+
+
+            return Ok(arr);
+        }
+
 
 
 

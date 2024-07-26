@@ -4,7 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-
+    .profile-header {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
     table {
         border-collapse: collapse;
         width: 100%;
@@ -20,17 +25,17 @@
         background-color: #f2f2f2;
     }
 </style>
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 @await Component.InvokeAsync("MenuUtilities")
 
-<div class="container" style="min-height:600px">
+<div class="container" style="min-height:600px; width:1000px;padding-top:20px">
 
     <div class="row">
 
 
 
 
-        <h1>Danh sách đơn hàng của tôi</h1>
+        <h1 class="profile-header">Danh sách đơn hàng của tôi</h1>
 
 
         <table>
@@ -80,5 +85,42 @@
 
     </div>
 </div>
+<div id="dialog">
+    <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
+</div>
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+
+            //dialog anh
+
+            $("#dialog").dialog({
+                autoOpen: false,
+                show: "fade",
+                hide: "fade",
+                modal: true,
+                height: '600',
+                width: '700',
+                resizable: true,
+                title: '',
+                close: function () {
+                    window.location.reload();
+                }
+            });        
+            $('body').on('click', '.Detail_Order_Account', function () {
+
+                var orderid = $(this).attr("data-id_or");
+                $("#dialog #myiframe").attr("src", "/Order/Index?id_order=" + orderid);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
 
 
+        });
+
+
+    </script>
+
+}

@@ -6,33 +6,102 @@
 }
 @await Component.InvokeAsync("MenuUtilities")
 
-@if (Model.VoucherItems.Count == 0)
-{
-    <div>Chưa có phiếu giảm giá nào của bạn</div>
-}
-else
-{
+<style>
+    .voucher-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        width: 100%;
+    }
 
-    <div class="voucher-container">
-        <h2>Vouchers Tích Lũy</h2>
-        <ul class="voucher-list">
+    .profile-header {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+    }
 
-            @foreach (var i in Model.VoucherItems)
-            {
+    .voucher-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
 
-                <li class="voucher-item">
-                    <div class="voucher-info">
-                        <h3>Mã giảm giá: @i.Code</h3>
-                        <p>Giảm @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount) cho đơn hàng</p>
-                        <p>Hạn sử dụng: @i.ExpiryDate</p>
-                    </div>
-                    <button class="voucher use-voucher-btn" data-id="@i.Id">Xóa</button>
-                </li>
+    .voucher-item {
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-            }
+    .voucher-info h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: #007bff;
+    }
 
-        </ul>
-    </div>
+    .voucher-info p {
+        margin: 0 0 5px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .use-voucher-btn {
+        padding: 10px 20px;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+        text-align: center;
+    }
+
+        .use-voucher-btn:hover {
+            background-color: #c82333;
+        }
+</style>
+
+<div class="container" style="min-height:600px; width:1000px;padding-top:20px">
+
+    <div class="row">
 
 
-}
+
+        @if (Model.VoucherItems.Count == 0)
+        {
+            <div>Chưa có phiếu giảm giá nào của bạn</div>
+        }
+        else
+        {
+
+            <div class="voucher-container">
+                <h1 class="profile-header">Danh sách đơn hàng của tôi</h1>
+                <ul class="voucher-list">
+                    @foreach (var i in Model.VoucherItems)
+                    {
+                        <li class="voucher-item">
+                            <div class="voucher-info">
+                                <h3>Mã giảm giá: @i.Code</h3>
+                                <p>Giảm @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount) cho đơn hàng</p>
+                                <p>Hạn sử dụng: @i.ExpiryDate</p>
+                            </div>
+                            <button class="use-voucher-btn" data-id="@i.Id">Xóa</button>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+
+        }
+
+        </div>
+        </div>
+

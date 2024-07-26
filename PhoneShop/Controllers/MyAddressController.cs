@@ -80,7 +80,7 @@ namespace PhoneShop.Controllers
 
             
 
-            return RedirectToAction("Utilities","Home");
+            return RedirectToAction("MyAddress", "Utilities");
         }
 
         [HttpPost]

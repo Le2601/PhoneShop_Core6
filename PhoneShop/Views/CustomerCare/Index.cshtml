@@ -1,0 +1,89 @@
+﻿@model List<PhoneShop.Controllers.Seller.DataView.CustomerPurchase>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+    int index = 1;
+}
+
+<style>
+    .center {
+        text-align: center
+    }
+</style>
+
+<section class="content">
+
+    <h3 class="text-center mb-3">Khách hàng thân thiết</h3>
+    <div class="form-group">
+
+      
+
+      
+            @if (Model != null)
+            {
+                <div class="row">
+                    <div class="col-12 table-responsive" style="height:60vh; overflow-y: auto;">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="center">Stt</th>
+                                    <th class="center">Tên khách hàng</th>
+                                    <th class="center">Email</th>
+                                  
+                                    <th class="center">Số lượng mua</th>
+                                    <th class="center"></th>
+                                   
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var i in Model)
+                                {
+                                    <tr>
+                                       
+                                        <td class="center">@(index++ )</td>
+                                          <td class="center">@i.NameCustomer</td>
+                                            <td class="center">@i.EmailCustomer</td>
+
+                                    <td class="center">@i.QuantityPurchase</td>
+                                    <td><a class="btn btn-block btn-success btn-flat" href="/CustomerCare/Detail_Customer_Purchase/@i.IdCustomer">Chi tiết</a></td>
+                                       
+                                      
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="callout callout-info">
+                    <h5><i class="fas fa-info"></i></h5>
+                    Hiện chưa có đơn hàng nào!
+                </div>
+            }
+
+
+        
+    </div>
+
+    <hr />
+
+
+
+</section>
+
+@section scripts_SellerHome{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+
+
+
+
+ }
+
+

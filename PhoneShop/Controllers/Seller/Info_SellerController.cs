@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhoneShop.Models;
+using Stripe;
 using System.Security.Claims;
 
 namespace PhoneShop.Controllers.Seller
@@ -172,9 +173,9 @@ namespace PhoneShop.Controllers.Seller
         }
 
         [HttpGet]
-        public IActionResult Update(int Id)
+        public IActionResult Update(int BoothInfo)
         {
-            var item = _context.Booth_Information.Where(x => x.Id == Id).FirstOrDefault();
+            var item = _context.Booth_Information.Where(x => x.Id == BoothInfo).FirstOrDefault();
             return View(item);
         }
         [HttpPost]
@@ -183,20 +184,11 @@ namespace PhoneShop.Controllers.Seller
         {
             _context.Booth_Information.Update(model);
             _context.SaveChanges();
-
-            return RedirectToAction("Index", "Home_Seller");
+            TempData["Success"] = "Cập nhạt thành công";
+            return View();
         }
 
-        /////
-        //public IActionResult Update_Shipping(int ShippingId)
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public IActionResult Update_Shipping(Shipping_Method model)
-        //{
-        //    return RedirectToAction("Index", "Home_Seller");
-        //}
+ 
 
 
         ////
@@ -209,24 +201,39 @@ namespace PhoneShop.Controllers.Seller
         [ValidateAntiForgeryToken]
         public IActionResult Update_Address_Seller(ShopAddress model)
         {
-            // Lấy thực thể hiện tại từ cơ sở dữ liệu
-            var existingEntity = _context.ShopAddress.Find(model.Id);
-
-            if (existingEntity != null)
-            {
-                // Cập nhật các thuộc tính của thực thể hiện tại với các giá trị mới
-                _context.Entry(existingEntity).CurrentValues.SetValues(model);
-
-                // Lưu các thay đổi vào cơ sở dữ liệu
+         
+                _context.ShopAddress.Update(model);
                 _context.SaveChanges();
 
-                // Chuyển hướng tới action mong muốn
-                return RedirectToAction("Index", "Home_Seller");
-            }
+                TempData["Success"] = "Cập nhạt thành công";
+            
+            return View();
+       
+        }
 
-            // Xử lý trường hợp thực thể không tồn tại trong cơ sở dữ liệu
-            // Bạn có thể trả về kết quả NotFound hoặc xử lý theo nhu cầu của bạn
-            return NotFound();
+        public IActionResult Update_ShippingMethod_Seller(int ShippingMethodId)
+        {
+            var item = _context.ShopShipping_MethodAddress.Where(x => x.Id == ShippingMethodId).FirstOrDefault();
+            return View(item);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update_ShippingMethod_Seller(Models.Shipping_Method model)
+        {
+
+           
+
+           
+
+            _context.ShopShipping_MethodAddress.Update(model);
+
+
+            _context.SaveChanges();
+
+            TempData["Success"] = "Cập nhạt thành công";
+
+            return View();
+
         }
     }
 }

@@ -83,7 +83,7 @@
             <!-- info row -->
             <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
-                    <strong>Thông tin <a href="/Info_Seller/Update/@Model.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
+                    <strong>Thông tin <a class="IsBoothInfo" href="#" data-id_or="@Model.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
                     <address>
                       
                         Tên gian hàng: @Model.ShopName<br>
@@ -101,9 +101,10 @@
                         Địa chỉ: @IsAddress.Address_Detail-@IsAddress.Address<br>                     
                     </address>
                 </div>
+               
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                    <strong> Phương thức thanh toán <a href="/Info_Seller/Update_Shipping/@IsShipping.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
+                    <strong> Phương thức thanh toán <a class="IsShippingMethod" href="#" data-id_or="@IsShipping.Id"><i class="fas fa-pen-square" style="color: #ea0b43;"></i></a></strong>
                     <address>
 
                        
@@ -198,6 +199,22 @@
 
                 var AddressId = $(this).attr("data-id_or");
                 $("#dialog #myiframe").attr("src", "/Info_Seller/Update_Address_Seller?AddressId=" + AddressId);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+            $('body').on('click', '.IsBoothInfo', function () {
+
+                var BoothInfo = $(this).attr("data-id_or");
+                $("#dialog #myiframe").attr("src", "/Info_Seller/Update?BoothInfo=" + BoothInfo);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+            $('body').on('click', '.IsShippingMethod', function () {
+
+                var ShippingMethodId = $(this).attr("data-id_or");
+                $("#dialog #myiframe").attr("src", "/Info_Seller/Update_ShippingMethod_Seller?ShippingMethodId=" + ShippingMethodId);
                 $("#dialog").dialog('open');
                 return false;
 

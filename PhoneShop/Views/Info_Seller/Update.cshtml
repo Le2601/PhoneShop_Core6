@@ -1,96 +1,84 @@
 ﻿@model PhoneShop.Models.Booth_Information
 @{
     ViewData["Title"] = "Update_Info_Seller";
-    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
 }
 
-<section class="content">
+<form asp-action="Update" asp-controller="Info_Seller" method="post">
 
-    <div class="col-12">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Thêm sản phẩm</h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form asp-action="Update" asp-controller="Info_Seller"  method="post">
+    <div class="card">
+        <div class="card-header p-2">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin</a></li>
+                @* <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>*@
 
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-
-                <div class="card">
-                    <div class="card-header p-2">
-                        <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin</a></li>
-                            @* <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>*@
-
-                        </ul>
-                    </div><!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="activity">
+            </ul>
+        </div><!-- /.card-header -->
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="activity">
 
 
-                                <input asp-for="AccountId" hidden />
-                                <input asp-for="Code_Info" hidden />
-
-                                <div class="form-group">
-                                    <label asp-for="Avatar" class="control-label">Số điện thoại</label>
-                                    <input asp-for="Avatar" value="1" class="form-control" />
-                                    <span asp-validation-for="Avatar" class="text-danger"></span>
-                                </div>
+                    <input asp-for="AccountId" hidden />
+                    <input asp-for="Code_Info" hidden />
+                    <input asp-for="Id" hidden />
+                    <input asp-for="Avatar" hidden />
+                  
 
 
-                                <div class="form-group">
-                                    @* <label asp-for="InputPrice" class="control-label"></label>
-                                    <input asp-for="InputPrice" class="form-control" />
-                                    <span asp-validation-for="InputPrice" class="text-danger"></span> *@
-                                </div>
-
-                                <div class="form-group">
-                                    <label asp-for="ShopName" class="control-label">Tên gian hàng</label>
-                                    <input asp-for="ShopName" value="@Model.ShopName" class="form-control" />
-                                    <span asp-validation-for="ShopName" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Email" class="control-label">Email</label>
-                                    <input asp-for="Email"  class="form-control" />
-                                    <span asp-validation-for="Email" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Phone" class="control-label">Số điện thoại</label>
-                                    <input asp-for="Phone"class="form-control" />
-                                    <span asp-validation-for="Phone" class="text-danger"></span>
-                                </div>                              
-                               
-
-                              
-
-
-                               
-
-
-
-
-
-
-
-                            </div>
-
-
-                        </div>
-
-                        <!-- /.tab-content -->
-                    </div><!-- /.card-body -->
                     <div class="form-group">
-                        <input type="submit" value="Add" />
+                        @* <label asp-for="InputPrice" class="control-label"></label>
+                        <input asp-for="InputPrice" class="form-control" />
+                        <span asp-validation-for="InputPrice" class="text-danger"></span> *@
                     </div>
+
+                    <div class="form-group">
+                        <label asp-for="ShopName" class="control-label">Tên gian hàng</label>
+                        <input asp-for="ShopName"  class="form-control" />
+                        <span asp-validation-for="ShopName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Phone" class="control-label">Số điện thoại</label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
 
-            </form>
+
+            </div>
+
+            <!-- /.tab-content -->
+        </div><!-- /.card-body -->
+        <div class="form-group">
+            <input type="submit" value="Add" />
         </div>
-
     </div>
-</section>
 
+</form>

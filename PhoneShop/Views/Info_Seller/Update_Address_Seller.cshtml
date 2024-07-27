@@ -3,6 +3,12 @@
     ViewData["Title"] = "Update_Address_Seller";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
 }
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
 
 <form asp-action="Update_Address_Seller" asp-controller="Info_Seller" method="post" class="form">
     @Html.AntiForgeryToken()
@@ -13,6 +19,7 @@
             <h4 class="card-title">Cập nhật thông tin</h4>
         </div>
         <div class="card-body">
+            <input asp-for="Id" hidden />
             <input asp-for="BoothId" hidden />
             <div class="form-group row">
                 <label asp-for="FullName" class="col-sm-3 col-form-label">Tên người giao</label>

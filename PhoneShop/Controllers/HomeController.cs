@@ -110,7 +110,7 @@ namespace PhoneShop.Controllers
             //lấy idaccount  auth cookie được tạo khi login  lưu vào session
             //check auth cookie and AccountId Session
             int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             if (taikhoanID == null)
             {
                 //check auth cookie

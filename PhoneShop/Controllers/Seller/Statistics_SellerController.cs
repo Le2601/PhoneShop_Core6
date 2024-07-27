@@ -73,7 +73,8 @@ namespace PhoneShop.Controllers.Seller
                    PricePurchased = g.Price,
                    Input_Price = g.InputPrice,
                    QuantityPurchased = g.Quantity_Purchase,
-                   Price_Apply_Voucher = g.Price_Apply_Voucher
+                   Price_Apply_Voucher = g.Price_Apply_Voucher,
+                   Info_UserId = (int)g.Info_User
                }).ToList();
 
                 //lay ra tong tien hang ngay trong 7 ngay 
@@ -111,7 +112,8 @@ namespace PhoneShop.Controllers.Seller
                    PricePurchased = g.Price,
                    Input_Price = g.InputPrice,
                    QuantityPurchased = g.Quantity_Purchase,
-                   Price_Apply_Voucher = g.Price_Apply_Voucher
+                   Price_Apply_Voucher = g.Price_Apply_Voucher,
+                   Info_UserId = (int)g.Info_User,
                }).ToList();
 
                 //lay ra tong tien hang ngay trong 7 ngay 

@@ -36,11 +36,13 @@ using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using PhoneShop.Services;
 using PhoneShop.Services.ChatHub;
+using PhoneShop.Services.MoMo.model.momo;
+using PhoneShop.Services.MoMo.Services;
 using Stripe;
 using System;
 using System.Configuration;
 using Twilio.Clients;
-
+using PhoneShop.Services.MoMo;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -113,6 +115,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 
         builder.Services.AddScoped<EmailService>();
 
+       
+        
         //api
         builder.Services.AddHttpClient();
 
@@ -127,7 +131,9 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 
     }
 });
-
+//MoMo
+builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+builder.Services.AddScoped<PhoneShop.Services.MoMo.Services.IMomoService, PhoneShop.Services.MoMo.Services.MomoService>();
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 

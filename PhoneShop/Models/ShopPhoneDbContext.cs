@@ -91,6 +91,9 @@ namespace PhoneShop.Models
 
         public DbSet<UserFollows> UserFollows { get; set; }
 
+        public DbSet<PaymentResponse_MoMo> PaymentResponse_MoMos { get; set; }
+
+
 
 
 
@@ -204,6 +207,11 @@ namespace PhoneShop.Models
              .HasOne(p => p.Order)
              .WithMany(p => p.PaymentResponses)
              .HasForeignKey(p => p.OrderId);
+
+            modelBuilder.Entity<PaymentResponse_MoMo>()
+            .HasOne(p => p.Order)
+            .WithMany(p => p.PaymentResponse_MoMos)
+            .HasForeignKey(p => p.OrderId);
 
             modelBuilder.Entity<Product_Review>()
             .HasOne(p => p.Product)

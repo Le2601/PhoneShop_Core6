@@ -1,9 +1,13 @@
-﻿using PhoneShop.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhoneShop.Services.MoMo.model.momo
+namespace PhoneShop.Models
 {
-    public class MomoCreatePaymentResponseModel
+    [Table("PaymentResponse_MoMo")]
+    public class PaymentResponse_MoMo
     {
+        [Key]
+        public int Id { get; set; }
         public string RequestId { get; set; }
         public int ErrorCode { get; set; }
         public string OrderId { get; set; }
@@ -17,5 +21,7 @@ namespace PhoneShop.Services.MoMo.model.momo
         public string DeeplinkWebInApp { get; set; }
 
         public virtual Order Order { get; set; }
+
+
     }
 }

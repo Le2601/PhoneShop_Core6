@@ -22,18 +22,21 @@ namespace PhoneShop.Controllers
         public async Task<IActionResult> CreatePaymentUrl(OrderInfoModel model)
         {
             var response = await _momoService.CreatePaymentAsync(model);
+
             return Redirect(response.PayUrl);
 
             //test tra ve dang doi tuong => luu vao db
             //return Json(response);   
         }
 
+        //render ve trang thanh toan thanh cong
+
         [HttpGet]
         public IActionResult PaymentCallBack()
         {
             var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
            
-            return Json(response);
+            return View(response);
         }
     }
 }

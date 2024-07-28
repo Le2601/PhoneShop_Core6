@@ -31,6 +31,7 @@ namespace PhoneShop.Models
         public int PaymentMethod { get; set; }
         public virtual ICollection<Order_Details> Order_Details { get; set; }
         public virtual ICollection<PaymentResponse> PaymentResponses { get; set; }
+        public virtual ICollection<PaymentResponse_MoMo> PaymentResponse_MoMos { get; set; }
 
         public virtual ICollection<DeliveryProcess> DeliveryProcesses { get; set; }
 

@@ -50,7 +50,11 @@ namespace PhoneShop.Services.MoMo.Services;
 
             var response = await client.ExecuteAsync(request);
 
-            return JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
+             ////demodata
+             //var demodata  = JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
+
+
+        return JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
         }
 
         public MomoExecuteResponseModel PaymentExecuteAsync(IQueryCollection collection)
@@ -58,6 +62,7 @@ namespace PhoneShop.Services.MoMo.Services;
             var amount = collection.First(s => s.Key == "amount").Value;
             var orderInfo = collection.First(s => s.Key == "orderInfo").Value;
             var orderId = collection.First(s => s.Key == "orderId").Value;
+
             return new MomoExecuteResponseModel()
             {
                 Amount = amount,

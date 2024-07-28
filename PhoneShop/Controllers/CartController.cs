@@ -588,10 +588,19 @@ namespace PhoneShop.Controllers
             int randomNumber = random.Next();
             
             var Order_Id = "DH2024" + randomNumber;
+            
 
+
+            //thanh toan MoMo
+            if(PaymentMethod == 3)
+            {
+
+            }
+            //end thanh toan MoMo
 
             //xu ly thanh toan Vnpay
             if (PaymentMethod == 2) {
+
 
                 //lu du luw vao order
                 var newOrderr = new Data.OrderData
@@ -601,7 +610,7 @@ namespace PhoneShop.Controllers
                     Order_Status = 0,
                     Order_Date = DateTime.Now,
                     Total_Order = cartVMM.OrderTotal,
-                    Profit = cartVMM.GrandTotal -  cartVMM.Profit,
+                    Profit = cartVMM.GrandTotal - cartVMM.Profit,
                     AccountId = AccountInt,
 
                 };
@@ -664,9 +673,10 @@ namespace PhoneShop.Controllers
 
                 return Redirect(url);
 
-              
-               
+
+
             }
+            //end Vnpay
 
             //lay ra tong so tien
             CartItemViewModel cartVM = new()
@@ -856,6 +866,8 @@ namespace PhoneShop.Controllers
             _dbContext.Order_ProductPurchasePrices.Add(Create_Order_ProductPurchasePrice);
             //end db Order_ProductPurchasePrice
         }
+
+    
 
 
 

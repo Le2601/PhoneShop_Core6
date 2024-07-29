@@ -463,6 +463,7 @@ namespace PhoneShop.Controllers
 
         public async Task<IActionResult> SubmitCheckOut(IFormCollection form, PaymentInformationModel model)
         {
+           
             //check auth cookie and AccountId Session
             int AccountInt = 0;
             var taikhoanID = HttpContext.Session.GetString("AccountId");

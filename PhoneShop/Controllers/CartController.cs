@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Asn1.X9;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.Evaluate_Product_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
@@ -16,6 +17,8 @@ using PhoneShop.Libraries;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using PhoneShop.Services;
+using PhoneShop.Services.MoMo.model.momo;
+using PhoneShop.Services.MoMo.Services;
 using Stripe;
 using Stripe.Issuing;
 using System;
@@ -32,7 +35,7 @@ namespace PhoneShop.Controllers
     public class CartController : Controller
     {
 
-       
+
 
         private readonly ShopPhoneDbContext _dbContext;
         private readonly IVnPayService _vnPayService;
@@ -43,13 +46,14 @@ namespace PhoneShop.Controllers
         private readonly IEvaluate_ProductRepository _evaluate_ProductRepository;
 
         private readonly EmailService _emailService;
+        private IMomoService _momoService;
 
-
-        public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService,IImageProduct_UserRepository imageProduct_UserRepository,
-            IOrder_UserRepository order_UserRepository,IVoucher_UserRepository voucher_UserRepository,
-            EmailService emailService, IProduct_UserRepository productRepository, IEvaluate_ProductRepository evaluate_ProductRepository)
+        public CartController(ShopPhoneDbContext dbContext, IVnPayService vnPayService, IImageProduct_UserRepository imageProduct_UserRepository,
+            IOrder_UserRepository order_UserRepository, IVoucher_UserRepository voucher_UserRepository,
+            EmailService emailService, IProduct_UserRepository productRepository, IEvaluate_ProductRepository evaluate_ProductRepository
+            , IMomoService momoService)
         {
-           
+
             _voucher_UserRepository = voucher_UserRepository;
             _order_UserRepository = order_UserRepository;
             _imageProduct_UserRepository = imageProduct_UserRepository;
@@ -58,36 +62,37 @@ namespace PhoneShop.Controllers
             _emailService = emailService;
             _productRepository = productRepository;
             _evaluate_ProductRepository = evaluate_ProductRepository;
+            _momoService = momoService;
         }
 
         private int Check_Quantity_Product(List<CartItemModel> item)
         {
 
-            foreach(var i in  item)
+            foreach (var i in item)
             {
 
-                var IProductById = _dbContext.Products.Where(x=> x.Id == i.ProductId).FirstOrDefault()!;
+                var IProductById = _dbContext.Products.Where(x => x.Id == i.ProductId).FirstOrDefault()!;
 
-                if( i.Quantity > IProductById.Quantity )
+                if (i.Quantity > IProductById.Quantity)
                 {
                     return 0;
                 }
 
-               
+
             }
             return 1;
         }
 
-       
+
 
 
         [Route("/cart.html", Name = "Cart")]
         public async Task<IActionResult> Index()
-        {        
+        {
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
 
 
-           
+
 
 
 
@@ -103,7 +108,7 @@ namespace PhoneShop.Controllers
             var result = "";
             var GetDiscountAmount = HttpContext.Session.GetString("DiscountAmount"); //
 
-           
+
 
 
             if (GetDiscountAmount == null)
@@ -129,7 +134,7 @@ namespace PhoneShop.Controllers
                 _DiscountAmount = decimal.Parse(result);
             }
 
-            
+
 
 
 
@@ -148,13 +153,13 @@ namespace PhoneShop.Controllers
             ViewBag.OrderTotal = cartVM.OrderTotal;
             ViewBag.imageproduct = await _imageProduct_UserRepository.ImageProducts();
 
-            
+
             //selling take 4
 
             ViewBag.ListSelling = _productRepository.GetList_Selling();
 
 
-            
+
 
 
             return View(cartVM);
@@ -163,12 +168,12 @@ namespace PhoneShop.Controllers
         public IActionResult List_Voucher_Booth(int Id)
         {
 
-            var CheckProductInCart = _dbContext.Products.Where(x=> x.Id ==  Id).FirstOrDefault()!;
+            var CheckProductInCart = _dbContext.Products.Where(x => x.Id == Id).FirstOrDefault()!;
 
 
 
 
-            var ListVoucherByBooth = _dbContext.Vouchers.Where(x=> x.BoothId == CheckProductInCart.Booth_InformationId).ToList();
+            var ListVoucherByBooth = _dbContext.Vouchers.Where(x => x.BoothId == CheckProductInCart.Booth_InformationId).ToList();
 
 
             ViewBag.CheckProductInCart = CheckProductInCart.Id;
@@ -178,7 +183,8 @@ namespace PhoneShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Apply_VoucherByProduct(IFormCollection form) {
+        public IActionResult Apply_VoucherByProduct(IFormCollection form)
+        {
 
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
 
@@ -198,7 +204,7 @@ namespace PhoneShop.Controllers
                 }
             }
 
-            
+
 
 
             int VoucherId = int.Parse(form["VoucherId"]);
@@ -210,17 +216,17 @@ namespace PhoneShop.Controllers
 
 
             //ngay
-            if ( DateTime.Now > CheckVoucher.ExpiryDate)
+            if (DateTime.Now > CheckVoucher.ExpiryDate)
             {
                 TempData["CheckDate"] = "Đã quá hạn!";
                 return RedirectToAction("List_Voucher_Booth", new { Id = ProductId });
             }
-            if(CheckCart.Total < CheckVoucher.DiscountConditions)
+            if (CheckCart.Total < CheckVoucher.DiscountConditions)
             {
                 TempData["CheckPrice"] = "Số tiền không đủ điều kiện!";
                 return RedirectToAction("List_Voucher_Booth", new { Id = ProductId });
             }
-            if(CheckVoucher.Quantity <= 0)
+            if (CheckVoucher.Quantity <= 0)
             {
                 TempData["CheckQuantityVoucher"] = "Hết mã giảm giá!";
                 return RedirectToAction("List_Voucher_Booth", new { Id = ProductId });
@@ -231,14 +237,14 @@ namespace PhoneShop.Controllers
             decimal Discount_Product = CheckVoucher.DiscountProduct;
 
             CheckCart.Discount_Product = Discount_Product;
-            CheckCart.VoucherId  = CheckVoucher.Id;
+            CheckCart.VoucherId = CheckVoucher.Id;
 
             HttpContext.Session.Set("Cart", CartItems);
 
 
-            
 
-            TempData["ApplyVoucherSuccess"] = "Giảm thành công " + Discount_Product + "VND vào Sp "+ CheckCart.ProductName;
+
+            TempData["ApplyVoucherSuccess"] = "Giảm thành công " + Discount_Product + "VND vào Sp " + CheckCart.ProductName;
             return RedirectToAction("List_Voucher_Booth", new { Id = ProductId });
 
         }
@@ -254,7 +260,7 @@ namespace PhoneShop.Controllers
 
             string Voucher_code = form["Voucher_code"];
 
-            if(Voucher_code.Length == 0)
+            if (Voucher_code.Length == 0)
             {
                 TempData["ValueNull"] = "Mã không được để trống!";
                 return RedirectToRoute("Cart");
@@ -278,7 +284,7 @@ namespace PhoneShop.Controllers
                     //    return RedirectToRoute("Cart");
                     //}
 
-                    if(getVoucher.Quantity <= 0 )
+                    if (getVoucher.Quantity <= 0)
                     {
 
                         TempData["OutOfDiscount"] = "Mã giảm giá hiện tại đã hết!";
@@ -311,15 +317,15 @@ namespace PhoneShop.Controllers
                     return RedirectToRoute("Cart");
 
                 }
-                
+
             }
-          
-                TempData["VoucherNull_Cart"] = "Mã giảm giá không tồn tại trong phiên lưu trữ!";
-                return RedirectToRoute("Cart");
-            
+
+            TempData["VoucherNull_Cart"] = "Mã giảm giá không tồn tại trong phiên lưu trữ!";
+            return RedirectToRoute("Cart");
 
 
-           
+
+
 
         }
 
@@ -334,15 +340,16 @@ namespace PhoneShop.Controllers
 
             List<CartItemModel> Cart = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
 
-          
 
-            CartItemModel cartItems = Cart.Where(x=> x.ProductId == id).FirstOrDefault()!;
 
-            if(cartItems == null) {
+            CartItemModel cartItems = Cart.Where(x => x.ProductId == id).FirstOrDefault()!;
 
-                
+            if (cartItems == null)
+            {
+
+
                 Cart.Add(new CartItemModel(item));
-            
+
             }
             else
             {
@@ -352,7 +359,7 @@ namespace PhoneShop.Controllers
             HttpContext.Session.Set("Cart", Cart);
 
 
-            return Json(new { success = true }) ;
+            return Json(new { success = true });
 
             //giu nguyen trang
             //return Redirect(Request.Headers["Referer"].ToString());
@@ -363,7 +370,7 @@ namespace PhoneShop.Controllers
         {
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
 
-           if (CartItems != null)
+            if (CartItems != null)
             {
                 foreach (var item in CartItems)
                 {
@@ -380,10 +387,10 @@ namespace PhoneShop.Controllers
                     //return RedirectToRoute("Cart");
                 }
 
-               
+
             }
 
-           
+
             return Json(new { success = false });
         }
 
@@ -417,7 +424,7 @@ namespace PhoneShop.Controllers
             {
                 ++itemCart.Quantity;
             }
-            
+
             HttpContext.Session.Set("Cart", CartItems);
             return RedirectToRoute("Cart");
         }
@@ -432,7 +439,8 @@ namespace PhoneShop.Controllers
                 TempData["Check_Quantity_Product"] = "Số lượng mua không thể lớn hơn số lượng trong kho!";
                 return RedirectToRoute("Cart");
             }
-            if (CartItems.Count == 0) {
+            if (CartItems.Count == 0)
+            {
                 ViewBag.msgErorr = "Giỏ hàng rỗng không thể thanh toán!";
                 return RedirectToRoute("Cart");
 
@@ -456,14 +464,14 @@ namespace PhoneShop.Controllers
             return View();
         }
 
-       
+
 
         //thanh toan khi nhan hang
         [HttpPost]
 
         public async Task<IActionResult> SubmitCheckOut(IFormCollection form, PaymentInformationModel model)
         {
-           
+
             //check auth cookie and AccountId Session
             int AccountInt = 0;
             var taikhoanID = HttpContext.Session.GetString("AccountId");
@@ -489,7 +497,7 @@ namespace PhoneShop.Controllers
 
 
             var Get_Quantity_Product_Order = 0;
-           
+
 
             string Order_Name = "";
             string Address = "";
@@ -499,7 +507,7 @@ namespace PhoneShop.Controllers
             string Email = "";
 
             int OptionAddress = Convert.ToInt32(form["OptionAddress"]);
-            if(OptionAddress == 1)
+            if (OptionAddress == 1)
             {
                 var IAddressType_Account = _dbContext.MyAddresses.Where(x => x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault()!;
                 Order_Name = IAddressType_Account.FullName;
@@ -572,35 +580,130 @@ namespace PhoneShop.Controllers
                 _DiscountAmount = decimal.Parse(result);
             }
             //end xu ly decimal
-           
+
             //lay ra tong so tien
             CartItemViewModel cartVMM = new()
             {
                 CartItems = CartItems,
                 GrandTotal = CartItems.Sum(x => x.Quantity * x.Price),
                 OrderTotal = CartItems.Sum(x => x.Quantity * x.Price) - _DiscountAmount,
-                Profit = CartItems.Sum(x=> x.Quantity * x.InputPrice)
+                Profit = CartItems.Sum(x => x.Quantity * x.InputPrice)
             };
-            
+
 
 
 
             Random random = new Random();
             int randomNumber = random.Next();
-            
+
             var Order_Id = "DH2024" + randomNumber;
-            
+
 
 
             //thanh toan MoMo
-            if(PaymentMethod == 3)
+            if (PaymentMethod == 3)
             {
+                //lu du luw vao order
+                var newOrderr = new Data.OrderData
+                {
+                    Id_Order = Order_Id,
+                    PaymentMethod = 3,
+                    Order_Status = 0,
+                    Order_Date = DateTime.Now,
+                    Total_Order = cartVMM.OrderTotal,
+                    Profit = cartVMM.GrandTotal - cartVMM.Profit,
+                    AccountId = AccountInt,
+
+                };
+                //_order_UserRepository.Create(newOrderr);
+                _order_UserRepository.Create_Order_Payment_Onl(newOrderr);
+
+                //lu du luw vao order_detail
+
+                foreach (var item in CartItems)
+                {
+                    Get_Quantity_Product_Order = item.Quantity;
+
+
+                    var newOrder_Details = new Order_DetailsData
+                    {
+                        Order_Name = Order_Name,
+                        Address = Address,
+                        Phone = Phone,
+                        ProductId = (int)item.ProductId,
+                        OrderId = Order_Id,
+                        Quantity = item.Quantity,
+                        Description = Description,
+                        AddressType = AddressType,
+                        Email = Email,
+                        PurchasePrice_Product = item.Price
+
+
+
+                    };
+                    int Create_OrderDetail_getId = _order_UserRepository.Create_Order_Detai_Payment_Onll(newOrder_Details);
+
+                    ApplyVoucher_Payment(_dbContext, Create_OrderDetail_getId, item);
+
+
+
+
+                    //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
+                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountInt);
+                    //giam san pham trong kho
+                    _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
+                    //_dbContext.SaveChanges();
+
+                }
+
+                if (HttpContext.Session.GetString("getIdVoucher") != null)
+                {
+                    handleVoucher();
+                }
+
+                _order_UserRepository.SaveChanges();
+                HttpContext.Session.Remove("getIdVoucher");
+
+                //get info order import OrderInfoModel -> Thanh toan momo
+                var OrderInfoModel = new PhoneShop.Services.MoMo.Model.Order.OrderInfoModel
+                {
+                    FullName = model.OrderType,
+                    OrderId = Order_Id,
+                    OrderInfo = Order_Name + "- đã đặt hàng Momo với đơn hàng: " + Order_Id,
+                    Amount = (double)cartVMM.OrderTotal
+
+                };
+                var response = await _momoService.CreatePaymentAsync(OrderInfoModel);
+               
+                var CreateDBPayment_MoMo = new Models.PaymentResponse_MoMo
+                {
+                    RequestId = response.RequestId,
+                    ErrorCode = response.ErrorCode,
+                    OrderId = response.OrderId,
+                    Message = response.Message,
+                    LocalMessage = response.LocalMessage,
+                    RequestType = response.RequestType,
+                    PayUrl = response.PayUrl,
+                    Signature = response.Signature,
+                    QrCodeUrl = response.QrCodeUrl,
+                    Deeplink = response.Deeplink,
+                    DeeplinkWebInApp = response.DeeplinkWebInApp,
+                };
+
+
+
+
+
+                HttpContext.Session.Set("Db_Payment_MoMo", CreateDBPayment_MoMo);
+
+                return Redirect(response.PayUrl);
 
             }
             //end thanh toan MoMo
 
             //xu ly thanh toan Vnpay
-            if (PaymentMethod == 2) {
+            if (PaymentMethod == 2)
+            {
 
 
                 //lu du luw vao order
@@ -668,7 +771,7 @@ namespace PhoneShop.Controllers
 
                 model.OrderType = Order_Id;
                 model.Amount = (double)cartVMM.OrderTotal;
-                model.OrderDescription = "Dat hang online vnpay";
+                model.OrderDescription = Order_Name + "- đã đặt hàng Momo với đơn hàng: " + Order_Id;
                 model.Name = Order_Name;
                 var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
 
@@ -688,7 +791,7 @@ namespace PhoneShop.Controllers
                 Profit = CartItems.Sum(x => x.Quantity * x.InputPrice)
             };
 
-           
+
 
             //XU LY thanh toan khi nhan hang 
 
@@ -738,9 +841,9 @@ namespace PhoneShop.Controllers
                 int Create_OrderDetail_getId = _order_UserRepository.Create_Order_Detail(newOrder_Details);
 
                 //tao db Order_ProductPurchasePrice va tru so luong voucher khi ap dung 
-                ApplyVoucher_Payment(_dbContext,Create_OrderDetail_getId, item);
+                ApplyVoucher_Payment(_dbContext, Create_OrderDetail_getId, item);
 
-                
+
 
 
 
@@ -762,12 +865,12 @@ namespace PhoneShop.Controllers
 
             }
 
-            if(HttpContext.Session.GetString("getIdVoucher") != null)
+            if (HttpContext.Session.GetString("getIdVoucher") != null)
             {
                 handleVoucher();
             }
-        
-           
+
+
 
             _dbContext.SaveChanges();
 
@@ -802,13 +905,13 @@ namespace PhoneShop.Controllers
             return RedirectToAction("Order_Success");
         }
 
-       
+
         public IActionResult Order_Success()
         {
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             int AccountInt = int.Parse(taikhoanID);
 
-            var Get_Info_Order = _dbContext.Orders.Where(x=> x.AccountId ==  AccountInt).OrderByDescending(x=> x.Order_Date).FirstOrDefault()!;
+            var Get_Info_Order = _dbContext.Orders.Where(x => x.AccountId == AccountInt).OrderByDescending(x => x.Order_Date).FirstOrDefault()!;
 
             ViewBag.Info_Address = _dbContext.Order_Details.Where(x => x.OrderId == Get_Info_Order.Id_Order).FirstOrDefault();
 
@@ -868,7 +971,7 @@ namespace PhoneShop.Controllers
             //end db Order_ProductPurchasePrice
         }
 
-    
+
 
 
 

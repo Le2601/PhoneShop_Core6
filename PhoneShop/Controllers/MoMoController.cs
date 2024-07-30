@@ -4,16 +4,19 @@ using PhoneShop.Services.MoMo.Model.Order;
 using PhoneShop.Services.MoMo.Services;
 using Microsoft.AspNetCore.Http.Extensions;
 using PhoneShop.Extension;
+using PhoneShop.Models;
 
 namespace PhoneShop.Controllers
 {
     public class MoMoController : Controller
     {
         private IMomoService _momoService;
+        private readonly ShopPhoneDbContext _context;
 
-        public MoMoController(IMomoService momoService)
+        public MoMoController(IMomoService momoService, ShopPhoneDbContext context)
         {
             _momoService = momoService;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -26,25 +29,16 @@ namespace PhoneShop.Controllers
         {
             var response = await _momoService.CreatePaymentAsync(model);
 
-            var CreatePayment_MoMo = new MomoCreatePaymentResponseModel
-            {
-                RequestId = response.RequestId,
-                ErrorCode = response.ErrorCode,
-
-                Message = response.Message,
-                LocalMessage = response.LocalMessage,
-            };
 
            
+           
 
-            HttpContext.Session.Set("CreatePayment", CreatePayment_MoMo);
-
-            var dd = response.PayUrl;
+            
 
             return Redirect(response.PayUrl);
 
            
-            //return Json(response);   
+          
         }
 
         //render ve trang thanh toan thanh cong
@@ -52,13 +46,17 @@ namespace PhoneShop.Controllers
         [HttpGet]
         public IActionResult PaymentCallBack()
         {
-            var GetData = HttpContext.Session.GetString("CreatePayment");
-           
+            Models.PaymentResponse_MoMo Db_MoMo = HttpContext.Session.Get<Models.PaymentResponse_MoMo>("Db_Payment_MoMo");
+
+            _context.PaymentResponse_MoMos.Add(Db_MoMo);
+            _context.SaveChanges();
             
 
-            var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
-           
-            return View(response);
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
+            CartItems.Clear();
+            HttpContext.Session.Set("Cart", CartItems);
+
+            return RedirectToAction("Order_Success", "Cart");
         }
     }
 }

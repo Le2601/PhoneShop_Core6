@@ -19,7 +19,7 @@ namespace PhoneShop.Services.MoMo.Services;
 
         public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(OrderInfoModel model)
         {
-            model.OrderId = DateTime.UtcNow.Ticks.ToString();
+            model.OrderId = model.OrderId;
             model.OrderInfo = "Khách hàng: " + model.FullName + ". Nội dung: " + model.OrderInfo;
             var rawData =
                 $"partnerCode={_options.Value.PartnerCode}&accessKey={_options.Value.AccessKey}&requestId={model.OrderId}&amount={model.Amount}&orderId={model.OrderId}&orderInfo={model.OrderInfo}&returnUrl={_options.Value.ReturnUrl}&notifyUrl={_options.Value.NotifyUrl}&extraData=";
@@ -50,12 +50,12 @@ namespace PhoneShop.Services.MoMo.Services;
 
             var response = await client.ExecuteAsync(request);
 
-             ////demodata
-             //var demodata  = JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
+            
 
 
-        return JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
-        }
+        return JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content!)!;
+        //return (MomoCreatePaymentResponseModel)JsonConvert.DeserializeObject(response.Content);
+    }
 
         public MomoExecuteResponseModel PaymentExecuteAsync(IQueryCollection collection)
         {

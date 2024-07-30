@@ -196,7 +196,8 @@
                     {
                         <p>Phương thức thanh toán :COD</p>
                     }
-                    else
+
+                    else if (GetOrder.PaymentMethod == 2)
                     {
                         <p>Phương thức thanh toán: @GetPaymentResponse.PaymentMethod</p>
                         <p>Trạng thái: @GetPaymentResponse.Success</p>
@@ -219,6 +220,10 @@
                         </div>
                         <p>Mã token thanh toán: @GetPaymentResponse.Token</p>
 
+                    }
+                    else
+                    {
+                        <p>MoMO</p>
                     }
 
                   

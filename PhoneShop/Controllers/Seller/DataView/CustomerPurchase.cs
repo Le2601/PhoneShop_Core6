@@ -28,6 +28,8 @@
 
         public string ProductTitle { get; set; }
 
+        public string ImageProduct { get; set; }
+
 
 
 

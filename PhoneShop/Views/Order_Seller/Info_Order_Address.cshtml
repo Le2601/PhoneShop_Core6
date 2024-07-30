@@ -8,6 +8,7 @@
     PaymentResponse GetPaymentResponse = ViewBag.GetPaymentResponse;
     DeliveryProcess GetDeliveryProcesses = ViewBag.GetDeliveryProcesses;
     Order_ProductPurchasePrice GetOrder_ProductPurchasePrice = ViewBag.GetOrder_ProductPurchasePrices;
+    PaymentResponse_MoMo GetPaymentMoMo = ViewBag.GetPaymentResponse_MoMo;
 
     
 
@@ -19,7 +20,31 @@
 <link rel="stylesheet" href="~/clients/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 
+<style>
+    .transaction-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
+        .transaction-table th, .transaction-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .transaction-table th {
+            background-color: #f2f2f2;
+        }
+
+        .transaction-table .key {
+            font-weight: bold;
+            min-width:200px;
+        }
+
+        .transaction-table .value {
+            font-family: monospace;
+        }
+</style>
 
 
 @section naviheader{
@@ -110,23 +135,23 @@
 
                                 if(GetDeliveryProcesses.DeliveryStatus == 1)
                                 {
-                                    <strong>Tình trạng đơn hàng:</strong>  <span>Đang xử lý</span>
+                                    <strong>Tình trạng đơn hàng:</strong>  <span style="color:red">Đang xử lý</span>
                                 }
                                 else if (GetDeliveryProcesses.DeliveryStatus == 2)
                                 {
-                                    <strong>Tình trạng đơn hàng:</strong>  <span>Chuẩn bị hàng</span>
+                                    <strong>Tình trạng đơn hàng:</strong>  <span style="color:red">Chuẩn bị hàng</span>
                                 }
                                 else if (GetDeliveryProcesses.DeliveryStatus == 3)
                                 {
-                                    <strong>Tình trạng đơn hàng:</strong>  <span>Đang giao hàng</span>
+                                    <strong>Tình trạng đơn hàng:</strong>  <span style="color:red">Đang giao hàng</span>
                                 }
                                 else if (GetDeliveryProcesses.DeliveryStatus == 4)
                                 {
-                                    <strong>Tình trạng đơn hàng:</strong>  <span>Đã giao hàng</span>
-                                }
+                                    <strong>Tình trạng đơn hàng:</strong>  <span style="color:red">Đã giao hàng</span>
+                                } 
                                 else
                                 {
-                                    <strong>Tình trạng đơn hàng:</strong>  <span>Hủy đơn hàng</span>
+                                    <strong>Tình trạng đơn hàng:</strong>  <span style="color:red">Hủy đơn hàng</span>
                                 }
 
                             }
@@ -190,7 +215,7 @@
 
             <div class="row">
                 <!-- accepted payments column -->
-                <div class="col-6">
+                <div class="col-12">
                    
                     @if (GetOrder.PaymentMethod == 1)
                     {
@@ -199,31 +224,66 @@
 
                     else if (GetOrder.PaymentMethod == 2)
                     {
-                        <p>Phương thức thanh toán: @GetPaymentResponse.PaymentMethod</p>
-                        <p>Trạng thái: @GetPaymentResponse.Success</p>
-                        
-                       
-                        <p>@GetPaymentResponse.OrderDescription</p>
-                       
-                       
-                        <div>
-                            <p>VnPayResponseCode: @GetPaymentResponse.VnPayResponseCode</p>
-                            Mã VnPayResponseCode tương ứng với giá trị
-                            <ul>
-                                <li>00: Giao dịch thành công.</li>
-                                <li>01: Giao dịch đã tồn tại hoặc không hợp lệ.</li>
-                                <li>02: Ngân hàng từ chối thanh toán.</li>
-                                <li>99: Lỗi chưa xác định.</li>
-                                <li>24: Hủy giao dịch.</li>
-                            </ul>
+                        <h1>Thông tin giao dịch Vnpay</h1>
+                        <table class="transaction-table">
+                            <tr>
+                                <th class="key">Từ khóa</th>
+                                <th class="value">Giá trị</th>
+                            </tr>
+                            <tr>
+                                <td class="key">Trạng thái</td>
+                                <td class="value">Thành công</td>
+                            </tr>
+                            <tr>
+                                <td class="key">Ghi chú</td>
+                                <td class="value">@GetPaymentResponse.OrderDescription</td>
+                            </tr>
+                            <tr>
+                                <td class="key">Token</td>
+                                <td class="value">@GetPaymentResponse.Token</td>
+                            </tr>
+                            <tr>
+                                <td class="key">Trạng thái thanh toán</td>
+                                <td class="value">@GetPaymentResponse.VnPayResponseCode</td>
+                            </tr>
+                            <tr>
+                                <td class="key">Chú thích</td>
+                                <td class="value">
+                                    <ul>
+                                        <li>00: Giao dịch thành công.</li>
+                                        <li>01: Giao dịch đã tồn tại hoặc không hợp lệ.</li>
+                                        <li>02: Ngân hàng từ chối thanh toán.</li>
+                                        <li>99: Lỗi chưa xác định.</li>
+                                        <li>24: Hủy giao dịch.</li>
+                                    </ul>
+                                </td>
+                            </tr>
 
-                        </div>
-                        <p>Mã token thanh toán: @GetPaymentResponse.Token</p>
+                        </table>
+                       
+                       
+                        
 
                     }
                     else
                     {
-                        <p>MoMO</p>
+                        <h1>Thông tin giao dịch MoMo</h1>
+                        <table class="transaction-table">
+                            <tr>
+                                <th class="key">Từ khóa</th>
+                                <th class="value">Giá trị</th>
+                            </tr>
+                            <tr>
+                                <td class="key">Xác nhận thanh toán</td>
+                                <td class="value">@GetPaymentMoMo.LocalMessage</td>
+                            </tr>
+                       
+                            <tr>
+                                <td class="key">Chữ ký số xác nhận</td>
+                                <td class="value">@GetPaymentMoMo.Signature</td>
+                            </tr>
+                    
+                        </table>
                     }
 
                   

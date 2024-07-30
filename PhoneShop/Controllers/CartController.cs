@@ -771,7 +771,7 @@ namespace PhoneShop.Controllers
 
                 model.OrderType = Order_Id;
                 model.Amount = (double)cartVMM.OrderTotal;
-                model.OrderDescription = Order_Name + "- đã đặt hàng Momo với đơn hàng: " + Order_Id;
+                model.OrderDescription ="Đã đặt hàng VnPay với đơn hàng: " + Order_Id;
                 model.Name = Order_Name;
                 var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
 

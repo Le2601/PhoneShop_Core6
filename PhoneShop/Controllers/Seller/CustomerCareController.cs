@@ -93,13 +93,18 @@ namespace PhoneShop.Controllers.Seller
                                     {
                                         ProductId = p.Id,
                                         ProductTitle = p.Title,
-                                        QuantityPurchase = od.Quantity
+                                        ImageProduct = p.ImageDefaultName,
+
+                                        PurchasePrice_Product = od.PurchasePrice_Product,
+                                        QuantityPurchase = od.Quantity,
+                                        Date_Purchase = o.Order_Date,
+
 
 
 
 
                                     }).ToList();
-            return Json(CustomerPurchase);
+            return View(CustomerPurchase);
         }
 
 

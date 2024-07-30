@@ -3,6 +3,7 @@
     public class OrderByUser
     {
         public int Id { get; set; }
+        public int PaymentMethod { get; set; }
         public string Title { get; set; }
         public int Quantity_Purchase { get; set; }
         public DateTime Date_Purchase { get; set; }
@@ -12,6 +13,7 @@
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
 
+        
         public int Order_Status { get; set; }
 
         public int Info_Order_Address_Id { get; set; }

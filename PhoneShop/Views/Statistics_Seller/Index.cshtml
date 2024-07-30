@@ -50,6 +50,7 @@
                             <thead>
                                 <tr>
                                     <th class="center">Đơn hàng</th>
+                                    <th class="center">PTTT</th>
                                     <th class="center">Tên Sp</th>
                                     <th class="center">Số lượng</th>
                                     <th class="center">Giá bán</th>
@@ -58,7 +59,7 @@
                                     <th class="center">Doanh thu<br /> <hr> Phiếu giảm giá</th>
                                     <th class="center">Lợi nhuận</th>
                                     <th class="center">Phiếu giảm giá</th>
-                                    <td>User </td>
+                                  
                                    
                                 </tr>
                             </thead>
@@ -67,6 +68,18 @@
                                 {
                                     <tr>
                                         <td class="center"><a class="btn btn-block btn-info btn-sm" href="/Order_Seller/Info_Order_Address/@i.OrderDetailId">Xem</a></td>
+                                        @if(i.PaymentMethod == 1)
+                                        {
+                                            <td>COD</td>
+                                        }
+                                        else if(i.PaymentMethod == 2)
+                                        {
+                                            <td>VnPay</td>
+                                        }
+                                        else
+                                        {
+                                            <td>MoMo</td>
+                                        }
                                         <td class="center"> <a href="/Product_Seller/Detail_Product_Seller/@i.ProductId">@i.TitleProduct</a></td>
                                         <td class="center">@i.QuantityPurchased</td>
                                         <td class="center">@PhoneShop.Extension.Extension.ToVnd((double)i.PricePurchased)</td>
@@ -82,7 +95,7 @@
                                         </td>
                                         <td class="center">@PhoneShop.Extension.Extension.ToVnd((double)i.TotalProfit)</td>
                                         <td style="color:red"></td>
-                                        <td>@i.Info_UserId</td>
+                                       
                                     </tr>
                                 }
                             </tbody>

@@ -53,8 +53,9 @@ namespace PhoneShop.Controllers.Seller
                             Total_Order_DetailByProduct = (decimal)oPrice.FinalAmount,//(p.Discount > 0 ? p.Discount : p.Price)
                             ImageDefault = p.ImageDefaultName,
                             Status_OrderDetail = od.Status_OrderDetail,
-                            Price_Apply_Voucher = (decimal)oPrice.DiscountAmount
+                            Price_Apply_Voucher = (decimal)oPrice.DiscountAmount,
 
+                            PaymentMethod = o.PaymentMethod
 
 
 

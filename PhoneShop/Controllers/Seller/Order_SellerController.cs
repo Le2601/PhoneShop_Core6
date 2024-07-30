@@ -142,7 +142,12 @@ namespace PhoneShop.Controllers.Seller
 
             ViewBag.GetProduct = _context.Products.Where(x=> x.Id == item.ProductId).FirstOrDefault();
 
+
+            //vnpay
             ViewBag.GetPaymentResponse = _context.paymentResponses.Where(x=> x.OrderId ==  item.OrderId && x.Success == true).FirstOrDefault();
+
+            //momo
+            ViewBag.GetPaymentResponse_MoMo = _context.PaymentResponse_MoMos.Where(x => x.OrderId == item.OrderId && x.ErrorCode == 0).FirstOrDefault();
 
             ViewBag.GetDeliveryProcesses = _context.DeliveryProcesses.Where(x=> x.Order_Detail_Id == item.Id).FirstOrDefault();
 

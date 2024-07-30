@@ -4,6 +4,8 @@
     {
 
         public string OrderId { get; set; }
+        
+        public int PaymentMethod { get; set; }
 
         public int OrderDetailId { get; set; }
 

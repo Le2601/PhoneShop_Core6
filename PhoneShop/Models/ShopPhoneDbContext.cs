@@ -263,6 +263,13 @@ namespace PhoneShop.Models
          .WithMany(p => p.Booth_Trackings)
          .HasForeignKey(p => p.BoothId);
 
+            modelBuilder.Entity<Voucher>()
+              .HasOne(p => p.Booth_Information)
+              .WithMany(p => p.Vouchers)
+              .HasForeignKey(p => p.BoothId);
+
+
+
             modelBuilder.Entity<Product>()
        .HasOne(p => p.Booth_Information)
        .WithMany(p => p.Products)

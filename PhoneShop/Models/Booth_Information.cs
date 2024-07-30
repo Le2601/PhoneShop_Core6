@@ -39,6 +39,8 @@ namespace PhoneShop.Models
 
         public virtual ICollection<UserFollows> UserFollows { get; set; }
 
+        public virtual ICollection<Voucher> Vouchers { get; set; }
+
 
     }
 }

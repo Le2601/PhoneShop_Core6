@@ -41,7 +41,10 @@ namespace PhoneShop.Models
 
         public string Description { get; set; } = string.Empty;
 
-        
+
+        public virtual Booth_Information Booth_Information { get; set; }
+
+
 
 
     }

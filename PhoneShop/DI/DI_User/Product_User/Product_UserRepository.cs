@@ -15,7 +15,7 @@ namespace PhoneShop.DI.DI_User.Product_User
             _context = context;
         }
 
-        public async Task<List<ProductViewModel>> AllProducts()
+        public async Task<List<ProductViewModel>> RandomProduct()
         {
             var items = await _context.Products.Where(x=> x.IsActive == true).Select(x => new ProductViewModel
             {
@@ -34,7 +34,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
 
 
-            }).OrderByDescending(x => x.Create_at).ToListAsync();
+            }).OrderBy(x => Guid.NewGuid()).Take(8).ToListAsync();
 
             return items;
         }
@@ -86,7 +86,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         {
             var item_Model = (
                    from p in _context.Products.Where(x=> x.IsActive == true)
-                   join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases).Take(4) on p.Id equals e.ProductId
+                   join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases) on p.Id equals e.ProductId
                    select new PhoneShop.ModelViews.ProductViewModel
                    {
                        Id = p.Id,   
@@ -94,12 +94,26 @@ namespace PhoneShop.DI.DI_User.Product_User
                        Alias = p.Alias,
                        ImageDefaultName = p.ImageDefaultName,
                        Price = p.Price,
-                       Discount = p.Discount
+                       Discount = p.Discount,
+                       Quantity_Purchase = e.Purchases
+                      
 
                    }
                ).ToList();
 
-            return item_Model;
+            var GetData = item_Model.GroupBy(x => x.Id)
+                .Select(g => new ProductViewModel
+                {
+                    Id = g.Key,
+                    Title = g.First().Title,
+                    Alias = g.First().Alias,
+                    ImageDefaultName = g.First().ImageDefaultName,
+                    Price = g.First().Price,
+                    Discount = g.First().Discount,
+                    Quantity_Purchase = g.Sum(o => o.Quantity_Purchase)
+                }).Take(4).OrderByDescending(g=> g.Quantity_Purchase).ToList();
+
+            return GetData;
         }
 
         public async Task<List<ProductViewModel>> GetProduct_RecentPosts()
@@ -205,18 +219,37 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> ProductByCategory(int categoryId)
         {
-            var item = await _context.Products.Where(x => x.CategoryId == categoryId && x.IsActive == true).Select(x => new ProductViewModel
-            {
-                Id = x.Id,
-                Title = x.Title,
-                ImageDefaultName = x.ImageDefaultName,
-                Price = x.Price,
-                Discount = x.Discount,
-                Alias = x.Alias,
+            
+            var item_Model = (
+                   from p in _context.Products.Where(x => x.CategoryId == categoryId && x.IsActive == true)
+                   join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases) on p.Id equals e.ProductId
+                   select new PhoneShop.ModelViews.ProductViewModel
+                   {
+                       Id = p.Id,
+                       Title = p.Title,
+                       Alias = p.Alias,
+                       ImageDefaultName = p.ImageDefaultName,
+                       Price = p.Price,
+                       Discount = p.Discount,
+                       Quantity_Purchase = e.Purchases
 
-            }).ToListAsync();
 
-            return item;
+                   }
+               ).ToList();
+
+            var GetData = item_Model.GroupBy(x => x.Id)
+                .Select(g => new ProductViewModel
+                {
+                    Id = g.Key,
+                    Title = g.First().Title,
+                    Alias = g.First().Alias,
+                    ImageDefaultName = g.First().ImageDefaultName,
+                    Price = g.First().Price,
+                    Discount = g.First().Discount,
+                    Quantity_Purchase = g.Sum(o => o.Quantity_Purchase)
+                }).OrderByDescending(g => g.Quantity_Purchase).ToList();
+
+            return GetData;
         }
 
         public async Task<ProductViewModel> ProductById(string? alias, int id)

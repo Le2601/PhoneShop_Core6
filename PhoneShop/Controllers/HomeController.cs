@@ -102,7 +102,7 @@ namespace PhoneShop.Controllers
 
        
 
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
         {
 
             //get cookie auth
@@ -131,14 +131,9 @@ namespace PhoneShop.Controllers
             }
             //End check auth cookie and AccountId Session
 
+            //goi y hom nay  //ramdom product 
 
-
-            var All_Product =await _productRepository.AllProducts();
-
-            IQueryable<ProductViewModel> models = All_Product.AsQueryable();
-            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-            var pageSize = 4;
-            PagedList<ProductViewModel> item = new PagedList<ProductViewModel>(models, pageNumber, pageSize);
+            var Random_Product =await _productRepository.RandomProduct();          
 
 
 
@@ -177,7 +172,7 @@ namespace PhoneShop.Controllers
 
 
 
-            return View(item);
+            return View(Random_Product);
         }
        
         //DEMO EXPORT FILE

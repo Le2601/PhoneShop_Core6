@@ -42,6 +42,8 @@ namespace PhoneShop.ModelViews
 
         public DateTime? Update_at { get; set; }
 
+        public int? Quantity_Purchase { get; set; }
+
         public int Create_Id { get; set; }
 
         public virtual Category Category { get; set; }

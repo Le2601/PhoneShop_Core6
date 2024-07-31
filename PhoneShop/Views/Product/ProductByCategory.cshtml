@@ -30,12 +30,24 @@
             @foreach(var item in Model)
             {
                 <div class="col-md-3 col-sm-6">
-                    <div class="single-shop-product">
-                        <div class="product-upper">
-                            <img style="height:280px; width:280px" src="~/images/Product/@item.ImageDefaultName" alt="">
+                    <div class="single-product">
+                        <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
+                            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
+
+                            <div class="product-hover">
+                                <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                            </div>
                         </div>
-                        <h2 style="height:50px"><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2>
+
+                        <div style="height:45px">
+                            <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
+                        </div>
+
+                        <div class="product-carousel-price" style="color:red">Đã bán: @item.Quantity_Purchase</div>
                         <div class="product-carousel-price">
+
+
                             @{
                                 if (item.Discount == 0 || item.Discount == null || item.Discount is string)
                                 {
@@ -44,10 +56,10 @@
 
 
 
+
+
+
                                             string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
-
-
-
 
                                         }
                                         @formattedPrice
@@ -60,9 +72,9 @@
 
 
 
+
+
                                             string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
-
-
 
 
                                         }
@@ -71,32 +83,28 @@
                                 }
                             }
 
-                            <del>
-                                @{
-                                    string formattedPrice2;
-                                    if (item.Discount > 0)
-                                    {
-                                        formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
-                                    }
-                                    else
-                                    {
-
-                                        formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
-                                    }
+                            @{
+                                string formattedPrice2;
+                                if (item.Discount > 0)
+                                {
 
 
+                                    formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                    <del>@formattedPrice2</del>
                                 }
-                                @formattedPrice2
+
+
+
+                            }
 
 
 
 
-                            </del>
+
+
                         </div>
 
-                        <div class="product-option-shop">
-                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Thêm vào giỏ</a>
-                        </div>
+
                     </div>
                 </div>
 
@@ -105,31 +113,7 @@
 
            
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-pagination text-center">
-                    <nav>
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
-
+</div>

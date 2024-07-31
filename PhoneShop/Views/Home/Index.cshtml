@@ -4,7 +4,7 @@
 @using PhoneShop.ModelViews
 @using PhoneShop.Extension
 
-@model PagedList.Core.IPagedList<PhoneShop.ModelViews.ProductViewModel>
+@model List<PhoneShop.ModelViews.ProductViewModel>
 
 @{
 
@@ -155,18 +155,20 @@
                 {
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="single-product">
-                            <div class="product-f-image">
-                                @*                                         <img src="~/User/img/product-1.jpg" alt="">
-                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="border: solid 1px;height:296px; width:220px" />
+                            <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
+                               <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
 
                                 <div class="product-hover">
                                     <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
                                     <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
                                 </div>
                             </div>
-                            <div style="height:45px">  <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2></div>
 
+                            <div style="height:45px">
+                                <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
+                            </div>
 
+                            <div class="product-carousel-price" style="color:red">Đã bán: @item.Quantity_Purchase</div>
                             <div class="product-carousel-price">
 
 
@@ -205,31 +207,28 @@
                                     }
                                 }
 
-                                <del>
-                                    @{
-                                        string formattedPrice2;
-                                        if (item.Discount > 0)
-                                        {
-
-                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
-                                        }
-                                        else
-                                        {
+                                @{
+                                    string formattedPrice2;
+                                    if (item.Discount > 0)
+                                    {
 
 
-                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
-                                        }
-
-
+                                        formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                        <del>@formattedPrice2</del>
                                     }
-                                    @formattedPrice2
+
+
+
+                                }
 
 
 
 
-                                </del>
+
+
                             </div>
-                         
+                           
+
                         </div>
                     </div>
                 }
@@ -248,19 +247,21 @@
         <div class="row">
 
             <div style="margin-bottom: 10px;" class="section-title">
-                <h3 style="text-align: left; margin-bottom:0PX;">Tất cả sản phẩm </h3>
+                <h3 style="text-align: left; margin-bottom:0PX;">Gợi ý hôm nay </h3>
             </div>
 
 
             @if (Model != null)
             {
+               
                 foreach (var item in Model)
                 {
+                    
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <div class="single-product">
-                            <div class="product-f-image">
+                        <div class="single-product" style="padding-top:30px">
+                            <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
                                 @*                                         <img src="~/User/img/product-1.jpg" alt="">
-                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="border: solid 1px;height:296px; width:220px" />
+                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
 
                                 <div class="product-hover">
                                     <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
@@ -335,20 +336,14 @@
                           
                         </div>
                     </div>
-                }
-            }
 
-            
+                }
+               
+            }
+           
             <!-- Các sản phẩm tiếp theo -->
         </div>
-        @*  note *@
-        <div aria-label="Page navigation example">
-            <ul class="pagination">
-                <pager class="pager-container" list="@Model" asp-controller="Home" asp-action="Index" />
-
-            </ul>
-        </div>
-        @*  note *@
+       
      
     </div>
    

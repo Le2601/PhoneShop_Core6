@@ -37,3 +37,4 @@
             * gợi ý sẽ loại bỏ những sản phẩm mà người dùng đã mua và để lại đánh giá trước đó
 
 
+    4 .  font chu : text-transform: capitalize;

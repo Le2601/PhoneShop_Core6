@@ -21,6 +21,30 @@
     List<ProductViewModel> List_Selling = ViewBag.ListSelling;
 
 }
+<style>
+    .title_all {
+        
+        color: rgba(0, 0, 0, .87);
+        font-size: 2.125rem;
+        font-weight: 400;
+        margin: 0;
+        padding: .875rem;
+        text-transform: capitalize;
+        display: inline-block;
+        
+    }
+
+    .title_all_inline {
+        background: rgba(0, 0, 0, .02);
+        color: rgba(0, 0, 0, .87);
+        font-size: 2.125rem;
+        font-weight: 400;
+        margin: 0;
+        padding: .875rem;
+        text-transform: capitalize;
+        
+    }
+</style>
 
 @{
     ViewData["Title"] = "Index";
@@ -217,7 +241,7 @@
 
                         <div class="coupon">
                             <form method="post" asp-action="ApplyVoucher" asp-controller="Cart">
-                                <label for="coupon_code">Áp dụng khuyến mãi:</label>
+                                <label style="text-transform: capitalize;" for="coupon_code">Áp dụng khuyến mãi:</label>
                                 <input type="text" placeholder="mã giảm giá" value="" id="coupon_code" class="input-text" name="Voucher_code">
                                
                                 <input type="submit" value="Áp dụng" name="áp dụng" class="button">
@@ -225,7 +249,8 @@
                             
                            
                             <div class="voucher-list">
-                                <h2>Mã giảm giá của bạn</h2>
+                                <div class="title_all">Mã giảm giá của bạn</div>
+                               
                                 <ul class="voucher-items">
                                     @foreach (var i in IsVoucherVM.VoucherItems)
                                     {
@@ -253,12 +278,12 @@
 
 
                             <div class="cart_totals ">
-                                <h2>Tổng giỏ hàng</h2>
+                                <h2 style="text-transform: capitalize;">Tổng giỏ hàng</h2>
 
                                 <table cellspacing="0">
                                     <tbody>
                                         <tr class="cart-subtotal">
-                                            <th>Tổng giỏ hàng</th>
+                                            <th><div style="color:black" class="title_all">tổng giỏ hàng</div></th>
                                             @{
                                                 string formattedGrandTotal = ViewBag.GrandTotal.ToString("C", culture); // "C" là định dạng tiền tệ
 
@@ -267,12 +292,12 @@
                                         </tr>
 
                                         <tr class="shipping">
-                                            <th>Vận chuyển</th>
+                                            <th style="text-transform: capitalize;">Vận chuyển</th>
                                             <td>Free Shipping</td>
                                         </tr>
 
                                         <tr class="order-total">
-                                            <th>Tổng đơn hàng</th>
+                                            <th style="text-transform: capitalize;">Tổng đơn hàng</th>
                                             @{
                                                 string OrderTotal = ViewBag.OrderTotal.ToString("C", culture); // "C" là định dạng tiền tệ
 
@@ -288,6 +313,7 @@
 
                         </div>
                         @await Html.PartialAsync("../Product/_PartialDetail_ProductRelated",List_Selling)
+                        <br />
                                 
                 </div>
             </div>

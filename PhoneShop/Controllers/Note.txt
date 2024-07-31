@@ -1,31 +1,39 @@
-﻿kiểm tra sau khi login rồi tắt trình duyệt khi chưa logout vần còn lưu auth cookie trên trình duyệt
-lấy ra auth cookie đó
-    *
+﻿1 . kiểm tra sau khi login rồi tắt trình duyệt khi chưa logout vần còn lưu auth cookie trên trình duyệt
+    lấy ra auth cookie đó
+        *
 
-	        int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if(taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
+	            int AccountInt = 0;
+                var taikhoanID = HttpContext.Session.GetString("AccountId");
+                if(taikhoanID == null)
                 {
+                    //check auth cookie
+                    var userPrincipal = HttpContext.User;
+                    if (userPrincipal.Identity.IsAuthenticated)
+                    {
 
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+                        var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                        HttpContext.Session.SetString("AccountId", GetIDAccount);
 
 
-                     AccountInt = int.Parse(GetIDAccount);
+                         AccountInt = int.Parse(GetIDAccount);
+                    }
                 }
-            }
-            else
-            {
-                 AccountInt = int.Parse(taikhoanID);
-            }
+                else
+                {
+                     AccountInt = int.Parse(taikhoanID);
+                }
 
-     *
+         *
 
 
-    VNPAY ngan hang 9704198526191432198
+    2 . VNPAY ngan hang 9704198526191432198
+
+    3 .  gợi ý  theo đánh giá của người dùng (collaborative filtering) lọc cộng tác:
+    
+            B1:  Lấy ra danh sách (Đánh giá sản phẩm) người dùng đã mua hàng mà có để lại đánh giá  (Evaluate_Product) biến tấu lại đánh giá theo lượt mua
+            B2: lấy ra ds sản phẩm người dùng chưa mua hàng và đánh giá
+            B3: Lọc bỏ các đánh giá mà người dùng khác trùng với sản phẩm mà người dùng hiện tại đã mua
+            B4:  xếp những sản phẩm có đánh giá theo điểm đánh giá hoặc lượt mua sản phẩm cao nhất và gợi ý cho người dùng
+            * gợi ý sẽ loại bỏ những sản phẩm mà người dùng đã mua và để lại đánh giá trước đó
 
 

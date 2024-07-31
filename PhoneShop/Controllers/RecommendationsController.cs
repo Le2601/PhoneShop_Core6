@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Models;
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers
 {
@@ -11,18 +12,21 @@ namespace PhoneShop.Controllers
             _context = context;
         }
 
-        [Route("/goiy.html")]
+      
         public IActionResult Index()
         {
+
+            
             
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            int AccountInt = AccountInt = int.Parse(taikhoanID);
+            
 
             var UserRatings = _context.Evaluate_Products.Where(x => x.AccountId == AccountInt).ToList();
             var otherRatings = _context.Evaluate_Products.Where(x => x.AccountId != AccountInt).ToList();
 
-            // Tìm các mục mà người dùng hiện tại chưa đánh giá
-            var ratedItemIds = UserRatings.Select(x => x.ProductId).ToHashSet();
+            // lay ra ds sp da danh gia va chua danh gia
+            var ratedItemIds = UserRatings.Select(x => x.ProductId).ToHashSet(); //chuyen doi thanh tap hop [] > {}, gia tri k trung lap
             var unratedItems = otherRatings.Where(x => !ratedItemIds.Contains(x.ProductId));
 
             // Tính điểm trung bình cho mỗi mục mà người dùng hiện tại chưa đánh giá

@@ -319,9 +319,11 @@ namespace PhoneShop.Controllers
 
 
                             };
-
+                        //tao doi tuong, dai dien danh tinh 
                         var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");
+                        //xac thuc dnah tinh
                         var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
+                        //dang nhap va tao auth cookie trên trình duyệt
                         await HttpContext.SignInAsync(userPrincipal);
 
 

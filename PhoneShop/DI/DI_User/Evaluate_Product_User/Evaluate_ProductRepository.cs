@@ -16,7 +16,7 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
 
         public void Check_Evaluate_Insert_Db(int Id_Product, int Get_Quantity_Product_Order, int AccountId)
         {
-            var Check_Evaluate =  _context.Evaluate_Products.FirstOrDefault(x => x.ProductId == Id_Product);
+            var Check_Evaluate =  _context.Evaluate_Products.FirstOrDefault(x => x.ProductId == Id_Product && x.AccountId == AccountId);
             if (Check_Evaluate != null)
             {
                 if (Get_Quantity_Product_Order >= 2)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PhoneShop.Data;
 using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.DI.DI_User.Voucher_User;
 using PhoneShop.Models;
@@ -150,6 +151,53 @@ namespace PhoneShop.Controllers
 
 
             return View(iCity);
+        }
+
+        public IActionResult FollowBooth()
+        {
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+            //End check auth cookie and AccountId Session
+
+            var items = (
+                   from b in _dbContext.Booth_Information
+                   join fl in _dbContext.UserFollows.Where(x=> x.UserID == AccountInt) on b.Id equals fl.BoothID 
+                   join t in _dbContext.Booth_Trackings on b.Id equals t.BoothId
+                   select new BoothData
+                   {
+                       BoothId = b.Id,
+                       BoothName = b.ShopName,
+                       QuantityProductBooth = 0,
+                       Quantity_Product = t.Quantity_Product,
+                       Total_Sold = t.Total_Sold,
+                       Followers = t.Followers,
+                       Total_Comment = t.Total_Comments
+
+
+                   }
+               ).ToList();
+
+
+            return View(items);
         }
         public IActionResult GetDistricts(int id)
         {

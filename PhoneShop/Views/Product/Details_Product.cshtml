@@ -1,5 +1,5 @@
 ﻿@model PhoneShop.ModelViews.ProductViewModel
-
+@using PhoneShop.Data;
 @using PhoneShop.ModelViews;
 @using PhoneShop.Extension;
 @{
@@ -15,88 +15,20 @@
 
     List<ProductViewModel> IsSellingProduct = ViewBag.SellingProduct;
 
-    List<ProductViewModel> IsGetProduct_RecentPosts = ViewBag.GetProduct_RecentPosts;
+
 
     Evaluate_ProductViewModel IsEvaluate_Pro = ViewBag.Evaluate_Product;
+
+    BoothData GetBooth = ViewBag.GetBooth;
+
+    List<Voucher> GetListVoucher = ViewBag.istVoucherBooth;
 
     double tienO = 0;
 
 }
 
+<link href="~/user/css/detail_product_user.css" rel="stylesheet" />
 
-<style>
-    textarea#comment {
-        width: 666px;
-        resize: none;
-        padding: 12px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        font-family: inherit;
-    }
-
-    .submit-btn {
-        background-color: #4CAF50;
-        color: white;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        font-family: inherit;
-        margin-top: 12px;
-    }
-
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
-    .comment-container {
-        background-color: #f4f4f4;
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-    }
-
-    .comment-author {
-        font-weight: bold;
-    }
-
-    .comment-content {
-        margin-top: 5px;
-    }
-
-    /* CSS cho thanh cuộn */
-    #comment-section {
-        height: 200px;
-        overflow-y: scroll;
-    }
-
-    #load-more-comments {
-        display: none;
-        text-align: center;
-        margin-top: 10px;
-        cursor: pointer;
-    }
-
-  /*   //btn success */
-    .add-to-cart-btn {
-        background-color: #2980b9;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        padding: 10px 20px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-        .add-to-cart-btn:hover {
-            background-color: #3498db;
-        }
-  
-  
-</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
@@ -116,91 +48,25 @@
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                
+        
 
-                <div class="single-sidebar">
-                    <h2 class="sidebar-title">Bài đăng gần đây</h2>
-
-                    @foreach (var itemm in IsGetProduct_RecentPosts)
-                    {
-                        <div class="thubmnail-recent">
-                            <img src="~/images/Product/@itemm.ImageDefaultName" class="recent-thumb" alt="">
-                            <h2><a href="">@itemm.Title</a></h2>
-                            <div class="product-sidebar-price">
-                                @{
-                                    if (itemm.Discount == 0 || itemm.Discount == null || itemm.Discount is string)
-                                    {
-                                            <ins>
-                                                @{
-                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
-                                                }
-                                                @formattedPrice
-                                            </ins>
-                                    }
-                                    else
-                                    {
-                                            <ins>
-                                                @{
-                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)itemm.Discount); // "C" là định dạng tiền tệ
-                                                }
-                                                @formattedPrice
-                                            </ins>
-                                    }
-                                }
-
-                                <del>
-                                    @{
-                                        string formattedPriceee;
-                                        if (itemm.Discount > 0)
-                                        {
-                                            formattedPriceee = PhoneShop.Extension.Extension.ToVnd((double)itemm.Price); // "C" là định dạng tiền tệ
-                                        }
-                                        else
-                                        {
-
-                                            formattedPriceee = PhoneShop.Extension.Extension.ToVnd(tienO); // "C" là định dạng tiền tệ
-                                        }
-
-
-                                    }
-                                    @formattedPriceee
-
-
-
-
-                                </del>
-                            </div>
-                        </div>
-                    }
-
-                 
-                   
-                </div>
-
-                
-            </div>
-
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="product-content-right"> 
                   
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="product-images">
-                                <div class="product-main-img">
-                                    <img src="~/images/Product/@Model.ImageDefaultName" alt="">
+                            <div class="image-gallery">
+                                <div class="image-container product-main-img" style="max-width:290px">
+                                    <img style="height:300px; width:300px" src="~/images/Product/@Model.ImageDefaultName" alt="Image 12" class="active">
                                 </div>
-
-                              
-
-                                <div class="product-gallery">
-
+                                <div class="thumbnail-container" style="margin-right:350px">
                                     @await Html.PartialAsync("_PartialListImage",IsImage)
-                                    
                                    
                                 </div>
                             </div>
+
+                           
                         </div>
 
                         <div class="col-sm-6">
@@ -208,113 +74,154 @@
                                 <h2 class="product-name">@Model.Title</h2>
                                 <div class="product-inner-category"> 
                                     <p>Hãng: <a href="">@ViewBag.getCategoryTitle</a></p>
-                                    <p style="color:red">Đã mua @IsEvaluate_Pro.Purchases lượt</p>
-                                    <p style="color:#FFA500">Đánh giá @IsEvaluate_Pro.ScoreEvaluation điểm</p>
-                                    <p style="color:#FFA500">Số lượng còn trong kho: @Model.Quantity</p>
-                                </div>
-                                <div class="product-inner-price">
-                                
-
-
-                                    @{
-                                        if (Model.Discount == 0 || Model.Discount == null || Model.Discount is string)
-                                        {
-                                                <ins>
-                                                    @{
+                                    <p class="detail-label">Bán: @IsEvaluate_Pro.Purchases</p>
+                                    <p class="detail-label">Đánh Giá @IsEvaluate_Pro.ScoreEvaluation điểm</p>
+                                    <p class="detail-label">Số Lượng Trong Kho: @Model.Quantity</p>
+                                    <div class="product-inner-price">
 
 
 
-                                                    string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)Model.Price); // "C" là định dạng tiền tệ
-
-
-
-
-                                                    }
-                                                    @formattedPrice
-                                                </ins>
-                                        }
-                                        else
-                                        {
-                                                <ins>
-                                                    @{
-
-
-
-                                                    string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)Model.Discount); // "C" là định dạng tiền tệ
-
-
-
-
-                                                    }
-                                                    @formattedPrice
-                                                </ins>
-                                        }
-                                    }
-
-                                    <del>
                                         @{
-                                            string formattedPrice2;
-                                            if (Model.Discount > 0)
+                                            if (Model.Discount == 0 || Model.Discount == null || Model.Discount is string)
                                             {
-                                                formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)Model.Price); // "C" là định dạng tiền tệ
+                                                <ins>
+                                                    @{
+
+
+
+                                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)Model.Price); // "C" là định dạng tiền tệ
+
+
+
+
+                                                    }
+                                                    @formattedPrice
+                                                </ins>
                                             }
                                             else
                                             {
+                                                <ins>
+                                                    @{
 
-                                                formattedPrice2 = PhoneShop.Extension.Extension.ToVnd(tienO); // "C" là định dạng tiền tệ
+
+
+                                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)Model.Discount); // "C" là định dạng tiền tệ
+
+
+
+
+                                                    }
+                                                    @formattedPrice
+                                                </ins>
                                             }
-
-
                                         }
-                                        @formattedPrice2
+
+                                        <del>
+                                            @{
+                                                string formattedPrice2;
+                                                if (Model.Discount > 0)
+                                                {
+                                                    formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)Model.Price); // "C" là định dạng tiền tệ
+                                                }
+                                                else
+                                                {
+
+                                                    formattedPrice2 = PhoneShop.Extension.Extension.ToVnd(tienO); // "C" là định dạng tiền tệ
+                                                }
+
+
+                                            }
+                                            @formattedPrice2
 
 
 
 
-                                    </del>
-                                </div>
-
-                              
+                                        </del>
+                                    </div>
                                     <div class="quantity">
                                         <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
                                     </div>
-                                <button class="add-to-cart-btn"><a style="color:white" class="confirmAdd" data-id="@Model.Id">Thêm vào giỏ hàng</a></button>
-                              
+                                    <button class="add-to-cart-btn"><a style="color:white" class="confirmAdd" data-id="@Model.Id">Thêm Vào Giỏ</a></button>
+                                   <br />
+                                   <br />
+                                    <a>Mã Giảm Giá Của Shop</a>
+                                    <div class="voucher-container">
+                                        @foreach (var item in GetListVoucher)
+                                        {
+                                            <div class="voucher">
+                                                <div class="voucher-left">
+                                                </div>
+                                                <div class="voucher-right">
+                                                    <h4 style="color:red">Giảm: @Extension.ToVnd((double)item.DiscountProduct)</h4>
+                                                    <h4>Áp Dụng Sp Của Shop</h4>
+                                                    <h4>@item.ExpiryDate.ToString("dd/MM/yyyy")</h4>
+                                                </div>
+                                            </div>
 
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#tab1">Mô tả</a></li>
-                                    <li><a data-toggle="tab" href="#tab2">Thông số</a></li>
-                                </ul>
-                                    
-                                <div class="tab-content" style="overflow-y: auto;">
-                                    <div id="tab1" class="tab-pane fade in active" style="min-height: 200px; overflow-y: auto;">
-                                        <p>@Html.Raw(Model.Description)</p>
-
+                                        }
                                         
-                                    </div>
-                                    <div id="tab2" class="tab-pane fade" style="max-height: 200px; overflow-y: auto;">
-                                        <p><strong style="color:black">Camera:</strong> @Ispecifi.Camera</p>
-                                        <p><strong style="color:black">Bộ xử lý:</strong> @Ispecifi.Processor</p>
-                                        <p><strong style="color:black">Pin:</strong> @Ispecifi.Battery</p>
-                                        <p><strong style="color:black">Kết nối:</strong> @Ispecifi.Connectivity</p>
-                                        <p><strong style="color:black">Kích thước:</strong> @Ispecifi.DimensionsAndeight</p>
-                                        <p><strong style="color:black">Display:</strong> @Ispecifi.Display</p>
-                                        <p><strong style="color:black">Lưu trữ:</strong> @Ispecifi.InternalStorage</p>
-                                        <p><strong style="color:black">Hệ điều hành:</strong> @Ispecifi.OperatingSystem</p>                                      
-                                        <p><strong style="color:black">Chống nước:</strong> @Ispecifi.WaterResistance</p>
+                                        
+                                       
 
                                     </div>
                                 </div>
+                              
+
+                              
+                                   
+
+                               
+                                <div class="booth-container">
+                                    <div class="booth-info">
+                                        <h3 class="booth-name">@GetBooth.BoothName</h3>
+                                        <div class="booth-details">
+                                            <div class="detail-item">
+                                                <span class="detail-label">Sản phẩm:</span>
+                                                <span class="detail-value">@GetBooth.Quantity_Product</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Đánh giá:</span>
+                                                <span class="detail-value">@GetBooth.Total_Comment</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Người theo dõi:</span>
+                                                <span class="detail-value">@GetBooth.Followers</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="/detail_booth/@GetBooth.BoothId" class="view-booth-btn">Xem Gian Hàng</a>
+
+                                </div>
+                               
+                                    
+                               
 
                             </div>
                         </div>
                     </div>
 
-                              <!--  binh luan-->
+                    <br />
+                    <hr />
+                    <div class="row" style="min-height:500px">
+                        <div class="col-sm-5">
+                            <h3>Thông Số Sản Phẩm</h3>
+                            <p><strong style="color:black">Camera:</strong> @Ispecifi.Camera</p>
+                            <p><strong style="color:black">Bộ xử lý:</strong> @Ispecifi.Processor</p>
+                            <p><strong style="color:black">Pin:</strong> @Ispecifi.Battery</p>
+                            <p><strong style="color:black">Kết nối:</strong> @Ispecifi.Connectivity</p>
+                            <p><strong style="color:black">Kích thước:</strong> @Ispecifi.DimensionsAndeight</p>
+                            <p><strong style="color:black">Display:</strong> @Ispecifi.Display</p>
+                            <p><strong style="color:black">Lưu trữ:</strong> @Ispecifi.InternalStorage</p>
+                            <p><strong style="color:black">Hệ điều hành:</strong> @Ispecifi.OperatingSystem</p>
+                            <p><strong style="color:black">Chống nước:</strong> @Ispecifi.WaterResistance</p>
 
-                    
-
-                          <!--  end binh luan-->
+                        </div>
+                        <div class="col-sm-7" style="max-height: 500px;overflow-y: auto;">
+                            <h3>Mô Tả Sản Phẩm</h3>
+                            <p>@Html.Raw(Model.Description)</p>
+                        </div>
+                    </div>
+                            
                     
                     
                 </div>
@@ -342,7 +249,7 @@
 
                 @if (User.IsInRole("Seller") || User.IsInRole("User"))
                 {
-                    <input type="submit" value="Gửi bình luận">
+                    <input class="btn btn-success" style="color:white; margin-bottom:23px" type="submit" value="Gửi bình luận">
                 }
                 else
                 {
@@ -387,6 +294,27 @@
            
 
            
+        });
+    </script>
+
+
+    <script>
+        const thumbnails = document.querySelectorAll('.thumbnail-container img');
+        const mainImage = document.querySelector('.image-container img');
+
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', () => {
+                // Remove "active" class from all thumbnails
+                thumbnails.forEach(t => t.classList.remove('active'));
+                // Add "active" class to the clicked thumbnail
+                thumbnail.classList.add('active');
+
+                // Hide all main images
+                mainImage.classList.remove('active');
+                // Show the corresponding main image
+                mainImage.src = thumbnail.src;
+                mainImage.classList.add('active');
+            });
         });
     </script>
 

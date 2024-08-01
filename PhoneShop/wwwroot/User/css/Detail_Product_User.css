@@ -1,0 +1,358 @@
+﻿#comment-form {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+#comment {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    resize: none;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+.voucher-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    
+}
+
+.voucher {
+    width: 145px;
+    height: 60px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+}
+
+.voucher-left {
+    width: 10px;
+    background-color: #f44336;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 5px;
+}
+
+    .voucher-left h3 {
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .voucher-left p {
+        font-size: 8px;
+        margin: 3px 0 0 0;
+    }
+
+.voucher-right {
+    flex-grow: 1;
+    padding: 7px;
+}
+
+    .voucher-right h4 {
+        font-size: 10px;
+        margin: 0 0 5px 0;
+    }
+
+    .voucher-right p {
+        font-size: 8px;
+        margin: 0;
+    }
+.product-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.product-inner-category {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px 15px 0px 15px;
+    background-color: #f9f9f9;
+   
+}
+
+    .product-inner-category p {
+        margin-bottom: 0px;
+        font-size: 16px;
+    }
+
+        .product-inner-category p a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .product-inner-category p a:hover {
+                color: #0056b3;
+            }
+
+        .product-inner-category p.purchases {
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        .product-inner-category p.score-evaluation {
+            color: #f0ad4e;
+            font-weight: bold;
+        }
+
+        .product-inner-category p.quantity {
+            color: #f0ad4e;
+            font-weight: bold;
+        }
+/* Phần hiển thị số lượng */
+.quantity {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+    .quantity input.input-text.qty {
+        width: 50px;
+        height: 40px;
+        padding: 0 5px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+        .quantity input.input-text.qty:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+/* Nút "Thêm vào giỏ hàng" */
+.add-to-cart-btn {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .add-to-cart-btn:hover {
+        background-color: #45a049;
+    }
+
+    .add-to-cart-btn .confirmAdd {
+        color: white;
+        text-decoration: none;
+    }
+
+ 
+.booth-container {
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top:20px;
+}
+
+.booth-info {
+    flex-grow: 1;
+}
+
+.booth-name {
+    color: rgba(0, 0, 0, .87);
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.booth-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+}
+
+.detail-label {
+    color: rgba(0, 0, 0, .4);
+    margin-right: 12px;
+    text-transform: capitalize;
+}
+
+.view-booth-btn {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+
+}
+
+    .view-booth-btn:hover {
+        background-color: wheat;
+        color: black;
+        text-decoration: none;
+    }
+textarea#comment {
+    width: 666px;
+    resize: none;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: inherit;
+    margin-top: 12px;
+}
+
+    .submit-btn:hover {
+        background-color: #45a049;
+    }
+
+.comment-container {
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comment-author {
+    font-weight: bold;
+}
+
+.comment-content {
+    margin-top: 5px;
+}
+
+/* CSS cho thanh cuộn */
+#comment-section {
+    height: 200px;
+    overflow-y: scroll;
+}
+
+#load-more-comments {
+    display: none;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/*   //btn success */
+.add-to-cart-btn {
+    background-color: #2980b9;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .add-to-cart-btn:hover {
+        background-color: #3498db;
+    }
+
+
+.image-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.image-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+    .image-container img {
+        width: 100%;
+        height: auto;
+        display: none;
+    }
+
+        .image-container img.active {
+            display: block;
+        }
+
+.thumbnail-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+    .thumbnail-container img {
+        width: 80px;
+        height: 80px;
+        margin: 0 5px;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+
+        .thumbnail-container img.active {
+            opacity: 1;
+        }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PhoneShop.Data;
 using PhoneShop.DI.DI_User.Category_User;
 using PhoneShop.DI.DI_User.Evaluate_Product_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
@@ -71,13 +72,40 @@ namespace PhoneShop.Controllers
             ViewBag.GetSpecifi =await _userRepository.GetSpeciByIdProduct(item.Id);
             ViewBag.ListReview = ListReview;
             //partial related product
-            ViewBag.SellingProduct = await _userRepository.Selling_Products();
-
-            ViewBag.GetProduct_RecentPosts = await _userRepository.GetProduct_RecentPosts();
+            ViewBag.SellingProduct = await _userRepository.Selling_Products();          
 
             //danh gia san pham
 
             var Check_Evaluate_Product = await _evaluate_ProductRepository.Check_Value(Id);
+
+
+            //thong tin gian hang
+           
+            
+            var GetBooth = (
+                    from b in _context.Booth_Information.Where(x=> x.Id == item.BoothId)
+                    join t in _context.Booth_Trackings on b.Id equals t.BoothId
+                    select new BoothData
+                    {
+                        BoothId = b.Id,
+                        BoothName = b.ShopName,
+                        QuantityProductBooth = 0,
+                        Quantity_Product = t.Quantity_Product,
+                        Total_Sold = t.Total_Sold,
+                        Followers = t.Followers,
+                        Total_Comment = t.Total_Comments
+
+
+                    }
+                ).FirstOrDefault()!;
+
+            ViewBag.GetBooth = GetBooth;
+
+            //voucher cua shop
+
+            ViewBag.istVoucherBooth = _context.Vouchers.Where(x => x.BoothId == GetBooth.BoothId).ToList();
+
+
 
             //kiem tra idacount
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;

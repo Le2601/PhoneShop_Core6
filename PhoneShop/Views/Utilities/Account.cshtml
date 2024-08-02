@@ -8,6 +8,13 @@
 @await Component.InvokeAsync("MenuUtilities")
 
 <style>
+    .submit-spp{
+        background: #ee4d2d;
+        color: #fff;
+        outline: 0;
+        overflow: visible;
+        position: relative;
+    }
     .profile-container {
         background-color: #fff;
         padding: 20px;
@@ -75,13 +82,13 @@
 </style>
 
 <div class="profile-container">
-    <h1 class="profile-header">Thông tin cá nhân</h1>
-    <p class="profile-info">Email: @Model.Email</p>
+    <h1 class="profile-header">Hồ Sơ Của Tôi</h1>
+    <p class="profile-info">Email/Tên Đăng Nhập: @Model.Email</p>
     <p class="profile-info">Ngày tạo: @Model.CreateDate</p>
     <form asp-action="Update" asp-controller="Account" method="post">
         <input type="hidden" asp-for="Id">
         <div class="profile-form-group">
-            <label for="name" class="profile-label">Họ và tên:</label>
+            <label for="name" class="profile-label">Tên:</label>
             <input type="text" asp-for="FullName" class="profile-input" placeholder="Nhập họ và tên" required>
         </div>
         <div class="profile-form-group">
@@ -90,7 +97,7 @@
         </div>
 
         <div class="profile-form-group profile-button-group">
-            <button type="submit" class="profile-button">Lưu</button>
+            <button type="submit" class="submit_spp">Lưu</button>
         </div>
        
     </form>

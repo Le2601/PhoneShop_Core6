@@ -1,10 +1,12 @@
-﻿@model IEnumerable<PhoneShop.Models.Order_Details>
+﻿@model List<PhoneShop.Controllers.Seller.DataView.CustomerPurchase>
+@using PhoneShop.Controllers.Seller.DataView;
 @using PhoneShop.Models;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+    List<CustomerPurchase> GetDeli = ViewBag.GetDeli;
 
-    DeliveryProcess IsDeliveryProcess = ViewBag.DeliveryProcesses;
+    
 }
 <h3>Thông tin đơn hàng</h3>
 
@@ -13,18 +15,57 @@
         <thead>
             <tr>
                 <th>Tên</th>
+                <th>Hình Ảnh</th>
                 <th>Số lượng</th>
                 <th>Giá</th>
+                <th>Giảm giá</th>
             </tr>
         </thead>
         <tbody>
         @foreach (var i in Model)
         {
             <tr>
-                <td>@i.Product.Title</td>
-                <td>@i.Quantity</td>
-                <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Product.Price)</td>
+                <td>@i.ProductTitle</td>
+                <td>132</td>
+                <td>@i.PurchaseQuantity_Product</td>
+                <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PurchasePrice_Product)</td>
+                <td>@PhoneShop.Extension.Extension.ToVnd((double)i.DiscountVoucher)</td>
             </tr>
+            @foreach (var item_DeliveryProcess in GetDeli)
+            {
+                if(i.OrderDetail_Id == item_DeliveryProcess.OrderDetail_Id)
+                {
+                    <tr>
+                        @if (item_DeliveryProcess.DeliveryStatus == 1)
+                        {
+                            <td colspan="2">Trạng thái đơn hàng: Đang xử lý</td>
+                        }
+                        else if (item_DeliveryProcess.DeliveryStatus == 2)
+                        {
+                            <td colspan="2">Trạng thái đơn hàng: Chuẩn bị hàng</td>
+                        }
+                        else if (item_DeliveryProcess.DeliveryStatus == 3)
+                        {
+                            <td colspan="2">Trạng thái đơn hàng: Đang giao hàng</td>
+                        }
+                        else if (item_DeliveryProcess.DeliveryStatus == 4)
+                        {
+                            <td colspan="2">Trạng thái đơn hàng: Đã giao hàng</td>
+                        }
+                        else
+                        {
+                            <td colspan="2">Trạng thái đơn hàng: Hủy đơn hàng</td>
+                        }
+
+
+
+
+                        <td colspan="2">Ngày xác nhận: @item_DeliveryProcess.DeliveryDate.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            }
+           
+           
         }
         </tbody>
     </table>
@@ -33,8 +74,8 @@
 <br />
 <br />
 <br />
-<h3>Ngày nhận hàng dự kiến</h3>
-@if (IsDeliveryProcess != null)
+<h3>Địa chỉ nhận hàng</h3>
+@* @if (IsDeliveryProcess != null)
 {
    
     @if (IsDeliveryProcess.DeliveryStatus == 1)
@@ -74,5 +115,5 @@ else
 {
 
     <a>Đơn hàng đang xử lý</a>
-}
+} *@
 

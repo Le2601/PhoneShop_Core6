@@ -30,6 +30,17 @@
 
         public string ImageProduct { get; set; }
 
+        //voucher
+        public decimal DiscountVoucher { get; set; }
+
+        //DeliveryProcess
+
+        public DateTime DeliveryDate { get; set; }
+
+        public string DeliveryAddress { get; set; }
+
+        public int DeliveryStatus { get; set; }
+
 
 
 

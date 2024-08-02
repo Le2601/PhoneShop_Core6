@@ -201,7 +201,8 @@ namespace PhoneShop.Controllers
                         Email = registerAccount.Email,
                         Phone = registerAccount.Phone,
                         RoleId = registerAccount.RoleId,
-                        Salt = registerAccount.Salt
+                        Salt = registerAccount.Salt,
+                        CreateDate = DateTime.Now,
 
 
                     };

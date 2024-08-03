@@ -42,6 +42,10 @@
         public int DeliveryStatus { get; set; }
 
 
+        //Order_ProductPurchasePrices
+        public decimal FinalAmount { get; set; }
+
+
 
 
 

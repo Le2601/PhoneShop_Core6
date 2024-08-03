@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
+using Stripe;
 
 namespace PhoneShop.Controllers
 {
@@ -15,6 +16,9 @@ namespace PhoneShop.Controllers
         }
         public IActionResult Index(string id_order)
         {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            int AccountInt = int.Parse(taikhoanID);
+
             var item = (from od in _context.Order_Details.Where(x => x.OrderId == id_order)
                         join p in _context.Products on od.ProductId equals p.Id       
                         join op in _context.Order_ProductPurchasePrices on  od.Id equals op.OrderDetail_Id
@@ -27,7 +31,8 @@ namespace PhoneShop.Controllers
                             PurchaseQuantity_Product = od.Quantity,
 
                             OrderDetail_Id = od.Id,
-                            DiscountVoucher = (decimal)op.DiscountAmount!
+                            DiscountVoucher = (decimal)op.DiscountAmount!,
+                            FinalAmount = (decimal)op.FinalAmount!
 
                         }
                 ).ToList();
@@ -48,9 +53,31 @@ namespace PhoneShop.Controllers
                 ).ToList();
 
 
+            //TotalOrderAmount
+            ViewBag.TotalOrderAmount = 0;
+
+            foreach (var i in item)
+            {
+                ViewBag.TotalOrderAmount += i.FinalAmount;
+            }
+
+            //address order
+            ViewBag.AddressOrder = _context.Order_Details.Where(x => x.OrderId == id_order).FirstOrDefault();
+
+
+
+
+
 
 
             return View(item);
+        }
+
+        public class InfoOrder
+        {
+            public decimal TotalOrderAmount { get; set; }
+
+
         }
 
        

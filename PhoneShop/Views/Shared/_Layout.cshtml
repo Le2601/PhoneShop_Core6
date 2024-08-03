@@ -12,9 +12,9 @@
     <title>PhoneShop</title>
 
     <!-- Google Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
+@*     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'> *@
     <link href="~/css/btn-user.css" rel="stylesheet" />
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/User/css/bootstrap.min.css">
@@ -25,10 +25,19 @@
     <link rel="stylesheet" href="~/User/css/owl.carousel.css">
     <link rel="stylesheet" href="~/User/css/style.css">
     <link rel="stylesheet" href="~/User/css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    @* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> *@
+    <link href="~/user/user/css/awesome4.7.css" rel="stylesheet" />
+
     <link href="~/user/css/breadcrumb.css" rel="stylesheet" />
 
-    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.7.4-min.js.gz"></script>
+
+
+    <script src="~/user/user/js/analytics-browser-2.7.4.js"></script>
+
+
+     <script src="https://cdn.amplitude.com/libs/analytics-browser-2.7.4-min.js.gz"></script>
     <script src="https://cdn.amplitude.com/libs/plugin-session-replay-browser-1.4.1-min.js.gz"></script>
     <script src="https://cdn.amplitude.com/libs/plugin-autocapture-browser-0.9.0-min.js.gz"></script>
     <script>window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 })).promise.then(function () { window.amplitude.add(window.amplitudeAutocapturePlugin.plugin()); window.amplitude.init('1d4ef5c6eb29fd0df64f626433cf89f9'); });</script>
@@ -117,11 +126,13 @@
 
 
     <!-- Latest jQuery form server -->
-    <script src="https://code.jquery.com/jquery.min.js"></script>
+    @* <script src="https://code.jquery.com/jquery.min.js"></script> *@
+    <script src="~/user/user/js/jquery.js"></script>
+
 
     <!-- Bootstrap JS form CDN -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
+   @*  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> *@
+    <script src="~/user/user/js/bootstrap.min.js.js"></script>
     <!-- jQuery sticky menu -->
     <script src="~/User/js/owl.carousel.min.js"></script>
     <script src="~/User/js/jquery.sticky.js"></script>
@@ -135,8 +146,8 @@
     <!-- Slider -->
     <script type="text/javascript" src="~/User/js/bxslider.min.js"></script>
     <script type="text/javascript" src="~/User/js/script.slider.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/user/user/js/jquery3.6.js"></script>
+   @*  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> *@
     
     @* // search_trie *@
     <script>
@@ -169,7 +180,8 @@
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+@*     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+ *@    <script src="~/user/user/js/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
 

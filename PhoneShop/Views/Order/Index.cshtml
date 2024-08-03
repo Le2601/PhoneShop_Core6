@@ -5,9 +5,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
     List<CustomerPurchase> GetDeli = ViewBag.GetDeli;
+    Order_Details MyAddress = ViewBag.AddressOrder;
 
-    
 }
+<p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.TotalOrderAmount)</p>
+<p>Tên người nhận: @MyAddress.Order_Name</p>
+<p>Địa chỉ ĐH: @MyAddress.Address</p>
+<p>SĐT: @MyAddress.Phone</p>
+<p>Email: @MyAddress.Email</p>
+
 <h3>Thông tin đơn hàng</h3>
 
     
@@ -17,8 +23,9 @@
                 <th>Tên</th>
                 <th>Hình Ảnh</th>
                 <th>Số lượng</th>
-                <th>Giá</th>
+                <th>Giá Gốc</th>
                 <th>Giảm giá</th>
+                <th>Thành Tiền</th>
             </tr>
         </thead>
         <tbody>
@@ -26,19 +33,21 @@
         {
             <tr>
                 <td>@i.ProductTitle</td>
-                <td>132</td>
+                <td><img src="~/images/Product/@i.ImageProduct" width="100" height="100" style="border: solid 1px " /></td>
                 <td>@i.PurchaseQuantity_Product</td>
-                <td>@PhoneShop.Extension.Extension.ToVnd((double)i.PurchasePrice_Product)</td>
-                <td>@PhoneShop.Extension.Extension.ToVnd((double)i.DiscountVoucher)</td>
+                <td style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.PurchasePrice_Product)</td>
+                <td style="color:#FF8C00">@PhoneShop.Extension.Extension.ToVnd((double)i.DiscountVoucher)</td>
+                <td style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.FinalAmount)</td>
             </tr>
             @foreach (var item_DeliveryProcess in GetDeli)
             {
                 if(i.OrderDetail_Id == item_DeliveryProcess.OrderDetail_Id)
                 {
                     <tr>
+                        <td colspan="2">Tình Trạng ĐH</td>
                         @if (item_DeliveryProcess.DeliveryStatus == 1)
                         {
-                            <td colspan="2">Trạng thái đơn hàng: Đang xử lý</td>
+                            <td colspan="2">Trạng thái ĐH: Đang xử lý</td>
                         }
                         else if (item_DeliveryProcess.DeliveryStatus == 2)
                         {
@@ -60,60 +69,14 @@
 
 
 
-                        <td colspan="2">Ngày xác nhận: @item_DeliveryProcess.DeliveryDate.ToString("dd/MM/yyyy")</td>
+                        <td colspan="2">@item_DeliveryProcess.DeliveryDate.ToString("dd/MM/yyyy")</td>
                     </tr>
                 }
+               
             }
            
            
         }
         </tbody>
     </table>
-
-<hr />
-<br />
-<br />
-<br />
-<h3>Địa chỉ nhận hàng</h3>
-@* @if (IsDeliveryProcess != null)
-{
-   
-    @if (IsDeliveryProcess.DeliveryStatus == 1)
-    {
-        <h5 class="coler_title">Trạng thái đơn hàng: Đang xử lý</h5>
-        <p>Ngày xác nhận: @IsDeliveryProcess.DeliveryDate</p>
-
-        <p>@IsDeliveryProcess.DeliveryAddress</p>
-    }
-    else if (IsDeliveryProcess.DeliveryStatus == 2)
-    {
-        <h5 class="coler_title">Trạng thái đơn hàng: CHuẩn bị hàng</h5>
-        <p>Ngày xác nhận: @IsDeliveryProcess.DeliveryDate</p>
-
-        <p>@IsDeliveryProcess.DeliveryAddress</p>
-    }
-    else if (IsDeliveryProcess.DeliveryStatus == 3)
-    {
-        <h5 class="coler_title">Trạng thái đơn hàng: Đang giao hàng</h5>
-        <p>Ngày nhận hàng: @IsDeliveryProcess.DeliveryDate</p>
-
-        <p>@IsDeliveryProcess.DeliveryAddress</p>
-    }
-    else if (IsDeliveryProcess.DeliveryStatus == 4)
-    {
-        <h5 class="coler_title">Trạng thái đơn hàng: Đã giao hàng</h5>
-        <p>Ngày xác nhận: @IsDeliveryProcess.DeliveryDate</p>
-
-        <p>@IsDeliveryProcess.DeliveryAddress</p>
-    }
-    else
-    {
-        <h5 class="coler_title">Trạng thái đơn hàng: Hủy đơn hàng</h5>
-    }
-}
-else
-{
-
-    <a>Đơn hàng đang xử lý</a>
-} *@
 

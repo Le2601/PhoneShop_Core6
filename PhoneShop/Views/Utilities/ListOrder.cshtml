@@ -35,7 +35,7 @@
 
 
 
-        <h1 class="profile-header">Danh sách đơn hàng của tôi</h1>
+        <h1 class="profile-header">Đơn Hàng Của Tôi</h1>
 
 
         <table>
@@ -45,7 +45,7 @@
                     <th>Phương thức thanh toán</th>
                     <th>Ngày đặt hàng</th>
                    
-                    <th>Tổng tiền</th>
+                  
 
                 </tr>
             </thead>
@@ -56,7 +56,7 @@
                         <td><a class="Detail_Order_Account" href="#" data-id_or="@i.Id_Order" >@i.Id_Order (Xem)</a></td>
                         @if (i.PaymentMethod == 1)
                         {
-                            <td>khi nhận hàng</td>
+                            <td>Khi Nhận Hàng</td>
                         }
                         else if (i.PaymentMethod == 3)
                         {
@@ -66,9 +66,9 @@
                         {
                             <td>VnPay</td>
                         }
-                        <td>@i.Order_Date</td>
-                       
-                        <td>@PhoneShop.Extension.Extension.ToVnd((double)i.Total_Order)</td>
+                        <td>@i.Order_Date.ToString("dd/MM/yyyy HH:mm")</td>
+
+                        
 
                     </tr>
                 }
@@ -98,7 +98,7 @@
                 hide: "fade",
                 modal: true,
                 height: '600',
-                width: '700',
+                width: '900',
                 resizable: true,
                 title: '',
                 close: function () {

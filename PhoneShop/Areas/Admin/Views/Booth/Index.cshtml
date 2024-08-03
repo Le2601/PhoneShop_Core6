@@ -83,21 +83,29 @@
                                     @item.ShopName
                                 </td>
 
-                               
-                            @foreach (var i in booth_Tracking)
-                            {
-                                if(i.BoothId == item.Id)
+                           
+                                @foreach (var i in booth_Tracking)
                                 {
+                                    if (i.BoothId == item.Id)
+                                    {
                                     <td>@i.Total_Sold</td>
+                                    }
+                                    else
+                                    {
+                                        <td>0</td>
+                                    }
                                 }
-                            }
+                          
+                            
+                           
                             @foreach (var item_Total in getDataTotal)
                             {
                                 if (item_Total.BoothId == item.Id)
                                 {
                                     <td>@PhoneShop.Extension.Extension.ToVnd((double)item_Total.TotalPrice_Booth)</td>
                                 }
-                               
+                                
+
                             }
 
 

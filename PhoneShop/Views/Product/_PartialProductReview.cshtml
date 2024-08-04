@@ -94,8 +94,8 @@
                     <span class="author-name">@item.UserName</span>
                    
                 </div>
-               
-                @if (item.UserEmail == ViewBag.taikhoanIDInt)
+
+                @if (item.UserEmail == ViewBag.taikhoanEmail)
                 {
                     <div class="dropdown">
                         <button class="dropbtn">⋮</button>
@@ -112,7 +112,29 @@
                 <span class="comment-date">@item.CreateAt.ToString("dd/MM/yyyy")</span>
                 <p class="comment-text">@item.Content</p>
             </div>
+
+
         </div>
+
+        //
+        <div class="replies-container">
+           
+            <div class="reply-container" style="margin-left: 40px;">
+                <div class="reply-header">
+                    <div class="reply-author">
+                        <div><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
+                        <span class="author-name">Jane Smith</span>
+                    </div>
+                    
+                </div>
+                <div class="reply-content">
+                    <span class="reply-date">04/08/2024</span>
+                    <p class="reply-text">Đây là một phản hồi của phản hồi.</p>
+                </div>
+            </div>
+            
+        </div>
+
 
     
 

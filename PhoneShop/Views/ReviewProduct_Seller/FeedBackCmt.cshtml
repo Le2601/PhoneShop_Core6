@@ -1,8 +1,70 @@
-﻿
+﻿@model PhoneShop.Models.Product_Review
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "FeedBackCmt";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+
+    List<FeedBackComment> GetListFeedBack = ViewBag.GetListFeedBack;
 }
 
-<h1>FeedBackCmt</h1>
+<section class="content" >
+
+    <div class="col-12" >
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Đánh giá sản phẩm</h3>
+
+
+
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body" style="min-height:500px">
+                
+                
+                <h3>Nội dung</h3>
+                <p>@Model.Content</p>
+                <p>@Model.CreateAt</p>
+
+                <br />
+                <br />
+
+                 <h3>Danh sách phản hòi</h3>
+                @if (GetListFeedBack.Count > 0)
+                {
+                    foreach (var item in GetListFeedBack)
+                    {
+                        <div>Tên: @item.UserNameFeedBack    || @item.Create_At</div>
+                        <div>Nội Dung: @item.Content</div>
+                        <hr />
+                    }
+                   
+                }
+                else
+                {
+                    <div>Không</div>
+                }
+
+                <hr />
+
+                <form method="post" action="/ReviewProduct_Seller/CreateFeedBackCmt">
+                    <input hidden name="RwProductId" value="@Model.Id" />
+                    <input name="Content" />
+
+                    <input type="submit" value="Bình Luận" />
+                </form>
+
+
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+</section>
+
+@section scripts_SellerHome{
+
+
+
+}
+
 

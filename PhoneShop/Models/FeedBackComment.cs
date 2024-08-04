@@ -11,7 +11,9 @@ namespace PhoneShop.Models
 
         public int RwProductId { get; set; }
 
-        public int AccountId { get; set; }
+        public int AccountIdFeedBack { get; set; }
+
+        public string UserNameFeedBack { get; set; }
 
         public string Content { get; set; }
 

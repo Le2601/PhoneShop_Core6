@@ -111,7 +111,7 @@ namespace PhoneShop.Controllers
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             if(taikhoanID != null)
             {
-                ViewBag.taikhoanIDInt = _context.Accounts.Where(x=> x.Id == int.Parse(taikhoanID)).FirstOrDefault()!.Email;
+                ViewBag.taikhoanEmail = _context.Accounts.Where(x=> x.Id == int.Parse(taikhoanID)).FirstOrDefault()!.Email;
             }
             
 

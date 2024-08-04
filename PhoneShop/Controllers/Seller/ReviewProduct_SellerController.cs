@@ -47,7 +47,43 @@ namespace PhoneShop.Controllers.Seller
 
         public IActionResult FeedBackCmt(int Id)
         {
-            return View();
+
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+
+            //get review 
+            var GetReview = _context.product_Reviews.Where(x=> x.Id == Id).First();
+
+            ViewBag.GetListFeedBack = _context.feedBackComments.Where(x=> x.RwProductId == Id).ToList();
+
+
+            return View(GetReview);
+        }
+
+        [HttpPost]
+        public IActionResult CreateFeedBackCmt(IFormCollection form)
+        {
+
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+
+            var GetUserNameFeedBack = _context.Accounts.Where(x=> x.Id ==  AccountId).First().FullName;
+
+            int RwProductId = int.Parse(form["RwProductId"]);
+            var Content = form["Content"];
+
+            var CreateFeedBack = new FeedBackComment
+            {
+                AccountIdFeedBack = AccountId,
+                UserNameFeedBack = GetUserNameFeedBack,
+                RwProductId = RwProductId,
+                Content = Content,
+                Create_At = DateTime.Now,
+                
+            };
+            _context.feedBackComments.Add(CreateFeedBack);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("FeedBackCmt", new {Id = RwProductId });
         }
 
 

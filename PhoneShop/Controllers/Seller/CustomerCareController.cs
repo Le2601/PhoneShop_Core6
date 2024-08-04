@@ -20,31 +20,12 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Index()
         {
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
-           
+
             //lay ra nhung san pham da ban dc 
-            var CustomerPurchase = (from p in _context.Products.Where(x => x.Create_Id == AccountInt).ToList()
+            var CustomerPurchase = (from p in _context.Products.Where(x => x.Create_Id == AccountId).ToList()
                                     join od in _context.Order_Details on p.Id equals od.ProductId
                         join o in _context.Orders on od.OrderId equals o.Id_Order
                         join oPrice in _context.Order_ProductPurchasePrices on od.Id equals oPrice.OrderDetail_Id
@@ -78,13 +59,12 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Detail_Customer_Purchase(int Id)
         {
             //check auth cookie and AccountId Session
-            
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            int AccountInt = int.Parse(taikhoanID);
+
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
 
 
             //lay ra nhung san pham da ban dc 
-            var CustomerPurchase = (from p in _context.Products.Where(x => x.Create_Id == AccountInt).ToList()
+            var CustomerPurchase = (from p in _context.Products.Where(x => x.Create_Id == AccountId).ToList()
                                     join od in _context.Order_Details on p.Id equals od.ProductId
                                     join o in _context.Orders.Where(x=> x.AccountId == Id) on od.OrderId equals o.Id_Order
                                     join oPrice in _context.Order_ProductPurchasePrices on od.Id equals oPrice.OrderDetail_Id

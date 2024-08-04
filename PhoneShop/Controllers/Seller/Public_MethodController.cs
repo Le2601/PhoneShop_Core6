@@ -4,6 +4,7 @@ using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using Stripe;
+using System.Security.Claims;
 
 namespace PhoneShop.Controllers.Seller
 {
@@ -15,6 +16,33 @@ namespace PhoneShop.Controllers.Seller
         public Public_MethodController(ShopPhoneDbContext context)
         {
             _context = context;         
+        }
+
+        public static int GetAccountId(HttpContext HttpContext)
+        {
+            //check auth cookie and AccountId Session
+            int AccountInt = 0;
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                //check auth cookie
+                var userPrincipal = HttpContext.User;
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+
+                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
+                    HttpContext.Session.SetString("AccountId", GetIDAccount);
+
+
+                    AccountInt = int.Parse(GetIDAccount);
+                }
+            }
+            else
+            {
+                AccountInt = int.Parse(taikhoanID);
+            }
+
+            return AccountInt;
         }
 
         //san pham da ban

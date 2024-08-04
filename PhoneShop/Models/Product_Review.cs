@@ -26,6 +26,8 @@ namespace PhoneShop.Models
 
         public virtual Product Product { get; set; }
 
+        public virtual ICollection<FeedBackComment> FeedBackComments { get; set; }
+
 
     }
 }

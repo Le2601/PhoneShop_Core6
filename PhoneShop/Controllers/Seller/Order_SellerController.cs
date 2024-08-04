@@ -56,28 +56,9 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult ListOrder()
         {
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
-            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
+            var items_Products = _context.Products.Where(x => x.Create_Id == AccountId).ToList();
             //lay ra nhung san pham da ban dc 
             var demo = (from p in items_Products
                         join od in _context.Order_Details on p.Id equals od.ProductId

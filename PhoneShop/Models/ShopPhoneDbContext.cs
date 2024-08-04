@@ -93,6 +93,9 @@ namespace PhoneShop.Models
 
         public DbSet<PaymentResponse_MoMo> PaymentResponse_MoMos { get; set; }
 
+        public DbSet<FeedBackComment> feedBackComments { get; set; }
+
+
 
 
 
@@ -285,6 +288,14 @@ namespace PhoneShop.Models
               .HasOne(p => p.Booth_Information)
               .WithMany(p => p.UserFollows)
               .HasForeignKey(p => p.BoothID);
+
+
+            modelBuilder.Entity<FeedBackComment>()
+              .HasOne(p => p.Product_Review)
+              .WithMany(p => p.FeedBackComments)
+              .HasForeignKey(p => p.RwProductId);
+
+
 
 
 

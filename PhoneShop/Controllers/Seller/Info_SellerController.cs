@@ -21,30 +21,11 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Info_Seller()
         {
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
 
-            var Check_Seller = _context.Booth_Information.Where(x=> x.AccountId == AccountInt).FirstOrDefault();
+            var Check_Seller = _context.Booth_Information.Where(x=> x.AccountId == AccountId).FirstOrDefault();
             if (Check_Seller != null)
             {
                 return RedirectToAction("Index","Home_Seller");
@@ -56,29 +37,10 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Create(IFormCollection form)
         {
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
-            if (taikhoanID == null)
+            if (AccountId == null)
             {
                 return RedirectToAction("Index", "Home");
             }   
@@ -107,7 +69,7 @@ namespace PhoneShop.Controllers.Seller
                 Email = Email,
                 Phone = Phone,
                 Creare_At = DateTime.Now,
-                AccountId = AccountInt,  
+                AccountId = AccountId,  
                 Code_Info = randomNumber_Id,
                 Avatar = "default.png"
             };
@@ -150,7 +112,7 @@ namespace PhoneShop.Controllers.Seller
             _context.ShopShipping_MethodAddress.Add(item_ShipMethod);
 
 
-            var Change_RoleId_Account = _context.Accounts.Where(x=> x.Id == AccountInt).FirstOrDefault();
+            var Change_RoleId_Account = _context.Accounts.Where(x=> x.Id == AccountId).FirstOrDefault();
             if (Change_RoleId_Account == null)
             {
                 return RedirectToAction("Index", "Home");

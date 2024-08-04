@@ -25,26 +25,7 @@ namespace PhoneShop.Controllers.Seller
 
 
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
 
@@ -53,7 +34,7 @@ namespace PhoneShop.Controllers.Seller
 
 
 
-            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountId);
             //neu co tim kiem doanh thu theo ngay
             if (SelectedDate != null)
             {
@@ -157,30 +138,11 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Week() {
 
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
             //get Data_Week
-            var getData_Week = StatisticsByWeek(_context, AccountInt);
+            var getData_Week = StatisticsByWeek(_context, AccountId);
             ViewBag.GetData_Chart_Week = getData_Week.Item2;
             ViewBag.getDate_Week = getData_Week.Item1;
 
@@ -209,9 +171,7 @@ namespace PhoneShop.Controllers.Seller
         }
         public IActionResult Month(string? getMonth)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
-
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
 
             //ds thang
             List<string> months = new List<string>();
@@ -227,7 +187,7 @@ namespace PhoneShop.Controllers.Seller
             if(getMonth == null)
             {
                 //get Data_Month
-                var getData_Month = StatisticsByMonth(_context, AccountInt);
+                var getData_Month = StatisticsByMonth(_context, AccountId);
                 ViewBag.GetData_Chart_Month = getData_Month.Item2;
                 ViewBag.getDate_Month = getData_Month.Item1;
 
@@ -259,7 +219,7 @@ namespace PhoneShop.Controllers.Seller
                 var GetMonthSpecified = getMonth;
                 ViewBag.GetMonth = GetMonthSpecified;
                 //get Data_Month
-                var getData_Month = StatisticsByMonthSpecified(_context, AccountInt, GetMonthSpecified);
+                var getData_Month = StatisticsByMonthSpecified(_context, AccountId, GetMonthSpecified);
                 ViewBag.GetData_Chart_Month = getData_Month.Item2;
                 ViewBag.getDate_Month = getData_Month.Item1;
 
@@ -305,10 +265,9 @@ namespace PhoneShop.Controllers.Seller
         }
         public IActionResult Year()
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //get Data_Year
-            var getData_Year = StatisticsByYear(_context, AccountInt);
+            var getData_Year = StatisticsByYear(_context, AccountId);
             ViewBag.GetData_Chart_Year = getData_Year.Item2;
             ViewBag.getDate_Year = getData_Year.Item1;
 
@@ -337,10 +296,9 @@ namespace PhoneShop.Controllers.Seller
 
         public IActionResult Statistical_Product()
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
 
-            var List_Item_Product_Quantity = Public_MethodController.List_Item_Product_Quantity(_context, AccountInt);
+            var List_Item_Product_Quantity = Public_MethodController.List_Item_Product_Quantity(_context, AccountId);
 
            
 
@@ -358,13 +316,12 @@ namespace PhoneShop.Controllers.Seller
 
         public IActionResult Revenue_EveryDay()
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
 
             var areaData = new List<AreaData>();
             var step = 0;
 
-            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountInt);
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountId);
 
             //tinh tong tien cac san pham theo ngay-gio
             var ChartData_TotalPrice = ListProduct_Purchase.GroupBy(x => x.Date_Purchase)
@@ -405,10 +362,9 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult BestSellers()
         {
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
-          
-            var items_Products = _context.Products.Where(x => x.Create_Id == AccountInt).ToList();
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+
+            var items_Products = _context.Products.Where(x => x.Create_Id == AccountId).ToList();
             //
             var TopSellersProducts = Public_MethodController.TopSellersProducts(_context, items_Products);
 

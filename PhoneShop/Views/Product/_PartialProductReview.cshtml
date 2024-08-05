@@ -1,6 +1,10 @@
 ﻿@using PhoneShop.ModelViews
+@using PhoneShop.Models;
 
 @model List<Product_ReviewModelView>
+@{
+    List<FeedBackComment> GetFeedBack = ViewBag.FeedBack;
+}
 
     <Style>
 
@@ -90,9 +94,8 @@
         <div class="comment-container">
             <div class="comment-header">
                 <div class="comment-author">
-                    <div><i class="fa fa-user-circle-o" aria-hidden="true"></i> </div>
+                    <div><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
                     <span class="author-name">@item.UserName</span>
-                   
                 </div>
 
                 @if (item.UserEmail == ViewBag.taikhoanEmail)
@@ -100,38 +103,45 @@
                     <div class="dropdown">
                         <button class="dropbtn">⋮</button>
                         <div class="dropdown-content">
-                            <a href="/Product/Delete_Comment/@item.Id" >Xóa</a>
-                           
+                            <a href="/Product/Delete_Comment/@item.Id">Xóa</a>
                         </div>
                     </div>
-                    
                 }
-
             </div>
             <div class="comment-content">
                 <span class="comment-date">@item.CreateAt.ToString("dd/MM/yyyy")</span>
                 <p class="comment-text">@item.Content</p>
+                <div class="comment-reply-container">
+                    <a href="#" class="comment-reply-button">Trả lời</a>
+                </div>
             </div>
-
-
         </div>
 
-        //
+        //reply
         <div class="replies-container">
-           
-            <div class="reply-container" style="margin-left: 40px;">
-                <div class="reply-header">
-                    <div class="reply-author">
-                        <div><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
-                        <span class="author-name">Jane Smith</span>
+
+            @foreach (var i in GetFeedBack)
+            {
+                if(item.Id == i.RwProductId)
+                {
+                    <div class="reply-container" style="margin-left: 40px;">
+                        <div class="reply-header">
+                            <div class="reply-author">
+                                <div><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
+                                <span class="author-name">@i.UserNameFeedBack</span>
+                            </div>
+
+                        </div>
+                        <div class="reply-content">
+                            <span class="reply-date">@i.Create_At.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                            <p class="reply-text">@i.Content</p>
+                        </div>
                     </div>
-                    
-                </div>
-                <div class="reply-content">
-                    <span class="reply-date">04/08/2024</span>
-                    <p class="reply-text">Đây là một phản hồi của phản hồi.</p>
-                </div>
-            </div>
+                }
+                
+            }
+           
+            
             
         </div>
 

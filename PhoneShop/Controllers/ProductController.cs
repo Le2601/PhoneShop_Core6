@@ -67,6 +67,9 @@ namespace PhoneShop.Controllers
             ViewBag.getListImage = getListImage;
             //review
             var ListReview =await _reviewProduct_UserRepository.GetListReviewById(item.Id);
+            //reply
+            ViewBag.FeedBack = _context.feedBackComments.ToList();
+
             
             //thông so
             ViewBag.GetSpecifi =await _userRepository.GetSpeciByIdProduct(item.Id);

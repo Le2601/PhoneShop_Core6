@@ -2,6 +2,7 @@
 @using PhoneShop.Data;
 @using PhoneShop.ModelViews;
 @using PhoneShop.Extension;
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "Details_Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,6 +23,8 @@
     BoothData GetBooth = ViewBag.GetBooth;
 
     List<Voucher> GetListVoucher = ViewBag.istVoucherBooth;
+
+    
 
     double tienO = 0;
 
@@ -171,7 +174,7 @@
                                    
 
                                
-                                <div class="booth-container">
+                                <div class="booth-container" style="background:#d7f9fa">
                                     <div class="booth-info">
                                         <h3 class="booth-name">@GetBooth.BoothName</h3>
                                         <div class="booth-details">

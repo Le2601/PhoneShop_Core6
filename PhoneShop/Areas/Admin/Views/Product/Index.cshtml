@@ -6,6 +6,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
     List<ImageProduct> IsCourseContents = ViewBag.imageproduct;
     List<CategoryModelView> IsCategory = ViewBag.ListCategory;
+    List<Booth_Information> GetBooth = ViewBag.GetBoothCreate;
     //format tien
     
     // Lấy mã vùng địa phương cho tiếng Việt nếu có, nếu không thì chọn một mã vùng khác
@@ -86,7 +87,7 @@
                             Hãng
                         </th>
                         <th>
-                            Người tạo
+                           Gian hàng
                         </th>
                        
                     </tr>
@@ -133,7 +134,16 @@
                                     }
                                     else
                                     {
-                                        <p>Gian hàng</p>
+                                        @foreach (var iBooth in GetBooth)
+                                        {
+                                            if (item.BoothId == iBooth.Id)
+                                            {
+                                                <a href="/admin/Booth/Detail_Booth/@iBooth.Id">@iBooth.ShopName</a>
+                                                   
+                                            }
+
+                                        }
+                                        
                                     }
                                 </td>
                                 

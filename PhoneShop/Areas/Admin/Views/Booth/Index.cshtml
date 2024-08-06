@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-    List<Booth_Tracking> booth_Tracking = ViewBag.getTracking;
+  
     List<BoothData> getDataTotal = ViewBag.getData;
 }
 
@@ -54,9 +54,7 @@
                         <th>
                            Tên gian hàng
                         </th>  
-                        <th>
-                          Sản phẩm đã bán
-                        </th>
+                        
                         <th>Doanh Thu</th>
                         <th>
                            Thông tin gian hàng
@@ -83,30 +81,23 @@
                                     @item.ShopName
                                 </td>
 
-                           
-                                @foreach (var i in booth_Tracking)
-                                {
-                                    if (i.BoothId == item.Id)
-                                    {
-                                    <td>@i.Total_Sold</td>
-                                    }
-                                    else
-                                    {
-                                        <td>0</td>
-                                    }
-                                }
+                                
                           
                             
                            
-                            @foreach (var item_Total in getDataTotal)
-                            {
-                                if (item_Total.BoothId == item.Id)
+                                @foreach (var item_Total in getDataTotal)
                                 {
-                                    <td>@PhoneShop.Extension.Extension.ToVnd((double)item_Total.TotalPrice_Booth)</td>
+                                    if (item_Total.BoothId == item.Id)
+                                    {
+                                    <td>@PhoneShop.Extension.Extension.ToVnd((double)item_Total.TotalPrice_Booth!)</td>
                                 }
-                                
+                                else
+                                {
+                                    <td>0</td>
+                                }
 
-                            }
+
+                                }
 
 
 

@@ -71,13 +71,13 @@
 
 <div class="container" style="min-height:600px; width:1000px;padding-top:20px">
 
-    <div class="row">
+    <div class="row" style="background:white;min-height:500px">
 
 
 
         @if (Model.VoucherItems.Count == 0)
         {
-            <div>Chưa có phiếu giảm giá nào của bạn</div>
+            <p style="padding:20px;color:red">Chưa có phiếu giảm giá nào của bạn</p>
         }
         else
         {

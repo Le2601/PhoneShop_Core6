@@ -56,6 +56,9 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             ViewBag.ListCategory =await _categoryRepository.GetAll();
 
+
+            ViewBag.GetBoothCreate = _context.Booth_Information.ToList();
+
             return View(items);
         }
         //return RedirectToAction("NotFoundApp", "Home");

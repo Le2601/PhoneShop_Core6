@@ -30,52 +30,59 @@
 
 <div class="container" style="min-height:600px; width:1000px;padding-top:20px">
 
-    <div class="row">
-
-
+    <div class="row" style="background:white;min-height:500px">
 
 
         <h1 class="profile-header">Đơn Hàng Của Tôi</h1>
 
+        @if(Model.Count > 0)
+        {
+            
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Mã Đơn Hàng</th>
-                    <th>Phương thức thanh toán</th>
-                    <th>Ngày đặt hàng</th>
-                   
-                  
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var i in Model)
-                {
+            <table>
+                <thead>
                     <tr>
-                        <td><a class="Detail_Order_Account" href="#" data-id_or="@i.Id_Order" >@i.Id_Order (Xem)</a></td>
-                        @if (i.PaymentMethod == 1)
-                        {
-                            <td>Khi Nhận Hàng</td>
-                        }
-                        else if (i.PaymentMethod == 3)
-                        {
-                            <td>MoMo</td>
-                        }
-                        else
-                        {
-                            <td>VnPay</td>
-                        }
-                        <td>@i.Order_Date.ToString("dd/MM/yyyy HH:mm")</td>
+                        <th>Mã Đơn Hàng</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Ngày đặt hàng</th>
 
-                        
+
 
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var i in Model)
+                    {
+                        <tr>
+                            <td><a class="Detail_Order_Account" href="#" data-id_or="@i.Id_Order">@i.Id_Order (Xem)</a></td>
+                            @if (i.PaymentMethod == 1)
+                            {
+                                <td>Khi Nhận Hàng</td>
+                            }
+                            else if (i.PaymentMethod == 3)
+                            {
+                                <td>MoMo</td>
+                            }
+                            else
+                            {
+                                <td>VnPay</td>
+                            }
+                            <td>@i.Order_Date.ToString("dd/MM/yyyy HH:mm")</td>
 
 
-            </tbody>
-        </table>
+
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p style="padding:20px;color:red">Hiện chưa có đơn hàng</p>
+        }
 
 
 

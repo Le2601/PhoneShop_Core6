@@ -24,7 +24,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         {
             var item = _context.Booth_Information.ToList();
 
-            ViewBag.getTracking = _context.Booth_Trackings.ToList();
+            
 
       
 
@@ -47,7 +47,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                 return RedirectToAction("","");
             }
 
-            //get total price booth
+            //get total price booth*
             ViewBag.GetTotalPrice = BoothData().FirstOrDefault()!.TotalPrice_Booth;
             //get booth Tracking
             var Tracking = _context.Booth_Trackings.Where(x=> x.BoothId == item.Id).FirstOrDefault();
@@ -109,7 +109,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                 {
                     BoothId = p.Booth_InformationId,
                     OrderDetailId = od.Id,
-                    TotalPrice_Booth = op.FinalAmount,
+                    TotalPrice_Booth = op.FinalAmount == null || op.FinalAmount == 0 ? 0 : op.FinalAmount,
                     AccountId = p.Create_Id
 
 

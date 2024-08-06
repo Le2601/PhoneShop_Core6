@@ -38,3 +38,6 @@
 
 
     4 .  font chu : text-transform: capitalize;
+
+    5/  //giu nguyen trang
+            return Redirect(Request.Headers["Referer"].ToString());

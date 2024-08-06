@@ -50,14 +50,14 @@
 <div class="single-product-area" style="padding-top:30px">
     <div class="zigzag-bottom"></div>
     <div class="container">
-        <div class="row">
+        <div class="row" style="background:white">
         
 
-            <div class="col-md-12">
+            <div class="col-md-12" style="">
                 <div class="product-content-right"> 
                   
 
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-sm-6">
                             <div class="image-gallery">
                                 <div class="image-container product-main-img" style="max-width:290px">
@@ -205,7 +205,7 @@
 
                     <br />
                     <hr />
-                    <div class="row" style="min-height:500px">
+                    <div class="row" style="min-height:500px;background:white;padding:10px">
                         <div class="col-sm-5">
                             <h3>Thông Số Sản Phẩm</h3>
                             <p><strong style="color:black">Camera:</strong> @Ispecifi.Camera</p>
@@ -229,13 +229,15 @@
                     
                 </div>
             </div>
-
-            <h6 class="title_rw">--</h6>
-            <div id="comment-section" style="height:400px; border-left:1px solid #f5f5f5">
+            <hr />
+            <div class="card-body px-0 py-3">
+                <h3 style="text-transform: capitalize" class="title_rw mb-0">Đánh giá sản phẩm</h3>
+            </div>
+            <div id="comment-section" style="height:400px; border-style: ridge;">
+                
                 <div class="card mb-4 border-0 bg-light">
-                    <div class="card-body px-0 py-3">
-                        <h3 style="text-transform: capitalize;" class="title_rw mb-0">Đánh giá sản phẩm</h3>
-                    </div>
+                    
+                   
                 </div>
                 @await Html.PartialAsync("_PartialProductReview",IsReview)
 

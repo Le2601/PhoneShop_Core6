@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PhoneShop.Controllers.Seller;
 using PhoneShop.Models;
 
 namespace PhoneShop.Controllers
@@ -46,6 +47,35 @@ namespace PhoneShop.Controllers
             //giu nguyen trang
             return Json(new {success = false});
 
+        }
+        
+
+        [HttpPost]
+        public IActionResult CreateFeedBackCmt(IFormCollection form)
+        {
+
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+
+            var GetUserNameFeedBack = _context.Accounts.Where(x => x.Id == AccountId).First().FullName;
+
+            int RwProductId = int.Parse(form["RwProductId"]);
+            var Content = form["Content"];
+
+            var CreateFeedBack = new FeedBackComment
+            {
+                AccountIdFeedBack = AccountId,
+                UserNameFeedBack = GetUserNameFeedBack,
+                RwProductId = RwProductId,
+                Content = Content,
+                Create_At = DateTime.Now,
+
+            };
+            _context.feedBackComments.Add(CreateFeedBack);
+            _context.SaveChanges();
+
+
+             //giu nguyen trang
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

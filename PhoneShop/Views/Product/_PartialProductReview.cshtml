@@ -88,7 +88,7 @@
 
 @if (Model != null && Model.Count() > 0)
 {
-
+    
     foreach (var item in Model)
     {
         <div class="comment-container">
@@ -112,7 +112,15 @@
                 <span class="comment-date">@item.CreateAt.ToString("dd/MM/yyyy")</span>
                 <p class="comment-text">@item.Content</p>
                 <div class="comment-reply-container">
-                    <a href="#" class="comment-reply-button">Trả lời</a>
+                    <button class="comment-reply-button">Trả lời</button>
+                    <form class="comment-reply-form" action="/ProductReview/CreateFeedBackCmt" method="post" style="display: none;">
+                        <textarea class="comment-reply-textarea" name="Content" placeholder="Nhập bình luận..."></textarea>
+                        <input name="RwProductId" value="@item.Id" hidden>
+                        <div class="comment-reply-actions">
+                            <button type="submit" class="comment-reply-submit">Gửi</button>
+                            <button type="button" class="comment-reply-cancel">Hủy</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -148,13 +156,35 @@
 
     
 
-
+            
     }
 }
 
 
-@* /ProductReview/Delete_Comment/@item.Id
- *@
+<script>
+    var replyButtons = document.querySelectorAll('.comment-reply-button');
+    replyButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var replyContainer = this.closest('.comment-reply-container');
+            var replyForm = replyContainer.querySelector('.comment-reply-form');
+            replyForm.style.display = 'block';
+            this.style.display = 'none';
+        });
+    });
+
+    var replyCancelButtons = document.querySelectorAll('.comment-reply-cancel');
+    replyCancelButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var replyForm = this.closest('.comment-reply-form');
+            replyForm.style.display = 'none';
+            var replyButton = replyForm.previousElementSibling;
+            replyButton.style.display = 'inline-block';
+        });
+    });
+</script>
+
+
+
 
 
 

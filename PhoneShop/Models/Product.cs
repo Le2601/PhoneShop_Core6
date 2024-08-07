@@ -91,7 +91,7 @@ namespace PhoneShop.Models
 
         public virtual ICollection<specifications> Specifications{ get; set; }
 
-        public virtual ICollection<Product_Review> Product_Reviews { get; set; }
+        public virtual ICollection<ProductQuestions> ProductQuestions { get; set; }
 
 
         public  ICollection<Evaluate_Product> evaluate_Products { get; set; }

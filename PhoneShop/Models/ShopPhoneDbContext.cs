@@ -42,7 +42,7 @@ namespace PhoneShop.Models
         public DbSet<specifications> specifications { get; set; }
 
 
-        public DbSet<Product_Review> product_Reviews { get; set; }
+        public DbSet<ProductQuestions> ProductQuestions { get; set; }
 
 
         public DbSet<SupportDirectory> Support_Directories { get; set; }
@@ -216,9 +216,9 @@ namespace PhoneShop.Models
             .WithMany(p => p.PaymentResponse_MoMos)
             .HasForeignKey(p => p.OrderId);
 
-            modelBuilder.Entity<Product_Review>()
+            modelBuilder.Entity<ProductQuestions>()
             .HasOne(p => p.Product)
-            .WithMany(p => p.Product_Reviews)
+            .WithMany(p => p.ProductQuestions)
             .HasForeignKey(p => p.ProductId);
 
 
@@ -291,7 +291,7 @@ namespace PhoneShop.Models
 
 
             modelBuilder.Entity<FeedBackComment>()
-              .HasOne(p => p.Product_Review)
+              .HasOne(p => p.ProductQuestions)
               .WithMany(p => p.FeedBackComments)
               .HasForeignKey(p => p.RwProductId);
 

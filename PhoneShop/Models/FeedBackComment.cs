@@ -20,7 +20,7 @@ namespace PhoneShop.Models
         public DateTime Create_At { get; set; } 
 
 
-        public virtual Product_Review Product_Review { get; set; }
+        public virtual ProductQuestions ProductQuestions { get; set; }
 
 
 

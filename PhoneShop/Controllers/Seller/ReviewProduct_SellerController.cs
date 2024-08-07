@@ -25,7 +25,7 @@ namespace PhoneShop.Controllers.Seller
 
 
             var items = ( from p in _context.Products.Where(x=> x.Create_Id ==  AccountId )
-                          join rw in _context.product_Reviews on p.Id equals rw.ProductId
+                          join rw in _context.ProductQuestions on p.Id equals rw.ProductId
                           select new ReviewProduct
                           {
                               IdProduct = p.Id,
@@ -51,7 +51,7 @@ namespace PhoneShop.Controllers.Seller
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
 
             //get review 
-            var GetReview = _context.product_Reviews.Where(x=> x.Id == Id).First();
+            var GetReview = _context.ProductQuestions.Where(x=> x.Id == Id).First();
 
             ViewBag.GetListFeedBack = _context.feedBackComments.Where(x=> x.RwProductId == Id).ToList();
 

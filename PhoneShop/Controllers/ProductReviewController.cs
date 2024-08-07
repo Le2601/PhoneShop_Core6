@@ -29,13 +29,13 @@ namespace PhoneShop.Controllers
 
             var checkAccount = _context.Accounts.Where(x=> x.Id == AccountInt).FirstOrDefault()!.Email;
 
-            var checkRwProduct = _context.product_Reviews.Where(x => x.Id == Id && x.UserEmail == checkAccount).FirstOrDefault();
+            var checkRwProduct = _context.ProductQuestions.Where(x => x.Id == Id && x.UserEmail == checkAccount).FirstOrDefault();
             if (checkRwProduct != null)
             {
                 var GetProduct = _context.Products.Where(x=> x.Id == checkRwProduct.ProductId).FirstOrDefault()!;
 
 
-                _context.product_Reviews.Remove(checkRwProduct);
+                _context.ProductQuestions.Remove(checkRwProduct);
                 _context.SaveChanges();
                 //giu nguyen trang
                 return RedirectToRoute("Details_Product", new { Alias = GetProduct.Alias, Id = GetProduct.Id });

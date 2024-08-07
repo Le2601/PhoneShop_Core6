@@ -101,20 +101,21 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link href="~/user/custom/cards_user.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item" style="font-size: 18px;"><a href="/~">Trang chủ</a></li>
-            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Giỏ hàng</li>
-        </ol>
-    </nav>
 
-</div>
 
-<div class="single-product-area" style="padding-top:30px">
+<div class="single-product-area" style="padding-top:0px">
   
     <div class="zigzag-bottom"></div>
-    <div class="container">
+    <div class="container" style="background:white">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="background:white;padding:10px">
+                    <li class="breadcrumb-item" style="font-size: 18px;"><a href="/~">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Giỏ hàng</li>
+                </ol>
+            </nav>
+
+        </div>
         <div class="row">
             
 
@@ -125,7 +126,7 @@
                         {
                             <form method="post" asp-action="CheckOut" asp-controller="Cart">
                                 <table cellspacing="0" class="shop_table cart table no-border">
-                                    <thead style="background:#fff3ed">
+                                    <thead style="background:white">
                                         <tr>
                                             <th class="product-remove">&nbsp;</th>
                                             <th class="product-thumbnail">&nbsp;</th>
@@ -142,7 +143,7 @@
                                         {
                                             <tr class="cart_item" id="trow_@item.ProductId">
                                                 <td>
-                                                    <a class="btnDelete" data-id="@item.ProductId">x</a>
+                                                    <a class="btnDelete" data-id="@item.ProductId"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                                 </td>
 
                                                 <td class="product-thumbnail ">
@@ -181,10 +182,10 @@
                                             </tr>
 
 
-                                            <tr style="border-bottom:1px solid">
+                                            <tr style="border-bottom:1px inset">
                                                 <td colspan="3">
                                                     <div class="voucher-container">
-                                                        <a href="#" class="List_Voucher" data-id="@item.ProductId">Xem Voucher</a>
+                                                        <a href="#" class="List_Voucher" data-id="@item.ProductId">Xem Voucher Của Shop</a>
 
                                                     </div>
                                                 </td>
@@ -213,7 +214,7 @@
 
                                                 @if (User.Identity.IsAuthenticated && (User.IsInRole("User")) || (User.IsInRole("Seller")))
                                                 {
-                                                    <input type="submit" value="Thanh Toán" name="proceed" class="checkout-button button alt wc-forward">
+                                                    <input type="submit" value="Thanh Toán" name="proceed" style="background:#d7f9fa;color:black" class="btn btn-info active">
 
                                                 }
                                                 else
@@ -244,7 +245,7 @@
                                 <label style="text-transform: capitalize;" for="coupon_code">Áp dụng khuyến mãi:</label>
                                 <input type="text" placeholder="mã giảm giá" value="" id="coupon_code" class="input-text" name="Voucher_code">
                                
-                                <input type="submit" value="Áp dụng" name="áp dụng" class="button">
+                                <input type="submit" value="Áp dụng" name="áp dụng" style="background:#d7f9fa;color:black" class="btn btn-info active">
                             </form>
                             
                            

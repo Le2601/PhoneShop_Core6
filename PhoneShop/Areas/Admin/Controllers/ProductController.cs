@@ -42,6 +42,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             _categoryRepository = categoryRepository;
             _specificationRepository = specificationRepository;
         }
+        
         public async Task<IActionResult> Index(int? page)
         {
 
@@ -75,7 +76,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
             ViewBag.GetListImage = _context.ImageProducts.Where(x => x.ProductId == Id).ToList();
 
-            ViewBag.GetReviewProduct = _context.product_Reviews.Where(x => x.ProductId == item.Id).ToList();
+            ViewBag.GetReviewProduct = _context.ProductQuestions.Where(x => x.ProductId == item.Id).ToList();
 
             return View(item);
         }

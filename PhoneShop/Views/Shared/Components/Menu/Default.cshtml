@@ -17,6 +17,8 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
 
 <style>
+   
+    
     .suggestions {
         max-height: 100px;
         overflow-y: auto;
@@ -168,17 +170,18 @@
 </style>
 
 
-<div class="site-branding-area" >
+<div class="site-branding-area"   >
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
                 <div class="logo">
-                    <h1><a href="~/"><img style="height:64px; width:176px" src="~/images/z5081071622409_00f78bf27f16bdb5817f5a3d8672b7a0.jpg"></a></h1>
+                    <h1><a href="~/"><img style="height:64px; width:176px" src="~/images/z5708583290992_d5705e872d89a3969d403076ca4435d5.jpg"></a></h1>
+                    
                 </div>
             </div>
 
             <div class="col-sm-6">
-                <div class="shopping-item">
+                <div class="shopping-item" style="border-style: inset;">
                     <a href="/cart.html" class="hover-effect">
                         Giỏ hàng - <span class="cart-amunt">
                             @{
@@ -201,58 +204,59 @@
 
 
 
-    <div class="container" >
-        <div class="navbar-header">
+    <div class="container menuwt" style="background:white;width:100%;border-bottom:inset" >
+      <div>
+        <div class="navbar-header" style="margin-left: 126px;">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-       @*  <a href="./" class="navbar-brand font-size" >Trang chủ</a> *@
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">           
-                <div class="dropdown" style="float:left;">
-                    <button class="dropbtn_cate"><i class="fa-solid fa-list"></i> <b class="caret"></b></button>
-                    <div class="dropdown-content" style="left:0;">
-                        @foreach (var i in ListCategoryMenu)
-                        {
+            @*  <a href="./" class="navbar-brand font-size" >Trang chủ</a> *@
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <div class="dropdown" style="float:left;">
+                        <button class="dropbtn_cate" style="background:white"><i class="fa-solid fa-list"></i> <b class="caret"></b></button>
+                        <div class="dropdown-content" style="left:0;">
+                            @foreach (var i in ListCategoryMenu)
+                            {
 
-                           <a href="/@i.Alias-@i.Id">@i.Title</a>
+                                <a href="/@i.Alias-@i.Id">@i.Title</a>
 
-                        }                  
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a class="navbar-brand font-size" href="/Utilities/Account">Tiện ích</a>
-            </li>
-            <li>
-                <a class="navbar-brand font-size" href="/gian-hang.html">Xem gian hàng</a>
-            </li>
-            <li>
-               
-                <form class="search-form" method="post" asp-action="Search_Product" asp-controller="Product" >
-                   @*  <input type="text" class="search-input" name="search_value" placeholder="Search..."> *@
-                    <div class="search-container">
-                        <input style="width: 60%;" type="text" id="searchInput" name="search_value" placeholder="Search..." autocomplete="off">
-                        <button type="submit" class="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <div id="suggestions" class="suggestions">
-                            
+                            }
                         </div>
-                       
                     </div>
-                  
-                </form>
-               
-               
-               
-            </li>
-          
-        </ul>
+                </li>
+                <li>
+                    <a class="navbar-brand font-size" href="/Utilities/Account">Tiện ích</a>
+                </li>
+                <li>
+                    <a class="navbar-brand font-size" href="/gian-hang.html">Xem gian hàng</a>
+                </li>
+                <li>
+
+                    <form class="search-form" method="post" asp-action="Search_Product" asp-controller="Product">
+                        @*  <input type="text" class="search-input" name="search_value" placeholder="Search..."> *@
+                        <div class="search-container">
+                            <input style="width: 60%;" type="text" id="searchInput" name="search_value" placeholder="Search..." autocomplete="off">
+                            <button type="submit" class="search-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <div id="suggestions" class="suggestions">
+                            </div>
+
+                        </div>
+
+                    </form>
+
+
+
+                </li>
+
+            </ul>
         </div>
+      </div>
        
     </div>
 

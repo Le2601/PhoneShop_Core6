@@ -16,7 +16,7 @@ namespace PhoneShop.DI.DI_User.ReviewProduct_User
 
         public async Task<List<Product_ReviewModelView>> GetListReviewById(int IdProduct)
         {
-            var ListReview = await _context.product_Reviews.Where(x => x.ProductId == IdProduct).Select(x => new Product_ReviewModelView
+            var ListReview = await _context.ProductQuestions.Where(x => x.ProductId == IdProduct).Select(x => new Product_ReviewModelView
             {
 
                 Id = x.Id,
@@ -25,7 +25,7 @@ namespace PhoneShop.DI.DI_User.ReviewProduct_User
                 UserEmail = x.UserEmail,
                 CreateAt = x.CreateAt,
 
-            }).ToListAsync();
+            }).OrderByDescending(x=> x.CreateAt).ToListAsync();
 
 
             return ListReview;
@@ -35,7 +35,7 @@ namespace PhoneShop.DI.DI_User.ReviewProduct_User
 
         public void Create_ProductReview(Product_ReviewData model)
         {
-            var newReviewProduct = new Product_Review
+            var newReviewProduct = new ProductQuestions
             {
 
                 ProductId = model.ProductId,
@@ -43,11 +43,11 @@ namespace PhoneShop.DI.DI_User.ReviewProduct_User
                 UserEmail = model.UserEmail,
                 Content = model.Content,
                 CreateAt = model.CreateAt,
-                Rate = model.Rate,
+                
 
             };
 
-            _context.product_Reviews.Add(newReviewProduct);
+            _context.ProductQuestions.Add(newReviewProduct);
             _context.SaveChanges();
 
         }

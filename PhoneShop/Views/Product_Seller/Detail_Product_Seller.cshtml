@@ -5,7 +5,7 @@
     ViewData["Title"] = "Detail_Product_Seller";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
     List<ImageProduct> ListImageByProduct = ViewBag.GetListImage;
-    List<Product_Review> ListRwProduct = ViewBag.GetReviewProduct;
+    List<ProductQuestions> ListQuestions = ViewBag.GetQuestionsProduct;
 }
 <style>
     .post {
@@ -139,7 +139,7 @@
                                 <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab" >
                                    
                                     
-                                    @foreach (var item in ListRwProduct)
+                                    @foreach (var item in ListQuestions)
                                     {
                                         <div class="post">
                                             <div class="user-block">

@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhoneShop.Models
 {
-    [Table("Product_Review")]
-    public class Product_Review
+    [Table("ProductQuestions")]
+    public class ProductQuestions
     {
         [Key]       
         
@@ -20,7 +20,7 @@ namespace PhoneShop.Models
 
         public string  Content { get; set; }
 
-        public int Rate { get; set; }
+       
 
         public DateTime CreateAt { get; set; }
 

@@ -456,7 +456,7 @@ namespace PhoneShop.Controllers.Seller
             ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
             ViewBag.GetListImage = _context.ImageProducts.Where(x=> x.ProductId == Id).ToList();
 
-            ViewBag.GetReviewProduct = _context.product_Reviews.Where(x=> x.ProductId == item.Id).ToList();
+            ViewBag.GetQuestionsProduct = _context.ProductQuestions.Where(x=> x.ProductId == item.Id).ToList();
 
             return View(item);
         }

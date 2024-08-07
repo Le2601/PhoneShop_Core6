@@ -270,13 +270,13 @@ namespace PhoneShop.Controllers
 
             var checkAccount = _context.Accounts.Where(x => x.Id == AccountInt).FirstOrDefault()!.Email;
 
-            var checkRwProduct = _context.product_Reviews.Where(x => x.Id == Id && x.UserEmail == checkAccount).FirstOrDefault();
-            if (checkRwProduct != null)
+            var checkProductQuestions = _context.ProductQuestions.Where(x => x.Id == Id && x.UserEmail == checkAccount).FirstOrDefault();
+            if (checkProductQuestions != null)
             {
-                var GetProduct = _context.Products.Where(x => x.Id == checkRwProduct.ProductId).FirstOrDefault()!;
+                var GetProduct = _context.Products.Where(x => x.Id == checkProductQuestions.ProductId).FirstOrDefault()!;
 
 
-                _context.product_Reviews.Remove(checkRwProduct);
+                _context.ProductQuestions.Remove(checkProductQuestions);
 
                 //cong so luong binh luan len booth_tracking
                 var getTracking = _context.Booth_Trackings.Where(x => x.BoothId == GetProduct.Booth_InformationId).FirstOrDefault();

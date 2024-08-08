@@ -29,5 +29,7 @@ namespace PhoneShop.Models
 
         public ICollection<UserFollows> UserFollows { get; set; }
 
+        public ICollection<Review_Product> review_Products { get; set; }
+
     }
 }

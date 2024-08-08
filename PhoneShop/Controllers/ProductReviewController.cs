@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhoneShop.Controllers.Seller;
+using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.Models;
 
 namespace PhoneShop.Controllers
@@ -7,11 +9,12 @@ namespace PhoneShop.Controllers
     public class ProductReviewController : Controller
     {
         private readonly ShopPhoneDbContext _context;
-
-        public ProductReviewController(ShopPhoneDbContext shopPhoneDbContext)
+        private readonly IProduct_UserRepository _userRepository;
+        public ProductReviewController(ShopPhoneDbContext shopPhoneDbContext, IProduct_UserRepository product_UserRepository)
         {
 
             _context = shopPhoneDbContext;
+            _userRepository = product_UserRepository;
 
 
         }
@@ -77,5 +80,65 @@ namespace PhoneShop.Controllers
              //giu nguyen trang
             return Redirect(Request.Headers["Referer"].ToString());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Review_Product(int id, IFormCollection form)
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+
+            int taikhoanIDInt = int.Parse(taikhoanID);
+
+            var iProduct = await _userRepository.ProductById(id);
+
+            var IAccount = await _context.Accounts.Where(x => x.Id == taikhoanIDInt).FirstOrDefaultAsync();
+
+            if (iProduct == null || IAccount == null)
+            {
+                //loi
+            }
+
+            string content = form["content"];
+            int rating = int.Parse(form["rating"]);
+
+
+            var newReviewProduct = new Review_Product
+            {
+
+                ProductId = iProduct!.Id,
+                AccountId = taikhoanIDInt,
+                Rate = rating,
+                Comments = content,
+                Create_At = DateTime.Now,
+               
+
+            };
+
+            //cong so luong binh luan len booth_tracking
+            var getTracking = await _context.Booth_Trackings.Where(x => x.BoothId == iProduct.BoothId).FirstOrDefaultAsync();
+
+            if (getTracking != null)
+            {
+                getTracking.Total_Comments += 1;
+                _context.Booth_Trackings.Update(getTracking);
+                await _context.SaveChangesAsync();
+            }
+
+
+
+
+            _context.Review_Products.Add(newReviewProduct);
+            _context.SaveChanges();
+
+
+
+
+            //giu nguyen trang
+            return Redirect(Request.Headers["Referer"].ToString());
+
+
+
+
+        }
+
     }
 }

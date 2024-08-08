@@ -96,6 +96,7 @@ namespace PhoneShop.Models
         public DbSet<FeedBackComment> feedBackComments { get; set; }
 
 
+        public DbSet<Review_Product> Review_Products { get; set; }
 
 
 
@@ -294,6 +295,16 @@ namespace PhoneShop.Models
               .HasOne(p => p.ProductQuestions)
               .WithMany(p => p.FeedBackComments)
               .HasForeignKey(p => p.RwProductId);
+
+            modelBuilder.Entity<Review_Product>()
+              .HasOne(p => p.Product)
+              .WithMany(p => p.review_Products)
+              .HasForeignKey(p => p.ProductId);
+
+            modelBuilder.Entity<Review_Product>()
+             .HasOne(p => p.Account)
+             .WithMany(p => p.review_Products)
+             .HasForeignKey(p => p.AccountId);
 
 
 

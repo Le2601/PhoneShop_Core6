@@ -9,7 +9,7 @@
 
     List<ImageProductViewModel> IsImage = ViewBag.getListImage;
 
-    List<Product_ReviewModelView> IsReview = ViewBag.ListReview;
+    List<Product_ReviewModelView> IsAsk = ViewBag.ListAsk;
 
     SpecificationsViewModel Ispecifi = ViewBag.GetSpecifi;
 
@@ -24,6 +24,9 @@
 
     List<Voucher> GetListVoucher = ViewBag.istVoucherBooth;
 
+
+
+    List<Review_Product> IsReview = ViewBag.ListReview;
     
 
     double tienO = 0;
@@ -266,8 +269,8 @@
         <br />
         <div class="container-question">
 
-            <!-- Form bình luận -->
-            <form id="rating-form" asp-action="Review_Product" asp-controller="Product" asp-route-id="@Model.Id" method="post" style="height: auto; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); padding: 20px;">
+            <!-- Form bình luận  -->
+            <form id="rating-form" asp-action="Review_Product" asp-controller="ProductReview" asp-route-id="@Model.Id" method="post" style="height: auto; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); padding: 20px;">
                 <h3 style="text-transform: capitalize;" class="title_rw mb-0">Đánh giá sản phẩm</h3>
                 <div style="display: flex; flex-direction: column; align-items: center;">
                     <div class="rating-container" style="margin-top: 10px; direction: rtl;">
@@ -325,7 +328,7 @@
 
                 <div class="card mb-4 border-0 bg-light">
                 </div>
-                @await Html.PartialAsync("_PartialProductReview",IsReview)
+                @await Html.PartialAsync("_PartialProductAsk",IsAsk)
 
 
             </div>
@@ -401,7 +404,7 @@
             });
         });
     </script>
-
+   
   
 
 }

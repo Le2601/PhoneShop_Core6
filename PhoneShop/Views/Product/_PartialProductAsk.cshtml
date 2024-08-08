@@ -1,29 +1,15 @@
 ﻿@using PhoneShop.ModelViews
 @using PhoneShop.Models;
 
-@model List<Review_Product>
+@model List<Product_ReviewModelView>
+@{
+    List<FeedBackComment> GetFeedBack = ViewBag.FeedBack;
+}
+
+<Style>
 
 
-    <Style>
-    .star-container {
-        display: inline-block;
-        text-align: center;
-        width: 30px; /* Điều chỉnh kích thước tùy ý */
-        height: 30px; /* Điều chỉnh kích thước tùy ý */
-        line-height: 30px; /* Căn giữa vertically */
-    }
 
-    .star {
-        color: gold;
-        font-size: 24px;
-        display: inline-block;
-    }
-
-        .star:before {
-            content: "★";
-        }
-   
-    
     .comment-author {
         display: flex;
         align-items: center;
@@ -46,11 +32,11 @@
         font-size: 12px;
         color: #888;
     }
+
     .comment-container {
         border: 1px solid #e5e5e5;
         border-radius: 4px;
         padding: 16px;
-        
         background-color: #fff;
         margin: inherit;
     }
@@ -59,7 +45,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-       
     }
 
     .comment-author {
@@ -106,24 +91,24 @@
         border-radius: 0.5rem;
         padding: 1rem;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        background:white;
+        background: white;
     }
-    </Style>
+</Style>
 
 @if (Model != null && Model.Count() > 0)
 {
-    
+
     foreach (var item in Model)
     {
         <div class="comment-container" style="background:#f5f5f5">
             <div class="comment-header">
                 <div class="comment-author">
                     <div><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
-                    <span class="author-name"><b>@item.Account.FullName</b></span>
-                    <span class="comment-date">____@item.Create_At.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                    <span class="author-name"><b>@item.UserName</b></span>
+                    <span class="comment-date">____@item.CreateAt.ToString("dd/MM/yyyy HH:mm:ss")</span>
                 </div>
 
-                @if (item.AccountId == ViewBag.AccountId)
+                @if (item.UserEmail == ViewBag.taikhoanEmail)
                 {
                     <div class="dropdown">
                         <button class="dropbtn">⋮</button>
@@ -134,23 +119,54 @@
                 }
             </div>
             <div class="comment-content">
-                @for (int i = 0; i < item.Rate; i++)
-                {
-                    <div class="star-container">
-                        <span class="star"></span>
-                    </div>
-                }
-                <p class="comment-text">@item.Comments</p>
-               
+
+                <p class="comment-text">@item.Content</p>
+                <div class="comment-reply-container">
+                    <button class="comment-reply-button" style="border:none"><i class="fa fa-comments-o" aria-hidden="true"></i>Trả lời</button>
+                    <form class="comment-reply-form" action="/ProductReview/CreateFeedBackCmt" method="post" style="display: none;">
+                        <textarea class="comment-reply-textarea" name="Content" placeholder="Nhập bình luận..."></textarea>
+                        <input name="RwProductId" value="@item.Id" hidden>
+                        <div class="comment-reply-actions">
+                            <button type="submit" class="comment-reply-submit btn btn-primary active" style="padding:6pt">Gửi</button>
+                            <button type="button" class="comment-reply-cancel btn btn-primary active">Hủy</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
-       
+        //reply
+        <div class="replies-container" style="background:#f5f5f5">
+
+            @foreach (var i in GetFeedBack)
+            {
+                if (item.Id == i.RwProductId)
+                {
+                    <div class="reply-container" style="margin-left: 40px;">
+                        <div class="reply-header">
+                            <div class="reply-author">
+                                <div><i class="fa fa-user-circle-o" aria-hidden="true"></i><b>@i.UserNameFeedBack</b><span class="comment-date">___@i.Create_At.ToString("dd/MM/yyyy HH:mm:ss")</span></div>
+
+                            </div>
+
+                        </div>
+                        <div class="reply-content">
+
+                            <p class="reply-text comment-text">@i.Content</p>
+                        </div>
+                    </div>
+                }
+
+            }
 
 
-    
 
-            
+        </div>
+
+
+
+
+
     }
 }
 

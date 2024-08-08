@@ -65,15 +65,19 @@ namespace PhoneShop.Controllers
             var getListImage = await _ImageRepository.GetListImageById(item.Id);
 
             ViewBag.getListImage = getListImage;
-            //review
-            var ListReview =await _reviewProduct_UserRepository.GetListReviewById(item.Id);
+            //listAskProduct
+            var ListAsk =await _reviewProduct_UserRepository.GetListReviewById(item.Id);
             //reply
             ViewBag.FeedBack = _context.feedBackComments.ToList();
 
-            
+            //list review
+            ViewBag.Account = new SelectList(_context.Accounts.ToList(), "Id", "Title");
+            ViewBag.ListReview = _context.Review_Products.Where(x => x.ProductId == item.Id).ToList();
+
+
             //thông so
             ViewBag.GetSpecifi =await _userRepository.GetSpeciByIdProduct(item.Id);
-            ViewBag.ListReview = ListReview;
+            ViewBag.ListAsk = ListAsk;
             //partial related product
             ViewBag.SellingProduct = await _userRepository.Selling_Products();          
 
@@ -114,6 +118,7 @@ namespace PhoneShop.Controllers
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             if(taikhoanID != null)
             {
+                ViewBag.AccountId = int.Parse(taikhoanID)!;
                 ViewBag.taikhoanEmail = _context.Accounts.Where(x=> x.Id == int.Parse(taikhoanID)).FirstOrDefault()!.Email;
             }
             
@@ -231,7 +236,7 @@ namespace PhoneShop.Controllers
                 UserEmail = IAccount.Email,
                 Content = content,
                 CreateAt = DateTime.Now,
-                Rate = 4,
+                
 
             };
 

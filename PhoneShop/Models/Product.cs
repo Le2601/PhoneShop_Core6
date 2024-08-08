@@ -98,6 +98,8 @@ namespace PhoneShop.Models
 
         public ICollection<WarehousedProducts> WarehousedProducts { get; set; }
 
+        public ICollection<Review_Product> review_Products { get; set;}
+
 
 
 

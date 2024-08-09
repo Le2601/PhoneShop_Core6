@@ -12,6 +12,7 @@ namespace PhoneShop.Extension.CollaborativeFiltering
             _context = context;
         
         }
+        //luot mua
         public List<Models.Product> CollaborativeFiltering(int AccountId)
         {
             var UserRatings = _context.Evaluate_Products.Where(x => x.AccountId == AccountId).ToList();
@@ -50,6 +51,8 @@ namespace PhoneShop.Extension.CollaborativeFiltering
 
 
         }
+
+        //danh gia
 
     }
 }

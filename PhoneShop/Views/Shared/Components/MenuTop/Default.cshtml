@@ -3,7 +3,11 @@
    
 
     .header-area {
-        background: none repeat scroll 0 0 #d7f9fa;
+        background: #5a88ca;
+    }
+
+    .text-color{
+        color:white;
     }
 </style>
 
@@ -16,12 +20,12 @@
                     
                      @if (ViewBag.GetNameLogin != null)
                         {
-                        <li><a href="/kenh-nguoi-ban.html"><i class="fa-regular fa-message"></i> Kênh người bán</a></li>
+                        <li><a href="/kenh-nguoi-ban.html" style="color:white"><i class="fa-regular fa-message"></i> Kênh người bán</a></li>
 
                         }
-                    <li><a href="/dang-nhap.html"><i class="fa fa-heart"></i> Admin</a></li>
-                    <li><a href="/support.html"><i class="fa-solid fa-circle-info"></i> Hỗ trợ</a></li>
-                    <li><a href="#"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>
+                    <li><a href="/dang-nhap.html" class="text-color" style="color:white"><i class="fa fa-heart "></i> Admin</a></li>
+                    <li><a href="/support.html" style="color:white"><i class="fa-solid fa-circle-info "></i> Hỗ trợ</a></li>
+                    <li><a href="#" style="color:white"><i class="fa-solid fa-phone"></i> Liên hệ</a></li>
 
                    
                             
@@ -40,17 +44,17 @@
                     @if (ViewBag.GetNameLogin != null)
                     {
                         <li class="dropdown dropdown-small" style="height:30px">
-                            <a class="dropbtn navbar-brand font-size" style="font-size: 13px;">@ViewBag.GetNameLogin<b class="caret"></b></a>
+                            <a class="dropbtn navbar-brand font-size" style="font-size: 13px;color:white">@ViewBag.GetNameLogin<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/Utilities/ListOrder">Đơn hàng của tôi</a></li>
-                                <li><a href="/Utilities/Account">Tài khoản</a></li>
-                                <li><a href="/logout-user.html">Đăng xuất</a></li>
+                                <li><a href="/Utilities/ListOrder" class=" text-color">Đơn hàng của tôi</a></li>
+                                <li><a href="/Utilities/Account" class=" text-color">Tài khoản</a></li>
+                                <li><a href="/logout-user.html" class=" text-color">Đăng xuất</a></li>
                             </ul>
                         </li>
                     }else{
                         <li class="dropdown dropdown-small" style="height:30px">
-                            <a class="dropbtn navbar-brand font-size" href="Account/Index" style="font-size: 13px;">Đăng Ký</a>
-                            <a class="dropbtn navbar-brand font-size" href="/Login.html"  style="font-size: 13px;">Đăng Nhập</a>
+                            <a class="dropbtn navbar-brand font-size" href="Account/Index" style="font-size: 13px;color:white">Đăng Ký</a>
+                            <a class="dropbtn navbar-brand font-size  text-color" href="/Login.html" style="font-size: 13px;color:white">Đăng Nhập</a>
                             
                         </li>
 

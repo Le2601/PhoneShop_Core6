@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PhoneShop.Controllers.Seller;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.Order_User;
 using PhoneShop.DI.DI_User.Voucher_User;
@@ -33,58 +34,21 @@ namespace PhoneShop.Controllers
         public IActionResult Account()
         {
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
-            var item = _dbContext.Accounts.Where(x => x.Id == AccountInt).FirstOrDefault();
+            var item = _dbContext.Accounts.Where(x => x.Id == AccountId).FirstOrDefault();
 
             return View(item);
         }
 
         public async Task<IActionResult> ListOrder()
-        {//check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+        {
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
-            var item = await _order_userRepository.ListOrder_User(AccountInt);
+            var item = await _order_userRepository.ListOrder_User(AccountId);
             return View(item);
         }
 
@@ -108,31 +72,12 @@ namespace PhoneShop.Controllers
         {
 
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
             var iCity = _dbContext.Cities.ToList();
 
-            var GetMyAddress = _dbContext.MyAddresses.Where(x=> x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault()!;
+            var GetMyAddress = _dbContext.MyAddresses.Where(x=> x.IdAccount == AccountId && x.IsDefault == 1).FirstOrDefault()!;
 
             if(GetMyAddress == null)
             {
@@ -147,7 +92,7 @@ namespace PhoneShop.Controllers
             }
 
 
-            ViewBag.AccountInt = AccountInt;
+            ViewBag.AccountInt = AccountId;
 
 
             return View(iCity);
@@ -156,31 +101,12 @@ namespace PhoneShop.Controllers
         public IActionResult FollowBooth()
         {
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
             var items = (
                    from b in _dbContext.Booth_Information
-                   join fl in _dbContext.UserFollows.Where(x=> x.UserID == AccountInt) on b.Id equals fl.BoothID 
+                   join fl in _dbContext.UserFollows.Where(x=> x.UserID == AccountId) on b.Id equals fl.BoothID 
                    join t in _dbContext.Booth_Trackings on b.Id equals t.BoothId
                    select new BoothData
                    {

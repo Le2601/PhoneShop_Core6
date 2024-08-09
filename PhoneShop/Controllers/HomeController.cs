@@ -32,6 +32,7 @@ using PhoneShop.Extension;
 using PhoneShop.Extension.CollaborativeFiltering;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using PhoneShop.Controllers.Seller;
 
 namespace PhoneShop.Controllers
 {
@@ -108,27 +109,10 @@ namespace PhoneShop.Controllers
             //get cookie auth
             //neu đăng nhập r mà tắt tab thì sẽ còn lưu auth cookie 
             //lấy idaccount  auth cookie được tạo khi login  lưu vào session
+
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
             //End check auth cookie and AccountId Session
 
             //goi y hom nay  //ramdom product 
@@ -157,7 +141,7 @@ namespace PhoneShop.Controllers
             if (taikhoanID != null)
             {
                 
-                var CollaborativeFiltering_List = _collaborativeFilteringService.CollaborativeFiltering(AccountInt);
+                var CollaborativeFiltering_List = _collaborativeFilteringService.CollaborativeFiltering(AccountId);
                 ViewBag.CheckAccount = 1;
 
                 ViewBag.CollaborativeFiltering_List = CollaborativeFiltering_List;

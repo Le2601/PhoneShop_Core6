@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PhoneShop.Controllers.Seller;
 using PhoneShop.Models;
 using System.Security.Claims;
 
@@ -16,14 +17,15 @@ namespace PhoneShop.Controllers
         public IActionResult Index()
         {
 
-            
-            
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = AccountInt = int.Parse(taikhoanID);
-            
 
-            var UserRatings = _context.Evaluate_Products.Where(x => x.AccountId == AccountInt).ToList();
-            var otherRatings = _context.Evaluate_Products.Where(x => x.AccountId != AccountInt).ToList();
+
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
+
+            var UserRatings = _context.Evaluate_Products.Where(x => x.AccountId == AccountId).ToList();
+            var otherRatings = _context.Evaluate_Products.Where(x => x.AccountId != AccountId).ToList();
 
             // lay ra ds sp da danh gia va chua danh gia
             var ratedItemIds = UserRatings.Select(x => x.ProductId).ToHashSet(); //chuyen doi thanh tap hop [] > {}, gia tri k trung lap

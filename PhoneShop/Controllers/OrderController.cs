@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PhoneShop.Controllers.Seller;
 using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
 using Stripe;
@@ -16,8 +17,10 @@ namespace PhoneShop.Controllers
         }
         public IActionResult Index(string id_order)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
 
             var item = (from od in _context.Order_Details.Where(x => x.OrderId == id_order)
                         join p in _context.Products on od.ProductId equals p.Id       

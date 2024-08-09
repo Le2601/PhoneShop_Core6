@@ -26,11 +26,12 @@ namespace PhoneShop.Controllers
         
         public IActionResult Delete_Comment(int Id)
         {
-           
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
 
-            var checkAccount = _context.Accounts.Where(x=> x.Id == AccountInt).FirstOrDefault()!.Email;
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
+            var checkAccount = _context.Accounts.Where(x=> x.Id == AccountId).FirstOrDefault()!.Email;
 
             var checkRwProduct = _context.ProductQuestions.Where(x => x.Id == Id && x.UserEmail == checkAccount).FirstOrDefault();
             if (checkRwProduct != null)

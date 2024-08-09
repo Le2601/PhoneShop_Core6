@@ -55,18 +55,16 @@
     }
 </style>
 
-<div class="container">
+
+<div class="container" style="height:700px;background:white">
+    <br />
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" style="background:white">
             <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
-            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Gian hàng</li>
-           
+            <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Danh Sách Gian Hàng</li>
+
         </ol>
     </nav>
-</div>
-
-<div class="container" style="height:700px">
-
     <ul class="booth-list">
         @foreach (var item in Model)
         {

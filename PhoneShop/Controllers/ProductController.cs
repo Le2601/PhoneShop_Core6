@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PhoneShop.Controllers.Seller;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.Category_User;
 using PhoneShop.DI.DI_User.Evaluate_Product_User;
@@ -238,13 +239,13 @@ namespace PhoneShop.Controllers
 
         public async Task<IActionResult> Review_Product(int id, IFormCollection form)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-
-            int taikhoanIDInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
             var iProduct = await _userRepository.ProductById(id);
 
-            var IAccount = await _context.Accounts.Where(x => x.Id == taikhoanIDInt).FirstOrDefaultAsync();
+            var IAccount = await _context.Accounts.Where(x => x.Id == AccountId).FirstOrDefaultAsync();
 
             if (iProduct == null || IAccount == null)
             {

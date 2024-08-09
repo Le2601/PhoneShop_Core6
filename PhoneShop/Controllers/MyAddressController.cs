@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PhoneShop.Controllers.Seller;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.MyAddress_User;
 using PhoneShop.Models;
@@ -44,8 +45,9 @@ namespace PhoneShop.Controllers
         public IActionResult Create(IFormCollection form)
         {
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
             string FullName = form["FullName"];
             string Email = form["Email"];
@@ -71,7 +73,7 @@ namespace PhoneShop.Controllers
                 Description = Description,
                 AddressType = int.Parse(AddressType),
                 IsDefault = 0,
-                IdAccount = AccountInt,
+                IdAccount = AccountId,
                 Phone = Phone,
                 Email = Email,
 
@@ -91,8 +93,10 @@ namespace PhoneShop.Controllers
 
             string IsDefault = form["IsDefault"];
             string Id = form["Id"];
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
-           
 
             int Isdefault_ParseInt = int.Parse(IsDefault);
             int Id_ParseInt = int.Parse(Id);
@@ -102,9 +106,7 @@ namespace PhoneShop.Controllers
 
 
 
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
-            TempData["AccountInt"] = AccountInt;
+            TempData["AccountInt"] = AccountId;
             return RedirectToAction("Index");
 
 

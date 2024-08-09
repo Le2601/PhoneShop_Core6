@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PhoneShop.Controllers.Seller;
 using PhoneShop.Data;
 using PhoneShop.Models;
 using System.Security.Claims;
@@ -51,27 +52,9 @@ namespace PhoneShop.Controllers
 
         public IActionResult BoothInfo(int Id)
         {
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if(taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                     AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                 AccountInt = int.Parse(taikhoanID);
-            }
-            
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
 
             ViewBag.Booth = (
@@ -98,7 +81,7 @@ namespace PhoneShop.Controllers
             var item = _context.Products.Where(x => x.Booth_InformationId == Id).ToList();
 
             //check follow        
-            var CheckFolow = _context.UserFollows.Where(x => x.BoothID == Id && x.UserID == AccountInt).FirstOrDefault();
+            var CheckFolow = _context.UserFollows.Where(x => x.BoothID == Id && x.UserID == AccountId).FirstOrDefault();
 
             if (CheckFolow != null)
             {
@@ -115,12 +98,13 @@ namespace PhoneShop.Controllers
 
         public IActionResult FollowBooth(int Id)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
             var FollowBooth = new UserFollows
             {
-                UserID = AccountInt,
+                UserID = AccountId,
                 BoothID = Id
             };
             _context.UserFollows.Add(FollowBooth);
@@ -148,11 +132,12 @@ namespace PhoneShop.Controllers
         }
         public IActionResult UnFollowBooth(int Id)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
             //check follow        
-            var CheckFolow = _context.UserFollows.Where(x => x.BoothID == Id && x.UserID == AccountInt).FirstOrDefault()!;
+            var CheckFolow = _context.UserFollows.Where(x => x.BoothID == Id && x.UserID == AccountId).FirstOrDefault()!;
 
 
             _context.UserFollows.Remove(CheckFolow);

@@ -100,7 +100,7 @@
 
     foreach (var item in Model)
     {
-        <div class="comment-container" style="background:#f5f5f5">
+        <div id="trow_@item.Id" class="comment-container" style="background:#f5f5f5">
             <div class="comment-header">
                 <div class="comment-author">
                     <div><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
@@ -113,7 +113,7 @@
                     <div class="dropdown">
                         <button class="dropbtn">⋮</button>
                         <div class="dropdown-content">
-                            <a href="/Product/Delete_Comment/@item.Id">Xóa</a>
+                            <a class="Delete_Ask" data-id="@item.Id">Xóa</a>
                         </div>
                     </div>
                 }

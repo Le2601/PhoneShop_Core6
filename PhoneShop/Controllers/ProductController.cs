@@ -79,9 +79,34 @@ namespace PhoneShop.Controllers
             ViewBag.GetSpecifi =await _userRepository.GetSpeciByIdProduct(item.Id);
             ViewBag.ListAsk = ListAsk;
             //partial related product
-            ViewBag.SellingProduct = await _userRepository.Selling_Products();          
+            ViewBag.SellingProduct = await _userRepository.Selling_Products();
+
+
+
 
             //danh gia san pham
+
+            //rating //điểm đánh giá trung bình
+
+                    int AverageRating = 0;
+                    int dem = 0;
+            var checkRatingNotNull = _context.Review_Products.Where(x => x.ProductId == item.Id).FirstOrDefault();
+            var checkRating = _context.Review_Products.Where(x=> x.ProductId == item.Id).ToList();  
+           if(checkRatingNotNull == null)
+            {
+                ViewBag.AverageRating = 0;
+            }
+            else
+            {
+                foreach (var i in checkRating)
+                {
+                    dem++;
+                    AverageRating += i.Rate;
+                }
+                ViewBag.AverageRating = AverageRating / dem;
+            }
+                   
+           
 
             var Check_Evaluate_Product = await _evaluate_ProductRepository.Check_Value(Id);
 
@@ -267,45 +292,7 @@ namespace PhoneShop.Controllers
         }
        
 
-        public IActionResult Delete_Comment(int Id)
-        {
-
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
-
-            var checkAccount = _context.Accounts.Where(x => x.Id == AccountInt).FirstOrDefault()!.Email;
-
-            var checkProductQuestions = _context.ProductQuestions.Where(x => x.Id == Id && x.UserEmail == checkAccount).FirstOrDefault();
-            if (checkProductQuestions != null)
-            {
-                var GetProduct = _context.Products.Where(x => x.Id == checkProductQuestions.ProductId).FirstOrDefault()!;
-
-
-                _context.ProductQuestions.Remove(checkProductQuestions);
-
-                //cong so luong binh luan len booth_tracking
-                var getTracking = _context.Booth_Trackings.Where(x => x.BoothId == GetProduct.Booth_InformationId).FirstOrDefault();
-
-                if (getTracking != null)
-                {
-                    getTracking.Total_Comments -= 1;
-                    _context.Booth_Trackings.Update(getTracking);
-                    
-                }
-
-
-                _context.SaveChanges();
-                //giu nguyen trang
-                return RedirectToRoute("Details_Product", new { Alias = GetProduct.Alias, Id = GetProduct.Id });
-
-            }
-
-
-
-            //giu nguyen trang
-            return Redirect(Request.Headers["Referer"].ToString());
-
-        }
+        
 
 
 

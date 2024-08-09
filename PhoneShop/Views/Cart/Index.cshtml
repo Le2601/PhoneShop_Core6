@@ -345,8 +345,11 @@
                         success: function (rs) {
                             if (rs.success) {
                                 $('trow_' + id).remove();
-                                // alert(rs.msg);
+                                alert(rs.msg);
                                 location.reload();
+                            }
+                            else {
+                                alert("Xóa thất bại");
                             }
                         }
 

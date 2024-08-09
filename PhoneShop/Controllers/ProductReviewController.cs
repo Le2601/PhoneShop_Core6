@@ -57,7 +57,9 @@ namespace PhoneShop.Controllers
         public IActionResult CreateFeedBackCmt(IFormCollection form)
         {
 
+            //check auth cookie and AccountId Session
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
             var GetUserNameFeedBack = _context.Accounts.Where(x => x.Id == AccountId).First().FullName;
 
@@ -84,13 +86,13 @@ namespace PhoneShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Review_Product(int id, IFormCollection form)
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-
-            int taikhoanIDInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
             var iProduct = await _userRepository.ProductById(id);
 
-            var IAccount = await _context.Accounts.Where(x => x.Id == taikhoanIDInt).FirstOrDefaultAsync();
+            var IAccount = await _context.Accounts.Where(x => x.Id == AccountId).FirstOrDefaultAsync();
 
             if (iProduct == null || IAccount == null)
             {
@@ -105,7 +107,7 @@ namespace PhoneShop.Controllers
             {
 
                 ProductId = iProduct!.Id,
-                AccountId = taikhoanIDInt,
+                AccountId = AccountId,
                 Rate = rating,
                 Comments = content,
                 Create_At = DateTime.Now,
@@ -114,13 +116,13 @@ namespace PhoneShop.Controllers
             };
 
             //cong so luong binh luan len booth_tracking
-            var getTracking = await _context.Booth_Trackings.Where(x => x.BoothId == iProduct.BoothId).FirstOrDefaultAsync();
+            var getTracking =  _context.Booth_Trackings.Where(x => x.BoothId == iProduct.BoothId).FirstOrDefault();
 
             if (getTracking != null)
             {
                 getTracking.Total_Comments += 1;
                 _context.Booth_Trackings.Update(getTracking);
-                await _context.SaveChangesAsync();
+                
             }
 
 
@@ -139,6 +141,68 @@ namespace PhoneShop.Controllers
 
 
         }
+        [HttpPost]
+        public IActionResult Del_ProductReview(int Id)
+        {
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
+            var checkReview = _context.Review_Products.Include(rp => rp.Product).Where(x=> x.Id == Id && x.AccountId == AccountId).FirstOrDefault();
+
+            if(checkReview == null)
+            {
+                return Json(new {success = false});
+            }
+
+            //cong so luong binh luan len booth_tracking
+            var getTracking = _context.Booth_Trackings.Where(x => x.BoothId == checkReview.Product.Booth_InformationId).FirstOrDefault();
+
+            if (getTracking != null)
+            {
+                getTracking.Total_Comments -= 1;
+                _context.Booth_Trackings.Update(getTracking);
+
+            }
+
+            _context.Review_Products.Remove(checkReview);
+            _context.SaveChanges();
+
+
+            return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        public IActionResult Del_ProductAsk(int Id)
+        {
+           
+
+            var checkReview = _context.ProductQuestions.Include(rp => rp.Product).Where(x => x.Id == Id).FirstOrDefault();
+
+            if (checkReview == null)
+            {
+                return Json(new { success = false });
+            }
+
+            //cong so luong binh luan len booth_tracking
+            var getTracking = _context.Booth_Trackings.Where(x => x.BoothId == checkReview.Product.Booth_InformationId).FirstOrDefault();
+
+            if (getTracking != null)
+            {
+                getTracking.Total_Comments -= 1;
+                _context.Booth_Trackings.Update(getTracking);
+
+            }
+
+            _context.ProductQuestions.Remove(checkReview);
+            _context.SaveChanges();
+
+
+            return Json(new { success = true });
+        }
+
+
 
     }
 }

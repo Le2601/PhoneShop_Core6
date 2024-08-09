@@ -107,7 +107,32 @@
                                 <div class="product-inner-category"> 
                                     <p>Hãng: <a href="">@ViewBag.getCategoryTitle</a></p>
                                     <p class="detail-label">Bán: @IsEvaluate_Pro.Purchases</p>
-                                    <p class="detail-label">Đánh Giá @IsEvaluate_Pro.ScoreEvaluation điểm</p>
+                                    <div  style="display: flex;">
+                                        <div class="detail-label" style="margin-top: 7px;">Đánh giá: </div>
+                                        @if (ViewBag.AverageRating > 0)
+                                        {
+                                            @for (int i = 0; i < ViewBag.AverageRating; i++)
+                                            {
+                                               
+                                                <div class="star-container">
+                                                    <span class="star"></span>
+                                                </div>
+
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                            <div class="star-container">
+                                                <span class="star"></span>
+                                            </div>
+                                        }
+                                       
+                                    </div>
+                                    
+
+
+                                   
                                     <p class="detail-label">Số Lượng Trong Kho: @Model.Quantity</p>
                                     <div class="product-inner-price">
 
@@ -370,6 +395,71 @@
            
 
            
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.Delete_Review', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xác nhận xóa đánh giá");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/ProductReview/Del_ProductReview',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                // alert(rs.msg);
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+
+
+
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.Delete_Ask', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xác nhận xóa đánh giá");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/ProductReview/Del_ProductAsk',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                // alert(rs.msg);
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+
+
+
+
         });
     </script>
 

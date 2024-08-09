@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Asn1.X9;
+using PhoneShop.Controllers.Seller;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.Evaluate_Product_User;
 using PhoneShop.DI.DI_User.ImageProduct_User;
@@ -473,26 +474,7 @@ namespace PhoneShop.Controllers
         {
 
             //check auth cookie and AccountId Session
-            int AccountInt = 0;
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-            if (taikhoanID == null)
-            {
-                //check auth cookie
-                var userPrincipal = HttpContext.User;
-                if (userPrincipal.Identity.IsAuthenticated)
-                {
-
-                    var GetIDAccount = userPrincipal.FindFirstValue("AccountId");
-                    HttpContext.Session.SetString("AccountId", GetIDAccount);
-
-
-                    AccountInt = int.Parse(GetIDAccount);
-                }
-            }
-            else
-            {
-                AccountInt = int.Parse(taikhoanID);
-            }
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
 
@@ -509,7 +491,7 @@ namespace PhoneShop.Controllers
             int OptionAddress = Convert.ToInt32(form["OptionAddress"]);
             if (OptionAddress == 1)
             {
-                var IAddressType_Account = _dbContext.MyAddresses.Where(x => x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault()!;
+                var IAddressType_Account = _dbContext.MyAddresses.Where(x => x.IdAccount == AccountId && x.IsDefault == 1).FirstOrDefault()!;
                 Order_Name = IAddressType_Account.FullName;
                 Address = IAddressType_Account.CityName + IAddressType_Account.DistrictName + IAddressType_Account.WardName;
                 Phone = IAddressType_Account.Phone;
@@ -612,7 +594,7 @@ namespace PhoneShop.Controllers
                     Order_Date = DateTime.Now,
                     Total_Order = cartVMM.OrderTotal,
                     Profit = cartVMM.GrandTotal - cartVMM.Profit,
-                    AccountId = AccountInt,
+                    AccountId = AccountId,
 
                 };
                 //_order_UserRepository.Create(newOrderr);
@@ -649,7 +631,7 @@ namespace PhoneShop.Controllers
 
 
                     //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
-                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountInt);
+                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountId);
                     //giam san pham trong kho
                     _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
                     //_dbContext.SaveChanges();
@@ -715,7 +697,7 @@ namespace PhoneShop.Controllers
                     Order_Date = DateTime.Now,
                     Total_Order = cartVMM.OrderTotal,
                     Profit = cartVMM.GrandTotal - cartVMM.Profit,
-                    AccountId = AccountInt,
+                    AccountId = AccountId,
 
                 };
                 //_order_UserRepository.Create(newOrderr);
@@ -752,7 +734,7 @@ namespace PhoneShop.Controllers
 
 
                     //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
-                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountInt);
+                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountId);
                     //giam san pham trong kho
                     _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
                     //_dbContext.SaveChanges();
@@ -803,7 +785,7 @@ namespace PhoneShop.Controllers
                 Order_Status = 0, // 0 la trang thai chua xac nhan
                 Total_Order = cartVM.OrderTotal,
                 Profit = cartVMM.GrandTotal - cartVMM.Profit,
-                AccountId = AccountInt,
+                AccountId = AccountId,
 
             };
 
@@ -850,7 +832,7 @@ namespace PhoneShop.Controllers
                 //demo xu ly dependency
                 //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
 
-                _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountInt);
+                _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountId);
 
                 //giam san pham trong kho
                 _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
@@ -908,10 +890,11 @@ namespace PhoneShop.Controllers
 
         public IActionResult Order_Success()
         {
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            int AccountInt = int.Parse(taikhoanID);
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
 
-            var Get_Info_Order = _dbContext.Orders.Where(x => x.AccountId == AccountInt).OrderByDescending(x => x.Order_Date).FirstOrDefault()!;
+            var Get_Info_Order = _dbContext.Orders.Where(x => x.AccountId == AccountId).OrderByDescending(x => x.Order_Date).FirstOrDefault()!;
 
             ViewBag.Info_Address = _dbContext.Order_Details.Where(x => x.OrderId == Get_Info_Order.Id_Order).FirstOrDefault();
 

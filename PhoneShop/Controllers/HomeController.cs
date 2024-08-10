@@ -109,11 +109,14 @@ namespace PhoneShop.Controllers
             //get cookie auth
             //neu đăng nhập r mà tắt tab thì sẽ còn lưu auth cookie 
             //lấy idaccount  auth cookie được tạo khi login  lưu vào session
+           
 
             //check auth cookie and AccountId Session
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
             //End check auth cookie and AccountId Session
+
+
 
             //goi y hom nay  //ramdom product 
 

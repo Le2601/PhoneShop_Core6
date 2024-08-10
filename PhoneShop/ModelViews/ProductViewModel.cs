@@ -46,6 +46,8 @@ namespace PhoneShop.ModelViews
 
         public int Create_Id { get; set; }
 
+        public bool Status { get; set; }
+
         public virtual Category Category { get; set; }
         public Evaluate_ProductViewModel Evaluate_Product { get; set; }
 

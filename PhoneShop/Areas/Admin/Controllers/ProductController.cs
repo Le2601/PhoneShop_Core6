@@ -66,17 +66,21 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult Detail_Product(int Id)
         {
-            var item = _context.Products.Where(x => x.Id == Id).FirstOrDefault();
-
+            var item = _context.Products.Include(x=> x.Category).Where(x => x.Id == Id).FirstOrDefault();
+            
             if (item == null)
             {
                 return RedirectToAction("PageNotFound", "Eroor");
             }
 
-            ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
+           
             ViewBag.GetListImage = _context.ImageProducts.Where(x => x.ProductId == Id).ToList();
 
-            ViewBag.GetReviewProduct = _context.ProductQuestions.Where(x => x.ProductId == item.Id).ToList();
+            ViewBag.GetReviewProduct = _context.Review_Products.Include(x=> x.Account).Where(x => x.ProductId == item.Id).ToList();
+
+            ViewBag.Speci = _context.specifications.Where(x => x.ProductId == Id).FirstOrDefault();
+
+
 
             return View(item);
         }

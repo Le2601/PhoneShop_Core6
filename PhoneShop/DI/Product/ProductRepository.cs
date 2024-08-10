@@ -137,7 +137,10 @@ namespace PhoneShop.DI.Product
                 Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
                 Create_Id = x.Create_Id,
-                BoothId = x.Booth_InformationId
+                BoothId = x.Booth_InformationId,
+                Status = x.IsActive
+                
+                
 
             }).OrderBy(x=> x.Id).ToList();
 

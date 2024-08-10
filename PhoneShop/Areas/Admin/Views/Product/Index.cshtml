@@ -84,7 +84,10 @@
                            Hình ảnh
                         </th>
                         <th>
-                            Hãng
+                           Danh Mục
+                        </th>
+                        <th>
+                            Trạng Thái
                         </th>
                         <th>
                            Gian hàng
@@ -126,6 +129,16 @@
                                         }
                                     }
 
+                                </td>
+                                <td>
+                                    @if(item.Status == true)
+                                    {
+                                        <p>Đã Duyệt</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="color:red">Chưa Duyệt</p>
+                                    }
                                 </td>
                                 <td>
                                     @if(item.Create_Id == 6)

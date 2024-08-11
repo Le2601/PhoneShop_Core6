@@ -89,7 +89,7 @@ namespace PhoneShop.Controllers
 
             //rating //điểm đánh giá trung bình
 
-                    int AverageRating = 0;
+                    double AverageRating = 0;
                     int dem = 0;
             var checkRatingNotNull = _context.Review_Products.Where(x => x.ProductId == item.Id).FirstOrDefault();
             var checkRating = _context.Review_Products.Where(x=> x.ProductId == item.Id).ToList();  
@@ -104,7 +104,9 @@ namespace PhoneShop.Controllers
                     dem++;
                     AverageRating += i.Rate;
                 }
-                ViewBag.AverageRating = AverageRating / dem;
+                //lam tron den so nguyen gan naht
+                var RoundValue = Math.Round(AverageRating / dem);
+                ViewBag.AverageRating = RoundValue;
             }
                    
            

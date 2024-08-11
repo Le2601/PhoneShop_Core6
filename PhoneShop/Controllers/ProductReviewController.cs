@@ -62,6 +62,8 @@ namespace PhoneShop.Controllers
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
+            
+
             var GetUserNameFeedBack = _context.Accounts.Where(x => x.Id == AccountId).First().FullName;
 
             int RwProductId = int.Parse(form["RwProductId"]);
@@ -94,6 +96,15 @@ namespace PhoneShop.Controllers
             var iProduct = await _userRepository.ProductById(id);
 
             var IAccount = await _context.Accounts.Where(x => x.Id == AccountId).FirstOrDefaultAsync();
+
+           var CheckCmt = _context.Review_Products.Where(x=> x.ProductId == iProduct.Id && x.AccountId == AccountId).FirstOrDefault();
+            if (CheckCmt != null)
+            {
+
+                TempData["CheckCmt"] = "Bạn đã đánh giá sản phẩm này rồi!";
+                //giu nguyen trang
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
 
             if (iProduct == null || IAccount == null)
             {

@@ -40,11 +40,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
+    .title_detail{
+        background: rgba(0, 0, 0, .02);
+        color: rgba(0, 0, 0, .87);
+        font-size: 2.125rem;
+        font-weight: 400;
+        margin: 0;
+        padding: .875rem;
+        text-transform: capitalize;
+    }
     .container-question{
         border: 1px solid #ccc;
        margin:-12pt;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       
+    }
+    .color-text{
+        color:white;
     }
 
     .rating-container {
@@ -67,6 +79,12 @@
         }
 </style>
 
+@if (TempData["CheckCmt"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["CheckCmt"]
+    </div>
+}
 
 <div class="single-product-area" style="padding-top:10px">
     <div class="zigzag-bottom"></div>
@@ -103,10 +121,10 @@
 
                         <div class="col-sm-6">
                             <div class="product-inner">
-                                <h2 class="product-name">@Model.Title</h2>
+                                <h2 class="product-name" style="color:#5a88ca">@Model.Title</h2>
                                 <div class="product-inner-category"> 
-                                    <p>Hãng: <a href="">@ViewBag.getCategoryTitle</a></p>
-                                    <p class="detail-label">Bán: @IsEvaluate_Pro.Purchases</p>
+                                    <p class="detail-label">Hãng: <a style="color:#5a88ca">@ViewBag.getCategoryTitle</a></p>
+                                    <p class="detail-label">Đã bán: @IsEvaluate_Pro.Purchases</p>
                                     <div  style="display: flex;">
                                         <div class="detail-label" style="margin-top: 7px;">Đánh giá: </div>
                                         @if (ViewBag.AverageRating > 0)
@@ -228,25 +246,25 @@
                                    
 
                                
-                                <div class="booth-container" style="background:#d7f9fa">
+                                <div class="booth-container" style="background:#5a88ca">
                                     <div class="booth-info">
-                                        <h3 class="booth-name">@GetBooth.BoothName</h3>
+                                        <h3 class="booth-name color-text">@GetBooth.BoothName</h3>
                                         <div class="booth-details">
                                             <div class="detail-item">
-                                                <span class="detail-label">Sản phẩm:</span>
-                                                <span class="detail-value">@GetBooth.Quantity_Product</span>
+                                                <span class="detail-label color-text">Sản phẩm:</span>
+                                                <span class="detail-value color-text">@GetBooth.Quantity_Product</span>
                                             </div>
                                             <div class="detail-item">
-                                                <span class="detail-label">Đánh giá:</span>
-                                                <span class="detail-value">@GetBooth.Total_Comment</span>
+                                                <span class="detail-label color-text">Đánh giá:</span>
+                                                <span class="detail-value color-text">@GetBooth.Total_Comment</span>
                                             </div>
                                             <div class="detail-item">
-                                                <span class="detail-label">Người theo dõi:</span>
-                                                <span class="detail-value">@GetBooth.Followers</span>
+                                                <span class="detail-label color-text">Người theo dõi:</span>
+                                                <span class="detail-value color-text">@GetBooth.Followers</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="/detail_booth/@GetBooth.BoothId" class="view-booth-btn">Xem Gian Hàng</a>
+                                    <a style="background:#ccd9ff" href="/detail_booth/@GetBooth.BoothId" class="view-booth-btn  color-text">Xem Gian Hàng</a>
 
                                 </div>
                                
@@ -261,7 +279,7 @@
                     <hr />
                     <div class="row" style="min-height:500px;background:white;padding:10px">
                         <div class="col-sm-5">
-                            <h3>Thông Số Sản Phẩm</h3>
+                            <p class="title_detail">THÔNG SỐ SẢN PHẨM</p>
                             <p><strong style="color:black">Camera:</strong> @Ispecifi.Camera</p>
                             <p><strong style="color:black">Bộ xử lý:</strong> @Ispecifi.Processor</p>
                             <p><strong style="color:black">Pin:</strong> @Ispecifi.Battery</p>
@@ -274,7 +292,7 @@
 
                         </div>
                         <div class="col-sm-7" style="max-height: 500px;overflow-y: auto;">
-                            <h3>Mô Tả Sản Phẩm</h3>
+                            <p class="title_detail">MÔ TẢ</p>
                             <p>@Html.Raw(Model.Description)</p>
                         </div>
                     </div>
@@ -366,6 +384,7 @@
 @section Scripts{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   
     <script>
         $(document).ready(function () {
             $('body').on('click', '.confirmAdd', function () {

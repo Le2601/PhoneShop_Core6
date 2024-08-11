@@ -266,15 +266,6 @@ namespace PhoneShop.Controllers
 
             };
 
-            //cong so luong binh luan len booth_tracking
-            var getTracking = await _context.Booth_Trackings.Where(x => x.BoothId == iProduct.BoothId).FirstOrDefaultAsync();
-
-            if (getTracking != null)
-            {
-                getTracking.Total_Comments += 1;
-                _context.Booth_Trackings.Update(getTracking);
-                await _context.SaveChangesAsync();
-            }
 
 
 

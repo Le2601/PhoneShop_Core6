@@ -81,20 +81,20 @@
                                     @item.ShopName
                                 </td>
 
-                                
-                          
-                            
+
+
+                           
                            
                                 @foreach (var item_Total in getDataTotal)
                                 {
                                     if (item_Total.BoothId == item.Id)
                                     {
                                     <td>@PhoneShop.Extension.Extension.ToVnd((double)item_Total.TotalPrice_Booth!)</td>
-                                }
-                                else
-                                {
-                                    <td>0</td>
-                                }
+                                    }
+                                    else
+                                    {
+                                        <td>0</td>
+                                    }
 
 
                                 }

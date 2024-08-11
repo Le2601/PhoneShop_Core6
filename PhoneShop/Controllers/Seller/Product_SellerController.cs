@@ -61,6 +61,7 @@ namespace PhoneShop.Controllers.Seller
             var CheckTitle = _productRepository.CheckTitleCreate(model.Title);
             if (CheckTitle == 0)
             {
+                
                 return View(model);
             }
             else
@@ -100,6 +101,7 @@ namespace PhoneShop.Controllers.Seller
                             model.ImageDefaultName = imageName;
                             model.Create_Id = AccountId;
                             model.Booth_InformationId = GetBooth.Id;
+                            model.IsApproved = false;
 
 
 

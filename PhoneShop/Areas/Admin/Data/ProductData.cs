@@ -21,6 +21,9 @@ namespace PhoneShop.Areas.Admin.Data
 
         public Boolean IsActive { get; set; }
 
+
+        public Boolean IsApproved { get; set; }
+
         [Display(Name = "Tiêu đề")]
         [Required(ErrorMessage = "Không thể bỏ trống")]
         public string Title { get; set; }

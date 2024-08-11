@@ -26,7 +26,11 @@ namespace PhoneShop.Models
         [Key]
         public int Id { get; set; }
 
+        //hoat dong
         public Boolean IsActive { get; set; }
+
+        //kiem duyet
+        public Boolean IsApproved { get; set; }
 
         [Display(Name = "Tiêu đề")]
         [Required(ErrorMessage = "Không thể bỏ trống")]

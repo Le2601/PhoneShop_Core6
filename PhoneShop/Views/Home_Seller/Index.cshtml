@@ -63,14 +63,17 @@
                         <p style="color:red; margin-left: 5px;">@IsTracking.Followers</p>
                     </div>
                     <div style="display: flex; align-items: center;">
-                        <a href="#">Điểm đánh giá:</a>
-                        <p style="color:red; margin-left: 5px;">@IsTracking.Point_Evaluation</p>
+                        <a href="#">Đánh giá:</a>
+                        <p style="color:red; margin-left: 5px;">@IsTracking.Total_Comments</p>
                     </div>
                 </div>
             </address>
-            <a href="/Update_BoothTracking/@Model.Id-@ViewBag.Sold_Quantity" class="btn btn-outline-danger">Cập nhật thông số</a>
+            <a href="/Update_BoothTracking/@Model.Id-@ViewBag.Sold_Quantity-@IsTracking.Total_Comments" class="btn btn-outline-danger">Cập nhật thông số</a>
            
         </div>
+
+
+
 
 
         <!-- Main content -->

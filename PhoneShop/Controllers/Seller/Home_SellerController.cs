@@ -48,6 +48,17 @@ namespace PhoneShop.Controllers.Seller
             //
 
             var Booth_Tracking = _context.Booth_Trackings.Where(x=> x.BoothId == item_Booth_Information.Id).FirstOrDefault();
+            var UpdateTotalCmt = (
+                    from p in _context.Products.Where(x => x.Create_Id == AccountId)
+                    join rw in _context.Review_Products on p.Id equals rw.ProductId
+                    select new
+                    {
+                        Comment = rw.Comments
+                    }
+
+                ).ToList();
+
+
             if( Booth_Tracking != null)
             {
                 ViewBag.GetBooth_Tracking = new Booth_Tracking
@@ -56,7 +67,8 @@ namespace PhoneShop.Controllers.Seller
                     Followers = Booth_Tracking.Followers,
                     Quantity_Product = Booth_Tracking.Quantity_Product,
                     Total_Sold = Booth_Tracking.Total_Sold,
-                    Point_Evaluation = Booth_Tracking.Point_Evaluation
+                    Point_Evaluation = Booth_Tracking.Point_Evaluation,
+                    Total_Comments = UpdateTotalCmt.Count
                 };
             }
             else
@@ -106,9 +118,9 @@ namespace PhoneShop.Controllers.Seller
         }
 
        
-        [Route("/Update_BoothTracking/{IdBooth}-{Sold_Quantity}")]
+        [Route("/Update_BoothTracking/{IdBooth}-{Sold_Quantity}-{Total_Comments}")]
        
-        public IActionResult Update_BoothTracking(int IdBooth, int Sold_Quantity)
+        public IActionResult Update_BoothTracking(int IdBooth, int Sold_Quantity,int Total_Comments)
         {
             //check auth cookie and AccountId Session
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
@@ -123,6 +135,7 @@ namespace PhoneShop.Controllers.Seller
                 //update
                 Booth_Tracking.Quantity_Product = items_Products.Count;
                 Booth_Tracking.Total_Sold = Sold_Quantity;
+                Booth_Tracking.Total_Comments = Total_Comments;
                 _context.Booth_Trackings.Update(Booth_Tracking);
             }
             else

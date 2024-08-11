@@ -21,20 +21,24 @@
 
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Danh sách sản phẩm</h3>
-
-
-             
+            <div class="card-header">   
+                <h3 class="card-title mb-0">Danh sách sản phẩm</h3>
+                <div class="float-right">
+                    <a class="btn btn-primary" href="/Product_Seller/Create">
+                        Thêm
+                    </a>
+                </div>
             </div>
+           
             <!-- /.card-header -->
-            <div class="card-body">
+            <div class="card-body" >
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Tên sản phẩm</th>
                             <th>Trạng thái</th>
+                            <th>Kiểm duyệt</th>
                             <th>Hình ảnh</th>
                             <th>Giá bán</th>
                             <th>Giảm giá</th>
@@ -60,6 +64,17 @@
                                     {
                                         <p style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></p>
                                         
+                                    }
+                                </td>
+                                <td>
+                                    @if (i.IsApproved == true)
+                                    {
+                                        <p style="text-align:center"><i class="fas fa-check" style="color: #2268e2;"></i></p>
+                                    }
+                                    else
+                                    {
+                                        <p style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></p>
+
                                     }
                                 </td>
                                 <td>

@@ -110,6 +110,8 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         //thuat toan goi y
         builder.Services.AddScoped<CollaborativeFilteringService>();
 
+        builder.Services.AddScoped<CollaborativeFiltering_Service_ByRating>();
+
 
 
 

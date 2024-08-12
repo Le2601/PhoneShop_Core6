@@ -64,6 +64,8 @@ namespace PhoneShop.Controllers
 
         private readonly CollaborativeFilteringService _collaborativeFilteringService;
 
+        private readonly CollaborativeFiltering_Service_ByRating _collaborativeFiltering_Service_ByRating;
+
 
 
 
@@ -76,7 +78,7 @@ namespace PhoneShop.Controllers
             IImageProduct_UserRepository imageProduct_UserRepository,
             ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository,
             IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository
-            , CollaborativeFilteringService collaborativeFilteringService)
+            , CollaborativeFilteringService collaborativeFilteringService, CollaborativeFiltering_Service_ByRating collaborativeFiltering_Service_ByRating)
         {
             _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
@@ -90,9 +92,11 @@ namespace PhoneShop.Controllers
             _order_userRepository = order_UserRepository;
             _evaluate_ProductRepository = evaluate_ProductRepository;
             _collaborativeFilteringService = collaborativeFilteringService;
+            _collaborativeFiltering_Service_ByRating = collaborativeFiltering_Service_ByRating;
 
 
-           
+
+
 
         }
 
@@ -148,6 +152,8 @@ namespace PhoneShop.Controllers
                 ViewBag.CheckAccount = 1;
 
                 ViewBag.CollaborativeFiltering_List = CollaborativeFiltering_List;
+
+                _collaborativeFiltering_Service_ByRating.CollaborativeFiltering(AccountId);
             }
             else
             {

@@ -115,7 +115,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             {
                 return Json(new { success = false });
             }
-            item.IsActive = false;
+            item.IsApproved = false;
             _context.Products.Update(item);
             _context.SaveChanges();
 
@@ -130,7 +130,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             {
                 return Json(new { success = false });
             }
-            item.IsActive = true;
+            item.IsApproved = true;
             _context.Products.Update(item);
             _context.SaveChanges();
 

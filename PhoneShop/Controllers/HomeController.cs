@@ -149,11 +149,15 @@ namespace PhoneShop.Controllers
             {
                 
                 var CollaborativeFiltering_List = _collaborativeFilteringService.CollaborativeFiltering(AccountId);
+                var CollaborativeFiltering_List_Rating = _collaborativeFiltering_Service_ByRating.CollaborativeFiltering(AccountId);
                 ViewBag.CheckAccount = 1;
 
                 ViewBag.CollaborativeFiltering_List = CollaborativeFiltering_List;
+                ViewBag.CollaborativeFiltering_List_Rating = CollaborativeFiltering_List_Rating;
 
-                _collaborativeFiltering_Service_ByRating.CollaborativeFiltering(AccountId);
+
+
+
             }
             else
             {

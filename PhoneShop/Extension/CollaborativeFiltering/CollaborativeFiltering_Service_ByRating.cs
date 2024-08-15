@@ -31,7 +31,12 @@ namespace PhoneShop.Extension.CollaborativeFiltering
                     {
                         Id = or.ProductId,
                         Rating = rw.Rate,
-                        Title_Product = rw.Product.Title
+                        Title_Product = rw.Product.Title,
+                        Discount = rw.Product.Discount,
+                        Price = rw.Product.Price,
+                        Image = rw.Product.ImageDefaultName,
+                        Alias = rw.Product.Alias,
+
                     }
 
 
@@ -42,9 +47,19 @@ namespace PhoneShop.Extension.CollaborativeFiltering
                .Select(l => new CollaborativeFiltering_DataProduct
                {
 
-                   Id = l.Key,
+                   
+                   //danh gia diem
                    Rating = l.Average(x => x.Rating),
-                   Title = l.First().Title_Product
+                   //san pham
+                   Id = l.Key,
+                   Title = l.First().Title_Product,
+                   Discount = l.First().Discount,
+                   Price = l.First().Price,
+                   ImageDefaultName = l.First().Image,
+                   Alias = l.First().Alias
+
+
+
 
                }).OrderByDescending(x => x.Rating).ToList();
 

@@ -364,7 +364,7 @@ namespace PhoneShop.Controllers.Seller
 
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
 
-            var items_Products = _context.Products.Where(x => x.Create_Id == AccountId).ToList();
+            var items_Products = _context.Products.Where(x => x.Create_Id == AccountId && x.IsApproved == true).ToList();
             //
             var TopSellersProducts = Public_MethodController.TopSellersProducts(_context, items_Products);
 

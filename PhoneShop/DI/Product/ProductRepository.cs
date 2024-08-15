@@ -138,7 +138,9 @@ namespace PhoneShop.DI.Product
                 ImageDefaultName = x.ImageDefaultName,
                 Create_Id = x.Create_Id,
                 BoothId = x.Booth_InformationId,
-                Status = x.IsActive
+                Status = x.IsActive,
+                IsApproved = x.IsApproved
+
                 
                 
 

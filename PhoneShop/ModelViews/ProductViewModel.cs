@@ -21,7 +21,7 @@ namespace PhoneShop.ModelViews
       
         public string Alias { get; set; }
         public Boolean IsActive { get; set; }
-
+        public Boolean IsApproved { get; set; }
 
         public decimal Price { get; set; }
         public decimal InputPrice { get; set; }

@@ -45,7 +45,15 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             ViewBag.NameLogin = GetNameLogin.FullName;
 
-           
+
+            //check product
+            var items = _context.Products.Where(x => x.IsApproved == false).ToList().Count();
+
+            ViewBag.CheckProductIsApproved = items;
+
+
+
+
 
             return View();
         }

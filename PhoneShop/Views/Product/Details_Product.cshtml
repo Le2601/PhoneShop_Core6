@@ -59,24 +59,22 @@
         color:white;
     }
 
-    .rating-container {
-        display: flex;
-        justify-content: center;
+    .star-container {
+        font-size: 24px; /* Kích thước của sao */
     }
 
-        .rating-container input[type="radio"] {
-            display: none;
-        }
+    .filled {
+        color: gold; /* Màu cho sao đầy */
+    }
 
-        .rating-container label {
-            font-size: 30px;
-            color: #ccc;
-            cursor: pointer;
-        }
+    .half-filled {
+        color: gold; /* Màu cho sao nửa */
+    }
 
-        .rating-container input[type="radio"]:checked ~ label {
-            color: #ffd700;
-        }
+    /* Sao rỗng (nếu cần) */
+    .star-container .fa-star-o {
+        color: lightgray; /* Màu cho sao rỗng */
+    }
 </style>
 
 @if (TempData["CheckCmt"] != null)
@@ -125,28 +123,39 @@
                                 <div class="product-inner-category"> 
                                     <p class="detail-label">Hãng: <a style="color:#5a88ca">@ViewBag.getCategoryTitle</a></p>
                                     <p class="detail-label">Đã bán: @IsEvaluate_Pro.Purchases</p>
-                                    <div  style="display: flex;">
-                                        <div class="detail-label" style="margin-top: 7px;">Đánh giá: </div>
+                                   
+                                       
+                                       
                                         @if (ViewBag.AverageRating > 0)
                                         {
-                                            @for (int i = 0; i < ViewBag.AverageRating; i++)
+                                            @for (int i = 1; i <= 5; i++)
                                             {
-                                               
-                                                <div class="star-container">
-                                                    <span class="star"></span>
-                                                </div>
-
+                                                if (i <= Math.Floor(ViewBag.AverageRating))
+                                                {
+                                                    <i class="fa fa-star filled"></i> <!-- Sao đầy -->
+                                                }
+                                                else if (i == Math.Ceiling(ViewBag.AverageRating))
+                                                {
+                                                    <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
+                                                }
+                                                else
+                                                {
+                                                    <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
+                                                }
                                             }
+                                        <a style="text-decoration:none">@ViewBag.AverageRating/5</a>
                                         }
                                         else
                                         {
 
-                                            <div class="star-container">
-                                                <span class="star"></span>
-                                            </div>
+                                        <i class="fa fa-star filled"></i>
+
+                                        <a style="text-decoration:none">1/5</a>
                                         }
+                                    
                                        
-                                    </div>
+                                       
+                                   
                                     
 
 

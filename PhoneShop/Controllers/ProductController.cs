@@ -105,7 +105,7 @@ namespace PhoneShop.Controllers
                     AverageRating += i.Rate;
                 }
                 //lam tron den so nguyen gan naht
-                var RoundValue = Math.Round(AverageRating / dem);
+                double RoundValue = AverageRating / dem;
                 ViewBag.AverageRating = RoundValue;
             }
                    

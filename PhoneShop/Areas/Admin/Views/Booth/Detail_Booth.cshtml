@@ -281,6 +281,70 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.offactive', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Hủy duyệt sản phẩm");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Product/OffActive',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi")
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.onactive', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Duyệt sản phẩm");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Product/OnActive',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi")
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
    
 
 

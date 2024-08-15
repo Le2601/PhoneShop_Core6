@@ -4,6 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
+    .profile-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        width: 100%;
+        margin: auto
+    }
     .profile-header {
         margin-bottom: 20px;
         font-size: 24px;
@@ -28,7 +37,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 @await Component.InvokeAsync("MenuUtilities")
 
-<div class="container" style="min-height:600px; width:1000px;padding-top:20px">
+<div class="profile-container" style="min-height:600px; width:1000px">
 
     <div class="row" style="background:white;min-height:500px">
 

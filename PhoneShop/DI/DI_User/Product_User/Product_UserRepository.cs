@@ -17,7 +17,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> RandomProduct()
         {
-            var items = await _context.Products.Where(x=> x.IsActive == true).Select(x => new ProductViewModel
+            var items = await _context.Products.Where(x=> x.IsApproved == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -69,7 +69,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
         {
-            var items = await _context.Products.Where(x => x.CategoryId == IdCategory && x.IsActive == true).Select(x => new ProductViewModel
+            var items = await _context.Products.Where(x => x.CategoryId == IdCategory && x.IsApproved == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 Title = x.Title,
@@ -85,7 +85,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         public List<ProductViewModel> GetList_Selling()
         {
             var item_Model = (
-                   from p in _context.Products.Where(x=> x.IsActive == true)
+                   from p in _context.Products.Where(x=> x.IsApproved == true)
                    join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases) on p.Id equals e.ProductId
                    select new PhoneShop.ModelViews.ProductViewModel
                    {
@@ -118,7 +118,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> GetProduct_RecentPosts()
         {
-            var items = await _context.Products.Where(x=> x.IsActive == true).OrderBy(x => x.Create_at).Select(x=> new ProductViewModel
+            var items = await _context.Products.Where(x=> x.IsApproved == true).OrderBy(x => x.Create_at).Select(x=> new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -166,7 +166,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> Get_Search_Product()
         {
-            var items = await _context.Products.Where(x=> x.IsActive == true).Select(x => new ProductViewModel
+            var items = await _context.Products.Where(x=> x.IsApproved == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -195,7 +195,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> LatestProducts()
         {
-            var items =await _context.Products.Where(x=> x.IsActive == true).Select(x => new ProductViewModel
+            var items =await _context.Products.Where(x=> x.IsApproved == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -221,7 +221,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         {
             
             var item_Model = (
-                   from p in _context.Products.Where(x => x.CategoryId == categoryId && x.IsActive == true)
+                   from p in _context.Products.Where(x => x.CategoryId == categoryId && x.IsApproved == true)
                    join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases) on p.Id equals e.ProductId
                    select new PhoneShop.ModelViews.ProductViewModel
                    {
@@ -254,7 +254,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<ProductViewModel> ProductById(string? alias, int id)
         {
-            var item = await _context.Products.Where(x => x.Id == id || x.Alias == alias && x.IsActive == true).FirstOrDefaultAsync();
+            var item = await _context.Products.Where(x => x.Id == id || x.Alias == alias && x.IsApproved == true).FirstOrDefaultAsync();
 
             ProductViewModel newProduct = new ProductViewModel
             {
@@ -273,7 +273,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         }
         public async Task<ProductViewModel> ProductById( int id)
         {
-            var item = await _context.Products.Where(x => x.Id == id && x.IsActive == true).FirstOrDefaultAsync();
+            var item = await _context.Products.Where(x => x.Id == id && x.IsApproved == true).FirstOrDefaultAsync();
 
             ProductViewModel newProduct = new ProductViewModel
             {
@@ -293,14 +293,14 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<Models.Product> ProductById_Model(int id)
         {
-            var item = await _context.Products.Where(x=> x.Id == id && x.IsActive == true).FirstAsync();
+            var item = await _context.Products.Where(x=> x.Id == id && x.IsApproved == true).FirstAsync();
 
             return item;
         }
 
         public void Reduced_In_Stock(int Id_Product, int Get_Quantity_Product_Order)
         {
-            var Reduced_In_Stock = _context.Products.Where(x => x.Id == Id_Product && x.IsActive == true).FirstOrDefault()!;
+            var Reduced_In_Stock = _context.Products.Where(x => x.Id == Id_Product && x.IsApproved == true).FirstOrDefault()!;
             Reduced_In_Stock.Quantity = Reduced_In_Stock.Quantity - Get_Quantity_Product_Order;
             _context.Products.Update(Reduced_In_Stock);
             
@@ -309,7 +309,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> Search_Product(string value_search)
         {
-            var items =await _context.Products.Where(x => x.Title.Contains(value_search) && x.IsActive == true ).Select(x=> new ProductViewModel
+            var items =await _context.Products.Where(x => x.Title.Contains(value_search) && x.IsApproved == true ).Select(x=> new ProductViewModel
             {
                 Id=x.Id,
                 Title = x.Title,

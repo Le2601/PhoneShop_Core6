@@ -58,7 +58,7 @@ namespace PhoneShop.Controllers.Seller
 
 
 
-            var items_Products = context.Products.Where(x => x.Create_Id == AccountInt).ToList();
+            var items_Products = context.Products.Where(x => x.Create_Id == AccountInt && x.IsApproved == true).ToList();
             //lay ra nhung san pham da ban dc 
             var demo = (from p in items_Products
                         join od in context.Order_Details on p.Id equals od.ProductId
@@ -97,7 +97,7 @@ namespace PhoneShop.Controllers.Seller
         //kiem tra so luong sp ton kho, da ban
         public static List<Check_Product_Purchases> List_Item_Product_Quantity(ShopPhoneDbContext context, int AccountInt)
         {
-            var items_Products = context.Products.Where(x => x.Create_Id == AccountInt).ToList();
+            var items_Products = context.Products.Where(x => x.Create_Id == AccountInt && x.IsApproved == true).ToList();
             var items_WarehousedProducts = context.WarehousedProducts.ToList();
             var Item_Product_Quantity = (from p in items_Products
                                          join e in items_WarehousedProducts

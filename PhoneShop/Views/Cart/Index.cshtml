@@ -214,7 +214,7 @@
 
                                                 @if (User.Identity.IsAuthenticated && (User.IsInRole("User")) || (User.IsInRole("Seller")))
                                                 {
-                                                    <input type="submit" value="Thanh Toán" name="proceed" style="background:#d7f9fa;color:black" class="btn btn-info active">
+                                                    <input type="submit" value="Thanh Toán" name="proceed" style="background:#5a88ca;color:white" class="btn btn-info active">
 
                                                 }
                                                 else
@@ -245,13 +245,13 @@
                                 <label style="text-transform: capitalize;" for="coupon_code">Áp dụng khuyến mãi:</label>
                                 <input type="text" placeholder="mã giảm giá" value="" id="coupon_code" class="input-text" name="Voucher_code">
                                
-                                <input type="submit" value="Áp dụng" name="áp dụng" style="background:#d7f9fa;color:black" class="btn btn-info active">
+                                <input type="submit" value="Áp dụng" name="áp dụng" style="background: #5a88ca;color:white" class="btn btn-info active">
                             </form>
                             
                            
                             <div class="voucher-list">
                                 <div class="title_all">Mã giảm giá của bạn</div>
-                               
+                                    
                                 <ul class="voucher-items">
                                     @foreach (var i in IsVoucherVM.VoucherItems)
                                     {
@@ -395,8 +395,37 @@
 
 
         </script>
-       
 
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.confirmAdd', function () {
+                var id = $(this).data('id');
+
+
+
+
+
+                $.ajax({
+
+                    url: '/Cart/Add',
+                    type: 'post',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("Thêm thành công");
+
+                            location.reload();
+                        }
+                    }
+
+                });
+
+
+            });
+
+
+        });
+    </script>
 
 
 }

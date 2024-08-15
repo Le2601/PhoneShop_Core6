@@ -87,7 +87,7 @@
                            Danh Mục
                         </th>
                         <th>
-                            Trạng Thái
+                            Phê Duyệt
                         </th>
                         <th>
                            Gian hàng
@@ -131,15 +131,15 @@
 
                                 </td>
                                 <td>
-                                    @if(item.Status == true)
+                                    @if(item.IsApproved == true)
                                     {
-                                        <p>Hoạt động</p>
-                                        <a class="btn btn-block bg-gradient-danger btn-sm offactive" data-id="@item.Id">Tắt hoạt động</a>
+                                        <p>Đã duyệt</p>
+                                        <a class="btn btn-block bg-gradient-danger btn-sm offactive" data-id="@item.Id">Tắt</a>
                                     }
                                     else
                                     {
-                                        <p style="color:red">Chưa hoạt động</p>
-                                        <a class="btn btn-block bg-gradient-warning btn-sm onactive" data-id="@item.Id">Hoạt động</a>
+                                        <p style="color:red">Chưa duyệt</p>
+                                        <a class="btn btn-block bg-gradient-warning btn-sm onactive" data-id="@item.Id">Bật</a>
                                     }
                                 </td>
                                 <td>
@@ -228,7 +228,7 @@
             $('body').on('click', '.offactive', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("Hủy cập nhật trạng thái");
+                var conf = confirm("Hủy duyệt sản phẩm");
 
                 if (conf == true) {
 
@@ -260,7 +260,7 @@
             $('body').on('click', '.onactive', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("Cập nhật trạng thái");
+                var conf = confirm("Duyệt sản phẩm");
 
                 if (conf == true) {
 

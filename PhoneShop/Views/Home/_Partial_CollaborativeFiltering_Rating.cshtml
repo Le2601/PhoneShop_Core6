@@ -1,7 +1,25 @@
-﻿@model List<PhoneShop.Models.Product>
+﻿@model List<PhoneShop.Data.CollaborativeFiltering_DataProduct>
 @{
     int tienO = 0;
 }
+<style>
+    .star-container {
+    font-size: 24px; /* Kích thước của sao */
+}
+
+.filled {
+    color: gold; /* Màu cho sao đầy */
+}
+
+.half-filled {
+    color: gold; /* Màu cho sao nửa */
+}
+
+/* Sao rỗng (nếu cần) */
+.star-container .fa-star-o {
+    color: lightgray; /* Màu cho sao rỗng */
+}
+</style>
 
 <div class="maincontent-area">
     <div class="zigzag-bottom"></div>
@@ -9,10 +27,10 @@
         <div class="row" style="background:white;padding-bottom: 15px;padding:0px 10px">
             <div class="col-md-12">
                 <div class="latest-product">
+                   <br />
 
-                    <br />
                     <div style="margin-bottom: 10px;" class="section-title">
-                        <h3 style="text-align: left; margin-bottom:0PX;">Có thể bạn quan tâm</h3>
+                        <h3 style="text-align: left; margin-bottom:0PX;padding-top:10px">Gợi ý theo lượt đánh giá</h3>
                     </div>
 
                     <div class="product-carousel">
@@ -32,11 +50,28 @@
                                         </div>
                                     </div>
 
-                                    <div style="height:45px">
+                                    <div style="height:25px">
                                         <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
                                     </div>
-
-
+                                   
+                                    <div id="stars-container">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Math.Floor(item.Rating))
+                                            {
+                                                <i class="fa fa-star filled"></i> <!-- Sao đầy -->
+                                            }
+                                            else if (i == Math.Ceiling(item.Rating))
+                                            {
+                                                <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
+                                            }
+                                        }
+                                    </div>
+                                  
                                     <div class="product-carousel-price">
 
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PhoneShop.Areas.Admin.Data;
 using PhoneShop.Controllers.Seller;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.Order_User;
@@ -48,8 +50,30 @@ namespace PhoneShop.Controllers
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
-            var item = await _order_userRepository.ListOrder_User(AccountId);
-            return View(item);
+            
+
+            var GetOrder = (
+                
+                    from or in _dbContext.Orders.Where(x=> x.AccountId == AccountId).ToList()
+                    join ord in _dbContext.Order_Details.Include(x=> x.Product).Include(x=> x.Order_ProductPurchasePrices) on or.Id_Order equals ord.OrderId
+                    select new Data.Order_DetailsData
+                    {
+                        ProductId = ord.ProductId,
+                        ProductTitle = ord.Product.Title,
+                        ProductImage = ord.Product.ImageDefaultName,
+                        ProductAlias = ord.Product.Alias,
+                        //
+                        PurchasePrice_Product = ord.PurchasePrice_Product,
+                        Quantity = ord.Quantity,
+                        //
+                        TotalAmount = ord.Order_ProductPurchasePrices.First().TotalAmount,
+                        FinalAmount = (decimal)ord.Order_ProductPurchasePrices.First().FinalAmount!,
+                        OrderDate = or.Order_Date
+
+                    }
+
+                ).OrderByDescending(x=> x.OrderDate).ToList();
+            return View(GetOrder);
         }
 
 
@@ -108,7 +132,7 @@ namespace PhoneShop.Controllers
                    from b in _dbContext.Booth_Information
                    join fl in _dbContext.UserFollows.Where(x=> x.UserID == AccountId) on b.Id equals fl.BoothID 
                    join t in _dbContext.Booth_Trackings on b.Id equals t.BoothId
-                   select new BoothData
+                   select new Data.BoothData
                    {
                        BoothId = b.Id,
                        BoothName = b.ShopName,

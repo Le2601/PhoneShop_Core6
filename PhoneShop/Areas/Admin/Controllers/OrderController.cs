@@ -98,6 +98,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                                        Total_Order_DetailByProduct = (decimal)p_or.FinalAmount!,
                                        Price_Apply_Voucher = (decimal)p_or.DiscountAmount!,
                                        Discount = (decimal)p_or.DiscountAmount,
+                                       Status_OrderDetail = od.Status_OrderDetail,
                                        //info booth
                                        BoothName = b.ShopName,
                                        BoothId = b.Id,

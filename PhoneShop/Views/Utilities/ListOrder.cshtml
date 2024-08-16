@@ -1,5 +1,5 @@
-﻿@model List<PhoneShop.ModelViews.OrderViewModel>
-@{
+﻿@model List<PhoneShop.Data.Order_DetailsData>
+ @{
     ViewData["Title"] = "ListOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -33,6 +33,90 @@
     th {
         background-color: #f2f2f2;
     }
+
+
+
+    .order-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .favorite-btn, .chat-btn, .view-shop-btn {
+        background-color: #ee4d2d;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .shop-name {
+        font-weight: bold;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .order-details {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+    .product-image {
+        width: 150px;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .product-info {
+        margin-left: 15px;
+        flex-grow: 1;
+    }
+
+        .product-info h4 {
+            margin: 0;
+        }
+
+    .order-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .order-status {
+        color: green;
+        font-weight: bold;
+    }
+
+    .total-price {
+        font-weight: bold;
+    }
+
+    .action-btns {
+        display: flex;
+        gap: 10px;
+    }
+
+    .buy-again, .contact-seller {
+        background-color: #ee4d2d;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .buy-again:hover, .contact-seller:hover {
+            background-color: #d7361c;
+        }
 </style>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 @await Component.InvokeAsync("MenuUtilities")
@@ -44,56 +128,44 @@
 
         <h1 class="profile-header">Đơn Hàng Của Tôi</h1>
 
-        @if(Model.Count > 0)
-        {
+        
+
+       
             
-
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mã Đơn Hàng</th>
-                        <th>Phương thức thanh toán</th>
-                        <th>Ngày đặt hàng</th>
-
-
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var i in Model)
-                    {
-                        <tr>
-                            <td><a class="Detail_Order_Account" href="#" data-id_or="@i.Id_Order">@i.Id_Order (Xem)</a></td>
-                            @if (i.PaymentMethod == 1)
-                            {
-                                <td>Khi Nhận Hàng</td>
-                            }
-                            else if (i.PaymentMethod == 3)
-                            {
-                                <td>MoMo</td>
-                            }
-                            else
-                            {
-                                <td>VnPay</td>
-                            }
-                            <td>@i.Order_Date.ToString("dd/MM/yyyy HH:mm")</td>
-
-
-
-                        </tr>
-                    }
-
-
-                </tbody>
-            </table>
-        }
-        else
+        @if(Model != null)
         {
-            <p style="padding:20px;color:red">Hiện chưa có đơn hàng</p>
+            foreach (var item in Model)
+            {
+                <div class="order-card">
+                    <div class="order-header">
+                        
+                       
+                        
+                        <div class="view-shop-btn">Xem Shop</div>
+                    </div>
+                    <div class="order-details">
+                        <img src="~/images/Product/@item.ProductImage" alt="Product Image" class="product-image">
+                        <div class="product-info">
+                            <h4>@item.ProductTitle</h4>
+                            <p>Ngày đặt: @item.OrderDate</p>
+                            
+                            <p>x @item.Quantity </p>
+                            <p>@PhoneShop.Extension.Extension.ToVnd((double)item.PurchasePrice_Product)</p>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-status">Đơn hàng đã được xác nhận</div>
+                        <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.FinalAmount)</div>
+                        <div class="action-btns">
+                            <button class="buy-again">Hủy đơn hàng</button>
+                            <button class="contact-seller">Trạng thái đơn hàng</button>
+                        </div>
+                    </div>
+                </div>
+            }
         }
 
-
+       
 
 
     </div>

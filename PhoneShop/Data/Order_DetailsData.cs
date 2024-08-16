@@ -10,9 +10,22 @@
 
         public string Phone { get; set; }
 
+        public DateTime OrderDate { get; set; }
+
 
 
         public int ProductId { get; set; }
+        public string ProductAlias { get; set; }
+        public string ProductImage { get; set; }
+
+        public string ProductTitle { get; set; }
+
+        //Order_ProductPurchasePrices
+        public decimal TotalAmount { get; set; }
+
+        public decimal FinalAmount { get; set; }
+
+        //
         public decimal PurchasePrice_Product { get; set; }
 
         public int Quantity { get; set; }

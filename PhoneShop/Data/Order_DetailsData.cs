@@ -2,6 +2,9 @@
 {
     public class Order_DetailsData
     {
+        //order
+
+        
         public int Id { get; set; }
 
         public string Order_Name { get; set; }
@@ -11,7 +14,10 @@
         public string Phone { get; set; }
 
         public DateTime OrderDate { get; set; }
+        public int Status_OrderDetail { get; set; }
 
+        public int? DeliveryStatus { get; set; }
+        //
 
 
         public int ProductId { get; set; }
@@ -37,5 +43,6 @@
         public string Email { get; set; }
 
         public string OrderId { get; set; }
+       
     }
 }

@@ -136,7 +136,7 @@
         {
             foreach (var item in Model)
             {
-                <div class="order-card">
+                <div class="order-card" id="trow_@item.Id">
                     <div class="order-header">
                         
                        
@@ -154,10 +154,21 @@
                         </div>
                     </div>
                     <div class="order-footer">
-                        <div class="order-status">Đơn hàng đã được xác nhận</div>
+                        @if (item.Status_OrderDetail == 1)
+                        {
+                            <div class="order-status">Đơn hàng đã được xác nhận</div>
+                        }
+                        else
+                        {
+                            <div class="order-status" style="color:red">Đơn hàng chưa được xác nhận</div>
+                        }
+
                         <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.FinalAmount)</div>
                         <div class="action-btns">
-                            <button class="buy-again">Hủy đơn hàng</button>
+                           
+                                <button class="buy-again CancelOrder" data-id="@item.Id">Hủy đơn hàng</button>
+                           
+                            
                             <button class="contact-seller">Trạng thái đơn hàng</button>
                         </div>
                     </div>
@@ -206,6 +217,43 @@
         });
 
 
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.CancelOrder', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xóa đơn hàng");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Order/DeleteOrderDetail',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else {
+                                alert("Xóa thất bại đơn hàng đang trong quá trình giao")
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+
+
+
+
+        });
     </script>
 
 }

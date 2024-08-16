@@ -83,6 +83,25 @@ namespace PhoneShop.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult DeleteOrderDetail(int Id)
+        {
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+            var CheckDeliveryProcess = _context.DeliveryProcesses.Where(x=> x.Order_Detail_Id == Id).FirstOrDefault();
+
+            if(CheckDeliveryProcess == null || CheckDeliveryProcess.DeliveryStatus == 1 || CheckDeliveryProcess.DeliveryStatus == 2)
+            {
+                
+                return Json(new {success = true });
+            }
+
+
+
+            return Json(new {success = false});
+        }
+
        
     }
 }

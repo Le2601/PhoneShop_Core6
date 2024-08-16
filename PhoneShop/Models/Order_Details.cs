@@ -54,8 +54,8 @@ namespace PhoneShop.Models
 
         public virtual ICollection<Order_ProductPurchasePrice> Order_ProductPurchasePrices { get; set; }
 
-       
 
+        public virtual ICollection<DeliveryProcess> DeliveryProcesses { get; set; }
 
 
     }

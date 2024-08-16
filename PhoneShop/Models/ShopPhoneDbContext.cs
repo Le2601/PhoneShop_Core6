@@ -196,9 +196,9 @@ namespace PhoneShop.Models
              .HasForeignKey(p => p.OrderDetail_Id);
 
             modelBuilder.Entity<DeliveryProcess>()
-             .HasOne(p => p.order)
+             .HasOne(p => p.Order_Details)
              .WithMany(p => p.DeliveryProcesses)
-             .HasForeignKey(p => p.Order_Id);
+             .HasForeignKey(p => p.Order_Detail_Id);
 
 
 

@@ -19,7 +19,7 @@ namespace PhoneShop.Models
 
         public int Order_Detail_Id { get; set; }
 
-        public virtual Order order {  get; set; }
+        public virtual Order_Details Order_Details {  get; set; }
 
  
 

@@ -55,7 +55,12 @@ namespace PhoneShop.Controllers
             var GetOrder = (
                 
                     from or in _dbContext.Orders.Where(x=> x.AccountId == AccountId).ToList()
-                    join ord in _dbContext.Order_Details.Include(x=> x.Product).Include(x=> x.Order_ProductPurchasePrices) on or.Id_Order equals ord.OrderId
+                    join ord in _dbContext.Order_Details.DefaultIfEmpty()
+                        .Include(x=> x.Product)
+                        .Include(x=> x.Order_ProductPurchasePrices)
+                       
+                        on or.Id_Order equals ord.OrderId
+                    
                     select new Data.Order_DetailsData
                     {
                         ProductId = ord.ProductId,
@@ -68,7 +73,11 @@ namespace PhoneShop.Controllers
                         //
                         TotalAmount = ord.Order_ProductPurchasePrices.First().TotalAmount,
                         FinalAmount = (decimal)ord.Order_ProductPurchasePrices.First().FinalAmount!,
-                        OrderDate = or.Order_Date
+                        OrderDate = or.Order_Date,
+                        //order
+                        Id = ord.Id,
+                        Status_OrderDetail = ord.Status_OrderDetail,
+                       
 
                     }
 

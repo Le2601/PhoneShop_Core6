@@ -82,6 +82,11 @@ namespace PhoneShop.Controllers
                     }
 
                 ).OrderByDescending(x=> x.OrderDate).ToList();
+            //chua xan nhan
+            ViewBag.WaitComfirm = _dbContext.Order_Details.Where(x => x.Status_OrderDetail == 0).ToList();
+
+            //status order
+            ViewBag.StatusOrder = _dbContext.DeliveryProcesses.Include(x => x.Order_Details).ThenInclude(x=> x.Product).ToList();
             return View(GetOrder);
         }
 

@@ -4,6 +4,8 @@
     ViewData["Title"] = "Update_DeliveryProcess_Order_COD";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
     DeliveryProcess IsDeliveryProcess = ViewBag.item_DeliveryProcesses;
+   
+
 }
 
 <style>
@@ -58,29 +60,74 @@
         margin: 10px 0;
     }
 </style>
-<h3>Cập nhật trạng thái giao hàng</h3>
-<form method="post" asp-action="Create_DeliveryProcess" asp-controller="DeliveryProcess_Seller">
-    <select id="fruit" name="DeliveryStatus" required>
-        <option>Chọn trạng thái</option>
-        <option value="1">Đang xử lý</option>
-        <option value="2">Chuẩn bị hàng</option>
-        <option value="3">Đang giao hàng</option>
-        <option value="4">Đã giao hàng</option>
-        <option value="5">Hủy đơn hàng</option>
-    </select>
-    <input type="text" name="Order_Detail_Id" value="@Model.Id" hidden />
-    <input type="text" name="Order_Id" value="@Model.OrderId" hidden />
-    <input type="date" name="DeliveryDate"  required placeholder="Ngày nhận hàng dự kiến" />
-    @if (IsDeliveryProcess != null)
-    {
-        <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@IsDeliveryProcess.DeliveryAddress" />
-    }
-    else
-    {
-        <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@ViewBag.Address_Order" />
-    }
-    <input type="submit" value="Xác nhận">
-</form>
+
+@if(IsDeliveryProcess.DeliveryStatus != 4)
+{
+    <h3>Cập nhật trạng thái giao hàng</h3>
+    <form method="post" asp-action="Create_DeliveryProcess" asp-controller="DeliveryProcess_Seller">
+        <select id="fruit" name="DeliveryStatus" required>
+            <option>Chọn trạng thái</option>
+            @if (IsDeliveryProcess.DeliveryStatus == 1)
+            {
+                <option value="1" selected>Đang xử lý</option>
+                <option value="2">Chuẩn bị hàng</option>
+                <option value="3">Đang giao hàng</option>
+                <option value="4">Đã giao hàng</option>
+                <option value="5">Hủy đơn hàng</option>
+            }
+            else if (IsDeliveryProcess.DeliveryStatus == 2)
+            {
+                <option value="1">Đang xử lý</option>
+                <option value="2" selected>Chuẩn bị hàng</option>
+                <option value="3">Đang giao hàng</option>
+                <option value="4">Đã giao hàng</option>
+                <option value="5">Hủy đơn hàng</option>
+            }
+            else if (IsDeliveryProcess.DeliveryStatus == 3)
+            {
+                <option value="1">Đang xử lý</option>
+                <option value="2">Chuẩn bị hàng</option>
+                <option value="3" selected>Đang giao hàng</option>
+                <option value="4">Đã giao hàng</option>
+                <option value="5">Hủy đơn hàng</option>
+            }
+            else if (IsDeliveryProcess.DeliveryStatus == 4)
+            {
+                <option value="1">Đang xử lý</option>
+                <option value="2">Chuẩn bị hàng</option>
+                <option value="3">Đang giao hàng</option>
+                <option value="4" selected>Đã giao hàng</option>
+                <option value="5">Hủy đơn hàng</option>
+            }
+            else
+            {
+                <option value="1">Đang xử lý</option>
+                <option value="2">Chuẩn bị hàng</option>
+                <option value="3">Đang giao hàng</option>
+                <option value="4">Đã giao hàng</option>
+                <option value="5" selected>Hủy đơn hàng</option>
+            }
+           
+            
+        </select>
+        <input type="text" name="Order_Detail_Id" value="@Model.Id" hidden />
+        <input type="text" name="Order_Id" value="@Model.OrderId" hidden />
+        <input type="date" name="DeliveryDate" required placeholder="Ngày nhận hàng dự kiến" />
+        @if (IsDeliveryProcess != null)
+        {
+            <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@IsDeliveryProcess.DeliveryAddress" />
+        }
+        else
+        {
+            <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@ViewBag.Address_Order" />
+        }
+        <input type="submit" value="Xác nhận">
+    </form>
+}
+else
+{
+    <h3 style="color:blue">Hoàn tất giao hàng - không thể cập nhật</h3>
+}
 
 <h3>Trạng thái giao hàng hiện tại</h3>
 <div class="order-status">

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -51,17 +52,14 @@ namespace PhoneShop.Controllers.Seller
 
 
            
-            //dthu tuan
-            var StartDate = DateTime.Now.AddDays(-7).Date;
-            var EndDate = DateTime.Now.Date;
-
-
+           
 
 
             var items_Products = context.Products.Where(x => x.Create_Id == AccountInt && x.IsApproved == true).ToList();
             //lay ra nhung san pham da ban dc 
             var demo = (from p in items_Products
                         join od in context.Order_Details on p.Id equals od.ProductId
+                        join deli in context.DeliveryProcesses.Where(x=> x.DeliveryStatus == 4) on od.Id equals deli.Order_Detail_Id
                         join o in context.Orders on od.OrderId equals o.Id_Order
                         join oPrice in context.Order_ProductPurchasePrices on od.Id equals oPrice.OrderDetail_Id
                         select new OrderByUser
@@ -89,8 +87,10 @@ namespace PhoneShop.Controllers.Seller
 
                         }).ToList();
 
+           
 
-            
+
+
             return demo;
         }
 
@@ -125,6 +125,7 @@ namespace PhoneShop.Controllers.Seller
         {
             var TopSellersProducts = (from p in items_Products
                                       join od in context.Order_Details on p.Id equals od.ProductId
+                                      join deli in context.DeliveryProcesses.Where(x => x.DeliveryStatus == 4) on od.Id equals deli.Order_Detail_Id
                                       join o in context.Orders on od.OrderId equals o.Id_Order
                                       group new { p, od } by new { p.Id, p.Title, p.InputPrice, p.Price, p.Discount, p.ImageDefaultName } into g
                                       select new BestSellers_Product

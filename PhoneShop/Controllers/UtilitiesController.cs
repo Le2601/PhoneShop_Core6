@@ -83,8 +83,16 @@ namespace PhoneShop.Controllers
 
                 ).OrderByDescending(x=> x.OrderDate).ToList();
             //chua xan nhan
-            ViewBag.WaitComfirm = _dbContext.Order_Details.Where(x => x.Status_OrderDetail == 0).ToList();
+            ViewBag.OrderComfirm = _dbContext.DeliveryProcesses.Where(x => x.DeliveryStatus == 1).Include(x=> x.Order_Details).ThenInclude(x => x.Product).ToList();
 
+            //chuan bi
+            ViewBag.Orderchuanbi = _dbContext.DeliveryProcesses.Where(x => x.DeliveryStatus == 2).Include(x => x.Order_Details).ThenInclude(x => x.Product).ToList();
+            //dang giao hang
+            ViewBag.Orderdanggiao = _dbContext.DeliveryProcesses.Where(x => x.DeliveryStatus == 3).Include(x => x.Order_Details).ThenInclude(x => x.Product).ToList();
+            //da giao hang
+            ViewBag.Orderdagiao = _dbContext.DeliveryProcesses.Where(x => x.DeliveryStatus == 4).Include(x => x.Order_Details).ThenInclude(x => x.Product).ToList();
+            //huy
+            ViewBag.Orderhuy = _dbContext.DeliveryProcesses.Where(x => x.DeliveryStatus == 5).Include(x => x.Order_Details).ThenInclude(x => x.Product).ToList();
             //status order
             ViewBag.StatusOrder = _dbContext.DeliveryProcesses.Include(x => x.Order_Details).ThenInclude(x=> x.Product).ToList();
             return View(GetOrder);

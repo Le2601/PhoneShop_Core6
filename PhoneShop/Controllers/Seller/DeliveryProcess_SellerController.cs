@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhoneShop.Areas.Admin.Data;
 using PhoneShop.DI.DeliveryProcess;
+using PhoneShop.DI.DI_User.Evaluate_Product_User;
+using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.DI.Order;
 using PhoneShop.Models;
 
@@ -13,13 +16,18 @@ namespace PhoneShop.Controllers.Seller
         private readonly ShopPhoneDbContext _context;
         private readonly IOrderRepository _orderRepository;
         private readonly IDeliveryProcessRepository _deliveryProcessRepository;
-
-        public DeliveryProcess_SellerController(ShopPhoneDbContext shopPhoneDbContext, IOrderRepository orderRepository, IDeliveryProcessRepository deliveryProcessRepository)
+        private readonly IEvaluate_ProductRepository _evaluate_ProductRepository;
+        private readonly IProduct_UserRepository _productRepository;
+        public DeliveryProcess_SellerController(ShopPhoneDbContext shopPhoneDbContext, IOrderRepository orderRepository,
+            IDeliveryProcessRepository deliveryProcessRepository, IEvaluate_ProductRepository evaluate_ProductRepository
+            , IProduct_UserRepository productRepository)
         {
             _context = shopPhoneDbContext;
 
             _orderRepository = orderRepository;
             _deliveryProcessRepository = deliveryProcessRepository;
+            _evaluate_ProductRepository = evaluate_ProductRepository;
+            _productRepository = productRepository;
         }
         public IActionResult Index()
         {
@@ -49,7 +57,11 @@ namespace PhoneShop.Controllers.Seller
             {
 
                 ViewBag.item_DeliveryProcesses = Check_DeliveryProcesses;
-              
+
+                ViewBag.DeliveryStatus = Check_DeliveryProcesses.DeliveryStatus;
+
+
+
                 ViewBag.Comfirm_item = 1;
 
 
@@ -83,16 +95,43 @@ namespace PhoneShop.Controllers.Seller
 
             if (Check_DeliveryProcess_Order_Detail != null)
             {
-
-                var Update_DeliveryProcess = new DeliveryProcessData
+                //neu xac nhan giao hang thanh cong
+                if (int.Parse(DeliveryStatus) == 4)
                 {
-                    DeliveryDate = DateTime.Parse(DeliveryDate),
-                    DeliveryStatus = int.Parse(DeliveryStatus),
-                    DeliveryAddress = DeliveryAddress,
-                };
+                    //add Evaluate or update
+                    var GetOrdInDeli = _context.DeliveryProcesses.Where(x => x.Order_Detail_Id == int.Parse(Order_Detail_Id))
+                        .Include(x => x.Order_Details).ThenInclude(x => x.Order).FirstOrDefault()!;
+                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db(GetOrdInDeli.Order_Details.ProductId, GetOrdInDeli.Order_Details.Quantity, GetOrdInDeli.Order_Details.Order.AccountId);
+
+                    var Update_DeliveryProcess = new DeliveryProcessData
+                    {
+                        DeliveryDate = DateTime.Parse(DeliveryDate),
+                        DeliveryStatus = int.Parse(DeliveryStatus),
+                        DeliveryAddress = DeliveryAddress,
+                    };
 
 
-                _deliveryProcessRepository.Update(Update_DeliveryProcess, int.Parse(Order_Detail_Id));
+                    
+
+
+                    _deliveryProcessRepository.Update(Update_DeliveryProcess, int.Parse(Order_Detail_Id));
+
+                    //giam san pham trong kho
+                    _productRepository.Reduced_In_Stock(GetOrdInDeli.Order_Details.ProductId, GetOrdInDeli.Order_Details.Quantity);
+
+                }
+                else
+                {
+                    var Update_DeliveryProcess = new DeliveryProcessData
+                    {
+                        DeliveryDate = DateTime.Parse(DeliveryDate),
+                        DeliveryStatus = int.Parse(DeliveryStatus),
+                        DeliveryAddress = DeliveryAddress,
+                    };
+
+
+                    _deliveryProcessRepository.Update(Update_DeliveryProcess, int.Parse(Order_Detail_Id));
+                }
             }
             else
             {

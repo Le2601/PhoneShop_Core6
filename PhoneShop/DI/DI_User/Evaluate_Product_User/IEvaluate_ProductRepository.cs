@@ -14,7 +14,7 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
         //check quantity insert db
 
 
-        public void Check_Evaluate_Insert_Db(int Id_Product, int Get_Quantity_Product_Order, int AccountId);
+        public void Check_Evaluate_Insert_Db(int Id_Product, int Get_Quantity_Product_Order, int? AccountId);
 
     }
 }

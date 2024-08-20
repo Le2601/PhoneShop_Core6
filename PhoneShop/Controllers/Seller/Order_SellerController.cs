@@ -101,8 +101,29 @@ namespace PhoneShop.Controllers.Seller
 
             item.Status_OrderDetail = 1;
 
+           
+
 
             _context.Order_Details.Update(item);
+
+
+            //update deliveryProcess 
+            var CreateDelivery = new DeliveryProcess
+            {
+
+                Order_Id = item.OrderId,
+                Order_Detail_Id = item.Id,
+                DeliveryStatus = 1,
+                DeliveryDate = DateTime.Now,
+                DeliveryAddress = item.Address,
+
+            };
+
+            await _context.DeliveryProcesses.AddAsync(CreateDelivery);
+
+
+
+
             await _context.SaveChangesAsync();
 
             return Redirect(Request.Headers["Referer"].ToString());

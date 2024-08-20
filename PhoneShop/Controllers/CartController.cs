@@ -630,10 +630,8 @@ namespace PhoneShop.Controllers
 
 
 
-                    //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
-                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountId);
-                    //giam san pham trong kho
-                    _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
+                    
+                 
                     //_dbContext.SaveChanges();
 
                 }
@@ -734,9 +732,8 @@ namespace PhoneShop.Controllers
 
 
                     //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
-                    _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountId);
-                    //giam san pham trong kho
-                    _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
+                    //_evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountId);
+                  
                     //_dbContext.SaveChanges();
 
                 }
@@ -830,12 +827,10 @@ namespace PhoneShop.Controllers
 
 
                 //demo xu ly dependency
-                //kiem tra mua so luong bao nhieu insert dữ liệu vào  Evaluate_Products
+                
 
-                _evaluate_ProductRepository.Check_Evaluate_Insert_Db((int)item.ProductId, Get_Quantity_Product_Order, AccountId);
 
-                //giam san pham trong kho
-                _productRepository.Reduced_In_Stock((int)item.ProductId, Get_Quantity_Product_Order);
+                
 
                 _dbContext.SaveChanges();
 

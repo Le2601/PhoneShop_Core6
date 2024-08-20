@@ -14,19 +14,13 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
 
        
 
-        public void Check_Evaluate_Insert_Db(int Id_Product, int Get_Quantity_Product_Order, int AccountId)
+        public void Check_Evaluate_Insert_Db(int Id_Product, int Get_Quantity_Product_Order, int? AccountId)
         {
             var Check_Evaluate =  _context.Evaluate_Products.FirstOrDefault(x => x.ProductId == Id_Product && x.AccountId == AccountId);
             if (Check_Evaluate != null)
             {
-                if (Get_Quantity_Product_Order >= 2)
-                {
-                    Check_Evaluate.Purchases += Get_Quantity_Product_Order;
-                }
-                else
-                {
-                    Check_Evaluate.Purchases += 1;
-                }
+                Check_Evaluate.Purchases += Get_Quantity_Product_Order;
+               
 
 
                 _context.Evaluate_Products.Update(Check_Evaluate);
@@ -38,9 +32,9 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
 
                 var Add_Evaluate = new Evaluate_Product
                 {
-                    Purchases = 1,
+                    Purchases = Get_Quantity_Product_Order,
                     ProductId = Id_Product,
-                    AccountId = AccountId
+                    AccountId = (int)AccountId
                 };
                 _context.Evaluate_Products.Add(Add_Evaluate);
                  //_context.SaveChangesAsync();

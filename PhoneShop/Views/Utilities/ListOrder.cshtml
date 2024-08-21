@@ -171,7 +171,8 @@
     <div class="row" style="background:white;min-height:500px">
 
 
-        <h1 class="profile-header">Đơn Hàng Của Tôi</h1>
+        <h1 class="profile-header" style="margin-bottom:5px">Đơn Hàng Của Tôi</h1>
+        <p style="color:red;text-align:center">Đơn hàng đã xác nhận/Chuẩn bị hàng có thể hủy</p>
 
         <div class="tabs">
             <div class="tab active" onclick="showContent('orders')">Đơn hàng</div>
@@ -259,7 +260,7 @@
                             <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product * (double)item.Order_Details.Quantity)</div>
                             <div class="action-btns">
 
-                                <button class="buy-again CancelOrder" data-id="@item.Id" style="background: #5a88ca">Hủy đơn hàng</button>
+                                <button class="buy-again CancelOrder" data-id="@item.Order_Details.Id" style="background: #5a88ca">Hủy đơn hàng</button>
 
 
                             </div>
@@ -301,7 +302,7 @@
                             <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product * (double)item.Order_Details.Quantity)</div>
                             <div class="action-btns">
 
-                                <button class="buy-again CancelOrder" data-id="@item.Id" style="background: #5a88ca">Hủy đơn hàng</button>
+                                <button class="buy-again CancelOrder" data-id="@item.Order_Details.Id" style="background: #5a88ca">Hủy đơn hàng</button>
 
 
                             </div>
@@ -382,8 +383,14 @@
 
 
                             <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product * (double)item.Order_Details.Quantity)</div>
-                           
+                            <div class="action-btns">
+
+                                <a class="buy-again" href="/chi-tiet/@item.Order_Details.Product.Alias-@item.Order_Details.ProductId" style="background: #5a88ca">Mua Lại</a>
+
+
+                            </div>
                         </div>
+                    
 
 
                     </div>
@@ -399,7 +406,7 @@
 
 
         <div id="canceled" class="content">
-            <h2>Thông tin Đơn hàng Đã hủy</h2>
+            <h2>Đơn hàng Đã hủy</h2>
             @if (Model != null)
             {
                 foreach (var item in Orderhuy)
@@ -484,13 +491,13 @@
             $('body').on('click', '.CancelOrder', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("Xóa đơn hàng");
+                var conf = confirm("Xác nhận hủy đơn hàng");
 
                 if (conf == true) {
 
                     $.ajax({
 
-                        url: '/Order/DeleteOrderDetail',
+                        url: '/Order/CancelOrderDetail',
                         type: 'post',
                         data: { id: id },
                         success: function (rs) {

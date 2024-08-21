@@ -84,7 +84,7 @@ namespace PhoneShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteOrderDetail(int Id)
+        public IActionResult CancelOrderDetail(int Id)
         {
             //check auth cookie and AccountId Session
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
@@ -93,12 +93,13 @@ namespace PhoneShop.Controllers
 
             if(CheckDeliveryProcess == null || CheckDeliveryProcess.DeliveryStatus == 1 || CheckDeliveryProcess.DeliveryStatus == 2)
             {
-                
+                CheckDeliveryProcess!.DeliveryStatus = 5;
+
+                _context.DeliveryProcesses.Update(CheckDeliveryProcess);
+                _context.SaveChanges();
+
                 return Json(new {success = true });
             }
-
-
-
             return Json(new {success = false});
         }
 

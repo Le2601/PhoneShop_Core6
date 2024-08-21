@@ -19,6 +19,13 @@ namespace PhoneShop.Data
 
         public int Rate { get; set; }
 
+        //
+        public string TitleProduct { get; set; }
+
+        public string ImageProduct { get; set; }
+
+
+
         public DateTime CreateAt { get; set; }
     }
 }

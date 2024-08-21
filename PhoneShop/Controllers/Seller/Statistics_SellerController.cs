@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhoneShop.Controllers.Seller.DataView;
 
 using PhoneShop.Models;
@@ -382,6 +383,37 @@ namespace PhoneShop.Controllers.Seller
             return View(TopSellersProducts);
 
 
+        }
+
+        public async Task<IActionResult> Order()
+        {
+
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
+            
+
+            var OrderStatus = await _context.DeliveryProcesses
+                .GroupBy(o => o.DeliveryStatus)
+                .Select(g => new
+                {
+
+                    Status = g.Key,
+                    Count = g.Count()
+
+                }).ToListAsync();
+
+            var model = new OrderStatisticsViewModel
+            {
+                StatusLabels = OrderStatus.Select(x => x.Status).ToList(),
+                StatusValues = OrderStatus.Select(y => y.Count).ToList()
+                
+
+            };
+
+
+            return View(model);
         }
 
         public static (List<RevenueStatistics>, List<RevenueStatistics_DataViewChart>)  StatisticsByWeek(ShopPhoneDbContext _context, int AccountInt)

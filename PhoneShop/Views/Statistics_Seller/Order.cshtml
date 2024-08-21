@@ -1,0 +1,88 @@
+﻿@model PhoneShop.Controllers.Seller.DataView.OrderStatisticsViewModel
+@{
+    ViewData["Title"] = "Order";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+}
+<style>
+    #orderChart {
+        max-width: 400px; /* Điều chỉnh chiều rộng tối đa */
+        max-height: 300px; /* Điều chỉnh chiều cao tối đa */
+    }
+
+    .status-container {
+        display: flex; 
+        align-items: center; 
+    }
+
+ 
+</style>
+
+<div class="container">
+    <div style="width: 600px; height: 400px; margin: auto;">
+        <canvas id="orderStatusChart"></canvas>
+    </div>
+
+
+
+
+    <div class="status-text">1: Đã xác nhận</div>
+    <div class="status-text">2: Chuẩn bị hàng</div>
+    <div class="status-text">3: Đang giao hàng</div>
+    <div class="status-text">4: Giao thành công</div>
+    <div class="status-text">5: Hủy đơn hàng</div>
+</div>
+@section scripts_SellerHome{
+    <script>
+        const ctx = document.getElementById('orderStatusChart').getContext('2d');
+
+        const labels = @Html.Raw(Json.Serialize(Model.StatusLabels));
+        const data = @Html.Raw(Json.Serialize(Model.StatusValues));
+
+        const orderStatusChart = new Chart(ctx, {
+            type: 'bar', // Biểu đồ thanh ngang
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Số lượng',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 99, 132, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Thiết lập biểu đồ thanh ngang
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Thống Kê Trạng Thái Đơn Hàng'
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+ }

@@ -284,17 +284,14 @@
                                 <table cellspacing="0">
                                     <tbody>
                                         <tr class="cart-subtotal">
-                                            <th><div style="color:black" class="title_all">tổng giỏ hàng</div></th>
-                                            @{
-                                                string formattedGrandTotal = ViewBag.GrandTotal.ToString("C", culture); // "C" là định dạng tiền tệ
-
-                                            }
-                                            <td><span class="amount">@formattedGrandTotal</span></td>
+                                            <th><div style="color:black" class="title_all">Tổng giỏ hàng</div></th>
+                                           
+                                            <td><span class="amount" style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)</span></td>
                                         </tr>
 
                                         <tr class="shipping">
                                             <th style="text-transform: capitalize;">Vận chuyển</th>
-                                            <td>Free Shipping</td>
+                                            <td>Miễn Phí</td>
                                         </tr>
 
                                         <tr class="order-total">

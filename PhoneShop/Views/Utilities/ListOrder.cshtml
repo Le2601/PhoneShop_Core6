@@ -231,7 +231,7 @@
             }
         </div>
         <div id="xuly" class="content" style="min-height:500px">
-            <h2>Đơn hàng chờ xác nhận</h2>
+           
             @if (Model != null)
             {
                 foreach (var item in OrderComfirm)
@@ -273,7 +273,7 @@
         </div>
 
         <div id="chuanbi" class="content" style="min-height:500px">
-            <h2>Đơn hàng đang chuẩn bị</h2>
+            
             @if (Model != null)
             {
                 foreach (var item in Orderchuanbi)
@@ -315,7 +315,7 @@
             <p>Các đơn hàng hiện đang trên đường vận chuyển.</p>
         </div>
         <div id="shipping" class="content" style="min-height:500px">
-            <h2>Đơn hàng Đang vận chuyển</h2>
+           
             @if (Model != null)
             {
                 foreach (var item in Orderdanggiao)
@@ -356,7 +356,7 @@
         
 
         <div id="hoanthanh" class="content" style="min-height:500px">
-            <h2>Hoàn thành giao hàng</h2>
+          
             @if (Model != null)
             {
                 foreach (var item in Orderdagiao)
@@ -399,14 +399,13 @@
         </div>
 
         <div id="hoantien" class="content" style="min-height:500px">
-            <h2>Hoàn tiền</h2>
-            <p>Các đơn hàng hiện đang trên đường vận chuyển.</p>
+           
         </div>
 
 
 
         <div id="canceled" class="content">
-            <h2>Đơn hàng Đã hủy</h2>
+           
             @if (Model != null)
             {
                 foreach (var item in Orderhuy)

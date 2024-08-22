@@ -2,7 +2,7 @@
 {
     public class OrderStatisticsViewModel
     {
-        public List<int> StatusLabels { get; set; }
+        public List<string> StatusLabels { get; set; }
         public List<int> StatusValues { get; set; }
     }
 }

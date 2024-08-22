@@ -16,7 +16,7 @@ namespace PhoneShop.Controllers.Seller
         private readonly ShopPhoneDbContext _context;
         public Statistics_SellerController(ShopPhoneDbContext shopPhoneDbContext)
         {
-               _context = shopPhoneDbContext;
+            _context = shopPhoneDbContext;
 
         }
         public IActionResult Index(string? SelectedDate)
@@ -39,9 +39,9 @@ namespace PhoneShop.Controllers.Seller
             //neu co tim kiem doanh thu theo ngay
             if (SelectedDate != null)
             {
-               
 
-               
+
+
                 var SelectedDate_Order = ListProduct_Purchase.Where(x => x.Date_Purchase.ToString("yyyy-MM-dd") == SelectedDate)
                .Select(g => new RevenueStatistics
                {
@@ -50,7 +50,7 @@ namespace PhoneShop.Controllers.Seller
                    OrderDetailId = g.Info_Order_Address_Id,
                    Date_Purchase = g.Date_Purchase.Date,
                    TotalRevenue = g.Total_Order_DetailByProduct,
-                   TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice))- g.Price_Apply_Voucher,
+                   TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice)) - g.Price_Apply_Voucher,
                    TitleProduct = g.Title,
                    PricePurchased = g.Price,
                    Input_Price = g.InputPrice,
@@ -121,7 +121,7 @@ namespace PhoneShop.Controllers.Seller
             return View();
         }
 
-        
+
 
         [HttpPost]
         public IActionResult Index(IFormCollection form)
@@ -129,14 +129,15 @@ namespace PhoneShop.Controllers.Seller
 
             var SelectedDate = form["SelectedDate"];
 
-           
 
-            
+
+
 
             return RedirectToAction("Index", new { SelectedDate });
         }
 
-        public IActionResult Week() {
+        public IActionResult Week()
+        {
 
             //check auth cookie and AccountId Session
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
@@ -185,7 +186,7 @@ namespace PhoneShop.Controllers.Seller
             }
             ViewBag.ListMonths = months;
 
-            if(getMonth == null)
+            if (getMonth == null)
             {
                 //get Data_Month
                 var getData_Month = StatisticsByMonth(_context, AccountId);
@@ -252,7 +253,7 @@ namespace PhoneShop.Controllers.Seller
 
 
 
-            
+
 
 
 
@@ -301,7 +302,7 @@ namespace PhoneShop.Controllers.Seller
 
             var List_Item_Product_Quantity = Public_MethodController.List_Item_Product_Quantity(_context, AccountId);
 
-           
+
 
 
             int Sold_Quantity = 0;
@@ -335,7 +336,7 @@ namespace PhoneShop.Controllers.Seller
                 .ToList();
 
             //tinh tong tien san pham theo ngay ----- hien thi bieu do
-            var ChartData_Show = ChartData_TotalPrice.GroupBy(x=> x.OrderDate.Date)
+            var ChartData_Show = ChartData_TotalPrice.GroupBy(x => x.OrderDate.Date)
              .Select(g => new OrderSummary
              {
                  OrderDate = g.Key,
@@ -392,34 +393,67 @@ namespace PhoneShop.Controllers.Seller
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
-            
 
-            var OrderStatus = await _context.DeliveryProcesses
-                .GroupBy(o => o.DeliveryStatus)
+            var JoinDbOrder = (
+
+                    from p in _context.Products.Where(x => x.Create_Id == AccountId)
+                    join ord in _context.Order_Details on p.Id equals ord.ProductId
+                    join deli in _context.DeliveryProcesses on ord.Id equals deli.Order_Detail_Id
+                    select new
+                    {
+                        DeliveryStatusInt = deli.DeliveryStatus,
+                        DeliveryStatusText = GetDeliveryStatusText(deli.DeliveryStatus),
+                        OrderId = ord.OrderId
+                    }
+
+                ).ToList();
+
+            var OrderStatus = JoinDbOrder
+                .GroupBy(o => o.DeliveryStatusText)
                 .Select(g => new
                 {
 
                     Status = g.Key,
                     Count = g.Count()
 
-                }).ToListAsync();
+                }).ToList();
 
             var model = new OrderStatisticsViewModel
             {
                 StatusLabels = OrderStatus.Select(x => x.Status).ToList(),
                 StatusValues = OrderStatus.Select(y => y.Count).ToList()
-                
+
 
             };
+
+            //pttt
+            var ListPaymentOrder = (
+
+                from j in JoinDbOrder
+                join od in _context.Orders on j.OrderId equals od.Id_Order
+                select new
+                {
+                    PaymentMethod = od.PaymentMethod,
+                }
+
+                ).ToList();
+            var DbList = ListPaymentOrder
+                .GroupBy(o => o.PaymentMethod)
+                .Select(g => new ListPaymentMethodOrder
+                {
+                    PaymentMethod = g.Key,
+                    CountPaymentOr = g.Count(),
+
+                }).ToList();
 
 
             return View(model);
         }
 
-        public static (List<RevenueStatistics>, List<RevenueStatistics_DataViewChart>)  StatisticsByWeek(ShopPhoneDbContext _context, int AccountInt)
+        public static (List<RevenueStatistics>, List<RevenueStatistics_DataViewChart>) StatisticsByWeek(ShopPhoneDbContext _context, int AccountInt)
         {
 
-           
+
             //dthu tuan
             var StartDate = DateTime.Now.AddDays(-7).Date;
             var EndDate = DateTime.Now.Date;
@@ -460,7 +494,7 @@ namespace PhoneShop.Controllers.Seller
 
         public static (List<RevenueStatistics>, List<RevenueStatistics_DataViewChart>) StatisticsByMonth(ShopPhoneDbContext _context, int AccountInt)
         {
-           
+
 
             //lay ra ra thang
             var CurrentDate = DateTime.Now;
@@ -507,14 +541,14 @@ namespace PhoneShop.Controllers.Seller
             return (GetOrder_PreviousMonth, GetData_Chart);
         }
 
-        public static (List<RevenueStatistics>, List<RevenueStatistics_DataViewChart>) StatisticsByMonthSpecified(ShopPhoneDbContext _context, int AccountInt,string GetMonthSpecified)
+        public static (List<RevenueStatistics>, List<RevenueStatistics_DataViewChart>) StatisticsByMonthSpecified(ShopPhoneDbContext _context, int AccountInt, string GetMonthSpecified)
         {
 
 
             //lay ra ra thang
             var GetMonth = GetMonthSpecified;
 
-           
+
 
 
 
@@ -559,7 +593,7 @@ namespace PhoneShop.Controllers.Seller
 
 
         public static (List<RevenueStatistics>, List<RevenueStatistics_DataViewChart>) StatisticsByYear(ShopPhoneDbContext _context, int AccountInt)
-        {          
+        {
             //lay nam hien tai
             var CurrentYear = DateTime.Now.Year;
 
@@ -594,12 +628,24 @@ namespace PhoneShop.Controllers.Seller
                  }).OrderBy(g => g.Date_Purchase)
                 .ToList();
 
-            
+
 
 
             return (GetOrder_ByYear, GetData_Chart);
         }
 
+        public static string GetDeliveryStatusText(int status)
+        {
+            switch (status)
+            {
+                case 1: return "Đã xác nhận";
+                case 2: return "Đang chuẩn bị hàng";
+                case 3: return "Đang giao hàng";
+                case 4: return "Giao thành công";
+                case 5: return "Đã hủy";
+                default: return "Trạng thái không xác định";
+            }
+        }
 
 
     }

@@ -41,6 +41,7 @@
                             <th>Hình ảnh</th>
                             <th>PTTT</th>
                             <th>Thông tin</th>
+                            @* <th>Tình trạng</th> *@
                             <th>Cập nhật</th>
                         </tr>
                     </thead>
@@ -75,6 +76,26 @@
                                     }
                                 </td>
                                 <td><a class="btn btn-block btn-info btn-sm" href="/Order_Seller/Info_Order_Address/@i.Info_Order_Address_Id">Xem</a></td>
+                                @* @if(i.Ord_Status == 1)
+                                {
+                                    <td>Xác nhận</td>
+                                }
+                                else if(i.Ord_Status == 2)
+                                {
+                                    <td>Chuẩn bị</td>
+                                }
+                                else if(i.Ord_Status == 3)
+                                {
+                                    <td>Đang giao</td>
+                                }
+                                else if(i.Ord_Status == 4)
+                                {
+                                    <td>Hoàn thành</td>
+                                }
+                                else
+                                {
+                                    <td>Hủy</td>
+                                } *@
                                 <td>
                                    
                                     @if (@i.Status_OrderDetail == 1)

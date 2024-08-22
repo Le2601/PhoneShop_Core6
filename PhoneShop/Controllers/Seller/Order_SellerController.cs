@@ -63,6 +63,8 @@ namespace PhoneShop.Controllers.Seller
             var demo = (from p in items_Products
                         join od in _context.Order_Details on p.Id equals od.ProductId
                         join o in _context.Orders on od.OrderId equals o.Id_Order
+                       
+                        
                         select new OrderByUser
                         {
                             Id = p.Id,
@@ -78,8 +80,8 @@ namespace PhoneShop.Controllers.Seller
                             Info_Order_Address_Id = od.Id,
                             ImageDefault = p.ImageDefaultName,
                             Status_OrderDetail = od.Status_OrderDetail,
-                            ShippingMethod = o.PaymentMethod
-
+                            ShippingMethod = o.PaymentMethod,
+                            
 
 
 

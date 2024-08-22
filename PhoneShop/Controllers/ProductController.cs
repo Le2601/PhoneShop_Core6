@@ -93,6 +93,8 @@ namespace PhoneShop.Controllers
                     int dem = 0;
             var checkRatingNotNull = _context.Review_Products.Where(x => x.ProductId == item.Id).FirstOrDefault();
             var checkRating = _context.Review_Products.Where(x=> x.ProductId == item.Id).ToList();  
+
+            ViewBag.CountRwPrd = checkRating.Count;
            if(checkRatingNotNull == null)
             {
                 ViewBag.AverageRating = 0;

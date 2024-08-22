@@ -366,6 +366,47 @@ namespace PhoneShop.Controllers
             //return Redirect(Request.Headers["Referer"].ToString());
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> AddByDetail(IFormCollection form)
+        {
+          
+            var id = int.Parse(form["ProductId"]);
+            var quantity = int.Parse(form["quantity"]);
+
+            for (int i = 0; i < quantity; i++)
+            {
+                //lay hinh anh mac dinh sp ra
+                //ViewBag.imageproduct = _dbContext.ImageProducts.ToList();
+
+                var item = await _productRepository.ProductById_Model(id);
+
+                List<CartItemModel> Cart = HttpContext.Session.Get<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+
+
+
+                CartItemModel cartItems = Cart.Where(x => x.ProductId == id).FirstOrDefault()!;
+
+                if (cartItems == null)
+                {
+
+
+                    Cart.Add(new CartItemModel(item));
+
+                }
+                else
+                {
+                    cartItems.Quantity += 1;
+                }
+
+                HttpContext.Session.Set("Cart", Cart);
+
+            }
+
+            return Json(new { success = true });
+        }
+
+
         [HttpPost]
         public IActionResult Delete(int id)
         {

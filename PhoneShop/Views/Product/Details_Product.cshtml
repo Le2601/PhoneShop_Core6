@@ -75,6 +75,8 @@
     .star-container .fa-star-o {
         color: lightgray; /* Màu cho sao rỗng */
     }
+
+   
 </style>
 
 @if (TempData["CheckCmt"] != null)
@@ -120,47 +122,42 @@
                         <div class="col-sm-6">
                             <div class="product-inner">
                                 <h2 class="product-name" style="color:#5a88ca">@Model.Title</h2>
-                                <div class="product-inner-category"> 
-                                    <p class="detail-label">Hãng: <a style="color:#5a88ca">@ViewBag.getCategoryTitle</a></p>
-                                    <p class="detail-label">Đã bán: @IsEvaluate_Pro.Purchases</p>
-                                   
-                                       
-                                       
-                                        @if (ViewBag.AverageRating > 0)
+                                <div style="display:flex">
+                                    @if (ViewBag.AverageRating > 0)
+                                    {
+                                        @for (int i = 1; i <= 5; i++)
                                         {
-                                            @for (int i = 1; i <= 5; i++)
+                                            if (i <= Math.Floor(ViewBag.AverageRating))
                                             {
-                                                if (i <= Math.Floor(ViewBag.AverageRating))
-                                                {
-                                                    <i class="fa fa-star filled"></i> <!-- Sao đầy -->
-                                                }
-                                                else if (i == Math.Ceiling(ViewBag.AverageRating))
-                                                {
-                                                    <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
-                                                }
-                                                else
-                                                {
-                                                    <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
-                                                }
+                                                <i class="fa fa-star filled"></i> <!-- Sao đầy -->
                                             }
-                                        <a style="text-decoration:none">@ViewBag.AverageRating/5</a>
+                                            else if (i == Math.Ceiling(ViewBag.AverageRating))
+                                            {
+                                                <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
+                                            }
                                         }
-                                        else
-                                        {
+                                        <a style="text-decoration:none">@ViewBag.AverageRating/5</a>
+                                    }
+                                    else
+                                    {
 
                                         <i class="fa fa-star filled"></i>
 
                                         <a style="text-decoration:none">1/5</a>
-                                        }
-                                    
-                                       
-                                       
-                                   
-                                    
 
-
-                                   
-                                    <p class="detail-label">Số Lượng Trong Kho: @Model.Quantity</p>
+                                        <p class="detail-label">Đã bán: @IsEvaluate_Pro.Purchases</p>
+                                    }
+                                    <p style="padding:0px 20px">|</p>
+                                    <p class="detail-label" style="">Đã bán: @IsEvaluate_Pro.Purchases</p>
+                                    <p style="padding:0px 20px">|</p>
+                                    <p class="detail-label" style="">Đánh giá: @ViewBag.CountRwPrd</p>
+                                </div>
+                                
+                                <div class="product-inner-category">
                                     <div class="product-inner-price">
 
 
@@ -168,8 +165,8 @@
                                         @{
                                             if (Model.Discount == 0 || Model.Discount == null || Model.Discount is string)
                                             {
-                                                <ins>
-                                                    @{
+                                                    <h3 style="color:red">
+                                                        @{
 
 
 
@@ -178,14 +175,14 @@
 
 
 
-                                                    }
-                                                    @formattedPrice
-                                                </ins>
+                                                        }
+                                                        @formattedPrice
+                                                    </h3>
                                             }
                                             else
                                             {
-                                                <ins>
-                                                    @{
+                                                    <h3 style="color:red">
+                                                        @{
 
 
 
@@ -194,9 +191,9 @@
 
 
 
-                                                    }
-                                                    @formattedPrice
-                                                </ins>
+                                                        }
+                                                        @formattedPrice
+                                                    </h3>
                                             }
                                         }
 
@@ -222,10 +219,36 @@
 
                                         </del>
                                     </div>
+                                    <p class="detail-label">Hãng: <a style="color:#5a88ca">@ViewBag.getCategoryTitle</a></p>
+                                   
+                                   
+                                       
+                                       
+                                       
+                                       
+                                       
+                                   
+                                    
+
+
+                                   
+                                    <p class="detail-label">@Model.Quantity Sản Phẩm Có Sẵn</p>
+                                @*     <form asp-action="AddByDetail" asp-controller="Cart" method="post">
+                                        <input type="text" value="@Model.Id" name="ProductId" hidden />
+                                        <input type="number" size="4" class="input-text qty text" title="Qty" name="quantity" min="1" step="1">
+                                        <input type="submit" value="submit" />
+                                    </form> *@
+
+                                   
+                                   
                                     <div class="quantity">
-                                        <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
+                                        <form id="addToCartForm" asp-action="AddByDetail" asp-controller="Cart" method="post">
+                                            <input type="text" value="@Model.Id" name="ProductId" hidden />
+                                            <input type="number" size="4" class="input-text qty text" title="Qty" name="quantity" min="1" step="1" required>
+                                            <input style="background:#ccebff;color:#5a88ca" class="add-to-cart-btn" type="submit" value="Thêm Vào Giỏ Hàng" />
+                                        </form>
                                     </div>
-                                    <button class="add-to-cart-btn"><a style="color:white" class="confirmAdd" data-id="@Model.Id">Thêm Vào Giỏ</a></button>
+                                    
                                    <br />
                                    <br />
                                     <a>Mã Giảm Giá Của Shop</a>
@@ -394,38 +417,35 @@
 @section Scripts{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   
     <script>
         $(document).ready(function () {
-            $('body').on('click', '.confirmAdd', function () {
-                var id = $(this).data('id');
+            $('#addToCartForm').on('submit', function (e) {
+                e.preventDefault();
 
                 var conf = confirm("Xác nhận thêm vào giỏ hàng");
-
                 if (conf == true) {
+                    var formData = $(this).serialize();
+
 
                     $.ajax({
+                        url: '@Url.Action("AddByDetail", "Cart")',
+                        type: 'POST',
+                        data: formData,
+                        success: function (response) {
 
-                        url: '/Cart/Add',
-                        type: 'post',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {                              
-                                // alert(rs.msg);
-                                location.reload();
-                            }
+                           
+                            location.reload();
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert('Có lỗi xảy ra: ' + error);
                         }
-
                     });
-
                 }
             });
-
-           
-
-           
         });
     </script>
+  
     <script>
         $(document).ready(function () {
             $('body').on('click', '.Delete_Review', function () {

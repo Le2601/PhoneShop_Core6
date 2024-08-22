@@ -426,7 +426,7 @@ namespace PhoneShop.Controllers.Seller
 
             };
 
-            //pttt
+            //ptttoan
             var ListPaymentOrder = (
 
                 from j in JoinDbOrder
@@ -445,6 +445,8 @@ namespace PhoneShop.Controllers.Seller
                     CountPaymentOr = g.Count(),
 
                 }).ToList();
+
+            ViewBag.DbListPaymentMethod = DbList;
 
 
             return View(model);

@@ -334,6 +334,31 @@
 
     </script> *@
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Xử lý menu chính
+            $('.nav-link').on('click', function (e) {
+                // Nếu mục có menu con, ngăn không cho xử lý ngay
+                if ($(this).next().hasClass('nav-treeview')) {
+                    e.preventDefault(); // Ngăn chặn hành động mặc định
+                }
+
+                // Xóa lớp active khỏi tất cả
+                $('.nav-link').removeClass('active');
+
+                // Thêm lớp active cho mục được nhấp
+                $(this).addClass('active');
+            });
+
+            // Xử lý menu con
+            $('.nav-treeview .nav-link').on('click', function () {
+                $('.nav-treeview .nav-link').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+    </script>
+
 
 
     @RenderSection("scripts_SellerHome", required: false)

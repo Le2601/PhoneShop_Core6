@@ -1,7 +1,9 @@
 ﻿@model PhoneShop.Controllers.Seller.DataView.OrderStatisticsViewModel
+@using PhoneShop.Controllers.Seller.DataView
 @{
     ViewData["Title"] = "Order";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+    List<ListPaymentMethodOrder> DbListPaymentMethod = ViewBag.DbListPaymentMethod;
 }
 <style>
     #orderChart {
@@ -26,7 +28,21 @@
 
 <div>
     <p>Thống kê phương thức thanh toán</p>
-
+        @foreach (var item in DbListPaymentMethod)
+        {
+            if(item.PaymentMethod == 1)
+            {
+                <p>Thanh toán khi nhận hàng: @item.CountPaymentOr</p>
+            }
+            else if (item.PaymentMethod == 2)
+            {
+                <p>Thanh toán trực tuyến VnPay: @item.CountPaymentOr</p>
+            }
+            else
+            {
+                <p>Thanh toán trực tuyến MoMo: @item.CountPaymentOr</p>
+            }
+        }
 </div>
 </div>
 @section scripts_SellerHome{

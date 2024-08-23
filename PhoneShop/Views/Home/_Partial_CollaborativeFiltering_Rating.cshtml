@@ -43,7 +43,19 @@
                                     <div class="product-f-image">
                                         @*                                         <img src="~/User/img/product-1.jpg" alt="">
                                 *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
-
+                                        @* tinh % giam gia *@
+                                        @if (item.Discount > 0)
+                                        {
+                                            //format discount
+                                            decimal discount = 0;
+                                            discount = (item.Price - item.Discount) / item.Price * 100;
+                                            discount = Math.Round(discount);
+                                            //format discount
+                                            <div class="discount-label">
+                                                <span>Giảm @discount%</span>
+                                            </div>
+                                        }
+                                        @* tinh % giam gia *@
                                         <div class="product-hover">
                                             <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
                                             <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
@@ -78,7 +90,7 @@
                                         @{
                                             if (item.Discount == 0 || item.Discount == null || item.Discount is string)
                                             {
-                                                <ins>
+                                                <ins style="color:red">
                                                     @{
 
 
@@ -94,7 +106,7 @@
                                             }
                                             else
                                             {
-                                                <ins>
+                                                <ins style="color:red">
                                                     @{
 
 

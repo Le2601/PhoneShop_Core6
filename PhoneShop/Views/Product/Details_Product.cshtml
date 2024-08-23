@@ -244,7 +244,7 @@
                                     <div class="quantity">
                                         <form id="addToCartForm" asp-action="AddByDetail" asp-controller="Cart" method="post">
                                             <input type="text" value="@Model.Id" name="ProductId" hidden />
-                                            <input type="number" size="4" class="input-text qty text" title="Qty" name="quantity" min="1" step="1" required>
+                                            <input type="number" size="4" class="input-text qty text" title="Qty" name="quantity" value="1" min="1" step="1" required>
                                             <input style="background:#ccebff;color:#5a88ca" class="add-to-cart-btn" type="submit" value="Thêm Vào Giỏ Hàng" />
                                         </form>
                                     </div>

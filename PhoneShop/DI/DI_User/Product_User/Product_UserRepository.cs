@@ -195,7 +195,10 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> LatestProducts()
         {
-            var items =await _context.Products.Where(x=> x.IsApproved == true).Select(x => new ProductViewModel
+
+
+
+            var items = await _context.Products.Where(x => x.IsApproved == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -208,11 +211,14 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
-               
-               
-             
 
-            }).Take(5).OrderByDescending(x=> x.Id).ToListAsync();
+
+
+
+            }).Take(5).OrderByDescending(x => x.Id).ToListAsync();
+
+            
+
 
             return items;
         }

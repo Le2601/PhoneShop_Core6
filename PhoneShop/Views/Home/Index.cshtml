@@ -33,7 +33,7 @@
 
         List_CollaborativeFiltering_Rating = ViewBag.CollaborativeFiltering_List_Rating;
     }
-   
+
 
 
 }
@@ -48,45 +48,59 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+
     .col-md-12 {
-       padding:0px;
-       
+        padding: 0px;
     }
 
     .section-title {
         font-family: "Raleway", sans-serif;
         font-size: 50px;
         font-weight: 100;
-       
         text-align: center;
         background: #B0D4B8;
         border-radius: 8px;
         padding: 10px;
-         font-weight: bold;
-        
-       
-
+        font-weight: bold;
     }
-.section-title {
-  font-size: 22px;
-  font-weight: bold;
-  text-align: left;
-  color: #333;
-  background-color: #f6f6f6;
-  border-bottom: 2px solid #ddd;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
 
-.section-title:before,
-.section-title:after {
-  content: "";
-  display: block;
-  width: 50px;
-  height: 2px;
-  background-color: #333;
-  margin: 10px 0;
-}
+    .section-title {
+        font-size: 22px;
+        font-weight: bold;
+        text-align: left;
+        color: #333;
+        background-color: #f6f6f6;
+        border-bottom: 2px solid #ddd;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+        .section-title:before,
+        .section-title:after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 2px;
+            background-color: #333;
+            margin: 10px 0;
+        }
+
+    .discount-label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #e74c3c;
+        color: #fff;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 3px;
+    }
+
+        .discount-label span {
+            display: inline-block;
+            transform: skewX(-15deg);
+        }
 </style>
 @ViewBag.accountId
 
@@ -94,7 +108,7 @@
     <!-- Slider -->
     <div class="block-slider block-slider4">
         <ul class="" id="bxslider-home4">
-                     
+
             @await Html.PartialAsync("_Partial_Banner_Images",banneViews)
         </ul>
     </div>
@@ -159,8 +173,21 @@
                 {
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="single-product">
-                            <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
-                               <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
+                            <div class="product-f-image" style="display: flex; justify-content: center; align-items: center; position: relative;">
+                                <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
+                                @* tinh % giam gia *@
+                                @if(item.Discount > 0)
+                                {
+                                    //format discount
+                                        decimal discount = 0;
+                                        discount = (item.Price - item.Discount) / item.Price * 100;
+                                        discount = Math.Round(discount);
+                                    //format discount
+                                    <div class="discount-label">
+                                        <span>Giảm @discount%</span>
+                                    </div>
+                                }
+                                @* tinh % giam gia *@
 
                                 <div class="product-hover">
                                     <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
@@ -172,39 +199,23 @@
                                 <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
                             </div>
 
-                            <div class="product-carousel-price" style="color:red">Đã bán: @item.Quantity_Purchase</div>
+                            <div class="product-carousel-price" style="color:blue">Đã bán: @item.Quantity_Purchase</div>
                             <div class="product-carousel-price">
-
-
                                 @{
                                     if (item.Discount == 0 || item.Discount == null || item.Discount is string)
                                     {
-                                        <ins>
+                                        <ins style="color:red">
                                             @{
-
-
-
-
-
-
                                                 string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
-
                                             }
                                             @formattedPrice
                                         </ins>
                                     }
                                     else
                                     {
-                                        <ins>
+                                        <ins style="color:red">
                                             @{
-
-
-
-
-
                                                 string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
-
-
                                             }
                                             @formattedPrice
                                         </ins>
@@ -215,24 +226,11 @@
                                     string formattedPrice2;
                                     if (item.Discount > 0)
                                     {
-
-
                                         formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
                                         <del>@formattedPrice2</del>
                                     }
-
-
-
                                 }
-
-
-
-
-
-
                             </div>
-                           
-
                         </div>
                     </div>
                 }
@@ -257,16 +255,28 @@
 
             @if (Model != null)
             {
-               
+
                 foreach (var item in Model)
                 {
-                    
+
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="single-product" style="padding-top:30px">
                             <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
                                 @*                                         <img src="~/User/img/product-1.jpg" alt="">
                         *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
-
+                                @* tinh % giam gia *@
+                                @if (item.Discount > 0)
+                                {
+                                    //format discount
+                                    decimal discount = 0;
+                                    discount = (item.Price - item.Discount) / item.Price * 100;
+                                    discount = Math.Round(discount);
+                                    //format discount
+                                    <div class="discount-label">
+                                        <span>Giảm @discount%</span>
+                                    </div>
+                                }
+                                @* tinh % giam gia *@
                                 <div class="product-hover">
                                     <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
                                     <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
@@ -281,7 +291,7 @@
                                 @{
                                     if (item.Discount == 0 || item.Discount == null || item.Discount is string)
                                     {
-                                        <ins>
+                                        <ins style="color:red">
                                             @{
 
 
@@ -297,7 +307,7 @@
                                     }
                                     else
                                     {
-                                        <ins>
+                                        <ins style="color:red">
                                             @{
 
 
@@ -337,26 +347,21 @@
 
                                 </del>
                             </div>
-                          
+
                         </div>
                     </div>
 
                 }
-               
+
             }
-           
+
             <!-- Các sản phẩm tiếp theo -->
         </div>
-       
-     
+
+
     </div>
-   
+
 </div> <!--Tat ca san pham -->
-
-
-
-
-
 @section Scripts{
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
@@ -364,36 +369,36 @@
             $('body').on('click', '.confirmAdd', function () {
                 var id = $(this).data('id');
 
-               
 
-              
 
-                    $.ajax({
 
-                        url: '/Cart/Add',
-                        type: 'post',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                                alert("Thêm thành công");
-                               
-                                location.reload();
-                            }
+
+                $.ajax({
+
+                    url: '/Cart/Add',
+                    type: 'post',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("Thêm thành công");
+
+                            location.reload();
                         }
+                    }
 
-                    });
+                });
 
-               
+
             });
 
-            
+
         });
     </script>
 
-   
-    
-   
-   
+
+
+
+
 
 
 }

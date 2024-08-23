@@ -44,6 +44,8 @@ namespace PhoneShop.ModelViews
 
         public int? Quantity_Purchase { get; set; }
 
+        public double Rating { get; set; }
+
         public int Create_Id { get; set; }
 
         public bool Status { get; set; }

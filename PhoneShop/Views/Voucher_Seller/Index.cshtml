@@ -81,7 +81,15 @@
                                     @Html.DisplayFor(modelItem => item.Quantity)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.IsActive)
+                                    @if(item.IsActive == true)
+                                    {
+                                        <a class="UpdateStatus" data-id="@item.Id"><i class="fas fa-check-square fa-lg" style="color: #3a74d9;"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a class="UpdateStatus" data-id="@item.Id"><i class="fas fa-window-close fa-lg" style="color: #d41629;"></i></a>
+
+                                    }
                                 </td>
                                 <td>
                                     <a class="btnDelete" data-id="@item.Id">
@@ -148,13 +156,13 @@
         });
     </script>
 
-   
+    
     <script>
         $(document).ready(function () {
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("ban muoon xoa chua");
+                var conf = confirm("Xác nhận xóa voucher");
 
                 if (conf == true) {
 
@@ -166,6 +174,38 @@
                         success: function (rs) {
                             if (rs.success) {
                                 $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.UpdateStatus', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Cập nhật voucher");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Voucher_Seller/UpdateStatus',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else{
+                                alert("Lỗi không thể xóa");
                                 location.reload();
                             }
                         }

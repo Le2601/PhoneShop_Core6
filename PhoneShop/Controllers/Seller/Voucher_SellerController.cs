@@ -90,5 +90,33 @@ namespace PhoneShop.Controllers.Seller
 
             return RedirectToAction("Index", "Voucher_Seller");
         }
+
+
+        [HttpPost]
+        public IActionResult UpdateStatus(int id)
+        {
+
+            var checkVoucher = _context.Vouchers.Where(x=> x.Id == id).First();
+
+            if(checkVoucher == null)
+            {
+                return Json(new { success = false });
+            }
+            if (checkVoucher.IsActive == true)
+            {
+                checkVoucher.IsActive = false;
+               
+            }
+            else
+            {
+                checkVoucher.IsActive = true;
+                
+            }
+            _context.Vouchers.Update(checkVoucher);
+            _context.SaveChanges();
+
+
+            return Json(new { success = true });
+        }
     }
 }

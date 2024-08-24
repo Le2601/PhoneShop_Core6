@@ -53,16 +53,16 @@
                             <tr id="trow_@i.Id">
                                 <td>@(index++)</td>
                                 <td>
-                                    <a href="/Product_Seller/Detail_Product_Seller/@i.Id">@i.Title</a>
+                                    <p>@i.Title</p>
                                 </td>
                                 <td>
                                     @if(i.IsActive == true)
                                     {
-                                        <p style="text-align:center"><i class="fas fa-check" style="color: #2268e2;"></i></p>
+                                        <a class="UpdateActive" data-id="@i.Id" style="text-align:center"><i class="fas fa-check" style="color: #2268e2;"></i></a>
                                     }
                                     else
                                     {
-                                        <p style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></p>
+                                        <a class="UpdateActive" data-id="@i.Id" style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></a>
                                         
                                     }
                                 </td>
@@ -82,12 +82,16 @@
                                         <img src="~/images/Product/@i.ImageDefaultName" width="100" height="100" style="border: solid 1px " />
                                     </a>
                                 </td>
-                                <td> @PhoneShop.Extension.Extension.ToVnd((double)i.Price)</td>
-                                <td> @PhoneShop.Extension.Extension.ToVnd((double)i.Discount)</td>
-                                <td> @i.Category.Title</td>
+                                <td style="color:red"> @PhoneShop.Extension.Extension.ToVnd((double)i.Price)</td>
+                                <td style="color:orange"> @PhoneShop.Extension.Extension.ToVnd((double)i.Discount)</td>
+                                <td><img width="100" height="100" src="~/images//Category/@i.Category.Image"></td>
                                 <td>@i.Quantity</td>
-                                <td><a class="btnDelete" data-id="@i.Id"><i class="fas fa-trash-alt" style="color: #d11f43;"></i>
-                                    </a> <br> <a href="/Product_Seller/Edit/@i.Id"><i class="fas fa-edit" style="color: #3070df;"></i></a>
+                                <td>
+                                    <a href="/Product_Seller/Detail_Product_Seller/@i.Id"> <i class="fas fa-eye fa-lg" style="color: #74C0FC;"></i></a>
+                                    <a href="/Product_Seller/Edit/@i.Id"><i class="fas fa-edit fa-lg" style="color: #FFD43B;"></i></a>
+                                    <a class="btnDelete" data-id="@i.Id">
+                                        <i class="far fa-trash-alt fa-lg" style="color: #f70808;"></i>
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -150,21 +154,7 @@
             });
         });
     </script>
-   @*  <script>
-        $(function () {
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
-            $('.swalDefaultSuccess').click(function () {
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-                })
-            });
-    </script> *@
+
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
@@ -213,6 +203,38 @@
                         success: function (rs) {
                             if (rs.success) {
                                 $('trow_' + id).remove();
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.UpdateActive', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Cập nhật trạng thái");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Voucher_Seller/UpdateActive',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi không thể xóa");
                                 location.reload();
                             }
                         }

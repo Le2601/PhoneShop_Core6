@@ -57,8 +57,17 @@ namespace PhoneShop.Controllers.Seller
 
             var GetBooth = _context.Booth_Information.Where(x=> x.AccountId == AccountId).FirstOrDefault()!;
 
+            //check gia tien
+            int CheckPrice = ValidatePrice(model.InputPrice, model.Price, model.Discount);
+            if (CheckPrice == 0)
+            {
+                TempData["CheckPrice"] = "Giá tiền không được chấp nhận!";
+                return View(model);
+            }
+
             //kiem tra neu trung ten
             var CheckTitle = _productRepository.CheckTitleCreate(model.Title);
+
             if (CheckTitle == 0)
             {
                 
@@ -103,7 +112,7 @@ namespace PhoneShop.Controllers.Seller
                             model.Booth_InformationId = GetBooth.Id;
                             model.IsApproved = false;
 
-
+                            
 
                             var CreateProduct = _productRepository.Create(model);
                             GetIdProduct = CreateProduct;
@@ -461,6 +470,56 @@ namespace PhoneShop.Controllers.Seller
             ViewBag.GetQuestionsProduct = _context.ProductQuestions.Where(x=> x.ProductId == item.Id).ToList();
 
             return View(item);
+        }
+
+
+        [HttpPost]
+        public IActionResult UpdateActive(int id)
+        {
+
+            var checkActive = _context.Products.Where(x => x.Id == id).First();
+
+            if (checkActive == null)
+            {
+                return Json(new { success = false });
+            }
+            if (checkActive.IsActive == true)
+            {
+                checkActive.IsActive = false;
+
+            }
+            else
+            {
+                checkActive.IsActive = true;
+
+            }
+            _context.Products.Update(checkActive);
+            _context.SaveChanges();
+
+
+            return Json(new { success = true });
+        }
+
+        public static int ValidatePrice(decimal PriceInput, decimal Price, decimal Discount)
+        {
+
+            if(PriceInput > Price && PriceInput > Discount)
+            {
+                return 0;
+            }
+            else if (Discount >=  Price)
+            {
+                return 0;
+            }         
+            else
+            {
+                return 1;
+            }
+
+            
+
+
+            
         }
     }
 }

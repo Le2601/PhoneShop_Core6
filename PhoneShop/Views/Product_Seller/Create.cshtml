@@ -6,6 +6,19 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
 <style>
+    .form-group.d-flex {
+        display: flex !important;
+        align-items: center;
+    }
+
+        .form-group.d-flex p {
+            margin-bottom: 0;
+            margin-right: 0.5rem;
+        }
+
+        .form-group.d-flex .price-display {
+            flex: 1;
+        }
     .price-input-wrapper {
         display: flex;
         align-items: center;
@@ -59,13 +72,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Title"  class="control-label"></label>
+                        <label asp-for="Title" class="control-label"></label><span class="text-danger">*</span>
                         <input asp-for="Title" class="form-control" />
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Description" class="control-label">Nội dung</label>
+                        <label asp-for="Description" class="control-label">Nội dung</label><span class="text-danger">*</span>
 
                         @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @placeholder = "Nội dung", @id = "summernote" })
                         @Html.ValidationMessageFor(x => x.Description, null, new { @class = "text-danger" })
@@ -73,34 +86,45 @@
 
 
                     <div class="form-group">
-                        <label asp-for="InputPrice"  class="control-label"></label>
-                        <input asp-for="InputPrice" id="InputPrice" class="form-control" />
+                        <label asp-for="InputPrice" class="control-label"></label><span class="text-danger">*</span>
+                        <input asp-for="InputPrice"  id="InputPrice" class="form-control" />
                         <span asp-validation-for="Price" class="text-danger"></span>
-                        <input type="text" id="PriceDisplay" class="price-display" readonly />
+                        <div class="form-group d-flex align-items-center">
+                            <p class="mb-0 mr-2">Tiền tệ VN:</p>
+                            <input type="text" id="InputPriceDisplay" class="form-control price-display" readonly />
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Price" class="control-label"></label>
+                        <label asp-for="Price" class="control-label"></label><span class="text-danger">*</span>
                         <input asp-for="Price"  class="form-control" />
                         <span asp-validation-for="Price" class="text-danger"></span>
+                        <div class="form-group d-flex align-items-center">
+                            <p class="mb-0 mr-2">Tiền tệ VN:</p>
+                            <input type="text" id="PriceDisplay" class="form-control price-display" readonly />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Discount"  class="control-label"></label>
                         <input asp-for="Discount" value="0" id="Discount" class="form-control" />
                         <span asp-validation-for="Discount" class="text-danger"></span>
+                        <div class="form-group d-flex align-items-center">
+                            <p class="mb-0 mr-2">Tiền tệ VN:</p>
+                            <input type="text" id="DiscountDisplay" class="form-control price-display" readonly />
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Quantity" class="control-label">Số lượng</label>
+                        <label asp-for="Quantity" class="control-label">Số lượng</label><span class="text-danger">*</span>
                         <input asp-for="Quantity" class="form-control" />
                         @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
-                        <label asp-for="CategoryId" class="control-label">Hãng</label>
+                        <label asp-for="CategoryId" class="control-label">Hãng</label><span class="text-danger">*</span>
                         <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
                     </div>
              
                     <div class="form-group">
-                        <label for="exampleInputFile">File input</label>
+                        <label for="exampleInputFile">File input</label><span class="text-danger">*</span>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="file" name="files" class="form-control custom-file-input" id="fileInput" multiple>
@@ -119,12 +143,12 @@
 
 
                     <div class="form-group">
-                        <label class="control-label">Màn hình</label>
+                        <label class="control-label">Màn hình</label><span class="text-danger">*</span>
                         <input name="Display" class="form-control" required />
 
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Hệ điều hành</label>
+                        <label class="control-label">Hệ điều hành</label><span class="text-danger">*</span>
                         <input name="OperatingSystem" class="form-control" />
 
                     </div>
@@ -201,9 +225,21 @@
     </script>
     <script>
         const priceInput = document.getElementById('InputPrice');
-        const priceDisplay = document.getElementById('PriceDisplay');
+        const priceInputDisplay = document.getElementById('InputPriceDisplay');
 
         priceInput.addEventListener('input', function () {
+            // Loại bỏ tất cả ký tự không phải số
+            let numericValue = this.value.replace(/\D/g, '');
+
+            // Định dạng lại giá trị theo định dạng tiền tệ VND
+            priceInputDisplay.value = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(numericValue);
+        });
+    </script>
+    <script>
+        const price = document.getElementById('Price');
+        const priceDisplay = document.getElementById('PriceDisplay');
+
+        price.addEventListener('input', function () {
             // Loại bỏ tất cả ký tự không phải số
             let numericValue = this.value.replace(/\D/g, '');
 
@@ -211,25 +247,19 @@
             priceDisplay.value = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(numericValue);
         });
     </script>
+    <script>
+        const Discount = document.getElementById('Discount');
+        const DiscountDisplay = document.getElementById('DiscountDisplay');
 
- @*    <script>
-        document.getElementById('PriceInput').addEventListener('input', function () {
+        Discount.addEventListener('input', function () {
             // Loại bỏ tất cả ký tự không phải số
             let numericValue = this.value.replace(/\D/g, '');
 
             // Định dạng lại giá trị theo định dạng tiền tệ VND
-            this.value = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(numericValue);
+            DiscountDisplay.value = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(numericValue);
         });
     </script>
-    <script>
-        document.getElementById('Price').addEventListener('input', function () {
-            this.value = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(this.value.replace(/[^0-9]/g, ''));
-        });
-    </script>
-    <script>
-        document.getElementById('Discount').addEventListener('input', function () {
-            this.value = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(this.value.replace(/[^0-9]/g, ''));
-        });
-    </script> *@
+
+
 }
 

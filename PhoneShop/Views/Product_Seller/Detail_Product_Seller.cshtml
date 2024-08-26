@@ -5,9 +5,102 @@
     ViewData["Title"] = "Detail_Product_Seller";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
     List<ImageProduct> ListImageByProduct = ViewBag.GetListImage;
-    List<ProductQuestions> ListQuestions = ViewBag.GetQuestionsProduct;
+    List<Review_Product> ListReview = ViewBag.GetReviewProduct;
+    specifications Specifications = ViewBag.specifications;
 }
 <style>
+
+    .star-container {
+        font-size: 24px; /* Kích thước của sao */
+    }
+
+    .filled {
+        color: gold; /* Màu cho sao đầy */
+    }
+
+    .half-filled {
+        color: gold; /* Màu cho sao nửa */
+    }
+
+    /* Sao rỗng (nếu cần) */
+    .star-container .fa-star-o {
+        color: lightgray; /* Màu cho sao rỗng */
+    }
+    .review-card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .review-stars .star {
+        color: #ffa500;
+        font-size: 20px;
+    }
+
+    .review-date {
+        font-size: 14px;
+        color: #aaa;
+    }
+
+    .review-content {
+        margin-bottom: 10px;
+    }
+
+    .review-author {
+        font-size: 14px;
+        font-style: italic;
+        text-align: right;
+    }
+    .tab-container {
+        margin: 20px 0;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        padding: 10px;
+    }
+
+    /* Style cho các nút tab */
+    .tab-menu {
+        display: flex;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .tab-menu button {
+            background-color: #f1f1f1;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            outline: none;
+            font-size: 16px;
+            flex: 1;
+        }
+
+            .tab-menu button:hover {
+                background-color: #ddd;
+            }
+
+            .tab-menu button.active {
+                background-color: white;
+                border-bottom: 2px solid #007BFF;
+            }
+
+    /* Style cho nội dung tab */
+    .tab-content {
+        display: none;
+        padding: 15px;
+    }
+
+        .tab-content.active {
+            display: block;
+        }
     .post {
         border: 1px solid #ddd;
         border-radius: 5px;
@@ -45,6 +138,7 @@
         line-height: 1.5;
     }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <section class="content">
 
@@ -89,9 +183,39 @@
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     
-                                <h4 class="my-3">Danh mục: @Model.Category.Title</h4>
+                                <h4 class="my-3">@Model.Category.Title</h4>
                                 <h5 class="my-3">Ngày đăng: @Model.Create_at</h5>
+                                
+                                    @if (ViewBag.AverageRatingPrd > 0)
+                                    {
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Math.Floor(ViewBag.AverageRatingPrd))
+                                            {
+                                                <i class="fa fa-star filled"></i> <!-- Sao đầy -->
+                                            }
+                                            else if (i == Math.Ceiling(ViewBag.AverageRatingPrd))
+                                            {
+                                                <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
+                                            }
+                                        }
+                                        <a style="text-decoration:none">@ViewBag.AverageRating/5</a>
+                                    }
+                                    else
+                                    {
 
+                                        <i class="fa fa-star filled"></i>
+
+                                        <a style="text-decoration:none">1/5</a>
+
+
+                                    }
+                               
+                               
 
 
 
@@ -108,79 +232,119 @@
                                     </h4>
                                     </div>
 
+                                
                                     
                                     <div class="mt-4 product-share">
-                                        <a href="#" class="text-gray">
-                                            <i class="fab fa-facebook-square fa-2x"></i>
-                                        </a>
-                                        <a href="#" class="text-gray">
-                                            <i class="fab fa-twitter-square fa-2x"></i>
-                                        </a>
-                                        <a href="#" class="text-gray">
-                                            <i class="fas fa-envelope-square fa-2x"></i>
-                                        </a>
-                                        <a href="#" class="text-gray">
-                                            <i class="fas fa-rss-square fa-2x"></i>
-                                        </a>
+                                       <p>Đã Bán: </p>
+                                       <p>Tồn Kho: @Model.Quantity</p>
                                     </div>
 
                                 </div>
                             </div>
                             <div class="row mt-4">
-                                <nav class="w-100">
-                                    <div class="nav nav-tabs" id="product-tab" role="tablist">
-                                        <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Mô tả</a>
-                                        <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Bình luận đánh giá</a>
-                                        <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Thông số</a>
-                                    </div>
-                                </nav>
-                                <div class="tab-content p-3" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">@Html.Raw(Model.Description)</div>
-                                <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab" >
-                                   
+
+                            <div class="tab-container">
+                                <div class="tab-menu" >
+                                    <button class="tab-link active" onclick="openTab(event, 'Description')">Mô Tả</button>
+                                    <button class="tab-link" onclick="openTab(event, 'Comments')">Thông Số Kỹ Thuật</button>
+                                    <button class="tab-link" onclick="openTab(event, 'Rating')">Đánh Giá</button>
+                                </div>
+
+                                <div style="width:1191px;min-height:500px" id="Description" class="tab-content active">
+
+                                    @Html.Raw(Model.Description)
+
+                                </div>
+
+                                <div style="width:1191px;min-height:500px" id="Comments" class="tab-content">
                                     
-                                    @foreach (var item in ListQuestions)
+
+                                    <table>
+                                      
+                                        <tr>
+                                            <th>Màn hình</th>
+                                            <td>@Specifications.Display</td>
+                                        </tr>
+                                       
+                                        <tr>
+                                            <th>RAM</th>
+                                            <td>@Specifications.RandomAccessMemory</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Bộ nhớ trong</th>
+                                            <td>@Specifications.InternalStorage</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Camera</th>
+                                            <td>@Specifications.Camera</td>
+                                        </tr>
+                                     
+                                        <tr>
+                                            <th>Pin</th>
+                                            <td>@Specifications.Battery</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Kết nối</th>
+                                            <td>@Specifications.Connectivity</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Hệ điều hành</th>
+                                            <td>@Specifications.OperatingSystem</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Kích thước và trọng lượng</th>
+                                            <td>@Specifications.DimensionsAndeight</td>
+                                        </tr>
+                                        
+                                    </table>
+
+                                </div>
+
+                                <div style="width:1191px;min-height:500px" id="Rating" class="tab-content">
+
+                                   @foreach (var item in ListReview)
                                     {
-                                        <div class="post">
-                                            <div class="user-block">
-                                                <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                                                <p class="username">
-                                                    <a style="color:black" href="#">@item.UserName <br>@item.UserEmail</a>
-                                                </p>
-                                                <span class="description">@item.CreateAt.ToString("dd/MM/yyyy")</span>
+                                        <div class="review-card">
+                                            <div class="review-header">
+                                                <div class="review-stars">
+
+                                                   @for (int i = 0; i < item.Rate; i++)
+                                                    {
+                                                        <span class="star">&#9733;</span>
+                                                    }
+
+                                                </div>
+                                                <div class="review-date">@item.Create_At</div>
                                             </div>
-                                            <!-- /.user-block -->
-                                            <p>
-                                                @item.Content
-                                            </p>
-
-
+                                            <div class="review-content">
+                                                <p>@item.Comments.</p>
+                                            </div>
+                                            <div class="review-author">- @item.Account.FullName</div>
                                         </div>
                                     }
 
 
-
-
                                 </div>
-                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
+                            </div>
 
-
-                                </div>
-
+                             </div>   
                            
                         </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
-
+                   
+                   
                 </section>
                 <!-- /.content -->
+                
+            
+         </div>
+ </section>
 
 
-          
 
 
-</div></div></section>
 @section scripts_SellerHome{
     <!-- AdminLTE App -->
     <script src="~/clients/dist/js/adminlte.min.js"></script>
@@ -194,6 +358,28 @@
                 $(this).addClass('active')
             })
         })
+    </script>
+    <script>
+        function openTab(evt, tabName) {
+            // Ẩn tất cả nội dung tab
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            // Xóa class "active" khỏi tất cả các nút tab
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            // Hiển thị nội dung tab được chọn và thêm class "active" cho nút tab tương ứng
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
     </script>
 
    

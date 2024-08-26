@@ -458,6 +458,7 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult Detail_Product_Seller(int Id)
         {
             var item = _context.Products.Where(x=> x.Id == Id).FirstOrDefault();
+           
 
             if (item == null)
             {
@@ -467,7 +468,14 @@ namespace PhoneShop.Controllers.Seller
             ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
             ViewBag.GetListImage = _context.ImageProducts.Where(x=> x.ProductId == Id).ToList();
 
-            ViewBag.GetQuestionsProduct = _context.ProductQuestions.Where(x=> x.ProductId == item.Id).ToList();
+            ViewBag.GetReviewProduct = _context.Review_Products.Where(x=> x.ProductId == item.Id).ToList();
+
+            ViewBag.specifications = _context.specifications.Where(x => x.ProductId == Id).FirstOrDefault();
+            ViewBag.Account = new SelectList(_context.Accounts.ToList(), "Id", "FullName");
+
+            ViewBag.AverageRatingPrd = PhoneShop.Controllers.BaseController.AverageRatingPrd(_context, Id);
+
+
 
             return View(item);
         }

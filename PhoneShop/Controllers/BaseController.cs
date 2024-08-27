@@ -22,6 +22,12 @@ namespace PhoneShop.Controllers
 {
     public class BaseController : Controller
     {
+        private readonly ShopPhoneDbContext _context;
+        public BaseController(ShopPhoneDbContext shopPhoneDbContext)
+        {
+
+            _context = shopPhoneDbContext;
+        }
        
         public IActionResult Index()
         {
@@ -54,6 +60,16 @@ namespace PhoneShop.Controllers
 
 
             return AverageRating;
+        }
+
+        [Route("ngocle.html")]
+        public IActionResult ngocle()
+        {
+            var items = _context.Products
+                .Where(x => x.Discount > 0)
+                .OrderByDescending(x => (x.Price - x.Discount) / x.Price * 100)
+                .ToList();
+            return Json(items);
         }
 
     }

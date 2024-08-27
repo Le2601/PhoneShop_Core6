@@ -18,33 +18,75 @@
 
  
 </style>
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thống kê</a>
+        </li>
+    </ul>
+}
+<br />
+<!-- Main content -->
+<section class="content">
 
-<div class="container">
-    <div style="width: 600px; height: 400px; margin: auto;">
-        <canvas id="orderStatusChart"></canvas>
-    </div>
+    <div class="col-">
 
 
 
-<div>
-    <p>Thống kê phương thức thanh toán</p>
-        @foreach (var item in DbListPaymentMethod)
-        {
-            if(item.PaymentMethod == 1)
-            {
-                <p>Thanh toán khi nhận hàng: @item.CountPaymentOr</p>
-            }
-            else if (item.PaymentMethod == 2)
-            {
-                <p>Thanh toán trực tuyến VnPay: @item.CountPaymentOr</p>
-            }
-            else
-            {
-                <p>Thanh toán trực tuyến MoMo: @item.CountPaymentOr</p>
-            }
-        }
-</div>
-</div>
+        <!-- Main content -->
+        <div class="invoice p-3 mb-3">
+
+            <!-- /.row -->
+            <h3 class="text-center mb-3">Thống Kê Đơn Hàng </h3>
+            
+            <div style="width: 600px; height: 400px; margin: auto;">
+                <canvas id="orderStatusChart"></canvas>
+            </div>
+            <!-- Table row -->
+            <div class="row">
+                <div>
+                   
+                    @foreach (var item in DbListPaymentMethod)
+                    {
+                        if (item.PaymentMethod == 1)
+                        {
+                            <p>Thanh toán khi nhận hàng: @item.CountPaymentOr</p>
+                        }
+                        else if (item.PaymentMethod == 2)
+                        {
+                            <p>Thanh toán trực tuyến VnPay: @item.CountPaymentOr</p>
+                        }
+                        else
+                        {
+                            <p>Thanh toán trực tuyến MoMo: @item.CountPaymentOr</p>
+                        }
+                    }
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+
+
+        </div>
+        <!-- /.invoice -->
+    </div><!-- /.col -->
+
+
+
+</section>
+
+
+
+
+
 @section scripts_SellerHome{
     <script>
         const ctx = document.getElementById('orderStatusChart').getContext('2d');

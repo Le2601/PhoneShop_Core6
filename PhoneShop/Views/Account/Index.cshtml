@@ -3,17 +3,47 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
+<style>
+  
+</style>
 
 <form asp-action="Create" asp-controller="Account" method="post" >
-    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng ký</h1>
+    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng Ký</h1>
     
 
-    <input type="text" id="user-name" class="form-control" required placeholder="Nhập tên" required="" autofocus="" name="FullName">
-    <input type="text" id="user-email" class="form-control" placeholder="Nhập Email" required autofocus="" name="Email">
-    <input type="password" id="user-pass" class="form-control" placeholder="Nhập mật khẩu" required autofocus="" name="Password">
-    <input type="password" id="user-pass" class="form-control" placeholder="Xác nhận lại mật khẩu" required autofocus="" name="ComfirmPass">
+@*     <input type="text" id="user-name" class="form-control" required placeholder="Nhập họ và tên (Bắt buộc)" autofocus="" name="FullName">
+    <input type="text" id="user-email" class="form-control" placeholder="Nhập Email (Bắt buộc)" required autofocus="" name="Email">
+    <input type="password" id="user-pass" class="form-control" placeholder="Nhập mật khẩu (Bắt buộc)" required autofocus="" name="Password">
+    <i style="color:red">(*) Mật khẩu tối thiểu 6 ký tự (VD: 123456)</i>
+    <input type="password" id="user-pass" class="form-control" placeholder="Nhập lại mật khẩu (Bắt buộc)" required autofocus="" name="ComfirmPass">
 
-    <input type="text" id="user-repeatpass" class="form-control" placeholder="Nhập số điện thoại" required autofocus="" name="Phone">
+    <input type="text" id="user-repeatpass" class="form-control" placeholder="Nhập số điện thoại (Bắt buộc)" required autofocus="" name="Phone"> *@
+
+
+   
+    <div class="form-group">
+        <input type="text" id="FullName" required placeholder=" " name="FullName">
+        <label style="color:#c1c1d7" for="FullName">Nhập họ và tên (*)</label>
+    </div>
+    <div class="form-group">
+        <input type="text" id="Email" required placeholder=" " name="Email">
+        <label style="color:#c1c1d7" for="Email">Nhập Email (*)</label>
+    </div>
+    <div class="form-group">
+        <input type="text" id="Password" required placeholder=" " name="Password">
+        <label style="color:#c1c1d7" for="Password">Nhập mật khẩu (*)</label>
+        <i style="color:red">(*) Mật khẩu tối thiểu 6 ký tự (VD: 123456)</i>
+
+    </div>
+    <div class="form-group">
+        <input type="text" id="ComfirmPass" required placeholder=" " name="ComfirmPass">
+        <label style="color:#c1c1d7" for="ComfirmPass">Nhập lại mật khẩu (*)</label>
+    </div>
+    <div class="form-group">
+        <input type="text" id="phone" required placeholder=" " name="Phone">
+        <label style="color:#c1c1d7" for="phone">Nhập số điện thoại (*)</label>
+    </div>
+   
     <label style="color:red">
     
             <div class="error-message">

@@ -24,12 +24,45 @@
             font-family: Arial, sans-serif;
         }
 
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+            .form-group input {
+                width: 100%;
+                padding: 10px 0;
+                font-size: 16px;
+                border: none;
+                border-bottom: 2px solid silver;
+                outline: none;
+                background: transparent;
+            }
+
+            .form-group label {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 10px 0;
+                font-size: 16px;
+                color: black;
+                pointer-events: none;
+                transition: 0.3s ease all;
+            }
+
+            .form-group input:focus ~ label,
+            .form-group input:not(:placeholder-shown) ~ label {
+                top: -20px;
+                font-size: 12px;
+                color: red;
+            }
+
         /* Header styles */
         header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: none repeat scroll 0 0 #d7f9fa;
+            background: none repeat scroll 0 0 #5a88ca;
             color: #fff;
             padding: 10px 20px;
         }
@@ -92,11 +125,11 @@
 <body>
     <header>
         <div class="logo">
-            <a href="~/"><h3 style="color:#333333"> PhoneShop</h3></a>
+            <a href="~/"><h3 style="color:white"> PhoneShop</h3></a>
         </div>
         <nav>
             <ul>
-                <li><a style="color:#333333" href="#">Bạn cần hỗ trợ gì?</a></li>
+                <li><a style="color:white" href="#">Bạn cần hỗ trợ gì?</a></li>
        
             </ul>
         </nav>

@@ -7,14 +7,24 @@
 
 <form class="form-signin" asp-action="Login" asp-controller="Account" method="post" autocomplete="off">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng nhập</h1>
+    <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Đăng Nhập</h1>
     <div class="social-login">
         <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i>Đăng nhập với Facebook</span> </button>
         <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i>Đăng nhập với Google+</span> </button>
     </div>
     <p style="text-align:center"> Hoặc    </p>
-    <input type="text" id="inputEmail" value="lenhi@gmail.com" name="Email" class="form-control" placeholder="Email/Sô điện thoại/Tên đăng nhập"  autofocus="">
-    <input type="password" id="inputPassword" value="123456" name="Password" class="form-control" placeholder="Password" required="">
+   @*  <input type="text" id="inputEmail" value="lenhi@gmail.com" name="Email" class="form-control" placeholder="Email/Sô điện thoại/Tên đăng nhập"  autofocus="">
+    <input type="password" id="inputPassword" value="123456" name="Password" class="form-control" placeholder="Password" required=""> *@
+
+    <div class="form-group">
+        <input type="text" id="FullName" required placeholder=" " value="lenhi@gmail.com" name="Email">
+        <label style="color:#c1c1d7" for="FullName">Email Đăng Nhập</label>
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="FullName" required placeholder=" " value="123456" name="Password">
+        <label style="color:#c1c1d7" for="FullName">Mật Khẩu</label>
+    </div>
 
     <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i>Đăng nhập</button>
     <label style="color:red">

@@ -17,6 +17,7 @@
     List<BannerViewModel> banneViews = ViewBag.ListBanner;
 
 
+    List<Product> ListDiscountProduct = ViewBag.ListDiscountProduct;
 
     // List<ProductViewModel> IsSelling_Products  = ViewBag.Selling_Products;
 
@@ -156,6 +157,8 @@
 
 @await Html.PartialAsync("_Partial_NewProducts_Home",New_Product)
 
+@await Html.PartialAsync("_Partial_DiscountProducts_Home",ListDiscountProduct)
+
 
 <div class="product-widget-area">
     <div class="zigzag-bottom"></div>
@@ -172,7 +175,7 @@
                 foreach (var item in List_Selling)
                 {
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <div class="single-product">
+                        <div class="single-product" style="padding-bottom:10px">
                             <div class="product-f-image" style="display: flex; justify-content: center; align-items: center; position: relative;">
                                 <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
                                 @* tinh % giam gia *@
@@ -233,7 +236,9 @@
                             </div>
                         </div>
                     </div>
+                   
                 }
+               
             }
 
             <!-- Các sản phẩm tiếp theo -->

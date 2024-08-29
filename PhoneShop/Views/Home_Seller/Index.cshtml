@@ -47,7 +47,16 @@
 
     <div class="col-12">
         <div class="callout callout-info">
-            <h5><i class="fas fa-info"></i> Ghi Chú:</h5>
+            @if (ViewBag.OrderNotifi > 0)
+            {
+                <h5><i class="fas fa-info"></i>Ghi Chú: <span style="color:blue">Có @ViewBag.OrderNotifi Đơn Hàng Chưa Được Phê Duyệt</span></h5>
+
+            }
+            else
+            {
+                <h5><i class="fas fa-info"></i>Ghi Chú: <span style="color:blue">Hiện Chưa Có Đơn Hàng Nào Cần Phê Duyệt</span></h5>
+
+            }
             <address>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div style="display: flex; align-items: center;">

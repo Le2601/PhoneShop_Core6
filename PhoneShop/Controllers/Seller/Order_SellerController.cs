@@ -85,7 +85,7 @@ namespace PhoneShop.Controllers.Seller
 
 
 
-                        }).ToList();
+                        }).OrderByDescending(x=> x.Date_Purchase).ToList();
             return View(demo);
         }
 

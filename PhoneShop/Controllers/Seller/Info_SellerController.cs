@@ -40,7 +40,7 @@ namespace PhoneShop.Controllers.Seller
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
-            if (AccountId == null)
+            if (AccountId == 0)
             {
                 return RedirectToAction("Index", "Home");
             }   

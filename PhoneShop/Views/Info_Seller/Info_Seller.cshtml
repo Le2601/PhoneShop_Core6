@@ -3,30 +3,132 @@
     ViewData["Title"] = "Info_Seller";
     Layout = "~/Views/Shared/Seller/_InfoSellerLayout.cshtml";
 }
+<style>
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            border: none;
+            border-bottom: 2px solid silver;
+            outline: none;
+            background: transparent;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: black;
+            pointer-events: none;
+            transition: 0.3s ease all;
+        }
+
+        .form-group input:focus ~ label,
+        .form-group input:not(:placeholder-shown) ~ label {
+            top: -20px;
+            font-size: 12px;
+            color: red;
+        }
+
+    .payment-option {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .cod-option {
+        border-left: 5px solid #007bff; /* Màu xanh cho COD */
+    }
+
+    .online-payment-option {
+        border-left: 5px solid #28a745; /* Màu xanh lá cho thanh toán trực tuyến */
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+</style>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
 <link href="~/user/custom/seller/infoseller.css" rel="stylesheet" />
 <form id="regForm" asp-action="Create" asp-controller="Info_Seller" method="post" >
 
-    <h1>Đăng ký gian hàng:</h1>
+    <h1 style="text-align:center">Đăng ký gian hàng:</h1>
 
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
-        Thông tin shop:
-        <p><input type="text" placeholder="Tên gian hàng..." name="ShopName" oninput="this.className = ''"></p>
+        <p> Thông tin shop:</p>
+       @*  <p><input type="text" placeholder="Tên gian hàng..." name="ShopName" oninput="this.className = ''"></p>
         <p><input type="text" placeholder="Email..." name="Email" oninput="this.className = ''"></p>
-        <p><input type="text" placeholder="Số điện thoại..." name="Phone" oninput="this.className = ''"></p>
+        <p><input type="text" placeholder="Số điện thoại..." name="Phone" oninput="this.className = ''"></p> *@
+
+
+        <div class="form-group">
+            <input type="text" id="FullName" required placeholder=" " name="ShopName" oninput="this.className = ''">
+            <label style="color:#c1c1d7" for="FullName">Tên gian hàng... *</label>
+        </div>
+        <div class="form-group">
+            <input type="text" id="FullName" required placeholder=" " name="Email" oninput="this.className = ''">
+            <label style="color:#c1c1d7" for="FullName">Email... *</label>
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="FullName" required placeholder=" " name="Phone" oninput="this.className = ''">
+            <label style="color:#c1c1d7" for="FullName">Phone... *</label>
+        </div>
+
+
     </div>
 
     <div class="tab">
-        Địa chỉ lấy hàng:
-        <p><input type="text" placeholder="Tên người đại diện..." name="FullName" oninput="this.className = ''"></p>
+        <p> Địa chỉ lấy hàng:</p>
+
+        <div class="form-group">
+            <input type="text" id="FullName" required placeholder=" " name="FullName" oninput="this.className = ''">
+            <label style="color:#c1c1d7" for="FullName">Tên người đại diện... *</label>
+        </div>
+        <div class="form-group">
+            <input type="text" id="FullName" required placeholder=" " name="Address" oninput="this.className = ''">
+            <label style="color:#c1c1d7" for="FullName">Địa chỉ... *</label>
+        </div>
+        <div class="form-group">
+            <input type="text" id="FullName" required placeholder=" " name="Address_Detail" oninput="this.className = ''">
+            <label style="color:#c1c1d7" for="FullName">Địa chỉ chi tiết...*</label>
+        </div>
+
+
+       @*  <p><input type="text" placeholder="Tên người đại diện..." name="FullName" oninput="this.className = ''"></p>
         <p><input type="text" placeholder="Địa chỉ..." name="Address" oninput="this.className = ''"></p>
-        <p><input type="text" placeholder="Địa chỉ chi tiết..." name="Address_Detail" oninput="this.className = ''"></p>
+        <p><input type="text" placeholder="Địa chỉ chi tiết..." name="Address_Detail" oninput="this.className = ''"></p> *@
     </div>
 
     <div class="tab">
-        Phương thức thanh toán:
-        <p>
+        <p> Phương thức thanh toán:</p>
+     @*    <p>
             Thanh toán khi nhận hàng
             <select name="COD">
                 Thanh toán khi nhận hàng
@@ -44,7 +146,23 @@
                 <option value="1">Có</option>
                 <option value="0">không</option>
             </select>
-        </p>
+        </p> *@
+
+        <div class="payment-option cod-option">
+            <label for="COD">Thanh toán khi nhận hàng:</label>
+            <select name="COD" id="COD" required>
+                <option value="1" selected>Có</option>
+                <option value="0">Không</option>
+            </select>
+        </div>
+
+        <div class="payment-option online-payment-option">
+            <label for="Online_Payment">Thanh toán trực tuyến:</label>
+            <select name="Online_Payment" id="Online_Payment" required>
+                <option value="1" selected>Có</option>
+                <option value="0">Không</option>
+            </select>
+        </div>
        
     </div>
 
@@ -56,8 +174,8 @@
 
     <div style="overflow:auto;">
         <div style="float:right;">
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Trước</button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Sau</button>
         </div>
     </div>
 

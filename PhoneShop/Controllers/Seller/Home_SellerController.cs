@@ -31,6 +31,27 @@ namespace PhoneShop.Controllers.Seller
             //End check auth cookie and AccountId Session
 
 
+            //var CheckProduct = _context.Products.Where(x => x.Create_Id == AccountId).FirstOrDefault();
+            //if (CheckProduct == null)
+            //{
+
+            //}
+            
+
+            //thong bao don hang
+            ViewBag.OrderNotifi = (
+
+
+                    from p in _context.Products.Where(x=> x.Create_Id == AccountId)
+                    join ord in _context.Order_Details.Where(x=> x.Status_OrderDetail == 0) on p.Id equals ord.ProductId
+                    select new
+                    {
+                        OrdId = ord.Id,
+                    }
+
+
+                ).Count();
+
 
 
             var item_Booth_Information = _context.Booth_Information.Where(x=> x.AccountId == AccountId).FirstOrDefault()!;

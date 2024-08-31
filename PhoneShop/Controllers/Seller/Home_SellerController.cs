@@ -30,13 +30,9 @@ namespace PhoneShop.Controllers.Seller
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
+            string DateNow = DateTime.Now.ToString("yyyy-MM-dd");
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountId);
 
-            //var CheckProduct = _context.Products.Where(x => x.Create_Id == AccountId).FirstOrDefault();
-            //if (CheckProduct == null)
-            //{
-
-            //}
-            
 
             //thong bao don hang
             ViewBag.OrderNotifi = (
@@ -130,7 +126,31 @@ namespace PhoneShop.Controllers.Seller
                     Sold_Quantity += item.Sold_Product;
                 }
                 ViewBag.Sold_Quantity = Sold_Quantity;
-          
+
+            //doanh thu ngay                  
+                    var SelectedDate_Order = ListProduct_Purchase.Where(x => x.Date_Purchase.ToString("yyyy-MM-dd") == DateNow)
+                   .Select(g => new RevenueStatistics
+                   {                    
+                       Date_Purchase = g.Date_Purchase.Date,
+                       TotalRevenue = g.Total_Order_DetailByProduct,
+                       TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice)) - g.Price_Apply_Voucher,
+                     
+                   }).ToList();
+
+                   
+                    var GetData_Chart_SelectedDate = SelectedDate_Order.GroupBy(x => x.Date_Purchase)
+                         .Select(g => new RevenueStatistics_DataViewChart
+                         {
+                             Date_Purchase = g.Key,
+                             TotalRevenue = g.Sum(o => o.TotalRevenue),
+                             TotalProfit = g.Sum(o => o.TotalProfit)
+
+                         }).OrderBy(g => g.Date_Purchase)
+                        .FirstOrDefault();
+
+
+                    ViewBag.GeDate_PriceTotal = GetData_Chart_SelectedDate;
+
 
 
 

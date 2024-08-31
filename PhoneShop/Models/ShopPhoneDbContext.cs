@@ -99,6 +99,9 @@ namespace PhoneShop.Models
         public DbSet<Review_Product> Review_Products { get; set; }
 
 
+        public DbSet<Delete_Booth> Delete_Booths { get; set; }
+
+
 
 
         //fluent
@@ -273,6 +276,10 @@ namespace PhoneShop.Models
               .HasForeignKey(p => p.BoothId);
 
 
+            modelBuilder.Entity<Delete_Booth>()
+              .HasOne(p => p.Booth_Information)
+              .WithMany(p => p.Delete_Booths)
+              .HasForeignKey(p => p.BoothId);
 
             modelBuilder.Entity<Product>()
        .HasOne(p => p.Booth_Information)

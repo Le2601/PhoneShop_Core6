@@ -99,7 +99,7 @@ namespace PhoneShop.Controllers.Seller
                    PaymentMethod = g.PaymentMethod
                }).ToList();
 
-                //lay ra tong tien hang ngay trong 7 ngay 
+                //lay ra tong tien hang ngay
                 var GetData_Chart_SelectedDate = SelectedDate_Order.GroupBy(x => x.Date_Purchase)
                      .Select(g => new RevenueStatistics_DataViewChart
                      {

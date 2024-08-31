@@ -10,7 +10,9 @@
     Shipping_Method IsShipping = ViewBag.Shipping_Method;
 
     Booth_Tracking IsTracking = ViewBag.GetBooth_Tracking;
-    
+
+    RevenueStatistics_DataViewChart TotalPrice_SelectDate = ViewBag.GeDate_PriceTotal;
+
     int count = 1;
 }
 <!-- Google Font: Source Sans Pro -->
@@ -26,6 +28,8 @@
 
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -49,30 +53,30 @@
         <div class="callout callout-info">
             @if (ViewBag.OrderNotifi > 0)
             {
-                <h5><i class="fas fa-info"></i>Ghi Chú: <span style="color:blue">Có @ViewBag.OrderNotifi Đơn Hàng Chưa Được Phê Duyệt</span></h5>
+                <h6><i class="fas fa-info"></i><span><a style="color:red" href="/Order_Seller/ListOrder">Có @ViewBag.OrderNotifi Đơn Hàng Chưa Được Phê Duyệt</a></span></h6>
 
             }
             else
             {
-                <h5><i class="fas fa-info"></i>Ghi Chú: <span style="color:blue">Hiện Chưa Có Đơn Hàng Nào Cần Phê Duyệt</span></h5>
+                <h6><i class="fas fa-info"></i><span style="color:blue">Hiện Chưa Có Đơn Hàng Nào Cần Phê Duyệt</span></h6>
 
             }
             <address>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div style="display: flex; align-items: center;">
-                        <a href="#">Tổng sản phẩm:</a>
+                        <a href="#" class="dn-a" style="text-decoration:none;">Tổng sản phẩm:</a>
                         <p style="color:red; margin-left: 5px;">@IsTracking.Quantity_Product</p>
                     </div>
                     <div style="display: flex; align-items: center;">
-                        <a href="#">Đã bán:</a>
+                        <a href="#" class="dn-a" style="text-decoration:none;">Đã bán:</a>
                         <p style="color:red; margin-left: 5px;">@IsTracking.Total_Sold</p>
                     </div>
                     <div style="display: flex; align-items: center;">
-                        <a href="#">Người theo dõi:</a>
+                        <a href="#" class="dn-a" style="text-decoration:none;">Người theo dõi:</a>
                         <p style="color:red; margin-left: 5px;">@IsTracking.Followers</p>
                     </div>
                     <div style="display: flex; align-items: center;">
-                        <a href="#">Đánh giá:</a>
+                        <a href="#" class="dn-a" style="text-decoration:none;">Đánh giá:</a>
                         <p style="color:red; margin-left: 5px;">@IsTracking.Total_Comments</p>
                     </div>
                 </div>
@@ -83,6 +87,21 @@
             </a>
         </div>
 
+        
+        @if(TotalPrice_SelectDate == null)
+        {
+            <div class="callout callout-info">
+                <b class="fas fa-dollar-sign fa-lg" style="color: #d41111;"></b><span><b>Doanh Thu:</b> <span style="color:red">0 VND</span></span> <br />
+                <b class="fas fa-dollar-sign fa-lg" style="color: #d41111;"></b><span><b>Lợi Nhuận:</b> <span style="color:red">0 VND</span></span>
+            </div>
+        }
+        else
+        {
+            <div class="callout callout-info">
+                <b class="fas fa-dollar-sign fa-lg" style="color: #d41111;"></b><span><b>Doanh Thu:</b> <span style="color:red">@TotalPrice_SelectDate.TotalRevenue</span></span> <br />
+                <b class="fas fa-dollar-sign fa-lg" style="color: #d41111;"></b><span><b>Lợi Nhuận:</b> <span style="color:red">@TotalPrice_SelectDate.TotalProfit</span></span>
+            </div>
+        }
 
 
 

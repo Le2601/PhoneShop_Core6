@@ -1,0 +1,127 @@
+﻿@model PhoneShop.Models.Booth_Information
+@{
+    ViewData["Title"] = "Settings";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+
+
+}
+<style>
+    .align-items-center {
+        align-items: center; /* Canh giữa theo chiều dọc */
+    }
+</style>
+<section class="content">
+    @if (TempData["Del_False"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Del_False"]
+        </div>
+    }
+    @if (TempData["Del_True"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Del_True"]
+        </div>
+    }
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+@*                             <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
+ *@                        
+                            <li class="breadcrumb-item active" aria-current="page">Cài đặt</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="card-body" style="height:700px">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="container mt-4">
+                            <h5>Xóa Tài Khoản</h5>
+                            <div class="d-flex align-items-center">
+                                <i style="font-size:12px" class="mr-2">Bằng cách nhấn nút dưới đây, bạn sẽ xóa tài khoản của mình. Tất cả dữ liệu liên quan sẽ bị xóa vĩnh viễn và không thể khôi phục. Vui lòng cân nhắc trước khi thực hiện hành động này.</i>
+                                
+                                
+                            </div>
+                            @if(ViewBag.CheckDelBooth == null)
+                            {
+                                <button class="btn btn-danger" onclick="showReasonForm()">Xóa Gian Hàng</button>
+
+                                <div id="reasonForm" style="display:none;">
+                                    <h6>Lý do</h6>
+                                    <form asp-action="DeleteBooth" asp-controller="Setting_Seller" method="post">
+                                        <input name="boothid" value="@Model.Id" hidden />
+                                        <input name="accountid" value="@Model.AccountId" hidden />
+                                        <input placeholder="Nhập" type="text" name="content" />
+                                        <button class="btn btn-primary">Gửi</button>
+                                    </form>
+
+                                </div>
+                            }
+                            else
+                            {
+                                <p>Chờ quản trị viên xác nhận xóa gian hàng</p>
+                            }
+
+                            
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="col-md-6"></div>
+               
+            </div>
+            
+            </div>
+        </div>
+</div>
+</section>
+
+
+
+@section scripts_SellerHome{
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.DelBooth', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xác Nhận Xóa Gian Hàng");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Setting_Seller/DeleteBooth',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                alert("Đã gửi yêu cầu, chở quản trị viên xác nhận xóa gian hàng của bạn");
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi không thể xóa");
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+    function showReasonForm() {
+        document.getElementById('reasonForm').style.display = 'block';
+    }
+
+   
+</script>
+}
+

@@ -41,6 +41,8 @@ namespace PhoneShop.Models
 
         public virtual ICollection<Voucher> Vouchers { get; set; }
 
+        public virtual ICollection<Delete_Booth> Delete_Booths { get; set; }
+
 
     }
 }

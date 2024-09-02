@@ -74,6 +74,37 @@ namespace PhoneShop.Controllers.Seller
 
             return RedirectToAction("Settings");
         }
-        
+
+        [HttpPost]
+        public IActionResult ReCall_DelBooth(int Id)
+        {
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+            var CheckDelBooth = _context.Delete_Booths.Where(x => x.Id == Id && x.AccountId == AccountId).FirstOrDefault();
+
+            if (CheckDelBooth == null)
+            {
+                
+                return Json(new {success = false});
+            }
+
+            if(CheckDelBooth.Status == true)
+            {
+                return Json(new { success = false });
+
+            }
+
+            _context.Delete_Booths.Remove(CheckDelBooth);
+            _context.SaveChanges();
+            return Json(new { success = true });
+
+
+
+           
+        }
+
+
+
     }
 }

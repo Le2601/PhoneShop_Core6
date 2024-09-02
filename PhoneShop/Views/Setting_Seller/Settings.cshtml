@@ -1,7 +1,10 @@
 ﻿@model PhoneShop.Models.Booth_Information
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "Settings";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+
+    Delete_Booth delbooth = ViewBag.CheckDelBooth;
 
 
 }
@@ -53,7 +56,7 @@
 
                                 <div id="reasonForm" style="display:none;">
                                     <h6>Lý do</h6>
-                                    <form asp-action="DeleteBooth" asp-controller="Setting_Seller" method="post">
+                                    <form asp-action="DeleteBooth" asp-controller="Setting_Seller" method="post" onsubmit="return confirmDeletion();">
                                         <input name="boothid" value="@Model.Id" hidden />
                                         <input name="accountid" value="@Model.AccountId" hidden />
                                         <input placeholder="Nhập" type="text" name="content" />
@@ -64,7 +67,11 @@
                             }
                             else
                             {
-                                <p>Chờ quản trị viên xác nhận xóa gian hàng</p>
+                                <div class="container mt-4">
+                                    <p style="color:red" class="d-inline">Chờ quản trị viên xác nhận xóa gian hàng</p>
+                                    <a class="btn btn-secondary ml-2 ReCall_DelBooth" data-id="@delbooth.Id">Thu hồi</a>
+                                </div>
+                                  
                             }
 
                             
@@ -84,26 +91,32 @@
 
 @section scripts_SellerHome{
     <script>
+        function confirmDeletion() {
+            return confirm("Bạn có chắc chắn muốn xóa gian hàng không?");
+        }
+    </script>
+
+    <script>
         $(document).ready(function () {
-            $('body').on('click', '.DelBooth', function () {
+            $('body').on('click', '.ReCall_DelBooth', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("Xác Nhận Xóa Gian Hàng");
+                var conf = confirm("Xác nhận hủy yêu cầu xóa gian hàng");
 
                 if (conf == true) {
 
                     $.ajax({
 
-                        url: '/Setting_Seller/DeleteBooth',
+                        url: '/Setting_Seller/ReCall_DelBooth',
                         type: 'post',
                         data: { id: id },
                         success: function (rs) {
                             if (rs.success) {
-                                alert("Đã gửi yêu cầu, chở quản trị viên xác nhận xóa gian hàng của bạn");
+                                alert("Thu hồi thành công");
                                 location.reload();
                             }
                             else {
-                                alert("Lỗi không thể xóa");
+                                alert("Lỗi không thể thu hồi");
                                 location.reload();
                             }
                         }
@@ -114,6 +127,7 @@
             });
         });
     </script>
+
 
 
     <script>

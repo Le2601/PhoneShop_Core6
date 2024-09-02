@@ -97,7 +97,41 @@ namespace PhoneShop.Areas.Admin.Controllers
         }
 
 
-        
+        public IActionResult List_DelBooth()
+        {
+            var items = _context.Delete_Booths.ToList();
+            return View(items);
+        }
+
+        [HttpPost]
+        public IActionResult Comfirm_DelBooth(int Id)
+        {
+
+            var item = _context.Delete_Booths.Where(x => x.Id == Id).FirstOrDefault();
+
+            if (item == null)
+            {
+                return Json(new { success = false });
+            }
+
+            if(item.Status == false)
+            {
+                var CheckBooth = _context.Booth_Information.Where(x => x.Id == item.BoothId).FirstOrDefault()!;
+                _context.Delete_Booths.Remove(item);
+                _context.Booth_Information.Remove(CheckBooth);
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+
+
+
+
+            return Json(new { success = false });
+        }
+
+
+
+
 
         public List<BoothData> BoothData()
         {

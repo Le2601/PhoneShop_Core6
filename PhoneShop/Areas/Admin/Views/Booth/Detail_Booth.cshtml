@@ -60,7 +60,7 @@
                                 <b>Đã bán</b> <a class="float-right">@Model.Total_Sold</a>
                             </li>
                             <li class="list-group-item">
-                                <b>Doanh thu</b> <p style="color:red" class="text-muted text-center">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GetTotalPrice)</p>
+                                <b>Tổng doanh thu</b> <p style="color:red" class="text-muted text-center">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GetTotalPrice)</p>
                             </li>
                         </ul>
 
@@ -264,8 +264,7 @@
     <script src="~/clients/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="~/clients/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/clients/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/clients/dist/js/adminlte.min.js"></script>
+ 
     <script>
         $(function () {
             $("#example12").DataTable({

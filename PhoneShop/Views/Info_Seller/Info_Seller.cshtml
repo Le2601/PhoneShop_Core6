@@ -75,6 +75,12 @@
 </style>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
 <link href="~/user/custom/seller/infoseller.css" rel="stylesheet" />
+@if (TempData["CheckShopName"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["CheckShopName"]
+    </div>
+}
 <form id="regForm" asp-action="Create" asp-controller="Info_Seller" method="post" >
 
     <h1 style="text-align:center">Đăng ký gian hàng:</h1>

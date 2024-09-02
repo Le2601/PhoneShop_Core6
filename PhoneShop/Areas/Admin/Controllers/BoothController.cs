@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PhoneShop.Areas.Admin.Data;
 using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
@@ -48,7 +49,12 @@ namespace PhoneShop.Areas.Admin.Controllers
             }
 
             //get total price booth*
-            ViewBag.GetTotalPrice = BoothData().FirstOrDefault()!.TotalPrice_Booth;
+            ViewBag.GetTotalPrice = 0;
+           var GetTotalPrice = BoothDataById(item.AccountId).FirstOrDefault();
+            if (GetTotalPrice != null)
+            {
+                ViewBag.GetTotalPrice = GetTotalPrice.TotalPrice_Booth;
+            }
             //get booth Tracking
             var Tracking = _context.Booth_Trackings.Where(x=> x.BoothId == item.Id).FirstOrDefault();
 
@@ -99,7 +105,7 @@ namespace PhoneShop.Areas.Admin.Controllers
 
         public IActionResult List_DelBooth()
         {
-            var items = _context.Delete_Booths.ToList();
+            var items = _context.Delete_Booths.Include(x=> x.Booth_Information).ToList();
             return View(items);
         }
 
@@ -163,6 +169,36 @@ namespace PhoneShop.Areas.Admin.Controllers
             return getData;
         }
 
-       
+        public List<BoothData> BoothDataById(int Id)
+        {
+            var JoinBooth = (
+                from p in _context.Products.Where(x=> x.Create_Id == Id)
+                join od in _context.Order_Details.Where(x => x.Status_OrderDetail == 1) on p.Id equals od.ProductId
+                join op in _context.Order_ProductPurchasePrices on od.Id equals op.OrderDetail_Id
+                select new
+                {
+                    BoothId = p.Booth_InformationId,
+                    OrderDetailId = od.Id,
+                    TotalPrice_Booth = op.FinalAmount == null || op.FinalAmount == 0 ? 0 : op.FinalAmount,
+                    AccountId = p.Create_Id
+
+
+
+                }
+
+                ).ToList();
+
+            var getData = (JoinBooth.GroupBy(x => x.BoothId).Select(x => new BoothData
+            {
+                TotalPrice_Booth = x.Sum(s => s.TotalPrice_Booth),
+                BoothId = x.Key,
+
+
+            })).ToList();
+
+            return getData;
+        }
+
+
     }
 }

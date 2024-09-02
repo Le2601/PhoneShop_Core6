@@ -52,6 +52,12 @@ namespace PhoneShop.Areas.Admin.Controllers
             ViewBag.CheckProductIsApproved = items;
 
 
+            //check del booth 
+            var checkDelBooth = _context.Delete_Booths.Where(x => x.Status == false).ToList().Count();
+
+            ViewBag.checkDelBooth = checkDelBooth;
+
+
 
 
 

@@ -4,23 +4,80 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<!-- Content Header (Page header) -->
+<style>
+
+
+    .container {
+        background-color: white; 
+        padding: 20px; 
+        border-radius: 8px; 
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+        margin-bottom: 20px; 
+    }
+
+    h1 {
+        margin: 0; 
+        color: #007bff;
+    }
+
+    .row {
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between; 
+        margin-bottom: 20px; 
+    }
+
+    .message {
+        flex: 1; 
+        margin-right: 20px;
+    }
+
+    .btn-app {
+        background-color: #007bff; 
+        color: white;
+        padding: 12px 20px; 
+        border: none; 
+        border-radius: 5px; 
+        text-decoration: none; 
+        display: inline-flex;
+        align-items: center;
+        transition: background-color 0.3s; 
+        height: 100%; 
+    }
+
+        .btn-app:hover {
+            background-color: #0056b3; 
+        }
+
+    .icon {
+        margin-right: 5px; 
+    }
+</style>
+
 <section class="content-header">
     <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Chào @ViewBag.NameLogin</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1>Chào @ViewBag.NameLogin</h1>
+                </div>
             </div>
-            <br />
-            
 
+            <div class="row">
+                <p>Có @ViewBag.CheckProductIsApproved đang chờ phê duyệt</p>
+                <a class="btn-app" href="/Admin/Product/Index">
+                    <span class="icon">✏️</span> Tiến hành
+                </a>
+            </div>
+
+            <div class="row">
+                <p>Có @ViewBag.checkDelBooth yêu cầu xóa gian hàng cần phê duyệt</p>
+                <a class="btn-app" href="/Admin/Booth/List_DelBooth">
+                    <span class="icon">✏️</span> Tiến hành
+                </a>
+            </div>
         </div>
-        <div class="row-cols-1">
-            <p>Có @ViewBag.CheckProductIsApproved đang chờ phê duyệt</p>
-            <a class="btn btn-app" href="/Admin/Product/Index">
-                <i class="fas fa-edit"></i> Tiến hành
-            </a>
-        </div>
+
     </div><!-- /.container-fluid -->
 </section>
 

@@ -6,6 +6,12 @@
     
 }
 
+<style>
+    tr th{
+        text-align:center;
+    }
+</style>
+
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -20,6 +26,7 @@
         </li>
     </ul>
 }
+
 
 
 
@@ -39,17 +46,15 @@
             <table id="example12" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>
-                           #
-                        </th>
+                        
                         <th>
                             Tên gian hàng
                         </th>
 
                         <th>Nội dung</th>
                        
-                        <th>Trạng thái</th>
-
+                        <th>Ngày</th>
+                        <th></th>
 
 
                     </tr>
@@ -62,30 +67,31 @@
 
 
 
-
-                            <td>
-                                @item.Content
-                            </td>
-                            <td>
-                                @item.Content
-                            </td>
-
-                            <td>
-                                @item.Status
-                            </td>
-
-
-
                             
+                            <td style="width:200px">
+                                <a href="/admin/Booth/Detail_Booth/@item.BoothId">@item.Booth_Information.ShopName</a>
+                                
+                            </td>
+                            <td style="max-width:500px">
+                                @item.Content
+                            </td>
+
+                            <td style="width:200px">
+                                @item.Create_At
+                            </td>
 
 
 
 
 
 
-                            <td>
-                                <a class="btn btn-danger comfirmDel" data-id="@item.Id">Xóa</a>
 
+
+
+
+                            <td style="width:200px">
+                                <a class="btn btn-danger comfirmDel" data-id="@item.Id">Xác nhận</a>
+                                <a class="btn btn-success comfirmDel" data-id="@item.Id">Từ chối</a>
                             </td>
                         </tr>
                     }

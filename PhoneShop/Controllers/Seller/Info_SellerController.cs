@@ -61,6 +61,15 @@ namespace PhoneShop.Controllers.Seller
             string COD = form["COD"];
             string Online_Payment = form["Online_Payment"];
 
+            //check shopname
+            var CheckShopName = _context.Booth_Information.Where(x => x.ShopName == ShopName).FirstOrDefault();
+            if(CheckShopName != null)
+            {
+                TempData["CheckShopName"] = "Tên gian hàng đã tồn tại, bạn hãy đặt tên khác!";
+                return RedirectToAction("Info_Seller");
+            }
+
+
             
             //insert Booth_Information 
             var item_Booth_Information = new Booth_Information

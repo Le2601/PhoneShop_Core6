@@ -148,8 +148,17 @@ namespace PhoneShop.Controllers.Seller
                          }).OrderBy(g => g.Date_Purchase)
                         .FirstOrDefault();
 
-
+                ViewBag.GeDate_PriceTotal = new RevenueStatistics_DataViewChart();
+                if(GetData_Chart_SelectedDate != null)
+                {
                     ViewBag.GeDate_PriceTotal = GetData_Chart_SelectedDate;
+                }
+                else
+                {
+                    ViewBag.GeDate_PriceTotal = new RevenueStatistics_DataViewChart();
+
+                }
+           
 
 
 

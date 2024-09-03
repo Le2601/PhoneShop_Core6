@@ -1,0 +1,28 @@
+﻿@model List<PhoneShop.Models.Bank_Account>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+}
+
+
+<section class="content">
+
+    <div class="col-12">
+        <div class="card">
+
+
+            <div class="header">Tài Khoản Ngân Hàng</div>
+
+            @foreach (var item in Model)
+            {
+                <div style="border:1px solid red">@item.Name_Bank</div>
+            }
+           
+
+            <!-- Nút thêm tài khoản ngân hàng -->
+            <a href="/Bank_Account_Seller/Create" class="add-button">Thêm Tài Khoản Ngân Hàng</a>
+
+        </div>
+    </div>
+</section>
+

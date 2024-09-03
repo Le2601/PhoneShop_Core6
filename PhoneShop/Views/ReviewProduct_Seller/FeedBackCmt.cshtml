@@ -6,54 +6,68 @@
 
     List<FeedBackComment> GetListFeedBack = ViewBag.GetListFeedBack;
 }
+<style>
+    .feedback-item {
+        padding: 10px;
+        border: 1px solid #ddd; 
+        border-radius: 5px; 
+        margin-bottom: 10px; 
+        background-color: #f9f9f9; 
+    }
+
+    .btn-primary {
+        background-color: #007bff; 
+        color: white; 
+        border: none; 
+        border-radius: 5px; 
+        cursor: pointer;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; 
+        }
+</style>
 
 <section class="content" >
 
     <div class="col-12" >
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Đánh giá sản phẩm</h3>
-
-
-
+                <h3 class="card-title">Đánh Giá Sản Phẩm</h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body" style="min-height:500px">
+            <div class="card-body" style="min-height:500px;">
+
                 
-                
-                <h3>Nội dung</h3>
                 <p>@Model.Content</p>
-                <p>@Model.CreateAt</p>
+                <p style="font-style: italic;">@Model.CreateAt</p>
 
-                <br />
-                <br />
+                <hr />
 
-                 <h3>Danh sách phản hòi</h3>
+                <h5>Phản hồi</h5>
                 @if (GetListFeedBack.Count > 0)
                 {
                     foreach (var item in GetListFeedBack)
                     {
-                        <div>Tên: @item.UserNameFeedBack    || @item.Create_At</div>
-                        <div>Nội Dung: @item.Content</div>
-                        <hr />
+                        <div class="feedback-item">
+                             @item.UserNameFeedBack <span style="color: #aaa;">|| @item.Create_At</span>
+                            <div><strong>Nội Dung:</strong> @item.Content</div>
+                            <hr />
+                        </div>
                     }
-                   
                 }
                 else
                 {
-                    <div>Không</div>
+                    <div>Không có phản hồi nào.</div>
                 }
 
                 <hr />
 
-                <form method="post" action="/ReviewProduct_Seller/CreateFeedBackCmt">
-                    <input hidden name="RwProductId" value="@Model.Id" />
-                    <input name="Content" />
-
-                    <input type="submit" value="Bình Luận" />
+                <form method="post" action="/ReviewProduct_Seller/CreateFeedBackCmt" style="margin-top: 20px;">
+                    <input type="hidden" name="RwProductId" value="@Model.Id" />
+                    <textarea name="Content" rows="3" placeholder="Nhập bình luận của bạn..." required style="width: 100%; padding: 10px; margin-bottom: 10px;"></textarea>
+                    <input type="submit" value="Bình Luận" class="btn btn-primary" style="padding: 10px 15px;" />
                 </form>
-
-
 
             </div>
             <!-- /.card-body -->

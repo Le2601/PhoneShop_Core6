@@ -19,6 +19,10 @@ namespace PhoneShop.Models
 
         public string Bank_Account_Name { get; set; }
 
+
+        public bool IsActive { get; set; }
+
+
         public int BoothId { get; set; }
 
 

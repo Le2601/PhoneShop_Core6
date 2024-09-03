@@ -1,0 +1,112 @@
+﻿@model PhoneShop.Models.Bank_Account
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+}
+<style>
+    .form-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        max-width: 400px;
+        margin: auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .checkbox-group {
+        margin: 10px 0;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+<section class="content">
+    <div class="col-12">
+        <div class="card">
+            <div class="form-container" style="padding: 20px;">
+                <h2>Nhập Thông Tin Tài Khoản Ngân Hàng</h2>
+                <form asp-action="Create" asp-controller="Bank_Account_Seller" method="post">
+                    <div class="form-group">
+                        <label for="fullName">Họ & Tên</label>
+                        <input type="text" id="fullName" asp-for="FullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idNumber">Số CMND</label>
+                        <input type="text" id="idNumber" asp-for="CMND" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bankName">Tên Ngân Hàng</label>
+                        <select id="bankName" asp-for="Name_Bank" required>
+                            <option value="" disabled selected>Chọn tên ngân hàng</option>
+                            <option value="ACB">ACB - NH TMCP Á Châu</option>
+                            <option value="Vietcombank">Vietcombank - NH TMCP Ngoại Thương Việt Nam</option>
+                            <option value="BIDV">BIDV - NH TMCP Đầu Tư và Phát Triển Việt Nam</option>
+                            <option value="Techcombank">Techcombank - NH TMCP Kỹ Thương Việt Nam</option>
+                            <option value="VPBank">VPBank - NH TMCP Việt Nam Thịnh Vượng</option>
+                            <option value="MBBank">MB Bank - NH TMCP Quân Đội</option>
+                            <option value="Sacombank">Sacombank - NH TMCP Sài Gòn Thương Tín</option>
+                            <option value="Eximbank">Eximbank - NH TMCP Xuất Nhập Khẩu Việt Nam</option>
+                            <option value="TPBank">TPBank - NH TMCP Tiên Phong</option>
+                            <option value="SHB">SHB - NH TMCP Sài Gòn - Hà Nội</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="branchName">Tên Chi Nhánh Ngân Hàng</label>
+                        <input type="text" id="branchName" name="branchName" required placeholder="Theo thông tin trên sao kê">
+                    </div>
+                    <div class="form-group">
+                        <label for="accountNumber">Số Tài Khoản</label>
+                        <input type="text" id="accountNumber" asp-for="Bank_Account_Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accountHolder">Tên Chủ Tài Khoản</label>
+                        <input type="text" id="accountHolder" asp-for="Bank_Account_Name" required>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" asp-for="IsActive" value="true"> Đặt làm tài khoản ngân hàng mặc định
+                        </label>
+                    </div>
+                    <input type="submit" value="Thêm Ngân Hàng">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

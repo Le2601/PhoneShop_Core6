@@ -476,6 +476,9 @@ namespace PhoneShop.Controllers.Seller
             ViewBag.AverageRatingPrd = PhoneShop.Controllers.BaseController.AverageRatingPrd(_context, Id);
 
 
+            ViewBag.WarehousedProducts =  _context.WarehousedProducts.Where(x => x.ProductId == Id).FirstOrDefault();
+
+
 
             return View(item);
         }

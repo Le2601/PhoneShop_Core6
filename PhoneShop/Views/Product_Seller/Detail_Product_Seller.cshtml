@@ -7,6 +7,8 @@
     List<ImageProduct> ListImageByProduct = ViewBag.GetListImage;
     List<Review_Product> ListReview = ViewBag.GetReviewProduct;
     specifications Specifications = ViewBag.specifications;
+    WarehousedProducts WarehousedProducts = ViewBag.WarehousedProducts;
+
 }
 <style>
 
@@ -203,7 +205,7 @@
                                                 <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
                                             }
                                         }
-                                        <a style="text-decoration:none">@ViewBag.AverageRating/5</a>
+                                    <a style="text-decoration:none">@ViewBag.AverageRatingPrd/5</a>
                                     }
                                     else
                                     {
@@ -232,12 +234,15 @@
                                     </h4>
                                     </div>
 
-                                
-                                    
-                                    <div class="mt-4 product-share">
-                                       <p>Đã Bán: </p>
-                                       <p>Tồn Kho: @Model.Quantity</p>
-                                    </div>
+                                    <br />
+
+                                <div class="product-info" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <p>Nhập Vào: @WarehousedProducts.Quantity</p>
+                                    <p>Tồn Kho: @Model.Quantity</p>
+                                    <p>Đã Bán: @(WarehousedProducts.Quantity - Model.Quantity)</p>
+                                   
+                                   
+                                </div>
 
                                 </div>
                             </div>

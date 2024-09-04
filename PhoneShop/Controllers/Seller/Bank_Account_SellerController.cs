@@ -47,5 +47,53 @@ namespace PhoneShop.Controllers.Seller
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult Del_Bank(int Id)
+        {
+
+            var CheckBank = _context.Bank_Account.Where(x => x.Id == Id).FirstOrDefault();
+
+            if(CheckBank == null)
+            {
+                return Json(new { success = false });
+            }
+
+            _context.Bank_Account.Remove(CheckBank);
+            _context.SaveChanges();
+
+
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult Update_Active(int Id)
+        {
+
+            var CheckBank = _context.Bank_Account.Where(x => x.Id == Id).FirstOrDefault();
+
+            if (CheckBank == null)
+            {
+                return Json(new { success = false });
+            }
+
+            if (CheckBank.IsActive == true)
+            {
+                CheckBank.IsActive = false;
+            }
+            else
+            {
+                CheckBank.IsActive = true;
+            }
+
+            _context.Bank_Account.Update(CheckBank);
+            
+            _context.SaveChanges();
+
+
+
+            return Json(new { success = true });
+        }
     }
 }

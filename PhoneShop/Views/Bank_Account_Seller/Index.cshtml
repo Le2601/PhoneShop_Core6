@@ -3,7 +3,17 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
 }
-
+<style>
+    .account-box {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 10px;
+        text-align: center;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+</style>
 
 <section class="content">
 
@@ -11,18 +21,131 @@
         <div class="card">
 
 
-            <div class="header">Tài Khoản Ngân Hàng</div>
+            <div class="card-header">
+                <h3 class="card-title">Danh sách ngân hàng</h3>
 
-            @foreach (var item in Model)
-            {
-                <div style="border:1px solid red">@item.Name_Bank</div>
-            }
+                
+
+            </div>
+
            
 
+
+            <div class="container mt-5">
+                <div class="row">
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-3 col-sm-6" id="trow_@item.Id">
+                            <div class="account-box" style="height: 200px; position: relative; padding: 20px;">
+                                <a class="Del_Bank" data-id="@item.Id">
+                                    <span style="position: absolute; top: 10px; right: 10px; cursor: pointer; color: red;">×</span>
+                                </a>
+                                <p style="text-transform: uppercase;">@item.Bank_Account_Name</p>
+                                <p style="color: blue;">@item.Name_Bank</p>
+                                <p>STK: @item.Bank_Account_Number</p>
+                                Trạng Thái:
+                                @if (item.IsActive == true)
+                                {
+                                    <a class="Update_Active" data-id="@item.Id"><i class="far fa-eye fa-lg" style="color: #74C0FC;"></i></a>
+                                }
+                                else
+                                {
+                                    <a class="Update_Active" data-id="@item.Id"><i class="far fa-eye-slash fa-lg" style="color: #e71313;"></i></a>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                   
+                    
+                        <div class="col-md-3 col-sm-6">
+                        <a href="/Bank_Account_Seller/Create">
+                            <div class="account-box" style="height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 2px dashed #007bff; border-radius: 8px; padding: 20px;">
+                                <h2 style="font-size: 60px; margin: 0;">+</h2>
+                                <p style="margin: 0;">Thêm Tài Khoản Ngân Hàng</p>
+                            </div>
+                        </a>
+                           
+                        </div>
+                   
+                   
+                   
+                   
+                </div>
+            </div>
+
             <!-- Nút thêm tài khoản ngân hàng -->
-            <a href="/Bank_Account_Seller/Create" class="add-button">Thêm Tài Khoản Ngân Hàng</a>
+           
 
         </div>
     </div>
 </section>
 
+@section scripts_SellerHome{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.Del_Bank', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xác nhận xóa thông tin ngân hàng");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Bank_Account_Seller/Del_Bank',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi không thể xóa");
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.Update_Active', function () {
+                var id = $(this).data('id');
+
+               
+
+                
+
+                    $.ajax({
+
+                    url: '/Bank_Account_Seller/Update_Active',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi không thể xóa");
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                
+            });
+        });
+    </script>
+
+}

@@ -133,11 +133,8 @@ namespace PhoneShop.Controllers
                 //selling take 4     
                 ViewBag.ListSelling = _productRepository.GetList_Selling();
 
-                //discount
-                ViewBag.ListDiscountProduct = _dbContext.Products
-                   .Where(x => x.Discount > 0)
-                   .OrderByDescending(x => (x.Price - x.Discount) / x.Price * 100)
-                   .ToList();
+            //discount
+            ViewBag.ListDiscountProduct = _productRepository.ListDiscountProduct();
 
             //danh sach sp
 

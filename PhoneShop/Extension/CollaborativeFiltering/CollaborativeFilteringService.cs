@@ -43,7 +43,8 @@ namespace PhoneShop.Extension.CollaborativeFiltering
                 Price = x.Price,
                 Discount = x.Discount,
                 Alias = x.Alias,
-                evaluate_Products = x.evaluate_Products
+                evaluate_Products = x.evaluate_Products,
+
                 
             }).ToList();
 

@@ -30,6 +30,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
+                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
 
 
 
@@ -77,6 +78,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Discount = x.Discount,
                 ImageDefaultName = x.ImageDefaultName,
                 Alias = x.Alias,
+                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
             }).ToListAsync();
 
             return items;
@@ -95,8 +97,9 @@ namespace PhoneShop.DI.DI_User.Product_User
                        ImageDefaultName = p.ImageDefaultName,
                        Price = p.Price,
                        Discount = p.Discount,
-                       Quantity_Purchase = e.Purchases
-                      
+                       Quantity_Purchase = e.Purchases,
+                       Rating = p.review_Products.Any() ? p.review_Products.Average(r => r.Rate) : 1,
+
 
                    }
                ).ToList();
@@ -130,7 +133,8 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Description = x.Description,
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
-                ImageDefaultName = x.ImageDefaultName
+                ImageDefaultName = x.ImageDefaultName,
+                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
             }).Take(5).ToListAsync();
 
             return items;
@@ -219,24 +223,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
             }).Take(5).OrderByDescending(x => x.Id).ToListAsync();
 
-            //var data = items
-            //    .Select(product => new
-            //    {
-            //        Product = product,
-            //        AverageRating = product.Rating
-            //    }).ToList();
-
-
-            //var dataList = data.Select(
-            //    x => new ProductViewModel
-            //    {
-            //        Id = x.Product.Id,
-            //        Title = x.Product.Title,
-            //        Rating = (int)x.AverageRating
-
-            //    }
-
-            //   ).ToList();
+            
 
 
             
@@ -259,25 +246,16 @@ namespace PhoneShop.DI.DI_User.Product_User
                        ImageDefaultName = p.ImageDefaultName,
                        Price = p.Price,
                        Discount = p.Discount,
-                       Quantity_Purchase = e.Purchases
+                       Quantity_Purchase = e.Purchases,
+                       Rating = p.review_Products.Any() ? p.review_Products.Average(r => r.Rate) : 1,
 
 
                    }
                ).ToList();
 
-            var GetData = item_Model.GroupBy(x => x.Id)
-                .Select(g => new ProductViewModel
-                {
-                    Id = g.Key,
-                    Title = g.First().Title,
-                    Alias = g.First().Alias,
-                    ImageDefaultName = g.First().ImageDefaultName,
-                    Price = g.First().Price,
-                    Discount = g.First().Discount,
-                    Quantity_Purchase = g.Sum(o => o.Quantity_Purchase)
-                }).OrderByDescending(g => g.Quantity_Purchase).ToList();
+            
 
-            return GetData;
+            return item_Model;
         }
 
         public async Task<ProductViewModel> ProductById(string? alias, int id)
@@ -346,6 +324,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Discount=x.Discount,
                 ImageDefaultName = x.ImageDefaultName,
                 Alias = x.Alias,
+                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
             }).OrderBy(x => x.Id).ToListAsync();
             return items;
         }
@@ -369,10 +348,36 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Description = x.Product.Description,
                 Create_at = x.Product.Create_at,
                 Update_at = x.Product.Update_at,
-                ImageDefaultName = x.Product.ImageDefaultName
+                ImageDefaultName = x.Product.ImageDefaultName,
+                Rating = x.Product.review_Products.Any() ? x.Product.review_Products.Average(r => r.Rate) : 1,
             })
             .Take(8)
             .ToListAsync();
+
+            return items;
+        }
+
+        public List<ProductViewModel> ListDiscountProduct()
+        {
+            var items =  _context.Products
+                  .Where(x => x.Discount > 0)
+                  .Select(x => new ProductViewModel
+                  {
+                      Id = x.Id,
+                      CategoryId = x.CategoryId,
+                      Title = x.Title,
+                      Alias = x.Alias,
+                      Price = x.Price,
+                      Discount = x.Discount,
+                      Quantity = x.Quantity,
+                      Description = x.Description,
+                      Create_at = x.Create_at,
+                      Update_at = x.Update_at,
+                      ImageDefaultName = x.ImageDefaultName,
+                      Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
+                  })
+                  .OrderByDescending(x => (x.Price - x.Discount) / x.Price * 100)
+                  .ToList();
 
             return items;
         }

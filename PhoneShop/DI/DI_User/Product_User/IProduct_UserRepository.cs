@@ -66,7 +66,8 @@ namespace PhoneShop.DI.DI_User.Product_User
         //san pham ban chay join 2 bang
 
         public List<PhoneShop.ModelViews.ProductViewModel> GetList_Selling();
-
+       
+        public List<PhoneShop.ModelViews.ProductViewModel> ListDiscountProduct();
 
 
     }

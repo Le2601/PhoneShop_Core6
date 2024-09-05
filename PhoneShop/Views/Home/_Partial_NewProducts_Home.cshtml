@@ -41,7 +41,6 @@
                                         }
                                         @* tinh % giam gia *@
 
-                                        <p>@item.Rating</p>
 
 
                                         <div class="product-hover">
@@ -53,7 +52,23 @@
                                     <div style="height:45px">
                                         <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
                                     </div>
-
+                                    <div id="stars-container">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Math.Floor(item.Rating))
+                                            {
+                                                <i class="fa fa-star filled"></i> <!-- Sao đầy -->
+                                            }
+                                            else if (i == Math.Ceiling(item.Rating))
+                                            {
+                                                <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
+                                            }
+                                        }
+                                    </div>
 
                                     <div class="product-carousel-price">
 

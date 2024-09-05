@@ -47,13 +47,30 @@
             width: 1241px;
         }
 
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            display: none; /* Ẩn nút khi chưa cuộn */
+        }
+
+            .scroll-to-top:hover {
+                background-color: #c82333;
+            }
+
     </style>
 </head>
 
 
 
 <body style="background:#f5f5f5">
-    
+    <button class="scroll-to-top" id="scrollToTopBtn">▲ Lên đầu</button>
     <div class="header-area" >
         
 
@@ -182,6 +199,26 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @*     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
  *@    <script src="~/user/user/js/jquery-ui.js"></script>
+
+    <script>
+        // Hiện/ẩn nút khi cuộn trang
+        window.onscroll = function () {
+            const button = document.getElementById("scrollToTopBtn");
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                button.style.display = "block";
+            } else {
+                button.style.display = "none";
+            }
+        };
+
+        // Cuộn lên đầu trang khi nhấn nút
+        document.getElementById("scrollToTopBtn").onclick = function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Cuộn mượt mà
+            });
+        };
+    </script>
     <script>
         $(document).ready(function () {
 

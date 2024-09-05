@@ -11,6 +11,30 @@
     int tienO = 0;
 }
 
+<style>
+    .star-container {
+        font-size: 24px;
+    }
+
+    .filled {
+        color: gold;
+    }
+
+    .half-filled {
+        color: gold;
+    }
+
+
+    .star-container .fa-star-o {
+        color: lightgray;
+    }
+
+    .product-section-title {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+</style>
+
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -43,7 +67,23 @@
                         <div style="height:45px">
                             <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
                         </div>
-
+                        <div id="stars-container">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= Math.Floor(item.Rating))
+                                {
+                                    <i class="fa fa-star filled"></i> <!-- Sao đầy -->
+                                }
+                                else if (i == Math.Ceiling(item.Rating))
+                                {
+                                    <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
+                                }
+                                else
+                                {
+                                    <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
+                                }
+                            }
+                        </div>
                         <div class="product-carousel-price" style="color:red">Đã bán: @item.Quantity_Purchase</div>
                         <div class="product-carousel-price">
 

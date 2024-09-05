@@ -62,7 +62,7 @@ namespace PhoneShop.Controllers
             return AverageRating;
         }
 
-        [Route("ngocle.html")]
+        
         public IActionResult ngocle()
         {
             var items = _context.Products
@@ -71,6 +71,52 @@ namespace PhoneShop.Controllers
                 .ToList();
             return Json(items);
         }
+        //[Route("ngocle.html")]
+        //public IActionResult GetList()
+        
+        //{
+        //    var items = _context.Products.Take(3).ToList();
+
+        //    var data = GetRatingByProduct(items);
+
+
+        //    return Json(data);
+        //}
+
+       
+
+
+
+        public static List<ProductViewModel> GetRatingByProduct(List<Product> productModel)
+        {
+
+            var items = productModel
+                .Select(product => new
+                {
+                    Product = product,
+                    AverageRating = product.review_Products.Any() ?
+                    product.review_Products.Average(r => r.Rate) : 1,
+                }).ToList();
+
+            var itemss = items.Select(
+                 x => new ProductViewModel
+                 {
+                     Id = x.Product.Id,
+                     Title = x.Product.Title,
+                     Quantity = (int)x.AverageRating
+
+                 }
+
+                ).ToList();
+
+
+
+            return itemss;
+        }
+
+
+
+
 
     }
 }

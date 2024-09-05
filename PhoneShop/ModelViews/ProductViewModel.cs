@@ -55,6 +55,10 @@ namespace PhoneShop.ModelViews
 
         public virtual ICollection<ImageProduct> ImageProducts { get; set; }
 
+
+        public virtual ICollection<Review_Product> Review_Product { get; set; }
+
+
         public virtual ICollection<Order_DetailsViewModel> Order_Details { get; set; }
 
     }

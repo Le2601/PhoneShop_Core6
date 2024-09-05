@@ -211,11 +211,33 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Create_at = x.Create_at,
                 Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
+                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
+                
 
 
 
 
             }).Take(5).OrderByDescending(x => x.Id).ToListAsync();
+
+            //var data = items
+            //    .Select(product => new
+            //    {
+            //        Product = product,
+            //        AverageRating = product.Rating
+            //    }).ToList();
+
+
+            //var dataList = data.Select(
+            //    x => new ProductViewModel
+            //    {
+            //        Id = x.Product.Id,
+            //        Title = x.Product.Title,
+            //        Rating = (int)x.AverageRating
+
+            //    }
+
+            //   ).ToList();
+
 
             
 

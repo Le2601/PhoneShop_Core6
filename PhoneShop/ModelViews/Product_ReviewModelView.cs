@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PhoneShop.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace PhoneShop.ModelViews
 {
@@ -18,8 +19,12 @@ namespace PhoneShop.ModelViews
 
         public string Content { get; set; }
 
-        public int Rate { get; set; }
+        public double Rate { get; set; }
 
         public DateTime CreateAt { get; set; }
+
+
+        public virtual ProductViewModel ProductViewModel { get; set; }
+
     }
 }

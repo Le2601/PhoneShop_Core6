@@ -41,7 +41,7 @@ namespace PhoneShop.Extension.CollaborativeFiltering
 
 
                 ).ToList();
-
+            
             var recommendationss = unratedItemss
                .GroupBy(x => x.Id)
                .Select(l => new CollaborativeFiltering_DataProduct

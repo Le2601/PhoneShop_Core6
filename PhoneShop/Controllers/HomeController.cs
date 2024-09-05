@@ -122,31 +122,38 @@ namespace PhoneShop.Controllers
             //End check auth cookie and AccountId Session
 
 
-
+            //danh sach sp
             //goi y hom nay  //ramdom product 
 
-            var Random_Product =await _productRepository.RandomProduct();          
+                var Random_Product =await _productRepository.RandomProduct();          
 
 
+                ViewBag.New_Product = await _productRepository.LatestProducts();
+
+                //selling take 4     
+                ViewBag.ListSelling = _productRepository.GetList_Selling();
+
+                //discount
+                ViewBag.ListDiscountProduct = _dbContext.Products
+                   .Where(x => x.Discount > 0)
+                   .OrderByDescending(x => (x.Price - x.Discount) / x.Price * 100)
+                   .ToList();
+
+            //danh sach sp
 
 
-            ViewBag.New_Product = await _productRepository.LatestProducts();
 
             ViewBag.imageproduct =await _imageProduct_UserRepository.ImageProducts();
+
             ViewBag.ListLogo =await _categoryRepository.CategoryProducts();
 
             //partial View Banner
             ViewBag.ListBanner =await _bannerRepository.GetAll();
 
-            //selling take 4     
-            ViewBag.ListSelling = _productRepository.GetList_Selling();
+            
 
 
-            //discount
-            ViewBag.ListDiscountProduct = _dbContext.Products
-               .Where(x => x.Discount > 0)
-               .OrderByDescending(x => (x.Price - x.Discount) / x.Price * 100)
-               .ToList();
+           
 
 
 
@@ -177,7 +184,9 @@ namespace PhoneShop.Controllers
 
             return View(Random_Product);
         }
+
        
+
         //DEMO EXPORT FILE
 
         [HttpGet("/Export_File")]

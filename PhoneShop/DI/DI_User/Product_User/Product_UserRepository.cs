@@ -113,7 +113,8 @@ namespace PhoneShop.DI.DI_User.Product_User
                     ImageDefaultName = g.First().ImageDefaultName,
                     Price = g.First().Price,
                     Discount = g.First().Discount,
-                    Quantity_Purchase = g.Sum(o => o.Quantity_Purchase)
+                    Quantity_Purchase = g.Sum(o => o.Quantity_Purchase),
+                    Rating = g.First().Rating
                 }).Take(4).OrderByDescending(g=> g.Quantity_Purchase).ToList();
 
             return GetData;
@@ -381,5 +382,67 @@ namespace PhoneShop.DI.DI_User.Product_User
 
             return items;
         }
+
+
+
+
+        //danh sach san pham trong thuoc gian hang
+
+
+
+        public List<ProductViewModel> ListProductByBooth_All(int IdBooth)
+        {
+            var items = _context.Products.Where(x => x.Booth_InformationId == IdBooth).Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                CategoryId = x.CategoryId,
+                Title = x.Title,
+                Alias = x.Alias,
+                Price = x.Price,
+                Discount = x.Discount,
+                Quantity = x.Quantity,
+                Description = x.Description,
+                Create_at = x.Create_at,
+                Update_at = x.Update_at,
+                ImageDefaultName = x.ImageDefaultName,
+                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
+            }).ToList();
+
+            return items;
+
+        }
+
+        public List<ProductViewModel> ListProductByBooth_BestSelling(int IdBooth)
+        {
+            var items = _context.Products.Where(x=> x.Booth_InformationId == IdBooth).Join(_context.Evaluate_Products,
+                 p => p.Id,
+                 e => e.ProductId,
+                 (p, e) => new { Product = p, Evaluate_Product = e })
+             .OrderByDescending(x => x.Evaluate_Product.Purchases)
+             .Select(x => new ProductViewModel
+             {
+                 Id = x.Product.Id,
+                 CategoryId = x.Product.CategoryId,
+                 Title = x.Product.Title,
+                 Alias = x.Product.Alias,
+                 Price = x.Product.Price,
+                 Discount = x.Product.Discount,
+                 Quantity = x.Product.Quantity,
+                 Description = x.Product.Description,
+                 Create_at = x.Product.Create_at,
+                 Update_at = x.Product.Update_at,
+                 ImageDefaultName = x.Product.ImageDefaultName,
+                 Rating = x.Product.review_Products.Any() ? x.Product.review_Products.Average(r => r.Rate) : 1,
+             })             
+             .ToList();
+
+            return items;
+        }
+
+        public List<ProductViewModel> ListProductByBooth_Rating(int IdBooth)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

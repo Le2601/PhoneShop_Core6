@@ -70,5 +70,19 @@ namespace PhoneShop.DI.DI_User.Product_User
         public List<PhoneShop.ModelViews.ProductViewModel> ListDiscountProduct();
 
 
+
+        //danh sach san pham trong thuoc gian hang
+
+
+        public List<PhoneShop.ModelViews.ProductViewModel> ListProductByBooth_All(int IdBooth);
+
+        public List<PhoneShop.ModelViews.ProductViewModel> ListProductByBooth_BestSelling(int IdBooth);
+
+
+        public List<PhoneShop.ModelViews.ProductViewModel> ListProductByBooth_Rating(int IdBooth);
+
+
+
+
     }
 }

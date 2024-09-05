@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using PhoneShop.Controllers.Seller;
 using PhoneShop.Data;
+using PhoneShop.DI.DI_User.Product_User;
 using PhoneShop.Models;
+using PhoneShop.ModelViews;
 using System.Security.Claims;
 
 namespace PhoneShop.Controllers
@@ -10,15 +12,15 @@ namespace PhoneShop.Controllers
     [Authorize(Roles = "Seller,User")]
     public class BoothController : Controller
     {
-
+        private readonly IProduct_UserRepository _userRepository;
         private readonly ShopPhoneDbContext _context;
 
-        public BoothController(ShopPhoneDbContext shopPhoneDbContext)
+        public BoothController(ShopPhoneDbContext shopPhoneDbContext, IProduct_UserRepository product_UserRepository)
         {
 
             _context = shopPhoneDbContext;
 
-
+            _userRepository = product_UserRepository;
         }
        
         
@@ -78,7 +80,12 @@ namespace PhoneShop.Controllers
                ).FirstOrDefault();
 
 
-            var item = _context.Products.Where(x => x.Booth_InformationId == Id).ToList();
+            var items = _userRepository.ListProductByBooth_All(Id);
+
+            
+            //best selling
+            ViewBag.BestSelling = _userRepository.ListProductByBooth_BestSelling(Id);
+
 
             //check follow        
             var CheckFolow = _context.UserFollows.Where(x => x.BoothID == Id && x.UserID == AccountId).FirstOrDefault();
@@ -93,7 +100,10 @@ namespace PhoneShop.Controllers
             }
 
 
-            return View(item);
+
+
+
+            return View(items);
         }
 
         public IActionResult FollowBooth(int Id)
@@ -161,6 +171,9 @@ namespace PhoneShop.Controllers
 
             return RedirectToAction("BoothInfo", new { Id });
         }
+
+
+       
 
 
 

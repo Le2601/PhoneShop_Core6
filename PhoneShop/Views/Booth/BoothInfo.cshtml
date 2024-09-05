@@ -1,4 +1,5 @@
-﻿@model List<PhoneShop.Models.Product>
+﻿@model List<PhoneShop.ModelViews.ProductViewModel>
+@using PhoneShop.ModelViews;
 @using PhoneShop.Data
 @{
     ViewData["Title"] = "BoothInfo";
@@ -8,9 +9,16 @@
 
     var tienO = 0;
 
+    List<ProductViewModel> BestSellings = ViewBag.BestSelling;
+
 
 }
 <style>
+
+    .content {
+        margin-top: 20px;
+        display: none; /* Ẩn nội dung ban đầu */
+    }
     .shop-header {
         display: flex;
         align-items: center;
@@ -125,21 +133,17 @@
         color: #666;
         font-size: 12px;
     }
-</style>
-
-<div class="container">
+</style> 
+<div class="container" style="min-height:700px;background:white">
+    <br />
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" style="background:white">
             <li class="breadcrumb-item" style="font-size: 18px;"><a href="#">Trang chủ</a></li>
             <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Gian hàng</li>
             <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">@Booth.BoothName</li>
 
         </ol>
     </nav>
-</div>  
-
-<div class="container" style="min-height:700px">
-
     <div class="shop-card">
         <div class="shop-header">
             <div class="shop-info">
@@ -193,100 +197,239 @@
 
       
     </div>
-    <div class="row" style="background:white">
-
-        <div style="margin-bottom: 10px;padding-left: 13px;" class="section-title">
-            <h3 style="text-align: left; padding:10px;">Sản phẩm của shop </h3>
-        </div>
+    
 
 
-        @if (Model != null)
-        {
-            foreach (var item in Model)
+
+
+    <br />
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#" class="menu-item" data-target="#home">Tất Cả Sản Phẩm</a></li>
+        <li><a href="#" class="menu-item" data-target="#about">Bán Chạy</a></li>
+        <li><a href="#" class="menu-item" data-target="#services">Đánh Giá Cao</a></li>
+        <li><a href="#" class="menu-item" data-target="#contact">Phiếu Giảm Giá</a></li>
+    </ul>
+
+    <div id="home" class="content">
+        <div class="row" style="background:white">
+
+            <div style="margin-bottom: 10px;padding-left: 13px;" class="section-title">
+                <h3 style="text-align: left; padding:10px;">Sản phẩm của shop </h3>
+            </div>
+
+
+            @if (Model != null)
             {
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                    <div class="single-product">
-                        <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
-                            @*                                         <img src="~/User/img/product-1.jpg" alt="">
-                    *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
+                foreach (var item in Model)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="single-product">
+                            <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
+                                @*                                         <img src="~/User/img/product-1.jpg" alt="">
+                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
 
-                            <div class="product-hover">
-                                <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
-                                <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                                <div class="product-hover">
+                                    <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                    <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                                </div>
                             </div>
-                        </div>
-                        <div style="height:45px">  <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2></div>
+                            <div style="height:45px">  <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2></div>
 
 
-                        <div class="product-carousel-price">
+                            <div class="product-carousel-price">
 
 
-                            @{
-                                if (item.Discount == 0 || item.Discount == null || item.Discount is string)
-                                {
-                                    <ins>
-                                        @{
-
-
-
-
-
-
-                                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
-
-                                        }
-                                        @formattedPrice
-                                    </ins>
-                                }
-                                else
-                                {
-                                    <ins>
-                                        @{
-
-
-
-
-
-                                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
-
-
-                                        }
-                                        @formattedPrice
-                                    </ins>
-                                }
-                            }
-
-                            <del>
                                 @{
-                                    string formattedPrice2;
-                                    if (item.Discount > 0)
+                                    if (item.Discount == 0 || item.Discount == null || item.Discount is string)
                                     {
+                                        <ins>
+                                            @{
 
-                                        formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+
+
+
+
+
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
                                     }
                                     else
                                     {
+                                        <ins>
+                                            @{
 
 
-                                        formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
+
+
+
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
+
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
                                     }
-
-
                                 }
-                                @formattedPrice2
+
+                                <del>
+                                    @{
+                                        string formattedPrice2;
+                                        if (item.Discount > 0)
+                                        {
+
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                        }
+                                        else
+                                        {
+
+
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
+                                        }
+
+
+                                    }
+                                    @formattedPrice2
 
 
 
 
-                            </del>
+                                </del>
+                            </div>
+
                         </div>
-
                     </div>
-                </div>
+                }
             }
-        }
 
-        <!-- Các sản phẩm tiếp theo -->
+            <!-- Các sản phẩm tiếp theo -->
+        </div>
+    </div>
+
+    <div id="about" class="content">
+        <div class="row" style="background:white">
+
+            <div style="margin-bottom: 10px;padding-left: 13px;" class="section-title">
+                <h3 style="text-align: left; padding:10px;">Sản phẩm của shop </h3>
+            </div>
+
+
+            @if (Model != null)
+            {
+                foreach (var item in BestSellings)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="single-product">
+                            <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
+                                @*                                         <img src="~/User/img/product-1.jpg" alt="">
+                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
+
+                                <div class="product-hover">
+                                    <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                    <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                                </div>
+                            </div>
+                            <div style="height:45px">  <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2></div>
+
+                            <div id="stars-container">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= Math.Floor(item.Rating))
+                                    {
+                                        <i class="fa fa-star filled"></i> <!-- Sao đầy -->
+                                    }
+                                    else if (i == Math.Ceiling(item.Rating))
+                                    {
+                                        <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
+                                    }
+                                }
+                            </div>
+                            <div class="product-carousel-price">
+
+
+                                @{
+                                    if (item.Discount == 0 || item.Discount == null || item.Discount is string)
+                                    {
+                                        <ins>
+                                            @{
+
+
+
+
+
+
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                    else
+                                    {
+                                        <ins>
+                                            @{
+
+
+
+
+
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
+
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                }
+
+                                <del>
+                                    @{
+                                        string formattedPrice2;
+                                        if (item.Discount > 0)
+                                        {
+
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                        }
+                                        else
+                                        {
+
+
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
+                                        }
+
+
+                                    }
+                                    @formattedPrice2
+
+
+
+
+                                </del>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+
+            <!-- Các sản phẩm tiếp theo -->
+        </div>
+    </div>
+
+    <div id="services" class="content">
+        <h3>Nội Dung Dịch Vụ</h3>
+        <p>Đây là nội dung của dịch vụ.</p>
+    </div>
+
+    <div id="contact" class="content">
+        <h3>Nội Dung Liên Hệ</h3>
+        <p>Đây là nội dung của liên hệ.</p>
     </div>
 
 
@@ -294,7 +437,28 @@
 </div>
 
 @section Scripts{
-   
+    <script>
+        $(document).ready(function () {
+            // Hiển thị nội dung đầu tiên
+            $('.content').hide();
+            $('#home').show();
+
+            // Xử lý sự kiện khi nhấn vào menu
+            $('.menu-item').click(function (e) {
+                e.preventDefault();
+                var target = $(this).data('target');
+
+                // Ẩn tất cả nội dung
+                $('.content').hide();
+                // Hiển thị nội dung tương ứng
+                $(target).show();
+
+                // Cập nhật tab đang hoạt động
+                $('.nav-tabs li').removeClass('active');
+                $(this).parent().addClass('active');
+            });
+        });
+    </script>
 
 
 }

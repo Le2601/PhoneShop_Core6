@@ -3,6 +3,19 @@
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
+<style>
+    .form-group {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        color: #c1c1d7;
+    }
+</style>
 
 
 <form class="form-signin" asp-action="Login" asp-controller="Account" method="post" autocomplete="off">
@@ -27,10 +40,13 @@
         <label style="color:#c1c1d7" for="FullName">Email Đăng Nhập</label>
     </div>
 
-    <div class="form-group">
-        <input type="text" id="FullName" required placeholder=" " value="123456" name="Password">
-        <label style="color:#c1c1d7" for="FullName">Mật Khẩu</label>
-    </div>
+    
+        <div class="form-group">
+            <input type="password" id="Password" required placeholder=" " value="123456" name="Password">
+            <label style="color:#c1c1d7" for="Password">Mật Khẩu</label>
+            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+        </div>
+    
 
     <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i>Đăng nhập</button>
     <label style="color:red">
@@ -46,3 +62,14 @@
     <a class="btn btn-primary btn-block" href="/Account/Index" style="color:white"><i class="fas fa-user-plus"></i> Tạo tài khoản</a>
     <a href="~/"><i class="fas fa-angle-left"></i> Trở về </a>
 </form>
+<script>
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('Password');
+
+    togglePassword.addEventListener('click', function () {
+        // Chuyển đổi giữa hiển thị và ẩn mật khẩu
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>

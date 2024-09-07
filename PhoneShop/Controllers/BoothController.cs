@@ -99,6 +99,9 @@ namespace PhoneShop.Controllers
                 ViewBag.CheckFollow = 0;
             }
 
+            //voucher by booth
+            ViewBag.ListVoucher = _context.Vouchers.Where(x => x.IsActive == true && x.BoothId == Id).ToList();
+
 
 
 

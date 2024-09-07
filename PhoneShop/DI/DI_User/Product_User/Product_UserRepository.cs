@@ -392,7 +392,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public List<ProductViewModel> ListProductByBooth_All(int IdBooth)
         {
-            var items = _context.Products.Where(x => x.Booth_InformationId == IdBooth).Select(x => new ProductViewModel
+            var items = _context.Products.Where(x => x.Booth_InformationId == IdBooth && x.IsApproved == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -414,7 +414,8 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public List<ProductViewModel> ListProductByBooth_BestSelling(int IdBooth)
         {
-            var items = _context.Products.Where(x=> x.Booth_InformationId == IdBooth).Join(_context.Evaluate_Products,
+            var items = _context.Products.Where(x=> x.Booth_InformationId == IdBooth && x.IsApproved == true)
+                .Join(_context.Evaluate_Products,
                  p => p.Id,
                  e => e.ProductId,
                  (p, e) => new { Product = p, Evaluate_Product = e })
@@ -433,6 +434,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                  Update_at = x.Product.Update_at,
                  ImageDefaultName = x.Product.ImageDefaultName,
                  Rating = x.Product.review_Products.Any() ? x.Product.review_Products.Average(r => r.Rate) : 1,
+                 Quantity_Purchase =  x.Product.evaluate_Products.Sum(x=> x.Purchases)
              })             
              .ToList();
 

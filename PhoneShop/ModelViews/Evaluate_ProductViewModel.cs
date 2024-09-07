@@ -14,7 +14,7 @@ namespace PhoneShop.ModelViews
 
             public int ProductId { get; set; }
 
-            public ProductViewModel Product { get; set; }
+            public virtual ProductViewModel Product { get; set; }
      
     }
 }

@@ -51,7 +51,9 @@ namespace PhoneShop.ModelViews
         public bool Status { get; set; }
 
         public virtual Category Category { get; set; }
-        public Evaluate_ProductViewModel Evaluate_Product { get; set; }
+
+        public virtual ICollection<Evaluate_ProductViewModel> Evaluate_Product { get; set; }
+
 
         public virtual ICollection<ImageProduct> ImageProducts { get; set; }
 

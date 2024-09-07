@@ -1,0 +1,104 @@
+﻿@model List<PhoneShop.Models.Voucher>
+
+    <style>
+    .promotion-card {
+        border: 1px solid #f0c4c4;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #fff3f3;
+        margin: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-width: 200px;
+        flex: 0 0 auto;
+    }
+
+        .promotion-card h5 {
+            color: #e74c3c;
+            margin: 0;
+        }
+
+    .promotion-content {
+        flex-grow: 1;
+        margin-right: 15px;
+    }
+
+    .btn-save {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+    }
+
+    .expiry-date {
+        font-size: 0.8em;
+        color: #757575;
+    }
+
+    .promotion-container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px;
+        max-width: 100%;
+        justify-content: flex-start; 
+    }
+
+        .promotion-container::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<div class="container mt-4">
+    <br />
+    <h3 class="shop-name">Khuyến Mãi</h3>
+    <div class="promotion-container" id="promotionContainer">
+        <div class="promotion-card">
+            <div class="promotion-content">
+                <h5>Giảm 10k</h5>
+                <p>Đơn Tối Thiểu 0đ</p>
+                <p class="expiry-date">Có hiệu lực sau: 1 ngày</p>
+            </div>
+            <button class="btn btn-save">Lưu</button>
+        </div>
+        <div class="promotion-card">
+            <div class="promotion-content">
+                <h5>Giảm 1k</h5>
+                <p>Đơn Tối Thiểu 50k</p>
+                <p class="expiry-date">HSD: 05.12.2024</p>
+            </div>
+            <button class="btn btn-save">Lưu</button>
+        </div>
+        <div class="promotion-card">
+            <div class="promotion-content">
+                <h5>Giảm 2k</h5>
+                <p>Đơn Tối Thiểu 99k</p>
+                <p class="expiry-date">HSD: 05.12.2024</p>
+            </div>
+            <button class="btn btn-save">Lưu</button>
+        </div>
+        <div class="promotion-card">
+            <div class="promotion-content">
+                <h5>Giảm 3k</h5>
+                <p>Đơn Tối Thiểu 100k</p>
+                <p class="expiry-date">HSD: 05.12.2024</p>
+            </div>
+            <button class="btn btn-save">Lưu</button>
+        </div>
+        <div class="promotion-card">
+            <div class="promotion-content">
+                <h5>Giảm 4k</h5>
+                <p>Đơn Tối Thiểu 200k</p>
+                <p class="expiry-date">HSD: 05.12.2025</p>
+            </div>
+            <button class="btn btn-save">Lưu</button>
+        </div>
+        <div class="promotion-card">
+            <div class="promotion-content">
+                <h5>Giảm 5k</h5>
+                <p>Đơn Tối Thiểu 300k</p>
+                <p class="expiry-date">HSD: 05.12.2025</p>
+            </div>
+            <button class="btn btn-save">Lưu</button>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 ﻿@model List<PhoneShop.ModelViews.ProductViewModel>
 @using PhoneShop.ModelViews;
-@using PhoneShop.Data
+@using PhoneShop.Data;
+@using PhoneShop.Models;
 @{
     ViewData["Title"] = "BoothInfo";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,10 +12,15 @@
 
     List<ProductViewModel> BestSellings = ViewBag.BestSelling;
 
+    List<Voucher> ListVoucher = ViewBag.ListVoucher;
+
 
 }
 <style>
 
+    .metric-value {
+        color:#5a88ca;
+    }
     .content {
         margin-top: 20px;
         display: none; /* Ẩn nội dung ban đầu */
@@ -197,6 +203,16 @@
 
       
     </div>
+
+   
+
+
+
+   
+           
+            @await Html.PartialAsync("_Partial_VoucherByBooth",ListVoucher)
+
+ 
     
 
 
@@ -207,14 +223,14 @@
         <li class="active"><a href="#" class="menu-item" data-target="#home">Tất Cả Sản Phẩm</a></li>
         <li><a href="#" class="menu-item" data-target="#about">Bán Chạy</a></li>
         <li><a href="#" class="menu-item" data-target="#services">Đánh Giá Cao</a></li>
-        <li><a href="#" class="menu-item" data-target="#contact">Phiếu Giảm Giá</a></li>
+      
     </ul>
 
     <div id="home" class="content">
         <div class="row" style="background:white">
 
             <div style="margin-bottom: 10px;padding-left: 13px;" class="section-title">
-                <h3 style="text-align: left; padding:10px;">Sản phẩm của shop </h3>
+                <h3 style="text-align: left; padding:10px;">Tất Cả Sản Phẩm </h3>
             </div>
 
 
@@ -312,7 +328,7 @@
         <div class="row" style="background:white">
 
             <div style="margin-bottom: 10px;padding-left: 13px;" class="section-title">
-                <h3 style="text-align: left; padding:10px;">Sản phẩm của shop </h3>
+                <h3 style="text-align: left; padding:10px;">Sản Phẩm Bán Chạy </h3>
             </div>
 
 
@@ -320,7 +336,7 @@
             {
                 foreach (var item in BestSellings)
                 {
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" style="padding-bottom:10px">
                         <div class="single-product">
                             <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
                                 @*                                         <img src="~/User/img/product-1.jpg" alt="">
@@ -332,6 +348,8 @@
                                 </div>
                             </div>
                             <div style="height:45px">  <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2></div>
+
+                            <p style="color:blue">@item.Quantity_Purchase Lượt Mua</p>
 
                             <div id="stars-container">
                                 @for (int i = 1; i <= 5; i++)
@@ -427,10 +445,7 @@
         <p>Đây là nội dung của dịch vụ.</p>
     </div>
 
-    <div id="contact" class="content">
-        <h3>Nội Dung Liên Hệ</h3>
-        <p>Đây là nội dung của liên hệ.</p>
-    </div>
+  
 
 
 
@@ -458,6 +473,26 @@
                 $(this).parent().addClass('active');
             });
         });
+    </script>
+
+    <script>
+        function scrollLeft() {
+            const container = document.getElementById('promotionContainer');
+            container.scrollBy({
+                top: 0,
+                left: -200, // Số pixel để cuộn sang trái
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollRight() {
+            const container = document.getElementById('promotionContainer');
+            container.scrollBy({
+                top: 0,
+                left: 200, // Số pixel để cuộn sang phải
+                behavior: 'smooth'
+            });
+        }
     </script>
 
 

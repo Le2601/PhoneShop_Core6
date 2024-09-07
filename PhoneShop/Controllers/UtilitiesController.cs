@@ -41,6 +41,10 @@ namespace PhoneShop.Controllers
 
             var item = _dbContext.Accounts.Where(x => x.Id == AccountId).FirstOrDefault();
 
+
+            //check booth
+            ViewBag.CheckBooth = _dbContext.Booth_Information.Where(x => x.AccountId == AccountId).FirstOrDefault();
+
             return View(item);
         }
 
@@ -52,7 +56,7 @@ namespace PhoneShop.Controllers
 
             
 
-            var GetOrder = (
+            var GetOrder =  (
                 
                     from or in _dbContext.Orders.Where(x=> x.AccountId == AccountId).ToList()
                     join ord in _dbContext.Order_Details.DefaultIfEmpty()
@@ -95,6 +99,8 @@ namespace PhoneShop.Controllers
             ViewBag.Orderhuy = _dbContext.DeliveryProcesses.Where(x => x.DeliveryStatus == 5).Include(x => x.Order_Details).ThenInclude(x => x.Product).ToList();
             //status order
             ViewBag.StatusOrder = _dbContext.DeliveryProcesses.Include(x => x.Order_Details).ThenInclude(x=> x.Product).ToList();
+
+
             return View(GetOrder);
         }
 

@@ -33,6 +33,10 @@ namespace PhoneShop.Models
 
         public int IdAccount { get; set; }
 
+
+
+        public virtual Account Account { get; set; }
+
         
 
       

@@ -8,6 +8,22 @@
 @await Component.InvokeAsync("MenuUtilities")
 
 <style>
+    .notification {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        max-width: 400px;
+    }
+
+        .notification p {
+            font-size: 12px;
+            color: #333;
+        }
+
+   
     .submit-spp{
         background: #ee4d2d;
         color: #fff;
@@ -83,6 +99,15 @@
 
 <div class="profile-container">
     <h1 class="profile-header">Hồ Sơ Của Tôi</h1>
+
+    @if(ViewBag.CheckBooth != null)
+    {
+        <div class="notification">
+            <p>Tài Khoản Của Bạn Hiện Đang Liên Kết Với Gian Hàng <a style="color:red" href="/Home_Seller">Xem Ngay</a></p>
+
+        </div>
+    }
+   
     <p class="profile-info">Email/Tên Đăng Nhập: @Model.Email</p>
     <p class="profile-info">Ngày tạo: @Model.CreateDate</p>
     <form asp-action="Update" asp-controller="Account" method="post">

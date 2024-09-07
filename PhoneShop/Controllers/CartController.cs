@@ -332,6 +332,19 @@ namespace PhoneShop.Controllers
 
         public async Task<IActionResult> Add(int id)
         {
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+            var msg = "";
+
+            //kiem tra user booth
+            var CheckBooth = _dbContext.Products.Where(x=> x.Create_Id == AccountId && x.Id == id).FirstOrDefault();
+            if (CheckBooth != null)
+            {
+                 msg = "Bạn không thể tự mua sản phẩm do mình bán";
+                return Json(new { success = false, msg = msg });
+            }
+
 
 
             //lay hinh anh mac dinh sp ra
@@ -359,8 +372,8 @@ namespace PhoneShop.Controllers
 
             HttpContext.Session.Set("Cart", Cart);
 
-
-            return Json(new { success = true });
+             msg = "Đã thêm vào giỏ hàng";
+            return Json(new { success = true, msg = msg });
 
             //giu nguyen trang
             //return Redirect(Request.Headers["Referer"].ToString());
@@ -373,6 +386,19 @@ namespace PhoneShop.Controllers
           
             var id = int.Parse(form["ProductId"]);
             var quantity = int.Parse(form["quantity"]);
+
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+            var msg = "";
+
+            //kiem tra user booth
+            var CheckBooth = _dbContext.Products.Where(x => x.Create_Id == AccountId && x.Id == id).FirstOrDefault();
+            if (CheckBooth != null)
+            {
+                msg = "Bạn không thể tự mua sản phẩm do mình bán";
+                return Json(new { success = false, msg = msg });
+            }
 
             for (int i = 0; i < quantity; i++)
             {
@@ -403,7 +429,8 @@ namespace PhoneShop.Controllers
 
             }
 
-            return Json(new { success = true });
+            msg = "Đã thêm vào giỏ hàng";
+            return Json(new { success = true, msg = msg });
         }
 
 

@@ -48,6 +48,9 @@
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
 <style>
     .star-container {
         font-size: 24px;
@@ -262,21 +265,21 @@
                                 @{
                                     if (item.Discount == 0 || item.Discount == null || item.Discount is string)
                                     {
-                                        <ins style="color:red">
-                                            @{
+                                            <ins style="color:red">
+                                                @{
                                                 string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
-                                            }
-                                            @formattedPrice
-                                        </ins>
+                                                }
+                                                @formattedPrice
+                                            </ins>
                                     }
                                     else
                                     {
-                                        <ins style="color:red">
-                                            @{
+                                            <ins style="color:red">
+                                                @{
                                                 string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
-                                            }
-                                            @formattedPrice
-                                        </ins>
+                                                }
+                                                @formattedPrice
+                                            </ins>
                                     }
                                 }
 
@@ -285,7 +288,7 @@
                                     if (item.Discount > 0)
                                     {
                                         formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
-                                        <del>@formattedPrice2</del>
+                                            <del>@formattedPrice2</del>
                                     }
                                 }
                             </div>
@@ -369,8 +372,8 @@
                                 @{
                                     if (item.Discount == 0 || item.Discount == null || item.Discount is string)
                                     {
-                                        <ins style="color:red">
-                                            @{
+                                            <ins style="color:red">
+                                                @{
 
 
 
@@ -379,14 +382,14 @@
 
                                                 string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
 
-                                            }
-                                            @formattedPrice
-                                        </ins>
+                                                }
+                                                @formattedPrice
+                                            </ins>
                                     }
                                     else
                                     {
-                                        <ins style="color:red">
-                                            @{
+                                            <ins style="color:red">
+                                                @{
 
 
 
@@ -395,9 +398,9 @@
                                                 string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
 
 
-                                            }
-                                            @formattedPrice
-                                        </ins>
+                                                }
+                                                @formattedPrice
+                                            </ins>
                                     }
                                 }
 
@@ -458,9 +461,12 @@
                     data: { id: id },
                     success: function (rs) {
                         if (rs.success) {
-                            alert("Thêm thành công");
+                            alert(rs.msg);
 
                             location.reload();
+                        }
+                        else {
+                            alert(rs.msg);                          
                         }
                     }
 

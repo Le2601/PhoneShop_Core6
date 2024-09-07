@@ -145,8 +145,16 @@ namespace PhoneShop.Models
             .Property(p => p.DiscountConditions)
             .HasColumnType("decimal(18, 0)");
 
-           
-                  modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Order>()
+            .Property(p => p.Total_Order)
+            .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Order>()
+             .Property(p => p.Profit)
+             .HasColumnType("decimal(18, 2)");
+
+
+            modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Product)
                 .HasForeignKey(p => p.CategoryId);
@@ -180,13 +188,7 @@ namespace PhoneShop.Models
             //     .HasForeignKey<Evaluate_Product>(e => e.ProductId);
 
 
-            modelBuilder.Entity<Order>()
-              .Property(p => p.Total_Order)
-              .HasColumnType("decimal(18, 2)");
-
-            modelBuilder.Entity<Order>()
-             .Property(p => p.Profit)
-             .HasColumnType("decimal(18, 2)");
+          
 
             modelBuilder.Entity<Order_Details>()
               .HasOne(p => p.Order)
@@ -312,6 +314,12 @@ namespace PhoneShop.Models
              .HasOne(p => p.Account)
              .WithMany(p => p.review_Products)
              .HasForeignKey(p => p.AccountId);
+
+
+            modelBuilder.Entity<MyAddress>()
+           .HasOne(p => p.Account)
+           .WithMany(p => p.myAddresses)
+           .HasForeignKey(p => p.IdAccount);
 
 
 

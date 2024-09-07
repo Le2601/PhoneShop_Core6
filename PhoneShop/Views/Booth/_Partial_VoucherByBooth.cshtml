@@ -52,53 +52,20 @@
     <br />
     <h3 class="shop-name">Khuyến Mãi</h3>
     <div class="promotion-container" id="promotionContainer">
-        <div class="promotion-card">
-            <div class="promotion-content">
-                <h5>Giảm 10k</h5>
-                <p>Đơn Tối Thiểu 0đ</p>
-                <p class="expiry-date">Có hiệu lực sau: 1 ngày</p>
-            </div>
-            <button class="btn btn-save">Lưu</button>
-        </div>
-        <div class="promotion-card">
-            <div class="promotion-content">
-                <h5>Giảm 1k</h5>
-                <p>Đơn Tối Thiểu 50k</p>
-                <p class="expiry-date">HSD: 05.12.2024</p>
-            </div>
-            <button class="btn btn-save">Lưu</button>
-        </div>
-        <div class="promotion-card">
-            <div class="promotion-content">
-                <h5>Giảm 2k</h5>
-                <p>Đơn Tối Thiểu 99k</p>
-                <p class="expiry-date">HSD: 05.12.2024</p>
-            </div>
-            <button class="btn btn-save">Lưu</button>
-        </div>
-        <div class="promotion-card">
-            <div class="promotion-content">
-                <h5>Giảm 3k</h5>
-                <p>Đơn Tối Thiểu 100k</p>
-                <p class="expiry-date">HSD: 05.12.2024</p>
-            </div>
-            <button class="btn btn-save">Lưu</button>
-        </div>
-        <div class="promotion-card">
-            <div class="promotion-content">
-                <h5>Giảm 4k</h5>
-                <p>Đơn Tối Thiểu 200k</p>
-                <p class="expiry-date">HSD: 05.12.2025</p>
-            </div>
-            <button class="btn btn-save">Lưu</button>
-        </div>
-        <div class="promotion-card">
-            <div class="promotion-content">
-                <h5>Giảm 5k</h5>
-                <p>Đơn Tối Thiểu 300k</p>
-                <p class="expiry-date">HSD: 05.12.2025</p>
-            </div>
-            <button class="btn btn-save">Lưu</button>
-        </div>
+        @foreach (var item in Model)
+        {
+
+            <div class="promotion-card">
+                <div class="promotion-content">
+                    <h5>Giảm @PhoneShop.Extension.Extension.ToVnd((double)@item.DiscountProduct)</h5>
+                    <p>Đơn Tối Thiểu @PhoneShop.Extension.Extension.ToVnd((double)item.DiscountConditions)</p>
+                    <p class="expiry-date">Có hiệu lực từ: @item.StartDate.ToString("dd/MM/yyyy") đến @item.ExpiryDate.ToString("dd/MM/yyyy")</p>
+                    <p class="expiry-date">Còn lại: @item.Quantity</p>
+                </div>
+@*                 <button class="btn btn-save">Lưu</button>
+ *@            </div>
+
+        }
+      
     </div>
 </div>

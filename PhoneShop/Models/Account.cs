@@ -31,5 +31,7 @@ namespace PhoneShop.Models
 
         public ICollection<Review_Product> review_Products { get; set; }
 
+        public ICollection<MyAddress> myAddresses { get; set; }
+
     }
 }

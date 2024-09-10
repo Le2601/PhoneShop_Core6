@@ -16,13 +16,9 @@
     @Html.ValidationSummary(true)
 
     <div class="card">
-        <div class="card-header p-2">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin</a></li>
-                @* <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>*@
-
-            </ul>
-        </div><!-- /.card-header -->
+        <div class="card-header">
+            <h4 class="card-title">Cập nhật thông tin</h4>
+        </div>
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane active" id="activity">
@@ -76,8 +72,10 @@
 
             <!-- /.tab-content -->
         </div><!-- /.card-body -->
-        <div class="form-group">
-            <input type="submit" value="Add" />
+        <div class="card-footer">
+            <div class="form-group">
+                <input class="btn btn-success" type="submit" value="Cập nhật" />
+            </div>
         </div>
     </div>
 

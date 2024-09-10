@@ -15,6 +15,11 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="~/clients/dist/css/adminlte.min.css">
 
+<style>
+    .btncent{
+        text-align:center;
+    }
+</style>
 
 
 <section class="content">
@@ -53,7 +58,7 @@
                                 <td>
                                     <a href="/Product_Seller/Detail_Product_Seller/@i.Id">@i.Title</a>
                                 </td>
-                                <td>@i.Date_Purchase.ToString("dd/MM/yyyy")</td>
+                                <td>@i.Date_Purchase.ToString("dd/MM/yyyy HH:mm")</td>
                                 <td>@i.Quantity_Purchase</td>
                                 <td>
                                     <p style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)i.Price)</p>
@@ -75,28 +80,9 @@
                                         <p>Trực tuyến (MoMo)</p>
                                     }
                                 </td>
-                                <td><a class="btn btn-block btn-info btn-sm" href="/Order_Seller/Info_Order_Address/@i.Info_Order_Address_Id">Xem</a></td>
-                                @* @if(i.Ord_Status == 1)
-                                {
-                                    <td>Xác nhận</td>
-                                }
-                                else if(i.Ord_Status == 2)
-                                {
-                                    <td>Chuẩn bị</td>
-                                }
-                                else if(i.Ord_Status == 3)
-                                {
-                                    <td>Đang giao</td>
-                                }
-                                else if(i.Ord_Status == 4)
-                                {
-                                    <td>Hoàn thành</td>
-                                }
-                                else
-                                {
-                                    <td>Hủy</td>
-                                } *@
-                                <td>
+                                <td class="btncent"><br><a class="btncent" href="/Order_Seller/Info_Order_Address/@i.Info_Order_Address_Id"><i class="fas fa-eye fa-lg" style="color: #63E6BE;"></i></a></td>
+
+                                <td class="btncent">
                                    
                                     @if (@i.Status_OrderDetail == 1)
                                     {

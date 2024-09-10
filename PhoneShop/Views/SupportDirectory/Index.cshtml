@@ -10,9 +10,21 @@
 <style>
     
 
-    .content {
+   /*  .content {
         display: none;
         padding: 10px;
+    } */
+   
+    .search-box {
+        margin: 20px 0;
+    }
+
+    .category {
+        margin: 20px 0;
+    }
+
+    .faq {
+        margin-top: 30px;
     }
 </style>
 
@@ -20,7 +32,7 @@
 
 <br />
 
-<div class="container" style="min-height:600px">
+@* <div class="container" style="min-height:600px">
     <div class="row">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -82,4 +94,42 @@
     </script>
 
 
-}
+} *@
+
+<div class="container" style="background:white">
+   
+
+    <div class="category">
+        <h3>Hỗ Trợ Khách Hàng</h3>
+        <div class="row">
+             @foreach (var item in Model)
+            {
+               <a href="13/">
+                    <div class="col-xs-6 col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-body text-center">
+                                <h5 style="margin-bottom:0px">@Html.Raw(item.Title)</h5>
+                            </div>
+                        </div>
+                    </div>
+               </a>
+            }
+
+            
+        </div>
+    </div>
+
+    <div class="faq">
+        <h3>Câu Hỏi Thường Gặp</h3>
+        <p>[Cảnh báo lừa đảo] Mua sắm cùng PhoneShop</p>
+        <p>[Dịch vụ] Cách liên hệ Chăm sóc khách hàng, Hotline, Tổng đài PhoneShop</p>
+    </div>
+
+    <h3>Liên Hệ</h3>
+    <p>Để biết thêm thông tin hoặc có câu hỏi, vui lòng liên hệ với chúng tôi qua:</p>
+    <ul>
+        <li>Số điện thoại: 0123456789</li>
+        <li>Email: info@example.com</li>
+        <li>Địa chỉ: 123 Đường ABC, Thành phố XYZ</li>
+    </ul>
+</div>

@@ -4,7 +4,6 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<SupportContentViewModel> supportContents = ViewBag.ListItemDetail_Support;
 
 }
 <style>
@@ -32,69 +31,7 @@
 
 <br />
 
-@* <div class="container" style="min-height:600px">
-    <div class="row">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Hỗ trợ khách hàng</li>
-            </ol>
-        </nav>
-       
 
-     
-
-        @foreach(var item in Model)
-        {
-              <h2 class="collapsible">@item.Title</h2>
-                <div class="content">
-
-                @foreach (var i in supportContents)
-                {
-                    if(i.IdSpDirectory == item.Id)
-                    {
-                        <a href="/Support_detail/@i.Alias-@i.Id">@i.Title</a>
-                    }
-                    <br />
-                }
-
-                    
-                </div>
-        }
-
-
-
-        <h2>Liên hệ</h2>
-        <p>Để biết thêm thông tin hoặc có câu hỏi, vui lòng liên hệ với chúng tôi qua:</p>
-        <ul>
-            <li>Số điện thoại: 0123456789</li>
-            <li>Email: info@example.com</li>
-            <li>Địa chỉ: 123 Đường ABC, Thành phố XYZ</li>
-        </ul>
-        
-
-    </div>
-</div>
-
-@section Scripts{
-
-    <script>
-        var collapsibles = document.getElementsByClassName("collapsible");
-        for (var i = 0; i < collapsibles.length; i++) {
-            collapsibles[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.display === "block") {
-                    content.style.display = "none";
-                } else {
-                    content.style.display = "block";
-                }
-            });
-        }
-    </script>
-
-
-} *@
 
 <div class="container" style="background:white">
    
@@ -104,7 +41,7 @@
         <div class="row">
              @foreach (var item in Model)
             {
-               <a href="13/">
+                <a href="/SupportDirectory/ListSupportDirectory/@item.Id">
                     <div class="col-xs-6 col-md-3">
                         <div class="panel panel-default">
                             <div class="panel-body text-center">

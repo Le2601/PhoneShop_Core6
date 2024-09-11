@@ -26,18 +26,25 @@ namespace PhoneShop.Controllers
 
             var items = await _repository.GetAll();
 
-            ViewBag.ListItemDetail_Support = await _contentRepository.GetAll();
+            
 
             return View(items);
         }
 
-        [Route("/Support_detail/{Alias}-{Id}")]
-        public async Task<IActionResult> Detail_SupportContent(int Id)
+        public IActionResult ListSupportDirectory(int Id)
         {
-            var item =await _contentRepository.GetById(Id);
+
+            ViewBag.Titlsp = _context.Support_Directories.Where(x=> x.Id == Id).First().Title;
+
+
+            var item = _context.Support_Contents.Where(x => x.IdSpDirectory == Id).ToList();
+
 
             return View(item);
         }
+
+
+
 
 
 

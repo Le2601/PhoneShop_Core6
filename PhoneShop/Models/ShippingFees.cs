@@ -14,11 +14,15 @@ namespace PhoneShop.Models
 
         public string OrderId { get; set; }
 
+        public int VoucherId { get; set; }
+
 
         public decimal FeeMount { get; set; }
 
        
         public virtual Order Order { get; set; }
+
+        public virtual Voucher Voucher { get; set; }
 
 
     }

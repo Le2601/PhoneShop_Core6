@@ -45,6 +45,11 @@ namespace PhoneShop.Models
         public virtual Booth_Information? Booth_Information { get; set; }
 
 
+        public virtual ICollection<ShippingFees> ShippingFees { get; set; }
+
+
+
+
 
 
     }

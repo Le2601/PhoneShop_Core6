@@ -76,6 +76,9 @@ namespace PhoneShop.Areas.Admin.Controllers
             
             ViewBag.GetOrder = _context.Orders.Where(x=>x.Id_Order == id).FirstOrDefault()!;
 
+            ViewBag.CheckShipping = _context.ShippingFees.Where(x=> x.OrderId == id).FirstOrDefault();
+
+
                 
 
 

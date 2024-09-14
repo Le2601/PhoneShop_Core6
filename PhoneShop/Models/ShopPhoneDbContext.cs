@@ -329,6 +329,11 @@ namespace PhoneShop.Models
           .WithMany(p => p.ShippingFees)
           .HasForeignKey(p => p.OrderId);
 
+           modelBuilder.Entity<ShippingFees>()
+          .HasOne(p => p.Voucher)
+          .WithMany(p => p.ShippingFees)
+          .HasForeignKey(p => p.VoucherId);
+
 
 
 

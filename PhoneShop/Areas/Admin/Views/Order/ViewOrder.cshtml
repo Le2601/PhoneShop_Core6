@@ -20,6 +20,8 @@
 
     DeliveryProcess GetDeli = ViewBag.DeliveryProcess;
 
+    ShippingFees CheckShipping =  ViewBag.CheckShipping;
+
 
    
 }
@@ -91,6 +93,16 @@
                                         <p>Thanh toán khi nhận hàng</p>
                                         }
                     <p>Ngày đặt: @getOrder.Order_Date</p>
+                    @if (CheckShipping == null)
+                    {
+                        <p style="color:red">Phí vận chuyện: 15.000 VND</p>
+                    }
+                    else
+                    {
+                        <p style="color:red">Đã áp dụng voucher miễn phí vận chuyển, mã voucher: @CheckShipping.VoucherId với đơn hàng @CheckShipping.OrderId</p>
+
+                    }
+
                    
                 </div>
                 <div style="flex: 1; text-align: right;">

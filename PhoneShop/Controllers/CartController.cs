@@ -270,7 +270,16 @@ namespace PhoneShop.Controllers
             }
 
 
-
+            //session gio hang
+            List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
+            //lay ra tong so tien
+            CartItemViewModel cartVM = new()
+            {
+                CartItems = CartItems,
+               
+                OrderTotal = CartItems.Sum(x => x.Quantity * x.Price),
+                
+            };
 
             //kiem tra voucher co dc nguoi dung luu chua
             List<VoucherItemModel> CartVoucher = PhoneShop.Extension.SessionExtensions.GetListSessionCartVoucher("CartVoucher", HttpContext);
@@ -281,11 +290,13 @@ namespace PhoneShop.Controllers
                 {
                     var getVoucher = _voucher_UserRepository.GetByCode(Voucher_code);
 
-                    //if (getVoucher == null)
-                    //{
-                    //    TempData["VoucherNull"] = "Mã giảm giá không tồn tại!";
-                    //    return RedirectToRoute("Cart");
-                    //}
+                    
+                    if(cartVM.OrderTotal < getVoucher.DiscountConditions)
+                    {
+                        TempData["ErDiscountConditions"] = "Đơn hàng chưa đủ điều kiện áp dụng mã giảm giá!";
+                        return RedirectToRoute("Cart");
+                    }
+
 
                     if (getVoucher.Quantity <= 0)
                     {
@@ -957,8 +968,25 @@ namespace PhoneShop.Controllers
 
             }
 
+            //ap dung voucher thanh cong xu ly giam so luong va luu db shippingfee
             if (CheckApply != null)
             {
+                var VaVoucher = _dbContext.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault()!;
+
+                var CreateShippingFree = new ShippingFees
+                {
+                    OrderId = Order_Id,
+                    VoucherId = VaVoucher.Id,
+                    FeeMount = VaVoucher.DiscountAmount
+
+
+                };
+
+                _dbContext.ShippingFees.Add(CreateShippingFree);
+                _dbContext.SaveChanges();
+
+
+
                 handleVoucher();
             }
 
@@ -1071,22 +1099,13 @@ namespace PhoneShop.Controllers
 
         //demo apply free ship
 
-        [HttpPost]
-        public IActionResult ApplyDemo()
-        {
-            var pricefreeship = 0;
-
-            HttpContext.Session.Set("pricefreeship", pricefreeship);
-
-
-            return Json(new { success = true });
-
-        }
+       
         [HttpPost]
         public IActionResult RemoveApplyFreeShip()
         {
 
             HttpContext.Session.Remove("getIdVoucher");
+            HttpContext.Session.Remove("DiscountAmount");
 
             return Json(new { success = true });
         }

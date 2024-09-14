@@ -21,6 +21,7 @@
     List<ProductViewModel> List_Selling = ViewBag.ListSelling;
 
 }
+<link href="~/user/custom/voucher.css" rel="stylesheet" />
 <style>
     .title_all {
         
@@ -51,7 +52,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div>
-
+    
+    @if (TempData["ErDiscountConditions"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["ErDiscountConditions"]
+        </div>
+    }
     @if (TempData["Check_Quantity_Product"] != null)
     {
         <div class="alert alert-success">
@@ -236,6 +243,7 @@
                             <p>Chưa có sản phẩm trong giỏ hàng</p>
                         }
 
+                        
 
 
                        
@@ -248,29 +256,28 @@
                                 <input type="submit" value="Áp dụng" name="áp dụng" style="background: #5a88ca;color:white" class="btn btn-info active">
                             </form>
                             
-                           
-                            <div class="voucher-list">
-                                <div class="title_all">Mã giảm giá của bạn</div>
-                                    
-                                <ul class="voucher-items">
-                                    @foreach (var i in IsVoucherVM.VoucherItems)
-                                    {
-                                        <li>
-                                            <div class="voucher-item">
-                                                <h3></h3>
-                                                <p>Mã: @i.Code</p>
-                                                <p>Điều kiện: @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountConditions)</p>
-                                                <p>Giảm: @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount)</p>
-                                                <p>Hiệu lực: @i.ExpiryDate</p>
-                                            </div>
-                                        </li>
-                                    }
-                                   
-                               
-                                </ul>
-                            </div>
+                           <br />
+                            
+                            @foreach (var i in IsVoucherVM.VoucherItems)
+                            {
+                                <div class=" mt-5">
+                                    <div class="coupon-card">
+                                        <div style="padding-left:30px" class="coupon-icon">
+                                            <i class="fa fa-ticket voucher-icon" aria-hidden="true"></i>
+                                        </div>
+                                        <div>
+                                            <p  class="coupon-title">@i.Code</p>
+                                            <p style="color:red" class="coupon-title">Giảm:  @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount)</p>
+                                            <p class="coupon-subtitle">Đơn Tối Thiểu @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountConditions)</p>
 
-                            <a class="applyadmin">miễn phí vận chuyển</a>
+                                            <p class="expiry">HSD: @i.ExpiryDate <span style="color: blue;"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                           
                         </div>
                         <br />
 
@@ -415,36 +422,7 @@
         });
     </script>
     
-    <script>
-        $(document).ready(function () {
-            $('body').on('click', '.applyadmin', function () {
-               
-
-
-
-
-
-                $.ajax({
-
-                    url: '/Cart/ApplyDemo',
-                    type: 'post',
-                    
-                    success: function (rs) {
-                        if (rs.success) {
-                            alert("Áp dụng thành công");
-
-                            location.reload();
-                        }
-                    }
-
-                });
-
-
-            });
-
-
-        });
-    </script>
+   
 
 
 }

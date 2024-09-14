@@ -9,6 +9,8 @@
 
     List<ImageProduct> IsCourseContents = ViewBag.imageproduct;
 
+    var TotalShippingFee = 0;
+
 
 }
 <style>
@@ -210,6 +212,7 @@
 
 
                                 </div>
+                                <a></a>
 
                                 <h3 id="order_review_heading">Đơn hàng của bạn</h3>
 
@@ -224,21 +227,34 @@
 
                                         <tfoot>
 
-                                            @*  <tr class="cart-subtotal"> *@
-                                            @*        <th>Cart Subtotal</th>
+                                             <tr class="cart-subtotal">
+                                                   <th>Tổng đơn hàng</th>
                                             <td>
-                                            <span class="amount">£15.00</span>
+                                                    <span class="amount">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)</span>
                                             </td>
                                             </tr>
 
-                                            <tr class="shipping">
-                                            <th>Shipping and Handling</th>
-                                            <td>
 
-                                            Free Shipping
-                                            <input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]">
+                                            <tr class="shipping">
+                                            <th>Phí vận chuyển</th>
+                                            <td>
+                                                   
+                                                    <p>Phí vận chuyển 15.000đ</p>
+                                                   
+                                                   
+                                               
+
+
+                                                    @if (ViewBag.ShippingFee  != null)
+
+                                                    {
+                                                        <p>Áp dụng voucher:  @ViewBag.ShippingFee đ</p>
+                                                        <p style="color:red">Tổng phí vận chuyện: @(TotalShippingFee = (int)ViewBag.ShippingFee - 15000)</p>
+                                                        <a class="btn btn-success RemoveApplyFreeShip">Hủy bỏ áp dụng miễn phí vận chuyển</a>
+                                                    }
+                                                    <input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]">
                                             </td>
-                                            </tr> *@
+                                            </tr>
 
 
                                             <tr class="order-total">
@@ -247,7 +263,18 @@
                                                     <strong>
                                                         <span class="amount" style="color:red">
 
-                                                            @PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)
+                                                            @if (ViewBag.ShippingFee == null)
+                                                            {
+                                                                @PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal + 15000 )
+
+                                                            }
+                                                            else
+                                                            {
+                                                                @PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal + (double)TotalShippingFee )
+
+                                                            }
+
+
                                                         </span>
                                                     </strong>
                                                 </td>
@@ -292,6 +319,36 @@
                 addressFields.style.display = 'none';
             }
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.RemoveApplyFreeShip', function () {
+
+
+
+
+
+
+                $.ajax({
+
+                    url: '/Cart/RemoveApplyFreeShip',
+                    type: 'post',
+
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("Đã hủy");
+
+                            location.reload();
+                        }
+                    }
+
+                });
+
+
+            });
+
+
+        });
     </script>
 
 }

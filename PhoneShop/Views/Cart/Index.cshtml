@@ -269,6 +269,8 @@
                                
                                 </ul>
                             </div>
+
+                            <a class="applyadmin">miễn phí vận chuyển</a>
                         </div>
                         <br />
 
@@ -289,19 +291,7 @@
                                             <td><span class="amount" style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)</span></td>
                                         </tr>
 
-                                        <tr class="shipping">
-                                            <th style="text-transform: capitalize;">Vận chuyển</th>
-                                            <td>Miễn Phí</td>
-                                        </tr>
-
-                                        <tr class="order-total">
-                                            <th style="text-transform: capitalize;">Tổng đơn hàng</th>
-                                            @{
-                                                string OrderTotal = ViewBag.OrderTotal.ToString("C", culture); // "C" là định dạng tiền tệ
-
-                                            }
-                                            <td><strong><span class="amount">@OrderTotal</span></strong> </td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -411,6 +401,37 @@
                     success: function (rs) {
                         if (rs.success) {
                             alert("Thêm thành công");
+
+                            location.reload();
+                        }
+                    }
+
+                });
+
+
+            });
+
+
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.applyadmin', function () {
+               
+
+
+
+
+
+                $.ajax({
+
+                    url: '/Cart/ApplyDemo',
+                    type: 'post',
+                    
+                    success: function (rs) {
+                        if (rs.success) {
+                            alert("Áp dụng thành công");
 
                             location.reload();
                         }

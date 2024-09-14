@@ -33,6 +33,8 @@ namespace PhoneShop.Models
         public virtual ICollection<PaymentResponse> PaymentResponses { get; set; }
         public virtual ICollection<PaymentResponse_MoMo> PaymentResponse_MoMos { get; set; }
 
+        public virtual ICollection<ShippingFees> ShippingFees { get; set; }
+
         
 
 

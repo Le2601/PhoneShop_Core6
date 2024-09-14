@@ -40,14 +40,22 @@ namespace PhoneShop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(VoucherData model)
+        public IActionResult Create(Voucher model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             
             }
-            _voucherRepository.Create(model);
+
+            model.IsAdmin = true;
+            model.BoothId = null;
+
+            db.Vouchers.Add(model);
+            db.SaveChanges();
+
+
+            //_voucherRepository.Create(model);
             return RedirectToAction("Index", "VoucherAd");
         }
 

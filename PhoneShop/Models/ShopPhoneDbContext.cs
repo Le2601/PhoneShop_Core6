@@ -102,6 +102,9 @@ namespace PhoneShop.Models
         public DbSet<Delete_Booth> Delete_Booths { get; set; }
 
 
+        public DbSet<ShippingFees> ShippingFees { get; set; }
+
+
 
 
         //fluent
@@ -320,6 +323,11 @@ namespace PhoneShop.Models
            .HasOne(p => p.Account)
            .WithMany(p => p.myAddresses)
            .HasForeignKey(p => p.IdAccount);
+
+            modelBuilder.Entity<ShippingFees>()
+          .HasOne(p => p.Order)
+          .WithMany(p => p.ShippingFees)
+          .HasForeignKey(p => p.OrderId);
 
 
 

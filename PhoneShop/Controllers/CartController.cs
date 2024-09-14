@@ -240,6 +240,8 @@ namespace PhoneShop.Controllers
             CheckCart.Discount_Product = Discount_Product;
             CheckCart.VoucherId = CheckVoucher.Id;
 
+            //xu ly tien giam ben CartItemModel
+
             HttpContext.Session.Set("Cart", CartItems);
 
 
@@ -301,7 +303,11 @@ namespace PhoneShop.Controllers
 
                     var getIdVoucher = getVoucher.Id;
 
+                    
                     HttpContext.Session.Set("getIdVoucher", getIdVoucher);
+
+
+
 
 
 
@@ -518,7 +524,7 @@ namespace PhoneShop.Controllers
             CartItemViewModel cartVM = new()
             {
                 CartItems = CartItems,
-                GrandTotal = CartItems.Sum(x => x.Quantity * x.Price)
+                GrandTotal = CartItems.Sum(x => x.Quantity * x.Total)
             };
 
             ViewBag.GrandTotal = cartVM.GrandTotal;
@@ -528,6 +534,29 @@ namespace PhoneShop.Controllers
             //int AccountInt = int.Parse(taikhoanID);
 
             //ViewBag.getMyAddress = _dbContext.MyAddresses.Where(x=> x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault();
+
+
+            //phi van chuyen
+           
+            var CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
+
+            if(CheckApply != null)
+            {
+                var VaVoucher = _dbContext.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault();
+                if (VaVoucher != null)
+                {
+                    ViewBag.ShippingFee = VaVoucher.DiscountAmount;
+                }               
+            }
+            else
+            {
+                ViewBag.ShippingFee = null;
+            }
+
+
+           
+
+
 
 
             return View();
@@ -842,13 +871,31 @@ namespace PhoneShop.Controllers
 
             //XU LY thanh toan khi nhan hang 
 
+
+            //check freeship //xu ly cong tein ship vao don hang
+            decimal priceShippingFee = 15000;
+            var CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
+
+            if (CheckApply != null)
+            {
+                var VaVoucher = _dbContext.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault();
+                if (VaVoucher != null)
+                {
+                    priceShippingFee = VaVoucher.DiscountAmount;
+                }
+            }
+            
+
+
+
+
             var newOrder = new OrderData
             {
                 Id_Order = Order_Id,
                 PaymentMethod = 1, //COD
                 Order_Date = DateTime.Now,
                 Order_Status = 0, // 0 la trang thai chua xac nhan
-                Total_Order = cartVM.OrderTotal,
+                Total_Order = cartVM.OrderTotal + priceShippingFee,
                 Profit = cartVMM.GrandTotal - cartVMM.Profit,
                 AccountId = AccountId,
 
@@ -910,7 +957,7 @@ namespace PhoneShop.Controllers
 
             }
 
-            if (HttpContext.Session.GetString("getIdVoucher") != null)
+            if (CheckApply != null)
             {
                 handleVoucher();
             }
@@ -974,14 +1021,15 @@ namespace PhoneShop.Controllers
 
             int ParseID = int.Parse(getIdVoucher);
 
-            var getById = _voucher_UserRepository.GetById(ParseID);
+            var getById = _dbContext.Vouchers.Where(x=> x.Id == ParseID).FirstOrDefault();
 
             if (getById == null)
             {
                 //
             }
-            getById!.Quantity -= 1;
-            _voucher_UserRepository.Update(getById);
+            getById.Quantity -= 1;
+            _dbContext.Vouchers.Update(getById);
+            _dbContext.SaveChanges();
             //end xu ly voucher
 
 
@@ -1015,6 +1063,32 @@ namespace PhoneShop.Controllers
             };
             _dbContext.Order_ProductPurchasePrices.Add(Create_Order_ProductPurchasePrice);
             //end db Order_ProductPurchasePrice
+        }
+
+
+
+
+
+        //demo apply free ship
+
+        [HttpPost]
+        public IActionResult ApplyDemo()
+        {
+            var pricefreeship = 0;
+
+            HttpContext.Session.Set("pricefreeship", pricefreeship);
+
+
+            return Json(new { success = true });
+
+        }
+        [HttpPost]
+        public IActionResult RemoveApplyFreeShip()
+        {
+
+            HttpContext.Session.Remove("getIdVoucher");
+
+            return Json(new { success = true });
         }
 
 

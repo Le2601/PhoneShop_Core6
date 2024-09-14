@@ -35,14 +35,14 @@ namespace PhoneShop.Models
 
         public bool IsAdmin { get; set; }
 
-        public int BoothId { get; set; }
+        public int? BoothId { get; set; }
 
        
 
         public string Description { get; set; } = string.Empty;
 
 
-        public virtual Booth_Information Booth_Information { get; set; }
+        public virtual Booth_Information? Booth_Information { get; set; }
 
 
 

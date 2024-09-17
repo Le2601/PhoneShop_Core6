@@ -89,17 +89,51 @@ namespace PhoneShop.Controllers
             //check auth cookie and AccountId Session
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
+
             var CheckDeliveryProcess = _context.DeliveryProcesses.Where(x=> x.Order_Detail_Id == Id).FirstOrDefault();
+
+
+
+
+            
+
 
             if(CheckDeliveryProcess == null || CheckDeliveryProcess.DeliveryStatus == 1 || CheckDeliveryProcess.DeliveryStatus == 2)
             {
-                CheckDeliveryProcess!.DeliveryStatus = 5;
+                var CheckOrderDetail = _context.Order_Details.Where(x => x.Id == Id).FirstOrDefault()!;
+                if (CheckOrderDetail.Status_OrderDetail == 0)
+                {
+                    var CreateDeliveryProcess = new DeliveryProcess
+                    {
+                        Order_Id = CheckOrderDetail.OrderId,
+                        DeliveryStatus = 5,
+                        DeliveryDate = DateTime.Now,
+                        DeliveryAddress = CheckOrderDetail.Address,
+                        Order_Detail_Id = CheckOrderDetail.Id
+                    };
 
-                _context.DeliveryProcesses.Update(CheckDeliveryProcess);
+                    CheckOrderDetail.Status_OrderDetail = 1;
+                    _context.Order_Details.Update(CheckOrderDetail);
+
+                    _context.DeliveryProcesses.Add(CreateDeliveryProcess);
+                   
+
+
+                }
+                else
+                {
+                    CheckDeliveryProcess!.DeliveryStatus = 5;
+
+                    _context.DeliveryProcesses.Update(CheckDeliveryProcess);
+                }
+
+
+                
                 _context.SaveChanges();
 
                 return Json(new {success = true });
             }
+        
             return Json(new {success = false});
         }
 

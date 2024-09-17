@@ -28,6 +28,7 @@ namespace PhoneShop.DI.DI_User.Voucher_User
                 Id = x.Id,
                 IsActive = x.IsActive,
                 Quantity = x.Quantity,
+                IsAdmin = x.IsAdmin,
             }).ToListAsync();
 
             return items;

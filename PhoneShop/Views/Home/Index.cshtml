@@ -483,12 +483,22 @@
                     data: { id: id },
                     success: function (rs) {
                         if (rs.success) {
-                            alert(rs.msg);
-
-                            location.reload();
+                            swal({
+                                title: "Thành công",
+                                text: rs.msg,
+                                icon: "success",
+                                button: "OK",
+                            }).then(() => {
+                                location.reload();
+                            });
                         }
                         else {
-                            alert(rs.msg);                          
+                            swal({
+                                title: "Có lỗi xảy ra",
+                                text: rs.msg,
+                                icon: "error",
+                                button: "OK",
+                            });
                         }
                     }
 

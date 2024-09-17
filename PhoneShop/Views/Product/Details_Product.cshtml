@@ -56,7 +56,7 @@
       
     }
     .color-text{
-        color:white;
+        color:black;
     }
 
     .star-container {
@@ -239,7 +239,7 @@
                                         <input type="submit" value="submit" />
                                     </form> *@
 
-                                   
+
                                    
                                     <div class="quantity">
                                         <form id="addToCartForm" asp-action="AddByDetail" asp-controller="Cart" method="post">
@@ -278,7 +278,7 @@
                                    
 
                                
-                                <div class="booth-container" style="background:#5a88ca">
+                                <div class="booth-container" style="background:#f5f5f5">
                                     <div class="booth-info">
                                         <h3 class="booth-name color-text">@GetBooth.BoothName</h3>
                                         <div class="booth-details">
@@ -296,13 +296,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a style="background:white;color:black" href="/detail_booth/@GetBooth.BoothId" class="view-booth-btn  color-text">Xem Gian Hàng</a>
+                                    <a href="/detail_booth/@GetBooth.BoothId" class="button-89" role="button">Xem Gian Hàng</a>
 
                                 </div>
-                               
-                                    
-                               
 
+
+
+                               
                             </div>
                         </div>
                     </div>
@@ -422,8 +422,8 @@
             $('#addToCartForm').on('submit', function (e) {
                 e.preventDefault();
 
-                var conf = confirm("Xác nhận thêm vào giỏ hàng");
-                if (conf == true) {
+               
+                
                     var formData = $(this).serialize();
 
 
@@ -435,12 +435,23 @@
 
 
                             if (response.success) {
-                                alert(response.msg);
-
-                                location.reload();
+                              
+                                swal({
+                                    title: "Thành công",
+                                    text: response.msg,
+                                    icon: "success",
+                                    button: "OK",
+                                }).then(() => {
+                                    location.reload(); 
+                                });
                             }
                             else {
-                                alert(response.msg);
+                                swal({
+                                    title: "Thông báo",
+                                    text: response.msg,
+                                    icon: "warning",
+                                    button: "OK",
+                                });
                             }
                         },
                         error: function (xhr, status, error) {
@@ -448,7 +459,7 @@
                             alert('Có lỗi xảy ra: ' + error);
                         }
                     });
-                }
+               
             });
         });
     </script>

@@ -258,7 +258,7 @@
                                 @{
                                     if (item.Discount == 0 || item.Discount == null || item.Discount is string)
                                     {
-                                        <ins>
+                                        <ins style="color:red">
                                             @{
 
 
@@ -274,7 +274,7 @@
                                     }
                                     else
                                     {
-                                        <ins>
+                                        <ins style="color:red">
                                             @{
 
 
@@ -495,6 +495,48 @@
         }
     </script>
 
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.confirmAdd', function () {
+                var id = $(this).data('id');
 
+
+
+
+
+                $.ajax({
+
+                    url: '/Cart/Add',
+                    type: 'post',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            swal({
+                                title: "Thành công",
+                                text: rs.msg,
+                                icon: "success",
+                                button: "OK",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Có lỗi xảy ra",
+                                text: rs.msg,
+                                icon: "error",
+                                button: "OK",
+                            });
+                        }
+                    }
+
+                });
+
+
+            });
+
+
+        });
+    </script>
 }
 

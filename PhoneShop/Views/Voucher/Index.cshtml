@@ -1,4 +1,4 @@
-﻿@model List<PhoneShop.ModelViews.VoucherViewModel>
+﻿@model List<PhoneShop.Models.Voucher>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,55 +16,83 @@
 
 
 <style>
-    .discount-item {
-        display: inline-block;
-        background-color: #ffffff;
+    .coupon-card {
+        background-color: white;
+        border: 1px solid #e0e0e0; 
         border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 10px;
-        margin-right: 10px;
-        width: 23%;
+        padding: 20px; 
+        text-align: center;
+        margin: 20px;
+        position: relative;
     }
 
-    /* Các phần tử bên trong .discount-item tương tự như trong ví dụ trước */
-
-    .discount-image img {
-        width: 100px;
-        height: 100px;
+    .icon-info {
+        position: absolute; 
+        top: 10px;
+        right: 10px;
+        font-size: 18px; 
+        color: #5a88ca;
     }
 
-    .discount-info {
-        margin-left: 10px;
+    .coupon-code {
+        font-size: 24px; 
+        font-weight: bold; 
+        color: #d32f2f;
+        margin: 10px 0; 
     }
 
-    .discount-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333333;
-    }
-
-    .discount-description {
+    .expiration {
         font-size: 14px;
-        color: #666666;
+        color: gray;
     }
 
-    .discount-button {
+    .btn-copy {
+        background-color: #5a88ca;
+        color: white; 
+    }
+
+    <!-- HTML ! -->
+   
+    /* CSS */
+    .button-55 {
+        align-self: center;
+        background-color: #fff;
+        background-image: none;
+        background-position: 0 90%;
+        background-repeat: repeat no-repeat;
+        background-size: 4px 3px;
+        border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+        border-style: solid;
+        border-width: 2px;
+        box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+        box-sizing: border-box;
+        color: #41403e;
+        cursor: pointer;
         display: inline-block;
-        padding: 8px 16px;
-        background-color: #ff5722;
-        color: #ffffff;
+        font-family: Neucha, sans-serif;
+        font-size: 1rem;
+        line-height: 23px;
+        outline: none;
+        padding: .75rem;
         text-decoration: none;
-        border-radius: 3px;
+        transition: all 235ms ease-in-out;
+        border-bottom-left-radius: 15px 255px;
+        border-bottom-right-radius: 225px 15px;
+        border-top-left-radius: 255px 15px;
+        border-top-right-radius: 15px 225px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
     }
 
-        .discount-button:hover {
-            background-color: #ff7043;
-        }
+    .button-55:hover {
+        box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
+        transform: translate3d(0, 2px, 0);
+    }
 
-
-      
-
-    
+    .button-55:focus {
+        box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
+    }
 </style>
 
 
@@ -88,49 +116,42 @@
     
     <div class="row">
        
-
         @foreach(var item in Model)
         {
-            <div class="discount-item">
-               
-                <div class="discount-info">
-                    <h3 class="discount-title"> @item.Code</h3>
-                    <p class="discount-description">
-                        @{
-
-
-
-                            string DiscountAmount = item.DiscountAmount.ToString("C", culture); // "C" là định dạng tiền tệ
-
-
-
-
-                        }
-                        Giảm: @DiscountAmount
-                    </p>
-                    <p class="discount-description">
-                        @{
-
-
-
-                            string DiscountConditions = item.DiscountConditions.ToString("C", culture); // "C" là định dạng tiền tệ
-
-
-
-
-                        }
-                        Điều kiện: @DiscountConditions
-                    </p>
-                    <a data-id="@item.Id" class="discount-button voucher">Sử dụng ngay</a>
+            <div class="col-md-3" >
+                <div class="coupon-card" style="height:210px">
+                    @if(item.IsAdmin == true)
+                    {
+                        <i class="fa fa-info-circle icon-info" aria-hidden="true"></i>
+                        <br />
+                        <div class="coupon-code">@PhoneShop.Extension.Extension.ToVnd((double)item.DiscountAmount)</div>
+                    }
+                    else
+                    {
+                        <p>@item.Booth_Information.ShopName</p>
+                        <div class="coupon-code">@PhoneShop.Extension.Extension.ToVnd((double)item.DiscountProduct)</div>
+                    }
+                    
+                    <p>Đơn hàng từ @PhoneShop.Extension.Extension.ToVnd((double)item.DiscountConditions)</p>
+                    <div class="expiration">HSD: @item.ExpiryDate.ToString("dd/MM/yyyy")</div>
+                    
+                    @if (item.IsAdmin == false)
+                    {
+                        <a href="/detail_booth/@item.BoothId" class="button-48" role="button"> <span class="text">Xem ngay</span> </a>
+                    }
+                    else
+                    {
+                        <a href="~/" class="button-48" role="button"> <span class="text">Xem ngay</span> </a>
+                    }
                 </div>
             </div>
-
-           
         }
+
+       
 
     </div>
 
-   
+    
 </div>
 
 @section Scripts{

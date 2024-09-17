@@ -76,7 +76,9 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
-
+   
+    
+    
 </style>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 @await Component.InvokeAsync("MenuUtilities")
@@ -86,8 +88,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4" >
-
-                <a class="imgproduct btn btn-primary btn-sm" href="#" data-id="@ViewBag.AccountInt">Xem địa chỉ của bạn</a>
+                <button class="button-89 imgproduct" data-id="@ViewBag.AccountInt" role="button">Xem địa chỉ của bạn</button>
                 @if (MyAddress.FullName == "null")
                 {
                     <div>Hiện chưa có địa chỉ</div>

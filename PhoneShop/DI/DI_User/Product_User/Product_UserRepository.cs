@@ -235,24 +235,17 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> ProductByCategory(int categoryId)
         {
-            
-            var item_Model = (
-                   from p in _context.Products.Where(x => x.CategoryId == categoryId && x.IsApproved == true)
-                   join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases) on p.Id equals e.ProductId
-                   select new PhoneShop.ModelViews.ProductViewModel
-                   {
-                       Id = p.Id,
-                       Title = p.Title,
-                       Alias = p.Alias,
-                       ImageDefaultName = p.ImageDefaultName,
-                       Price = p.Price,
-                       Discount = p.Discount,
-                       Quantity_Purchase = e.Purchases,
-                       Rating = p.review_Products.Any() ? p.review_Products.Average(r => r.Rate) : 1,
 
-
-                   }
-               ).ToList();
+            var item_Model = _context.Products.Where(x => x.CategoryId == categoryId).Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Alias = x.Alias,
+                ImageDefaultName = x.ImageDefaultName,
+                Price = x.Price,
+                Discount = x.Discount,
+               
+            }).ToList();
 
             
 

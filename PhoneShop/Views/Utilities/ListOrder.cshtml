@@ -421,7 +421,7 @@
                             <img src="~/images/Product/@item.Order_Details.Product.ImageDefaultName" alt="Product Image" class="product-image">
                             <div class="product-info">
                                 <h4>@item.Order_Details.Product.Title</h4>
-                                <p>Ngày đặt: 123</p>
+                                <p>Ngày đặt: @item.DeliveryDate</p>
 
                                 <p>x @item.Order_Details.Quantity </p>
                                 <p>@PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product)</p>
@@ -485,6 +485,9 @@
 
     </script>
 
+
+
+
     <script>
         $(document).ready(function () {
             $('body').on('click', '.CancelOrder', function () {
@@ -506,7 +509,7 @@
                                 location.reload();
                             }
                             else {
-                                alert("Xóa thất bại đơn hàng đang trong quá trình giao")
+                                alert("Hủy thất bại đơn hàng đang trong quá trình giao")
                                 location.reload();
                             }
                         }

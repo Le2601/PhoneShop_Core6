@@ -35,12 +35,18 @@
 
 
     <script src="~/user/user/js/analytics-browser-2.7.4.js"></script>
-
+    <link href="~/user/custom/btnct.css" rel="stylesheet" />
 
      <script src="https://cdn.amplitude.com/libs/analytics-browser-2.7.4-min.js.gz"></script>
     <script src="https://cdn.amplitude.com/libs/plugin-session-replay-browser-1.4.1-min.js.gz"></script>
     <script src="https://cdn.amplitude.com/libs/plugin-autocapture-browser-0.9.0-min.js.gz"></script>
     <script>window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 })).promise.then(function () { window.amplitude.add(window.amplitudeAutocapturePlugin.plugin()); window.amplitude.init('1d4ef5c6eb29fd0df64f626433cf89f9'); });</script>
+
+
+
+
+
+    <link href="~/user/alert/sweetalert.css" rel="stylesheet" />
 
     <style>
         .container {
@@ -114,7 +120,9 @@
             color: #5a88ca;
             margin-bottom: 10px; 
         }
-      
+
+
+       
 
        
 
@@ -132,7 +140,7 @@
 
     <div class="header-area" >
         
-
+       
         @await Component.InvokeAsync("MenuTop")
 
     </div> <!-- End header area -->
@@ -144,7 +152,7 @@
     @RenderBody() 
     <hr class="blue-line">
 
-    <div class="footer-top-area" style="background:#f5f5f5">
+    <div class="footer-top-area" style="background:#f5f5f5;padding-bottom:50px">
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
@@ -313,6 +321,7 @@
       
 
     </script>
+    <script src="~/user/alert/sweetalert.js"></script>
 
 
     @RenderSection("Scripts", required: false)

@@ -1,4 +1,5 @@
 ﻿@model List<PhoneShop.ModelViews.OrderViewModel>
+@using PhoneShop.Models
 
 @{
     ViewData["Title"] = "Index";
@@ -6,6 +7,8 @@
     List<ImageProduct> IsCourseContents = ViewBag.imageproduct;
 
     //format tien
+
+    List<ShippingFees> ListOd = ViewBag.OrderFreeShip;
 
 
 
@@ -38,91 +41,192 @@
 
 <!-- Main content -->
 <section class="content">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Đơn hàng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Áp dụng voucher freeship</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Thông tin</a></li>
+                </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Danh sách đơn hàng</h3>
+                                <a style="margin-left:959px" class="btn btn-danger btnDelete_All" href="">Xóa tất cả</a>
 
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Danh sách đơn hàng</h3>
-            <a style="margin-left:959px" class="btn btn-danger btnDelete_All" href="">Xóa tất cả</a>
-           
-        </div>
-        <div class="card-body" style="min-height:700px">
+                            </div>
+                            <div class="card-body" style="min-height:700px">
 
-            <table id="example12" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            Mã đơn hàng
-                        </th>
-                        <th>
-                            Ngày đặt
-                        </th>
-                        <th>
-                            PT thanh toán
-                        </th>
-                        <th>Thành tiền</th>                                           
-                       
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null)
-                    {
-                        foreach (var item in Model)
-                        {
-                            <tr id="trow_@item.Id_Order">
+                                <table id="example12" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Mã đơn hàng
+                                            </th>
+                                            <th>
+                                                Ngày đặt
+                                            </th>
+                                            <th>
+                                                PT thanh toán
+                                            </th>
+                                            <th>Thành tiền</th>
 
-                               
-
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Id_Order)
-                                </td>
-                                <td>
-                                    @item.Order_Date.ToString("dd/MM/yyyy hh:mm")
-                                </td>
-                               
-                                    @{
-                                        if(item.PaymentMethod == 2)
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
                                         {
-                                        <td>Thanh toán trực tuyến</td>
+                                            foreach (var item in Model)
+                                            {
+                                                <tr id="trow_@item.Id_Order">
+
+
+
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Id_Order)
+                                                    </td>
+                                                    <td>
+                                                        @item.Order_Date.ToString("dd/MM/yyyy hh:mm")
+                                                    </td>
+
+                                                    @{
+                                                        if (item.PaymentMethod == 2)
+                                                        {
+                                                            <td>Thanh toán trực tuyến</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>COD</td>
+                                                        }
+                                                    }
+
+
+                                                    <td style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)item.Total_Order)</td>
+
+
+
+
+                                                    <td>
+                                                        <a class="" href="/admin/Order/ViewOrder/@item.Id_Order"><i class="fas fa-eye fa-lg" style="color: #74C0FC;"></i></a>
+                                                        <a class="btnDelete" data-id="@item.Id_Order" href="#"><i class="fas fa-backspace fa-lg" style="color: #ba1c1c;"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
                                         else
                                         {
-                                        <td>COD</td>
+                                            <tr>
+                                                <td>Chưa có bảng ghi</td>
+
+
+                                            </tr>
                                         }
-                                    }
 
-                                
-                                <td style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)item.Total_Order)</td>
-                               
-                             
-
-                               
-                                <td>
-                                    <a class="" href="/admin/Order/ViewOrder/@item.Id_Order"><i class="fas fa-eye fa-lg" style="color: #74C0FC;"></i></a>
-                                    <a class="btnDelete" data-id="@item.Id_Order" href="#"><i class="fas fa-backspace fa-lg" style="color: #ba1c1c;"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td>Chưa có bảng ghi</td>
-
-
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
+                                    </tbody>
+                                </table>
 
 
 
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="timeline">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Danh sách đơn hàng</h3>
+                                <a style="margin-left:959px" class="btn btn-danger btnDelete_All" href="">Xóa tất cả</a>
+
+                            </div>
+                            <div class="card-body" style="min-height:700px">
+
+                                <table id="example12" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Mã đơn hàng
+                                            </th>
+                                            <th>
+                                                Ngày đặt
+                                            </th>
+                                            <th>
+                                                PT thanh toán
+                                            </th>
+                                            <th>Thành tiền</th>
+
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ListOd)
+                                            {
+                                                <tr id="trow_@item.Order.Id_Order">
+
+
+
+
+                                                    <td>
+                                                    @Html.DisplayFor(modelItem => item.Order.Id_Order)
+                                                    </td>
+                                                    <td>
+                                                    @item.Order.Order_Date.ToString("dd/MM/yyyy hh:mm")
+                                                    </td>
+
+                                                    @{
+                                                    if (item.Order.PaymentMethod == 2)
+                                                        {
+                                                            <td>Thanh toán trực tuyến</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>COD</td>
+                                                        }
+                                                    }
+
+
+                                                <td style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)item.Order.Total_Order)</td>
+
+
+
+
+                                                    <td>
+                                                    <a class="" href="/admin/Order/ViewOrder/@item.Order.Id_Order"><i class="fas fa-eye fa-lg" style="color: #74C0FC;"></i></a>
+                                                    <a class="btnDelete" data-id="@item.Order.Id_Order" href="#"><i class="fas fa-backspace fa-lg" style="color: #ba1c1c;"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                      
+
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="settings">
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
         </div>
-      
+        <!-- /.card -->
     </div>
+    <!-- Default box -->
+    
     <!-- /.card -->
 
 </section>

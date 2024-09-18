@@ -1,4 +1,8 @@
-﻿@using PhoneShop.Models;
+﻿@using PhoneShop.ModelViews
+﻿@using PhoneShop.Models
+@model CartItemViewModel
+
+@using PhoneShop.Extension
 @{
     ViewData["Title"] = "CheckOut";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,17 +18,37 @@
 
 }
 <style>
+
+    .product {
+        display: flex;
+       
+        margin-bottom: 10px;
+        text-align:center;
+        
+    }
+
+    .product-name {
+        flex: 1;
+        text-align: left;
+        font-size:15px;
+    }
+
+    .product-price, .product-quantity, .product-total {
+        flex: 1;
+        text-align: right;
+    }
+
     .search-form {
         display: flex;
-        align-items: center; /* Canh giữa theo chiều dọc */
-        gap: 10px; /* Khoảng cách giữa các input */
+        align-items: center; 
+        gap: 10px; 
     }
 
     .search-input {
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        width: 300px; /* Chiều rộng của ô tìm kiếm */
+        width: 300px; 
         font-size: 16px;
     }
 
@@ -94,24 +118,57 @@
         </nav>
         <div class="zigzag-bottom"></div>
         <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="single-sidebar">
-                        <h2 class="sidebar-title">Tìm kiếm</h2>
-                        <form class="search-form" method="post" asp-action="Search_Product" asp-controller="Product">
-                            <input type="text" name="search_value" class="search-input" placeholder="Nhập sản phẩm...">
-                            <input type="submit" value="gửi" class="search-button">
-                        </form>
+           
+            <h3 style="color: #5a88ca;font-size: 20px;text-transform: uppercase;">
+                Sản Phẩm
+            </h3>
+
+
+            @foreach (var item in Model.CartItems)
+            {
+                <div class="product">
+                    <img width="100" height="150" alt="poster_1_up" class="shop_thumbnail" src="~/images/Product/@item.DataNameImage"><div class="product-name" style="text-align: center; vertical-align: middle;">@item.ProductName</div>
+                    <div class="product-price" style="text-align: center; vertical-align: middle;">
+                        @{
+                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price); // "C" là định dạng tiền tệ
+
+                        }
+
+                        <span style="font-size: 13px;" class="amount">@formattedPrice</span>
                     </div>
+                    <div class="product-quantity" style="text-align: center; vertical-align: middle;">@item.Quantity</div>
+                    <div class="product-total" style="padding-right:10px;text-align: center; vertical-align: middle;">
+                        @{
+                            string formattedPriceTotal = PhoneShop.Extension.Extension.ToVnd((double)item.Total); // "C" là định dạng tiền tệ
 
-                   
+                        }
+
+                        <span style="font-size: 13px;color:red" class="amount">@formattedPriceTotal</span>
+                    </div>
                 </div>
+               
 
-                <div class="col-md-8">
+
+                
+
+            }
+
+            <div class="row">
+              
+
+             
+
+
+
+                
+
+
+
+                <div class="col-md-12">
                     <div class="product-content-right">
                         <div class="woocommerce">
 
-
+                            
 
                             <form enctype="multipart/form-data" asp-action="SubmitCheckOut" asp-controller="Cart" class="checkout" method="post" name="checkout">
 

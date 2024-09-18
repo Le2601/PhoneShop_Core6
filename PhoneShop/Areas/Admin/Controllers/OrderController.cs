@@ -39,6 +39,9 @@ namespace PhoneShop.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var ListOrder = _orderRepository.GetAll();
+
+
+            ViewBag.OrderFreeShip = _context.ShippingFees.Include(x => x.Order).ToList();
            
             return View(ListOrder);
         }

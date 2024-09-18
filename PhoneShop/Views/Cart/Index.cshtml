@@ -143,25 +143,28 @@
                                             <th class="product-subtotal">Thành tiền</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
 
+                                    <tbody>
+                                       
 
                                         @foreach (var item in Model.CartItems)
                                         {
+                                            
                                             <tr class="cart_item" id="trow_@item.ProductId">
-                                                <td>
-                                                    <a class="btnDelete" data-id="@item.ProductId"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    <a class="btnDelete" data-id="@item.ProductId">
+                                                        <i class="fas fa-trash fa-lg" style="color: #d81313;"></i>
+                                                    </a>
                                                 </td>
-
                                                 <td class="product-thumbnail ">
                                                     <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="~/images/Product/@item.DataNameImage"></a>
                                                 </td>
 
-                                                <td class="product-name">
+                                                <td class="product-name" style="text-align: center; vertical-align: middle;">
                                                     <a style="font-size: 13px;" href="single-product.html">@item.ProductName</a>
                                                 </td>
 
-                                                <td class="product-price">
+                                                <td class="product-price" style="text-align: center; vertical-align: middle;">
                                                     @{
                                                         string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price); // "C" là định dạng tiền tệ
 
@@ -170,7 +173,7 @@
                                                     <span style="font-size: 13px;" class="amount">@formattedPrice</span>
                                                 </td>
 
-                                                <td class="product-quantity">
+                                                <td class="product-quantity" style="text-align: center; vertical-align: middle;">
                                                     <div class="quantity buttons_added" style="width: 200px; margin:auto">
                                                         <a asp-action="tru" asp-controller="Cart" asp-route-id="@item.ProductId" class="btn btn-link minus" style="font-size: 12px;"><i class="fa fa-minus"></i></a>
                                                         <input type="number" size="4" class="input-text qty text" title="Qty" value="@item.Quantity" min="0" step="1" readonly style="font-size: 12px;">
@@ -178,7 +181,7 @@
                                                     </div>
                                                 </td>
 
-                                                <td class="product-subtotal">
+                                                <td class="product-subtotal" style="text-align: center; vertical-align: middle;">
                                                     @{
                                                         string formattedPriceTotal = PhoneShop.Extension.Extension.ToVnd((double)item.Total); // "C" là định dạng tiền tệ
 
@@ -192,7 +195,7 @@
                                             <tr style="border-bottom:1px inset">
                                                 <td colspan="3">
                                                     <div class="voucher-container">
-                                                        <a href="#" class="List_Voucher" data-id="@item.ProductId">Xem Voucher Của Shop</a>
+                                                        <a href="#" style="color:black" class="List_Voucher" data-id="@item.ProductId"><i class="fas fa-ticket-alt fa-sm" style="color: #e67205;"></i>Xem Voucher Của Shop</a>
 
                                                     </div>
                                                 </td>
@@ -251,7 +254,7 @@
                         <div class="coupon">
                             <form method="post" asp-action="ApplyVoucher" asp-controller="Cart">
                                 <label style="text-transform: capitalize;" for="coupon_code">Áp dụng khuyến mãi:</label>
-                                <input type="text" placeholder="mã giảm giá" value="" id="coupon_code" class="input-text" name="Voucher_code">
+                                <input type="text" placeholder="Nhập mã giảm giá" value="" id="coupon_code" class="input-text" name="Voucher_code">
                                
                                 <input type="submit" value="Áp dụng" name="áp dụng" style="background: #5a88ca;color:white" class="btn btn-info active">
                             </form>
@@ -288,12 +291,12 @@
 
 
                             <div class="cart_totals ">
-                                <h2 style="text-transform: capitalize;">Tổng giỏ hàng</h2>
+                                
 
                                 <table cellspacing="0">
                                     <tbody>
                                         <tr class="cart-subtotal">
-                                            <th><div style="color:black" class="title_all">Tổng giỏ hàng</div></th>
+                                            <th><div style="color:black; font-size:20px" class="title_all">Tổng thanh toán</div></th>
                                            
                                             <td><span class="amount" style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)</span></td>
                                         </tr>
@@ -328,9 +331,9 @@
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("ban muon xoa chua"+id);
+               
 
-                if (conf == true) {
+                
 
                     $.ajax({
 
@@ -339,18 +342,26 @@
                         data: { id: id },
                         success: function (rs) {
                             if (rs.success) {
-                                $('trow_' + id).remove();
-                                alert(rs.msg);
-                                location.reload();
+                            $('trow_' + id).remove();
+                            location.reload();
+
+                           
+
+
                             }
                             else {
-                                alert("Xóa thất bại");
+                            swal({
+                                title: "Có lỗi xảy ra",
+                                text: rs.msg,
+                                icon: "error",
+                                button: "OK",
+                            });
                             }
                         }
 
                     });
 
-                }
+                
             });
         });
     </script>
@@ -407,9 +418,15 @@
                     data: { id: id },
                     success: function (rs) {
                         if (rs.success) {
-                            alert("Thêm thành công");
+                            swal({
+                                title: "Thành công",
+                                text: "Thêm thành công",
+                                icon: "success",
+                                button: "OK",
+                            }).then(() => {
 
-                            location.reload();
+                                location.reload();
+                            });
                         }
                     }
 

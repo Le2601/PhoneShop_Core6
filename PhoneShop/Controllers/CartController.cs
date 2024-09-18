@@ -455,7 +455,7 @@ namespace PhoneShop.Controllers
         public IActionResult Delete(int id)
         {
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);
-
+            var msg = "";
             if (CartItems != null)
             {
                 foreach (var item in CartItems)
@@ -469,15 +469,17 @@ namespace PhoneShop.Controllers
                     }
                     HttpContext.Session.Set("Cart", CartItems);
 
-                    return Json(new { success = true });
+                    msg = "Xóa thành công";
+
+                    return Json(new { success = true, msg = msg });
                     //return RedirectToRoute("Cart");
                 }
 
 
             }
+             msg = "Xóa thất bại";
 
-
-            return Json(new { success = false });
+            return Json(new { success = false, msg = msg });
         }
 
         public IActionResult tru(int id)
@@ -570,7 +572,7 @@ namespace PhoneShop.Controllers
 
 
 
-            return View();
+            return View(cartVM);
         }
 
 

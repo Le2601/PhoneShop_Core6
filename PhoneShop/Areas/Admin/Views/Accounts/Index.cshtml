@@ -1,9 +1,57 @@
 ﻿@model IEnumerable<PhoneShop.Models.Account>
+@using PhoneShop.Models
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    List<Account> ListSeller = ViewBag.ListAccountSeller;
 }
+
+<style>
+    <!-- HTML ! -->
+   
+    /* CSS */
+    .button-55 {
+        align-self: center;
+        background-color: #fff;
+        background-image: none;
+        background-position: 0 90%;
+        background-repeat: repeat no-repeat;
+        background-size: 4px 3px;
+        border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+        border-style: solid;
+        border-width: 2px;
+        box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+        box-sizing: border-box;
+        color: #41403e;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Neucha, sans-serif;
+        font-size: 1rem;
+        line-height: 23px;
+        outline: none;
+        padding: .75rem;
+        text-decoration: none;
+        transition: all 235ms ease-in-out;
+        border-bottom-left-radius: 15px 255px;
+        border-bottom-right-radius: 225px 15px;
+        border-top-left-radius: 255px 15px;
+        border-top-right-radius: 15px 225px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .button-55:hover {
+        box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
+        transform: translate3d(0, 2px, 0);
+    }
+
+    .button-55:focus {
+        box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
+    }
+</style>
 
 
 @section naviheader{
@@ -24,72 +72,155 @@
 <section class="content">
 
     <!-- Default box -->
-    <div class="card">
-     
-        <div class="card-body">
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                           Tên Tk
-                        </th>
-                        <th>
-                           Số điện thoại
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                           Ngày tạo
-                        </th>
-
-
-                        </th>
-                        <th>
-                            Phân quyền
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr id="trow_@item.Id">
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FullName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Phone)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
-                            <td>
-                               @item.CreateDate
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Role.RoleName)
-                            </td>
-                            <td>
-                                <a class="btn btn-danger" asp-action="Edit" asp-route-id="@item.Id">Sửa</a>
-
-                                <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Xóa</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
-
-        </div>
-        <!-- /.card-body -->
-        <!-- /.card-footer-->
-    </div>
+   
     <!-- /.card -->
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Người dùng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Người bán hàng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Thông tin</a></li>
+                </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
+                        <!-- Post -->
+                        <div class="card">
 
+                            <div class="card-body">
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Tên Tk
+                                            </th>
+                                            <th>
+                                                Số điện thoại
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Ngày tạo
+                                            </th>
+
+
+                                            </th>
+                                           
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr id="trow_@item.Id">
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FullName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Phone)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+                                                <td>
+                                                    @item.CreateDate
+                                                </td>
+
+                                             
+                                                <td>
+                                                   
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <!-- /.card-body -->
+                            <!-- /.card-footer-->
+                        </div>
+                        <!-- /.post -->
+
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="timeline">
+                        <div class="card">
+
+                            <div class="card-body">
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Tên Tk
+                                            </th>
+                                            <th>
+                                                Số điện thoại
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Ngày tạo
+                                            </th>
+
+
+                                            </th>
+
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ListSeller)
+                                        {
+                                            <tr id="trow_@item.Id">
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FullName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Phone)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+                                                <td>
+                                                    @item.CreateDate
+                                                </td>
+
+
+                                                <td>
+                                                    <button class="button-55 viewbooth" data-id="@item.Id" role="button" href="#"> Xem gian hàng</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <!-- /.card-body -->
+                            <!-- /.card-footer-->
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="settings">
+                       
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
 </section>
 
 
@@ -99,33 +230,36 @@
 
     <script>
         $(document).ready(function () {
-            $('body').on('click', '.btnDelete', function () {
+            $('body').on('click', '.viewbooth', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("ban muoon xoa chua");
-
-                if (conf == true) {
+               
 
                     $.ajax({
 
-                        url: '/admin/Accounts/Delete',
+                        url: '/admin/Accounts/ViewBooth',
                         type: 'post',
                         data: { id: id },
                         success: function (rs) {
                             if (rs.success) {
-                                $('trow_' + id).remove();
-                                alert(rs.msg);
-                                location.reload();
+                            $.ajax({
+
+                                url: '/admin/Booth/Detail_Booth',
+                                type: 'get',
+                                data: { id: rs.idbooth },
+                               
+
+                            });
                             }
                             else {
-                                alert(rs.msg);
+                                alert("Không tìm thấy gian hàng");
                                 location.reload();
                             }
                         }
 
                     });
 
-                }
+               
             });
         });
     </script>

@@ -37,11 +37,13 @@ namespace PhoneShop.Areas.Admin.Controllers
         // GET: Admin/Accounts
         public async Task<IActionResult> Index()
         {
-            var elearingDbContext = _context.Accounts.Include(a => a.Role);
 
-            ViewBag.RoleId = new SelectList(_context.Roles.ToList(), "Id", "RoleName");
+            var ListAccountUser = _context.Accounts.Where(x => x.RoleId == 3).ToList();
 
-            return View(await elearingDbContext.ToListAsync());
+            ViewBag.ListAccountSeller = _context.Accounts.Where(x => x.RoleId == 14).ToList();
+
+
+            return View(ListAccountUser);
         }
 
         // GET: Admin/Accounts/Details/5
@@ -136,23 +138,22 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(model);
         }
 
-        public IActionResult Delete(int id)
+        [HttpPost]
+        public IActionResult ViewBooth(int id)
         {
-            var item = _context.Accounts.Where(x=> x.Id == id).FirstOrDefault()!;
-            if(item.RoleId == 2)
+            var item = _context.Booth_Information.Where(x => x.AccountId == id).FirstOrDefault();
+
+            if(item == null)
             {
-                return Json(new { success = false, msg = "Không thể xóa tài khoản quản trị viên" });
+                return Json(new { success = false });
             }
 
-            if (item == null)
-            {
-                return Json(new { success = false, msg = "Xoa that bai" });
-            }
+            return Json(new { success = true, idbooth = item.Id });
 
-            _context.Accounts.Remove(item);
-            _context.SaveChanges();
+           
 
-            return Json (new { success = true , msg = "Xoa thanh cong" });
+
+
         }
        
 

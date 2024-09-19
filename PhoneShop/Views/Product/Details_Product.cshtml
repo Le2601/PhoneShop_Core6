@@ -79,12 +79,7 @@
    
 </style>
 
-@if (TempData["CheckCmt"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["CheckCmt"]
-    </div>
-}
+
 
 <div class="single-product-area" style="padding-top:10px">
     <div class="zigzag-bottom"></div>
@@ -417,6 +412,21 @@
 @section Scripts{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    @if (TempData["CheckCmt"] != null)
+    {
+        
+        <script>
+           
+            swal({
+                title: "Thông báo",
+                text: "@Html.Raw(TempData["CheckCmt"])",
+                icon: "success",
+                button: "OK",
+            }).then(() => {
+                location.reload();
+            });
+        </script>
+    }
     <script>
         $(document).ready(function () {
             $('#addToCartForm').on('submit', function (e) {
@@ -561,6 +571,12 @@
             });
         });
     </script>
+
+
+
+
+
+
    
   
 

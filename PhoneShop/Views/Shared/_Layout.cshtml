@@ -131,20 +131,24 @@
 
 
 
-<body style="background:#f5f5f5">
+<body style="background:#f5f5f5;padding-top: 116px;">
 
    
 
     <button class="scroll-to-top" id="scrollToTopBtn">▲ Lên đầu</button>
 
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="header-area ">
 
-    <div class="header-area" >
-        
-       
-        @await Component.InvokeAsync("MenuTop")
 
-    </div> <!-- End header area -->
-    @await Component.InvokeAsync("Menu")
+            @await Component.InvokeAsync("MenuTop")
+
+        </div> <!-- End header area -->
+        @await Component.InvokeAsync("Menu")
+
+    </div>
+
+   
 
     
 

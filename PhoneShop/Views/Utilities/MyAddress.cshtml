@@ -9,6 +9,39 @@
 }
 
 <style>
+    
+    .close-btn {
+        position: absolute;
+        top: 10px; 
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #333; 
+    }
+
+        .close-btn:hover {
+            color: red; 
+        }
+   
+    #dialog {
+        position: fixed; 
+        top: 60%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        width: 100%; 
+        max-width: 600px; 
+        height: auto; 
+        max-height: 80vh; 
+        padding: 20px;
+        background-color: white; 
+        overflow-y: auto; 
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px; 
+        z-index: 1000; 
+    }
+
     .profile-container {
         background-color: #fff;
         padding: 20px;
@@ -186,7 +219,8 @@
 
 
 <div id="dialog">
-    <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
+    <button class="close-btn" onclick="closeModal()">X</button>
+    <iframe id="myiframe" style="border:0;width:500px;height:100%"></iframe>
 </div>
 
 
@@ -245,7 +279,7 @@
                 hide: "fade",
                 modal: true,
                 height: '600',
-                width: '700',
+                width: '0',
                 resizable: true,
                 title: '',
                 close: function () {
@@ -267,6 +301,15 @@
         });
 
 
+    </script>
+
+    <script>
+        function closeModal() {
+            document.getElementById("dialog").style.display = "none"; // Ẩn modal
+            window.location.reload();
+        }
+
+       
     </script>
 
 

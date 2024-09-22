@@ -34,6 +34,48 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 <style>
+    <!-- HTML ! -->
+    
+    /* CSS */
+    .button-55 {
+        align-self: center;
+        background-color: #fff;
+        background-image: none;
+        background-position: 0 90%;
+        background-repeat: repeat no-repeat;
+        background-size: 4px 3px;
+        border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+        border-style: solid;
+        border-width: 2px;
+        box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+        box-sizing: border-box;
+        color: #41403e;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Neucha, sans-serif;
+        font-size: 1rem;
+        line-height: 23px;
+        outline: none;
+        padding: .75rem;
+        text-decoration: none;
+        transition: all 235ms ease-in-out;
+        border-bottom-left-radius: 15px 255px;
+        border-bottom-right-radius: 225px 15px;
+        border-top-left-radius: 255px 15px;
+        border-top-right-radius: 15px 225px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .button-55:hover {
+        box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
+        transform: translate3d(0, 2px, 0);
+    }
+
+    .button-55:focus {
+        box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
+    }
     .callout {
         padding: 20px;
         background-color: white;
@@ -75,7 +117,7 @@
         color:black;
     }
 </style>
-
+<link href="~/user/custom/iconstyle.css" rel="stylesheet" />
 
 @section naviheader{
     <!-- Left navbar links -->
@@ -95,9 +137,9 @@
 
 <!-- Main content -->
 <section class="content">
-
+    
     <div class="col-12">
-
+        <a class="btn btn-info" href="/Update_BoothTracking/@Model.Id-@ViewBag.Sold_Quantity-@IsTracking.Total_Comments">Cập nhật </a>
         <div class="callout callout-info">
             <h3 class="card-title">
                 <i class="fas fa-bullhorn"></i>
@@ -105,11 +147,15 @@
             </h3>
             <br />
 
-            <b class="fas fa-dollar-sign fa-lg" style="color: #d41111;margin-bottom:10px"></b><span><b>Doanh Thu:</b> <span style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)@TotalPrice_SelectDate.TotalRevenue)</span></span> <br />
-            <p style="color:#d41111;margin-bottom:10px">Hôm Nay Có 3 Đơn Hàng Mới</p>
-            @if (ViewBag.OrderNotifi > 0)
+            <b class="fas fa-dollar-sign fa-lg pulse" style="color: #d41111; margin-bottom: 10px;"></b></b><span><b>Doanh Thu Hôm Nay:</b> <span style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)@TotalPrice_SelectDate.TotalRevenue)</span></span> <br />
+            <b class="fas fa-dollar-sign fa-lg pulse" style="color: #d41111;margin-bottom:10px"></b><span><b>Tổng Doanh Thu:</b> <span style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.TotalRevenue)</span></span> <br />
+
+@*             <p style="color:#d41111;margin-bottom:10px">Hôm Nay Có 3 Đơn Hàng Mới</p>
+ *@            @if (ViewBag.OrderNotifi > 0)
             {
                 <span style="margin-bottom:10px"><a style="color:red; text-decoration:none" href="/Order_Seller/ListOrder">Có @ViewBag.OrderNotifi Đơn Hàng Chưa Được Phê Duyệt</a></span>
+
+                <i class="fas fa-bell shake"></i>
 
             }
             else
@@ -117,41 +163,78 @@
                 <span style="color:blue">Hiện Chưa Có Đơn Hàng Nào Cần Phê Duyệt</span>
 
             }
+
         </div>
+       
+       
+        <div class="row">
 
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>@IsTracking.Quantity_Product</h3>
 
-
-        <div class="callout callout-info">
-
-            <address>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <a href="#" class="dn-a">Tổng sản phẩm:</a>
-                        <p class="value">@IsTracking.Quantity_Product</p>
+                        <p>Tổng sản phẩm</p>
                     </div>
-                    <div class="info-item">
-                        <a href="#" class="dn-a">Đã bán:</a>
-                        <p class="value">@IsTracking.Total_Sold</p>
+                    <div class="icon">
+                        <i class="fab fa-product-hunt"></i>
                     </div>
-                    <div class="info-item">
-                        <a href="#" class="dn-a">Người theo dõi:</a>
-                        <p class="value">@IsTracking.Followers</p>
-                    </div>
-                    <div class="info-item">
-                        <a href="#" class="dn-a">Đánh giá:</a>
-                        <p class="value">@IsTracking.Total_Comments</p>
-                    </div>
+                    <a href="/Product_Seller/Index" class="small-box-footer">Xem ngay <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-            </address>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>@IsTracking.Total_Sold</h3>
 
-            <a href="/Update_BoothTracking/@Model.Id-@ViewBag.Sold_Quantity-@IsTracking.Total_Comments" class="btn-app">
-                <i class="fas fa-edit"></i> Cập nhật
-            </a>
+                        <p>Đã bán</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <a href="/Order_Seller/ListOrder" class="small-box-footer">Xem ngay <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>@IsTracking.Followers</h3>
+
+                        <p>Người theo dõi</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <a href="/CustomerCare/ListFollower" class="small-box-footer">Xem ngay <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>@IsTracking.Total_Comments</h3>
+
+                        <p>Lượt đánh giá</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">Xem ngay <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
         </div>
+
 
 
         
-
+        
 
         <!-- Main content -->
         <div class="invoice p-3 mb-3">

@@ -138,18 +138,12 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult ViewBooth(int id)
+        
+        public IActionResult ViewBooth(int Id)
         {
-            var item = _context.Booth_Information.Where(x => x.AccountId == id).FirstOrDefault();
+            var item = _context.Booth_Information.Where(x => x.AccountId == Id).FirstOrDefault()!;
 
-            if(item == null)
-            {
-                return Json(new { success = false });
-            }
-
-            return Json(new { success = true, idbooth = item.Id });
-
+            return RedirectToAction("Detail_Booth", "Booth", new { Id = item.Id });
            
 
 

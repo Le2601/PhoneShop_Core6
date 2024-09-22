@@ -186,7 +186,7 @@
             @*  <a href="./" class="navbar-brand font-size" >Trang chủ</a> *@
             <ul class="nav navbar-nav navbar-right">
                 
-                <li style="padding-top:5px"><a href="~/" style="padding-top:0px"><img style="height:64px; width:176px" src="~/images/logo.jpg"></a></li>
+                <li style="padding-top:5px;margin-left: 28px;"><a href="~/" style="padding-top:0px"><img style="height:64px; width:176px" src="~/images/logo.jpg"></a></li>
                 <li class="dropdown" style="margin-bottom;margin-top:15px;margin-right:10px;border:1px solid;background:#e6f3ff">
                    
                   
@@ -201,12 +201,13 @@
                                 }
                             </div>
                         </div>
-                        <span class="navbar-brand font-size" style="padding-left:14px">Danh Mục</span>
+                    <span class="navbar-brand font-size" style="padding-left:14px"><i class="fas fa-list"></i>Danh Mục</span>
                    
                 </li>
                 <li style="padding-top:15px">
                     <a class="navbar-brand font-size" href="/Utilities/Account">Tiện ích</a>
                 </li>
+
                 
                 <li style="padding-top:15px">
 
@@ -217,7 +218,7 @@
                             <button type="submit" style="background: #5a88ca" class="search-button">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <div id="suggestions" class="suggestions">
+                            <div id="suggestions" class="suggestions" style="left: 32%;">
                             </div>
 
                         </div>
@@ -227,22 +228,11 @@
 
 
                 </li>
-                <li style="padding-top:15px">
+                <li style="padding-top:15px; margin-left:95px">
 
-                    <div class="shopping-item" style="border-style: inset;margin-top:0px">
+                    <div class="shopping-item" style="margin-top:0px">
                             <a href="/cart.html" class="hover-effect">
-                               <span class="cart-amunt">
-                                    @{
-                                        string formattedPrice2;
-
-                                        formattedPrice2 = @ViewBag.GrandTotal.ToString("C", culture); // "C" là định dạng tiền tệ
-
-
-
-
-                                    }
-                                    @formattedPrice2
-                                </span> <i class="fa fa-shopping-cart"></i> <span class="product-count">@ViewBag.CountCart</span>
+                              <i style="margin:auto" class="fa fa-shopping-cart"></i> <span class="product-count">@ViewBag.CountCart</span>
                             </a>
                         </div>
                    

@@ -46,6 +46,11 @@ namespace PhoneShop.Controllers.Seller
             return AccountInt;
         }
 
+
+       
+
+
+
         //san pham da ban
         public static List<OrderByUser> ListProduct_Purchase(ShopPhoneDbContext context,int AccountInt)
         {
@@ -93,6 +98,8 @@ namespace PhoneShop.Controllers.Seller
 
             return demo;
         }
+
+      
 
         //kiem tra so luong sp ton kho, da ban
         public static List<Check_Product_Purchases> List_Item_Product_Quantity(ShopPhoneDbContext context, int AccountInt)

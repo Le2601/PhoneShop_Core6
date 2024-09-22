@@ -23,6 +23,39 @@
 }
 <link href="~/user/custom/voucher.css" rel="stylesheet" />
 <style>
+
+
+    
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #333;
+    }
+
+        .close-btn:hover {
+            color: red;
+        }
+    #dialog {
+        position: fixed;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        max-width: 600px;
+        height: auto;
+        max-height: 80vh;
+        padding: 20px;
+        background-color: white;
+        overflow-y: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1000;
+    }
     .title_all {
         
         color: rgba(0, 0, 0, .87);
@@ -246,9 +279,13 @@
                             <p>Chưa có sản phẩm trong giỏ hàng</p>
                         }
 
+                       
+
                         
 
-
+                        <div style="text-align:right">
+                           Tổng Thanh Toán:  <span class="amount" style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)</span>
+                        </div>
                        
 
                         <div class="coupon">
@@ -282,34 +319,9 @@
 
                            
                         </div>
-                        <br />
+                       
 
-                        <div class="cart-collaterals">
-
-
-                         
-
-
-                            <div class="cart_totals ">
-                                
-
-                                <table cellspacing="0">
-                                    <tbody>
-                                        <tr class="cart-subtotal">
-                                            <th><div style="color:black; font-size:20px" class="title_all">Tổng thanh toán</div></th>
-                                           
-                                            <td><span class="amount" style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)</span></td>
-                                        </tr>
-
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-
-
-
-
-                        </div>
+                       
                         <hr />
                        
                         <br />
@@ -320,7 +332,10 @@
             @await Html.PartialAsync("../Product/_PartialDetail_ProductRelated",List_Selling)
     </div>
 </div>
+
+ 
     <div id="dialog">
+        <button class="close-btn " onclick="closeModal()">X</button>
         <iframe id="myiframe" style="border:0;width:100%;height:100%;"></iframe>
     </div>
 </div>
@@ -367,45 +382,55 @@
         });
     </script>
 
-        <script>
-            $(document).ready(function () {
+            <script>
+                $(document).ready(function () {
 
-                //dialog anh
+                    //dialog anh
 
-                $("#dialog").dialog({
-                    autoOpen: false,
-                    show: "fade",
-                    hide: "fade",
-                    modal: true,
-                    height: '600',
-                    width: '700',
-                    resizable: true,
-                    title: '',
-              
+                    $("#dialog").dialog({
+                        autoOpen: false,
+                        show: "fade",
+                        hide: "fade",
+                        modal: true,
+                        height: '600',
+                        width: '0',
+                        resizable: true,
+                        title: '',
+               
+                
 
-                    close: function () {
-                        window.location.reload();
-                    },
+                        close: function () {
+                            window.location.reload();
+                        },
 
 
-                });
-                $('body').on('click', '.List_Voucher', function () {
+                    });
+                    $('body').on('click', '.List_Voucher', function () {
 
-                    var proid = $(this).attr("data-id");
-                    $("#dialog #myiframe").attr("src", "/Cart/List_Voucher_Booth?id=" + proid);
-                    $("#dialog").dialog('open');
-                    return false;
+                        var proid = $(this).attr("data-id");
+                        $("#dialog #myiframe").attr("src", "/Cart/List_Voucher_Booth?id=" + proid);
+                        $("#dialog").dialog('open');
+                        return false;
 
-                });
+                    });
 
                
 
 
 
-            });
+                });
 
 
-        </script>
+            </script>
+    <script>
+        function closeModal() {
+            document.getElementById("dialog").style.display = "none"; // Ẩn modal
+            window.location.reload();
+        }
+
+
+    </script>
+
 
     <script>
         $(document).ready(function () {

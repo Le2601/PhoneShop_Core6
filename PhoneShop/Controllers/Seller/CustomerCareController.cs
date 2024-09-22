@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PhoneShop.Controllers.Seller.DataView;
 using PhoneShop.Models;
 using System.Security.Claims;
@@ -87,6 +88,23 @@ namespace PhoneShop.Controllers.Seller
             return View(CustomerPurchase);
         }
 
+
+        public IActionResult ListFollower()
+        {
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
+
+            var CheckBooth = _context.Booth_Information.Where(x => x.AccountId == AccountId).FirstOrDefault()!;
+
+            var GetListFollower = _context.UserFollows.Where(x => x.BoothID == CheckBooth.Id).ToList();
+            ViewBag.Account = new SelectList(_context.Accounts.ToList(), "Id", "FullName");
+
+
+
+            return View(GetListFollower);
+        }
 
     }
 }

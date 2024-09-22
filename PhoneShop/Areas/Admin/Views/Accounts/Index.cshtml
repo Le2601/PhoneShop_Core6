@@ -196,7 +196,7 @@
 
 
                                                 <td>
-                                                    <button class="button-55 viewbooth" data-id="@item.Id" role="button" href="#"> Xem gian hàng</button>
+                                                    <a class="button-55"  href="/admin/Accounts/ViewBooth/@item.Id"> Xem gian hàng</a>
                                                 </td>
                                             </tr>
                                         }
@@ -226,43 +226,7 @@
 
 
 <!-- /.content -->
-@section scripts{
 
-    <script>
-        $(document).ready(function () {
-            $('body').on('click', '.viewbooth', function () {
-                var id = $(this).data('id');
-
-               
-
-                    $.ajax({
-
-                        url: '/admin/Accounts/ViewBooth',
-                        type: 'post',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                            $.ajax({
-
-                                url: '/admin/Booth/Detail_Booth',
-                                type: 'get',
-                                data: { id: rs.idbooth },
-                               
-
-                            });
-                            }
-                            else {
-                                alert("Không tìm thấy gian hàng");
-                                location.reload();
-                            }
-                        }
-
-                    });
-
-               
-            });
-        });
-    </script>
 
 
 }

@@ -158,7 +158,12 @@ namespace PhoneShop.Controllers.Seller
                     ViewBag.GeDate_PriceTotal = new RevenueStatistics_DataViewChart();
 
                 }
-           
+
+            //tong doanh thu 
+
+            ViewBag.TotalRevenue = TotalRevenue(_context, AccountId);
+
+
 
 
 
@@ -206,6 +211,45 @@ namespace PhoneShop.Controllers.Seller
 
 
             return RedirectToAction("Index");
+        }
+
+
+        public static decimal TotalRevenue(ShopPhoneDbContext context, int AccountId)
+        {
+            var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(context, AccountId);
+
+            decimal TotalRevenue_Year = 0;
+
+
+            //lay ra thong tin doanh thu cac don hang da ban
+            var GetOrder = ListProduct_Purchase
+                .Select(g => new RevenueStatistics
+                {
+                 
+                    Date_Purchase = g.Date_Purchase.Date,
+                    TotalRevenue = g.Total_Order_DetailByProduct,
+                    TotalProfit = (g.Quantity_Purchase * (g.Price - g.InputPrice)) - g.Price_Apply_Voucher,
+                   
+                }).ToList();
+           
+            var GetData = GetOrder.GroupBy(x => x.Date_Purchase)
+                 .Select(g => new RevenueStatistics_DataViewChart
+                 {
+                     Date_Purchase = g.Key,
+                     TotalRevenue = g.Sum(o => o.TotalRevenue),
+                    
+
+                 }).ToList();
+           
+           
+            foreach (var item in GetData)
+            {
+                TotalRevenue_Year += item.TotalRevenue;
+                
+
+            }
+
+            return TotalRevenue_Year;
         }
 
 

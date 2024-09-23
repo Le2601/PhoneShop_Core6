@@ -101,6 +101,24 @@ namespace PhoneShop.Controllers
             ViewBag.StatusOrder = _dbContext.DeliveryProcesses.Include(x => x.Order_Details).ThenInclude(x=> x.Product).ToList();
 
 
+            var GetDeliveryProcesses = (
+
+                from or in _dbContext.Orders.Where(x => x.AccountId == AccountId)
+                join ord in _dbContext.Order_Details on or.Id_Order equals ord.OrderId
+                join deli in _dbContext.DeliveryProcesses on ord.Id equals deli.Order_Detail_Id
+                select new
+                {
+                    OrdId = ord.Id,
+                    DeliStatus = deli.DeliveryStatus
+                }
+
+                ).ToList();
+
+
+
+
+
+
             return View(GetOrder);
         }
 

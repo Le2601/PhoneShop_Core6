@@ -19,7 +19,7 @@ namespace PhoneShop.Extension.CollaborativeFiltering
             var otherRatings = _context.Evaluate_Products.Where(x => x.AccountId != AccountId).ToList();
 
             // lay ra ds sp da danh gia va chua danh gia
-            var ratedItemIds = UserRatings.Select(x => x.ProductId).ToHashSet(); //chuyen doi thanh tap hop [] > {}, gia tri k trung lap
+            var ratedItemIds = UserRatings.Select(x => x.ProductId).ToHashSet(); //chuyen doi thanh tap hop [{1,ưe},{2,ưe}] > {1,2}, gia tri k trung lap => chỉ lấy ra id để so sánh và loại những sp người dùng đã mua  > unratedItems
             var unratedItems = otherRatings.Where(x => !ratedItemIds.Contains(x.ProductId));
 
             // tinh diem dtb moi sp
@@ -29,7 +29,7 @@ namespace PhoneShop.Extension.CollaborativeFiltering
                 {
 
                     ProductId = l.Key,
-                    Score = l.Average(x => x.Purchases)
+                    Score = l.Average(x => x.Purchases) //luot mua
 
                 })
                 .OrderByDescending(x => x.Score)
@@ -44,6 +44,7 @@ namespace PhoneShop.Extension.CollaborativeFiltering
                 Discount = x.Discount,
                 Alias = x.Alias,
                 evaluate_Products = x.evaluate_Products,
+                Quantity = x.Quantity
 
                 
             }).ToList();

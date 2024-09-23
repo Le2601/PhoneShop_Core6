@@ -49,7 +49,10 @@
                                     <div style="height:45px">
                                         <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
                                     </div>
-                                   
+
+                                    <h2 class="blink-text" style="margin:0px;font-size: 12px;color: #5a88ca">Còn @item.Quantity suất</h2>
+                                  
+                                    
 
                                     <div class="product-carousel-price">
 
@@ -125,3 +128,8 @@
         </div>
     </div>
 </div> <!-- End main content area -->
+<script>
+    $("#animated-text").on("click", function () {
+        $(this).effect("shake", { times: 2 }, 500); // Lắc nhẹ 2 lần trong 500ms
+    });
+</script>

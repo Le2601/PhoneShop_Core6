@@ -17,6 +17,7 @@ using PhoneShop.Services;
 using static System.Net.WebRequestMethods;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
+using PhoneShop.Controllers.Seller;
 
 namespace PhoneShop.Controllers
 {
@@ -403,5 +404,60 @@ namespace PhoneShop.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+
+        [HttpPost]
+        public IActionResult ChangePassword([FromBody] ChangePassword formData)
+        {
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+
+            if (ModelState.IsValid)
+            {
+
+                var GetAccount = _context.Accounts.Where(x => x.Id == AccountId).FirstOrDefault()!;
+
+                string pass = (formData.Password.Trim()).ToMD5();
+                string newpass = (formData.NewPassword.Trim()).ToMD5();
+
+                if (GetAccount.Password.Trim() != pass)
+                {
+                    return Json(new { success = false, message = "Mật khẩu sai!" });
+                }
+                else if (GetAccount.Password.Trim() == newpass)
+                {
+                    return Json(new { success = false, message = "Mật khẩu mới không thể giống mật khẩu hiện tại" });
+                }
+                else if(formData.NewPassword != formData.ComfirmPassword)
+                {
+                    return Json(new { success = false, message = "Xác nhận mật khẩu không đúng" });
+                }
+
+
+
+                GetAccount.Password = newpass;
+                _context.Accounts.Update(GetAccount);
+                _context.SaveChanges();
+
+
+
+                return Json(new { success = true, message = "Thay đổi mật khẩu thành công!" });
+            }
+
+            
+            return Json(new { success = false, message = "Lỗi không thể thay đổi mật khẩu" });
+
+
+
+           
+        }
+
+
+        
+    }
+    public class ChangePassword
+    {
+        public string Password { get; set; } 
+        public string NewPassword { get; set; }
+        public string ComfirmPassword { get; set; }
     }
 }

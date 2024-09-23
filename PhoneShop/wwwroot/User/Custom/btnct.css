@@ -212,3 +212,18 @@
     transition: 0s;
     transform: translate(0, 5%);
 }
+
+/*//hieu ung*/
+.blink-text {
+    animation: blink 3s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}

@@ -8,6 +8,38 @@
 @await Component.InvokeAsync("MenuUtilities")
 
 <style>
+   
+
+    /* Form đổi mật khẩu */
+    #change-password-form {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+   
+
+        .btn:hover {
+        background-color: #5a88ca;
+        }
     .notification {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -113,6 +145,28 @@
    
     <p class="profile-info">Email/Tên Đăng Nhập: @Model.Email</p>
     <p class="profile-info">Ngày tạo: @Model.CreateDate</p>
+    <div class="change-password-section">
+        <button id="change-password-btn" class="btn">Đổi mật khẩu</button>
+
+        <div id="change-password-form" style="display: none;">
+            <form id="myForm" >
+                <div class="form-group">
+                    <label for="current-password">Mật khẩu hiện tại</label>
+                    <input type="password" id="Password" name="Password" placeholder="Nhập mật khẩu hiện tại" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Mật khẩu mới</label>
+                    <input type="password" id="NewPassword" name="NewPassword" placeholder="Nhập mật khẩu mới" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Xác nhận mật khẩu mới</label>
+                    <input type="password" id="ComfirmPassword" name="ComfirmPassword" placeholder="Nhập lại mật khẩu mới" required>
+                </div>
+                <button type="submit" class="btn btn-success">Xác nhận</button>
+            </form>
+        </div>
+    </div>
+    
     <form asp-action="Update" asp-controller="Account" method="post">
         <input type="hidden" asp-for="Id">
         <div class="profile-form-group">
@@ -129,4 +183,60 @@
         </div>
         
     </form>
+   
+   
 </div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+           
+            $('#change-password-btn').on('click', function () {
+                $('#change-password-form').slideToggle(); 
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#myForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var formData = {
+                    Password: $('#Password').val(),
+                    NewPassword: $('#NewPassword').val(),
+                    ComfirmPassword: $('#ComfirmPassword').val()
+                };
+
+                $.ajax({
+                    url: '/Account/ChangePassword',
+                    type: 'POST',
+                    contentType: 'application/json', 
+                    data: JSON.stringify(formData), 
+                    success: function (response) {
+                        if (response.success) {
+                            swal({
+                                title: "Thành công",
+                                text: response.message,
+                                icon: "success",
+                                button: "OK",
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Có lỗi xảy ra",
+                                text: response.message,
+                                icon: "error",
+                                button: "OK",
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        alert('Có lỗi xảy ra!');
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+}

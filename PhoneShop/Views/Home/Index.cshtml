@@ -43,7 +43,6 @@
 
 
 
-
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 
@@ -467,60 +466,11 @@
 </div> <!--Tat ca san pham -->
 @section Scripts{
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('body').on('click', '.confirmAdd', function () {
-                var id = $(this).data('id');
+    
 
 
 
-
-
-                $.ajax({
-
-                    url: '/Cart/Add',
-                    type: 'post',
-                    data: { id: id },
-                    success: function (rs) {
-                       
-                        if (rs.success) {
-                           
-                            swal({
-                                title: "Thành công",
-                                text: rs.msg,
-                                icon: "success",
-                                button: "OK",
-
-                            }).then(() => {
-                                window.location.replace(window.location.href);
-                            });
-                           
-                        }
-                       
-                        else {
-                            swal({
-                                title: "Có lỗi xảy ra",
-                                text: rs.msg,
-                                icon: "error",
-                                button: "OK",
-                            });
-                        }
-                        
-
-                    }
-
-                });
-
-
-            });
-
-
-        });
-    </script>
-
-
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
 

@@ -445,15 +445,18 @@
 
 
                             if (response.success) {
-                              
-                                swal({
-                                    title: "Thành công",
-                                    text: response.msg,
-                                    icon: "success",
-                                    button: "OK",
-                                }).then(() => {
-                                window.location.reload();
-                                });
+
+                            toastr.success(response.msg, 'Thành Công', {
+
+                                closeButton: true,
+                                progressBar: true,
+                                timeOut: 2000,
+                                positionClass: 'toast-top-right',
+                                onHidden: function () {
+                                    window.location.reload();
+                                },
+
+                            });
                             }
                             else {
                                 swal({

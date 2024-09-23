@@ -521,6 +521,11 @@ namespace PhoneShop.Controllers
         [Authorize]
         public IActionResult CheckOut()
         {
+
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);///gio hang khong co sp thi tra ve
             if (Check_Quantity_Product(CartItems) == 0)
             {
@@ -542,15 +547,14 @@ namespace PhoneShop.Controllers
 
             ViewBag.GrandTotal = cartVM.GrandTotal;
 
-            ////demo
-            //var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            //int AccountInt = int.Parse(taikhoanID);
+            ////dkiem tra dia chi nhan hang
+           
 
-            //ViewBag.getMyAddress = _dbContext.MyAddresses.Where(x=> x.IdAccount == AccountInt && x.IsDefault == 1).FirstOrDefault();
+            ViewBag.getMyAddress = _dbContext.MyAddresses.Where(x => x.IdAccount == AccountId && x.IsDefault == 1).FirstOrDefault();
 
 
             //phi van chuyen
-           
+
             var CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
 
             if(CheckApply != null)

@@ -32,7 +32,7 @@
 
     <link href="~/user/css/breadcrumb.css" rel="stylesheet" />
 
-
+    <link href="~/user/alert/toastr.min.css" rel="stylesheet" />
 
     <script src="~/user/user/js/analytics-browser-2.7.4.js"></script>
     <link href="~/user/custom/btnct.css" rel="stylesheet" />
@@ -325,10 +325,69 @@
       
 
     </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.confirmAdd', function () {
+                var id = $(this).data('id');
+
+
+
+
+
+                $.ajax({
+
+                    url: '/Cart/Add',
+                    type: 'post',
+                    data: { id: id },
+                    success: function (rs) {
+
+                        if (rs.success) {
+
+
+                            toastr.success(rs.msg, 'Thành Công', {
+
+                                closeButton: true,
+                                progressBar: true,
+                                timeOut: 2000,
+                                positionClass: 'toast-top-right',
+                                onHidden: function () {
+                                    window.location.reload();
+                                },
+
+                            });
+                        }
+
+                        else {
+                            swal({
+                                title: "Có lỗi xảy ra",
+                                text: rs.msg,
+                                icon: "error",
+                                button: "OK",
+                            });
+                        }
+
+
+                    }
+
+                });
+
+
+            });
+
+
+        });
+    </script>
+
+
+
     <script src="~/user/alert/sweetalert.js"></script>
-
-
+    <script src="~/user/alert/toastr.min.js"></script>
+ 
     @RenderSection("Scripts", required: false)
+
+   
 </body>
 </html>
 

@@ -56,7 +56,7 @@ namespace PhoneShop.Controllers
 
             
 
-            var GetOrder =  (
+            ViewBag.GetOrder =  (
                 
                     from or in _dbContext.Orders.Where(x=> x.AccountId == AccountId).ToList()
                     join ord in _dbContext.Order_Details.DefaultIfEmpty()
@@ -105,11 +105,34 @@ namespace PhoneShop.Controllers
 
                 from or in _dbContext.Orders.Where(x => x.AccountId == AccountId)
                 join ord in _dbContext.Order_Details on or.Id_Order equals ord.OrderId
+                join p in _dbContext.Products on ord.ProductId equals p.Id
+                join b in _dbContext.Booth_Information on p.Booth_InformationId equals b.Id
                 join deli in _dbContext.DeliveryProcesses on ord.Id equals deli.Order_Detail_Id
-                select new
+                join od_ppurchase in _dbContext.Order_ProductPurchasePrices on ord.Id equals od_ppurchase.OrderDetail_Id
+                select new MyOrderViewModel
                 {
-                    OrdId = ord.Id,
-                    DeliStatus = deli.DeliveryStatus
+                   //product
+                   ProductId = ord.ProductId,
+                   ImageProductName = p.ImageDefaultName,
+                   ProductTitle = p.Title,
+                   //ord
+                   OrdId = ord.Id,
+                   PurchasePrice_Product = ord.PurchasePrice_Product,
+                   PurchaseQuantity_Product = ord.Quantity,
+                   OrderDate = or.Order_Date,
+                   Status_OrderDetail = ord.Status_OrderDetail,
+                   //deli
+                   DeliStatus = deli.DeliveryStatus,
+
+                    //Order_ProductPurchasePrices
+                    DiscountAmount = (decimal)od_ppurchase.DiscountAmount,
+                    FinalAmount = (decimal)od_ppurchase.FinalAmount,
+                    //booth
+                    BoothId = b.Id,
+                    BoothName = b.ShopName
+
+
+
                 }
 
                 ).ToList();
@@ -117,9 +140,9 @@ namespace PhoneShop.Controllers
 
 
 
+            //return Json(GetDeliveryProcesses);
 
-
-            return View(GetOrder);
+            return View(GetDeliveryProcesses);
         }
 
 

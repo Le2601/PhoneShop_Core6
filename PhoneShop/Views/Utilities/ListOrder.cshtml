@@ -1,5 +1,6 @@
-﻿@model List<PhoneShop.Data.Order_DetailsData>
+﻿@model List<PhoneShop.ModelViews.MyOrderViewModel>
 @using PhoneShop.Models;
+@using PhoneShop.Data;
 @{
     ViewData["Title"] = "ListOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,10 +12,15 @@
     List<DeliveryProcess> Orderdanggiao = ViewBag.Orderdanggiao;
     List<DeliveryProcess> Orderdagiao = ViewBag.Orderdagiao;
     List<DeliveryProcess> Orderhuy = ViewBag.Orderhuy;
-    
 
-    
+
+
     List<DeliveryProcess> StatusOrder = ViewBag.StatusOrder;
+
+
+    List<Order_DetailsData> ListOrder = ViewBag.GetOrder;
+
+
 
 }
 <style>
@@ -175,7 +181,7 @@
         <p style="color:red;text-align:center;font-size:12px">Đơn hàng đã xác nhận/Chuẩn bị hàng có thể hủy</p>
 
         <div class="tabs">
-            <div class="tab active" onclick="showContent('orders')">Đơn hàng</div>
+            <div class="tab active" onclick="showContent('orders')">Đang chờ</div>
             <div class="tab" onclick="showContent('xuly')">Đã xác nhận/Xử lý</div>
             <div class="tab" onclick="showContent('chuanbi')">Chuẩn bị hàng</div>
             <div class="tab" onclick="showContent('shipping')">Đang vận chuyển</div>
@@ -188,7 +194,7 @@
         <div id="orders" class="content" style="display: block;min-height:500px">
             @if (Model != null)
             {
-                foreach (var item in Model)
+            foreach (var item in ListOrder)
                 {
                     <div class="order-card" id="trow_@item.Id">
                         <div class="order-header">
@@ -234,33 +240,35 @@
            
             @if (Model != null)
             {
-                foreach (var item in OrderComfirm)
+                foreach (var item in Model.Where(x => x.DeliStatus == 1))
                 {
-                    <div class="order-card" id="trow_@item.Id">
+                    <div class="order-card" id="trow_@item.OrdId">
                         <div class="order-header">
 
 
 
-                            <div class="view-shop-btn">Xem Shop</div>
+                            <a class="view-shop-btn" href="/detail_booth/@item.BoothId" >Xem Shop</a>
+                            <p>@item.BoothName</p>
                         </div>
+
                         <div class="order-details">
-                            <img src="~/images/Product/@item.Order_Details.Product.ImageDefaultName" alt="Product Image" class="product-image">
+                            <img src="~/images/Product/@item.ImageProductName" alt="Product Image" class="product-image">
                             <div class="product-info">
-                                <h4>@item.Order_Details.Product.Title</h4>
+                                <h4>@item.ProductTitle</h4>
                                 <p>Ngày đặt: 123</p>
 
-                                <p>x @item.Order_Details.Quantity </p>
-                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product)</p>
+                                <p>x @item.PurchaseQuantity_Product </p>
+                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.PurchasePrice_Product)</p>
                             </div>
                            
                         </div>
                         <div class="order-footer">
 
 
-                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product * (double)item.Order_Details.Quantity)</div>
+                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.FinalAmount)</div>
                             <div class="action-btns">
 
-                                <button class="buy-again CancelOrder" data-id="@item.Order_Details.Id" style="background: #5a88ca">Hủy đơn hàng</button>
+                                <button class="buy-again CancelOrder" data-id="@item.OrdId" style="background: #5a88ca">Hủy đơn hàng</button>
 
 
                             </div>
@@ -273,36 +281,37 @@
         </div>
 
         <div id="chuanbi" class="content" style="min-height:500px">
-            
+
             @if (Model != null)
             {
-                foreach (var item in Orderchuanbi)
+                foreach (var item in Model.Where(x => x.DeliStatus == 2))
                 {
-                    <div class="order-card" id="trow_@item.Id">
+                    <div class="order-card" id="trow_@item.OrdId">
                         <div class="order-header">
 
 
 
-                            <div class="view-shop-btn">Xem Shop</div>
+                            <a class="view-shop-btn" href="/detail_booth/@item.BoothId">Xem Shop</a>
+                            <p>@item.BoothName</p>
                         </div>
                         <div class="order-details">
-                            <img src="~/images/Product/@item.Order_Details.Product.ImageDefaultName" alt="Product Image" class="product-image">
+                            <img src="~/images/Product/@item.ImageProductName" alt="Product Image" class="product-image">
                             <div class="product-info">
-                                <h4>@item.Order_Details.Product.Title</h4>
+                                <h4>@item.ProductTitle</h4>
                                 <p>Ngày đặt: 123</p>
 
-                                <p>x @item.Order_Details.Quantity </p>
-                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product)</p>
+                                <p>x @item.PurchaseQuantity_Product </p>
+                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.PurchasePrice_Product)</p>
                             </div>
 
                         </div>
                         <div class="order-footer">
 
 
-                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product * (double)item.Order_Details.Quantity)</div>
+                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.FinalAmount)</div>
                             <div class="action-btns">
 
-                                <button class="buy-again CancelOrder" data-id="@item.Order_Details.Id" style="background: #5a88ca">Hủy đơn hàng</button>
+                                <button class="buy-again CancelOrder" data-id="@item.OrdId" style="background: #5a88ca">Hủy đơn hàng</button>
 
 
                             </div>
@@ -318,30 +327,31 @@
            
             @if (Model != null)
             {
-                foreach (var item in Orderdanggiao)
+                foreach (var item in Model.Where(x => x.DeliStatus == 3))
                 {
-                    <div class="order-card" id="trow_@item.Id">
+                    <div class="order-card" id="trow_@item.OrdId">
                         <div class="order-header">
 
 
 
-                            <div class="view-shop-btn">Xem Shop</div>
+                            <a class="view-shop-btn" href="/detail_booth/@item.BoothId">Xem Shop</a>
+                            <p>@item.BoothName</p>
                         </div>
                         <div class="order-details">
-                            <img src="~/images/Product/@item.Order_Details.Product.ImageDefaultName" alt="Product Image" class="product-image">
+                            <img src="~/images/Product/@item.ImageProductName" alt="Product Image" class="product-image">
                             <div class="product-info">
-                                <h4>@item.Order_Details.Product.Title</h4>
+                                <h4>@item.ProductTitle</h4>
                                 <p>Ngày đặt: 123</p>
 
-                                <p>x @item.Order_Details.Quantity </p>
-                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product)</p>
+                                <p>x @item.PurchaseQuantity_Product </p>
+                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.PurchasePrice_Product)</p>
                             </div>
 
                         </div>
                         <div class="order-footer">
 
 
-                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product * (double)item.Order_Details.Quantity)</div>
+                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.FinalAmount)</div>
                             
                         </div>
 
@@ -356,41 +366,36 @@
         
 
         <div id="hoanthanh" class="content" style="min-height:500px">
-          
+
             @if (Model != null)
             {
-                foreach (var item in Orderdagiao)
+                foreach (var item in Model.Where(x => x.DeliStatus == 4))
                 {
-                    <div class="order-card" id="trow_@item.Id">
+                    <div class="order-card" id="trow_@item.OrdId">
                         <div class="order-header">
 
 
 
-                            <div class="view-shop-btn">Xem Shop</div>
+                            <a class="view-shop-btn" href="/detail_booth/@item.BoothId">Xem Shop</a>
+                            <p>@item.BoothName</p>
                         </div>
                         <div class="order-details">
-                            <img src="~/images/Product/@item.Order_Details.Product.ImageDefaultName" alt="Product Image" class="product-image">
+                            <img src="~/images/Product/@item.ImageProductName" alt="Product Image" class="product-image">
                             <div class="product-info">
-                                <h4>@item.Order_Details.Product.Title</h4>
+                                <h4>@item.ProductTitle</h4>
                                 <p>Ngày đặt: 123</p>
 
-                                <p>x @item.Order_Details.Quantity </p>
-                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product)</p>
+                                <p>x @item.PurchaseQuantity_Product </p>
+                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.PurchasePrice_Product)</p>
                             </div>
 
                         </div>
                         <div class="order-footer">
 
 
-                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product * (double)item.Order_Details.Quantity)</div>
-                            <div class="action-btns">
-
-                                <a class="buy-again" href="/chi-tiet/@item.Order_Details.Product.Alias-@item.Order_Details.ProductId" style="background: #5a88ca">Mua Lại</a>
-
-
-                            </div>
+                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.FinalAmount)</div>
+                           
                         </div>
-                    
 
 
                     </div>
@@ -408,31 +413,37 @@
            
             @if (Model != null)
             {
-                foreach (var item in Orderhuy)
+                foreach (var item in Model.Where(x => x.DeliStatus == 5))
                 {
-                    <div class="order-card" id="trow_@item.Id">
+                    <div class="order-card" id="trow_@item.OrdId">
                         <div class="order-header">
 
 
 
-                            <div class="view-shop-btn">Xem Shop</div>
+                            <a class="view-shop-btn" href="/detail_booth/@item.BoothId">Xem Shop</a>
+                            <p>@item.BoothName</p>
                         </div>
                         <div class="order-details">
-                            <img src="~/images/Product/@item.Order_Details.Product.ImageDefaultName" alt="Product Image" class="product-image">
+                            <img src="~/images/Product/@item.ImageProductName" alt="Product Image" class="product-image">
                             <div class="product-info">
-                                <h4>@item.Order_Details.Product.Title</h4>
-                                <p>Ngày đặt: @item.DeliveryDate</p>
+                                <h4>@item.ProductTitle</h4>
+                                <p>Ngày đặt: 123</p>
 
-                                <p>x @item.Order_Details.Quantity </p>
-                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product)</p>
+                                <p>x @item.PurchaseQuantity_Product </p>
+                                <p>@PhoneShop.Extension.Extension.ToVnd((double)item.PurchasePrice_Product)</p>
                             </div>
 
                         </div>
                         <div class="order-footer">
 
 
-                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.Order_Details.PurchasePrice_Product * (double)item.Order_Details.Quantity)</div>
+                            <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.FinalAmount)</div>
+                            <div class="action-btns">
 
+                                <button class="buy-again CancelOrder" data-id="@item.OrdId" style="background: #5a88ca">Hủy đơn hàng</button>
+
+
+                            </div>
                         </div>
 
 

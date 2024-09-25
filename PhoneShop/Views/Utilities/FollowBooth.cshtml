@@ -115,6 +115,11 @@
             background-color: #0056b3;
         }
 
+
+/*         /////////////////
+ */
+
+
 </style>
 @await Component.InvokeAsync("MenuUtilities")
 <div class="profile-container">
@@ -125,7 +130,7 @@
         {
             <a style="text-decoration: none;" href="/detail_booth/@item.BoothId">
             <li class="booth-item">
-                <img src="booth1.jpg" alt="Booth 1" class="booth-image">
+               
                 <h3 class="booth-name">@item.BoothName</h3>
                 <p class="booth-description">Đánh giá: @item.Total_Comment</p>
 
@@ -139,6 +144,8 @@
 
 
     </ul>
+
+    
    
 </div>
 

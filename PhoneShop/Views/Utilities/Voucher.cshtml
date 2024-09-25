@@ -68,7 +68,7 @@
             background-color: #c82333;
         }
 </style>
-
+<link href="~/user/custom/voucher.css" rel="stylesheet" />
 <div class="container" style="min-height:600px; width:1000px">
 
     <div class="row" style="background:white;min-height:500px">
@@ -84,24 +84,44 @@
 
             <div class="voucher-container">
                 <h1 class="profile-header">Danh sách đơn hàng của tôi</h1>
-                <ul class="voucher-list">
-                    @foreach (var i in Model.VoucherItems)
-                    {
-                        <li class="voucher-item">
-                            <div class="voucher-info">
-                                <h3>Mã giảm giá: @i.Code</h3>
-                                <p>Giảm @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount) cho đơn hàng</p>
-                                <p>Hạn sử dụng: @i.ExpiryDate</p>
-                            </div>
-                            <button class="use-voucher-btn" data-id="@i.Id">Xóa</button>
-                        </li>
-                    }
-                </ul>
+               
+            </div>
+
+            <div class="voucher-container">
+
+                @foreach (var i in Model.VoucherItems)
+                {
+                <div class="voucher-card">
+                    <div class="voucher-left">
+                        <div class="voucher-label">DÀNH CHO BẠN</div>
+                        <p style="font-size:10px">@i.Code</p>
+                        <div class="voucher-title">PhoneShop</div>
+                    </div>
+                    <div class="voucher-right">
+                        <h3>Giảm @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountAmount) cho đơn hàng</h3>
+                            <p>Đơn Tối Thiểu @PhoneShop.Extension.Extension.ToVnd((double)i.DiscountConditions)</p>
+                            <span style="font-size:12px">Số lượng: @i.Quantity</span>
+                        <div class="voucher-footer">
+                               
+                            <span>Hạn sử dụng đến: @i.ExpiryDate</span>
+                            
+                            <a href="~/" class="use-later-btn">Dùng</a>
+                        </div>
+                    </div>
+                </div>
+                }
+
+
+
             </div>
 
 
         }
+      
 
         </div>
+
+
+   
         </div>
 

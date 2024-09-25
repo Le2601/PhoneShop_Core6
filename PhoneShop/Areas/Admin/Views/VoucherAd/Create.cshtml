@@ -37,11 +37,24 @@
                         <input asp-for="Code" class="form-control" />
                         <span asp-validation-for="Code" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+
+              @*       <div class="form-group">
                         <label asp-for="DiscountAmount" class="control-label">Tiền Giảm</label>
                         <input asp-for="DiscountAmount" class="form-control" />
                         <span asp-validation-for="DiscountAmount" class="text-danger"></span>
+                    </div> *@
+
+
+                    <div class="form-group">
+                        <label asp-for="DiscountAmount" class="control-label">Loại giảm giá</label><span class="text-danger">*</span>
+                        <select asp-for="DiscountAmount" class="form-control">
+                            <option value="15000" selected>Miễn phí vận chuyển</option>
+                            <option value="0">Khác</option>
+                        </select>
                     </div>
+
+
+
                     <div class="form-group">
                         <label asp-for="DiscountConditions" class="control-label">Đơn hàng trên</label>
                         <input asp-for="DiscountConditions" class="form-control" />
@@ -68,11 +81,7 @@
                         </label>
                     </div>
 
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
-                        </label>
-                    </div>
+             
                     <div class="form-group">
                         <input type="submit" value="Xác nhận" class="btn btn-primary" />
                     </div>

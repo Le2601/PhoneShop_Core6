@@ -42,11 +42,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Voucher model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            
-            }
+           
 
             model.IsAdmin = true;
             model.BoothId = null;

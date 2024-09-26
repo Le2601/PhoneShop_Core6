@@ -51,10 +51,13 @@ namespace PhoneShop.Controllers.Seller
             // Tạo một số ngẫu nhiên từ 0 đến 100.000
             int randomNumber_Id = random.Next(0, 100001);
             //
+          
             string ShopName = form["ShopName"];
             string Email = form["Email"];
             string Phone = form["Phone"];
             string avatar = "";
+
+            var DateTimeCreate = DateTime.Now;
 
             //xu ly hinh anh
             if (img != null)
@@ -63,7 +66,7 @@ namespace PhoneShop.Controllers.Seller
 
 
                 string extension = Path.GetExtension(img.FileName);
-                string imageName = Utilities.SEOUrl(ShopName) + extension;
+                string imageName = Utilities.SEOUrl(DateTimeCreate.ToString()) + extension;
 
                 avatar = await Utilities.UploadFile(img, @"AvatarBooth", imageName.ToLower());
 
@@ -94,7 +97,7 @@ namespace PhoneShop.Controllers.Seller
                 ShopName = ShopName,
                 Email = Email,
                 Phone = Phone,
-                Creare_At = DateTime.Now,
+                Creare_At = DateTimeCreate,
                 AccountId = AccountId,  
                 Code_Info = randomNumber_Id,
                 Avatar = avatar
@@ -160,83 +163,77 @@ namespace PhoneShop.Controllers.Seller
             
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAvt(IFormCollection form,Microsoft.AspNetCore.Http.IFormFile avatar)
+        {
+            
+            int IdBooth = int.Parse(form["IdBooth"]);
+
+            var CheckBooth = _context.Booth_Information.Where(x => x.Id == IdBooth).FirstOrDefault()!;
+
+           
+                //xoa hinh anh cu
+                string pathimg = "/AvatarBooth/" + CheckBooth.Avatar!;
+                //xoa hinh anh trong folder
+                string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "AvatarBooth/" + CheckBooth.Avatar);
+                if (System.IO.File.Exists(pathFile))
+                {
+                    // Xóa hình ảnh
+                    System.IO.File.Delete(pathFile);
+
+                }
+                //end xoa hinh anh cu
+
+
+
+                string extension = Path.GetExtension(avatar.FileName);
+                string imageName = Utilities.SEOUrl(CheckBooth.Creare_At.ToString()) + extension;
+
+                CheckBooth.Avatar = await Utilities.UploadFile(avatar, @"AvatarBooth", imageName.ToLower());
+
+            _context.Booth_Information.Update(CheckBooth);
+            _context.SaveChanges();
+
+
+
+
+
+
+            TempData["UpAvt"] = "Cập nhật ảnh đại diện thành công!";
+
+            return RedirectToAction("Index", "Home_Seller");
+        }
+
         [HttpGet]
         public IActionResult Update(int BoothInfo)
         {
             var item = _context.Booth_Information.Where(x => x.Id == BoothInfo).FirstOrDefault();
+
+
+
+
             return View(item);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(Booth_Information model)
         {
-            //, Microsoft.AspNetCore.Http.IFormFile avatar
-            //var GetBooth = _context.Booth_Information.Where(x => x.Id == model.Id).FirstOrDefault()!;
 
-            ////xu ly hinh anh
-            //if (avatar != null)
-            //{
-            //    //xoa hinh anh cu
-            //    string pathimg = "/AvatarBooth/" + GetBooth.Avatar!;
-            //    //xoa hinh anh trong folder
-            //    string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "AvatarBooth/" + GetBooth.Avatar);
-            //    if (System.IO.File.Exists(pathFile))
-            //    {
-            //        // Xóa hình ảnh
-            //        System.IO.File.Delete(pathFile);
+            
 
-            //    }
-            //    //end xoa hinh anh cu
-
-
-
-            //    string extension = Path.GetExtension(avatar.FileName);
-            //    string imageName = Utilities.SEOUrl(model.ShopName!) + extension;
-
-            //    model.Avatar = await Utilities.UploadFile(avatar, @"AvatarBooth", imageName.ToLower());
-
-
-            //}
-            //else
-            //{
-            //    if (model.ShopName != GetBooth.ShopName)
-            //    {
-            //        string oldImageName = GetBooth.Avatar;
-            //        string extension = Path.GetExtension(oldImageName);
-
-            //        // Tạo tên file mới dựa trên tên gian hàng mới
-            //        string newImageName = Utilities.SEOUrl(model.ShopName!) + extension;
-
-            //        string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "AvatarBooth", oldImageName);
-
-
-            //        string newImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "AvatarBooth", newImageName);
-
-            //        // Kiểm tra xem file ảnh cũ có tồn tại không, nếu có thì đổi tên
-            //        if (System.IO.File.Exists(oldImagePath))
-            //        {
-            //            System.IO.File.Move(oldImagePath, newImagePath);
-            //        }
-
-            //        model.Avatar = newImageName;
-            //    }
-            //    else
-            //    {
-            //        model.Avatar = GetBooth.Avatar;
-            //    }
-            //}
 
 
 
 
             _context.Booth_Information.Update(model);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             TempData["Success"] = "Cập nhật thành công";
             return View();
         }
 
- 
+
 
 
         ////

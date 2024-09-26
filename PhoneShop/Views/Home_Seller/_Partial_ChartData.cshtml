@@ -1,1 +1,52 @@
-﻿<h3></h3>
+﻿@model PhoneShop.Models.Booth_Information
+<style>
+    .avatar-preview {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+        border: 2px solid #ddd;
+    }
+
+    .avatar-upload-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+</style>
+<div class="avatar-upload-container">
+    <h2>Ảnh đại diện gian hàng</h2>
+
+    <!-- Avatar Preview -->
+    <img id="avatarPreview" class="avatar-preview" src="~/images/AvatarBooth/@Model.Avatar" />
+    <form asp-action="UpdateAvt" asp-controller="Info_Seller" method="post" enctype="multipart/form-data">
+        <input name="IdBooth" value="@Model.Id" hidden />
+       
+        <input type="file" required id="avatarInput" name="avatar" accept="image/jpeg" onchange="previewAvatar(event)" />
+        <br><br>
+        <button type="submit">Cập nhật</button>
+    </form>
+
+
+</div>
+
+
+<script>
+    // JavaScript to handle image preview
+    function previewAvatar(event) {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('avatarPreview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>

@@ -19,6 +19,7 @@
     var DateNow = DateTime.Now;
 
 }
+
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->
@@ -258,7 +259,7 @@
                         Phone: @Model.Phone<br>
                         Ngày tạo: @Model.Creare_At
                        
-                        <img width="30" src="~/images/AvatarBooth/@Model.Avatar" />
+                       
                     </address>
                 </div>
                 <!-- /.col -->
@@ -302,7 +303,7 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
-            @await Html.PartialAsync("_Partial_ChartData")
+            @await Html.PartialAsync("_Partial_ChartData",Model)
 
            
           
@@ -411,8 +412,9 @@
             });
         });
     </script>
-    
 
+
+    
 
 }
 

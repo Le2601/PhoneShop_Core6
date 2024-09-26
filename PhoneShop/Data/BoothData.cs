@@ -21,6 +21,8 @@
 
         public int Total_Comment { get; set; }
 
+        public string Avatar { get; set; }
+
 
 
 

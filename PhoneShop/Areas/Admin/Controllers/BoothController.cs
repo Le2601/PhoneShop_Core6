@@ -113,7 +113,9 @@ namespace PhoneShop.Areas.Admin.Controllers
         public IActionResult Comfirm_DelBooth(int Id)
         {
 
-            var item = _context.Delete_Booths.Where(x => x.Id == Id).FirstOrDefault();
+            var item = _context.Delete_Booths.Where(x => x.Id == Id).FirstOrDefault()!;
+
+            var CheckVoucher = _context.Vouchers.Where(x => x.BoothId == item.BoothId).ToList();
 
             if (item == null)
             {
@@ -123,6 +125,18 @@ namespace PhoneShop.Areas.Admin.Controllers
             if(item.Status == false)
             {
                 var CheckBooth = _context.Booth_Information.Where(x => x.Id == item.BoothId).FirstOrDefault()!;
+
+                if(CheckVoucher.Count > 0)
+                {
+                    foreach (var i in CheckVoucher)
+                    {
+                        _context.Vouchers.Remove(i);
+                    }
+                    _context.SaveChanges();
+                }
+
+
+
                 _context.Delete_Booths.Remove(item);
                 _context.Booth_Information.Remove(CheckBooth);
                 _context.SaveChanges();

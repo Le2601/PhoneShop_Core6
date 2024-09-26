@@ -4,6 +4,20 @@
     Layout = "~/Views/Shared/Seller/_InfoSellerLayout.cshtml";
 }
 <style>
+    .avatar-preview {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+        border: 2px solid #ddd;
+    }
+
+    .avatar-upload-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     .form-group {
         position: relative;
         margin-bottom: 20px;
@@ -81,7 +95,7 @@
         @TempData["CheckShopName"]
     </div>
 }
-<form id="regForm" asp-action="Create" asp-controller="Info_Seller" method="post" >
+<form id="regForm" asp-action="Create" asp-controller="Info_Seller" method="post" enctype="multipart/form-data">
 
     <h1 style="text-align:center">Đăng ký gian hàng:</h1>
 
@@ -105,6 +119,19 @@
         <div class="form-group">
             <input type="text" id="FullName" required placeholder=" " name="Phone" oninput="this.className = ''">
             <label style="color:#c1c1d7" for="FullName">Phone... *</label>
+        </div>
+
+        <div class="avatar-upload-container">
+            <h2>Upload Avatar</h2>
+
+            <!-- Avatar Preview -->
+            <img id="avatarPreview" class="avatar-preview" src="/images/default-avatar.png" />
+
+            <!-- Upload Form -->
+
+            <input type="file" id="avatarInput" name="img" accept="image/*" onchange="previewAvatar(event)" required />
+
+
         </div>
 
 
@@ -196,4 +223,17 @@
 </form>
 @section Scripts_Seller{
         <script src="~/user/custom/seller/infoseller.js"></script>
+    <script>
+        // JavaScript to handle image preview
+        function previewAvatar(event) {
+            const [file] = event.target.files;
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('avatarPreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 }

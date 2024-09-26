@@ -5,54 +5,104 @@
 }
 
 <style>
-    /* Styling for the booth list */
-    .booth-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        grid-gap: 20px;
-        list-style-type: none;
-        padding: 0;
+    .store-container {
+        display: flex;
+        flex-wrap: wrap; 
+        justify-content: space-between; 
+        margin: 0 -10px; 
     }
 
-    .booth-item {
-        background-color: #f2f2f2;
+    .store-card {
+        flex: 0 0 calc(33.33% - 20px);
+        margin: 10px;
+        box-sizing: border-box; 
+    }
+  
+    .store-card {
+        background-color: #f9f9f9;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: 20px;
         padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 350px;
+        border: 1px solid #eaeaea;
     }
 
-        .booth-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .store-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         }
 
-    .booth-image {
-        width: 100%;
-        height: 200px;
+   
+    .store-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
         object-fit: cover;
-        border-radius: 5px;
+        border: 3px solid #ddd;
+        margin-bottom: 15px;
+    }
+
+    
+    .store-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #333;
         margin-bottom: 10px;
+        letter-spacing: 0.5px;
     }
 
-    .booth-name {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .booth-description {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 10px;
-    }
-
-    .booth-details {
+    
+    .store-info {
         display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        color: #888;
+        justify-content: space-around;
+        width: 100%;
+        margin: 10px 0;
     }
+
+    .store-rating,
+    .store-followers {
+        font-size: 12px;
+        color: #555;
+    }
+
+   
+    .store-products {
+        background-color: #eee;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    
+    .store-button {
+        background-color: #ff5722;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .store-button:hover {
+            background-color: #e64a19;
+        }
+
+    
 </style>
 
 
@@ -65,24 +115,28 @@
 
         </ol>
     </nav>
-    <ul class="booth-list">
+
+   
+
+    <div class="store-container">
         @foreach (var item in Model)
         {
-            <a style="text-decoration: none;" href="/detail_booth/@item.BoothId">
-            <li class="booth-item">
-                <img src="booth1.jpg" alt="Booth 1" class="booth-image">
-                <h3 class="booth-name">@item.BoothName</h3>
-                <p class="booth-description">Đánh giá: @item.Total_Comment</p>
-
-                <div class="booth-details">
-                    <span>Sản phẩm: @item.Quantity_Product</span>
-                    <span>Người theo dõi: @item.Followers</span>
+            <div class="store-card">
+                <img src="~/images/logo.jpg" alt="Store Image" class="store-image">
+                <div class="store-title">@item.BoothName</div>
+                <div class="store-products">Sản phẩm: @item.Quantity_Product</div>
+                <div class="store-info">
+                    <div class="store-rating">Đánh giá: @item.Total_Comment</div>
+                    <div class="store-followers">Người theo dõi: @item.Followers </div>
                 </div>
-            </li>
-            </a>
-        }
+                <button class="store-button">Xem Ngay</button>
+            </div>
         
-     
-    </ul>
+        }
+       
+       
+    </div>
+
+
 
 </div>

@@ -130,7 +130,8 @@ namespace PhoneShop.Controllers
                         Quantity_Product = t.Quantity_Product,
                         Total_Sold = t.Total_Sold,
                         Followers = t.Followers,
-                        Total_Comment = t.Total_Comments
+                        Total_Comment = t.Total_Comments,
+                        Avatar = b.Avatar
 
 
                     }

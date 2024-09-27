@@ -17,13 +17,69 @@
 
 }
 <style>
+    .card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        width: 300px; /* Chiều rộng của thẻ */
+    }
 
+    .avatar {
+        width: 80px;
+        height: 80px; 
+        border-radius: 50%;
+       
+        background-color: #e0f7fa; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 10px; 
+        overflow: hidden; 
+    }
+
+        .avatar img {
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+    .username {
+        font-size: 18px; 
+        font-weight: bold; 
+        color: #333; 
+    }
+
+    .status {
+        font-size: 14px; 
+        color: #666; 
+        margin-bottom: 20px; 
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between; 
+    }
+
+    .button {
+        background-color: #007bff; 
+        color: white; 
+        border: none; 
+        border-radius: 5px; 
+        padding: 10px 15px; 
+        cursor: pointer; 
+        transition: background-color 0.3s; 
+    }
+
+        .button:hover {
+            background-color: #0056b3; 
+        }
     .metric-value {
         color:#5a88ca;
     }
     .content {
         margin-top: 20px;
-        display: none; /* Ẩn nội dung ban đầu */
+        display: none; 
     }
     .shop-header {
         display: flex;
@@ -152,12 +208,18 @@
     </nav>
     <div class="shop-card">
         <div class="shop-header">
-            <div class="shop-info">
-                <h3 class="shop-name">@Booth.BoothName</h3>
-                <p class="shop-created-at">Tham gia từ @Booth.Create_Booth.ToString("dd/MM/yyyy")</p>
+            <div class="card">
+                <div class="avatar">
+                    <img src="~/images/AvatarBooth/@Booth.Avatar" alt="Avatar" class="avatar-img"> <!-- Thay URL với avatar thật -->
+                </div>
+                <div class="username">@Booth.BoothName</div>
+                <div class="status">Tham gia từ @Booth.Create_Booth.ToString("dd/MM/yyyy")</div>
+               
             </div>
+           
 
            
+
 
                 @if (ViewBag.CheckFollow == 0)
                 {

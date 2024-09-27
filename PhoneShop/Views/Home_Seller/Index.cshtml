@@ -230,21 +230,25 @@
                 </div>
             </div>
             <!-- ./col -->
+           
+           
         </div>
 
-
+        
 
         
         
 
         <!-- Main content -->
         <div class="invoice p-3 mb-3">
+
             <!-- title row -->
             <div class="row">
                 <h3 class="card-title">
                     <i class="fas fa-bullhorn"></i>
                    Thông Tin Gian Hàng
                 </h3>
+
                 <br />
             </div>
             <!-- info row -->
@@ -261,6 +265,7 @@
                        
                        
                     </address>
+                    <img id="avatarPreview" class="avatar-preview" src="~/images/AvatarBooth/@Model.Avatar" />
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
@@ -303,7 +308,13 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
-            @await Html.PartialAsync("_Partial_ChartData",Model)
+            <a href="#" class="btn btn-app" id="updateButton">
+                <i class="fas fa-edit"></i> Cập nhật ảnh đại diện
+            </a>
+
+            <div id="chartDataContainer" style="display: none;">
+                @await Html.PartialAsync("_Partial_ChartData", Model) 
+            </div>
 
            
           
@@ -341,7 +352,22 @@
 
 
 
+    <script>
+        $(document).ready(function () {
+            $('#updateButton').on('click', function (e) {
+                e.preventDefault(); 
 
+                var container = $('#chartDataContainer');
+
+                
+                if (container.is(':visible')) {
+                    container.hide(); 
+                } else {
+                    container.show();
+                }
+            });
+        });
+    </script>
 
 
     <!-- AdminLTE App -->

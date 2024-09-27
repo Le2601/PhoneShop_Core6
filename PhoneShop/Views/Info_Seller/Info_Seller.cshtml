@@ -86,6 +86,10 @@
             border-color: #007bff;
             outline: none;
         }
+
+    .tab{
+        min-height:500px;
+    }
 </style>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
 <link href="~/user/custom/seller/infoseller.css" rel="stylesheet" />
@@ -122,14 +126,14 @@
         </div>
 
         <div class="avatar-upload-container">
-            <h2>Upload Avatar</h2>
+            <h5>Ảnh đại diện</h5>
 
             <!-- Avatar Preview -->
             <img id="avatarPreview" class="avatar-preview" src="/images/default-avatar.png" />
 
             <!-- Upload Form -->
 
-            <input type="file" id="avatarInput" name="img" accept="image/*" onchange="previewAvatar(event)" required />
+            <input type="file" id="avatarInput" name="img" accept="image/jpeg" onchange="previewAvatar(event)" required />
 
 
         </div>

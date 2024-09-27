@@ -84,59 +84,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@* <div>
-    
-    @if (TempData["ErDiscountConditions"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["ErDiscountConditions"]
-        </div>
-    }
-    @if (TempData["Check_Quantity_Product"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Check_Quantity_Product"]
-        </div>
-    }
-    @if (TempData["VoucherNull"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["VoucherNull"]
-        </div>
-    }
-    @if (TempData["OutOfDiscount"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["OutOfDiscount"]
-        </div>
-    }
-    @if (TempData["ValueNull"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["ValueNull"]
-        </div>
-    }
-    @if (TempData["VoucherNull_Cart"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["VoucherNull_Cart"]
-        </div>
-    }
 
-    @if (TempData["ApplySuccess"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["ApplySuccess"]
-        </div>
-    }
-
-    @if (TempData["OrderSuccess"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["OrderSuccess"]
-        </div>
-    }
-</div> *@
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link href="~/user/custom/cards_user.css" rel="stylesheet" />
@@ -287,7 +235,7 @@
                            Tổng Thanh Toán:  <span class="amount" style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)</span>
                         </div>
                        
-
+                        <a href="/voucher.html"> Xem khuyến mãi dành cho bạn</a>
                         <div class="coupon">
                             <form method="post" asp-action="ApplyVoucher" asp-controller="Cart">
                                 <label style="text-transform: capitalize;" for="coupon_code">Áp dụng khuyến mãi:</label>

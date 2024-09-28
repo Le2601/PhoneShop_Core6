@@ -144,17 +144,31 @@
         }
 </style>
 @ViewBag.accountId
+<div class="container" >
+    <div class="row">
+       
+        <div class="col-md-9 main-content" style="">
+            <div class="slider-area" style="width:100%; padding-top:0px">
+                <!-- Slider -->
+                <div class="block-slider block-slider4">
+                    <ul class="" id="bxslider-home4">
 
-<div class="slider-area">
-    <!-- Slider -->
-    <div class="block-slider block-slider4">
-        <ul class="" id="bxslider-home4">
+                        @await Html.PartialAsync("_Partial_Banner_Images",banneViews)
+                    </ul>
+                </div>
+                <!-- ./Slider -->
+            </div> <!-- End slider area -->
+        </div>
 
-            @await Html.PartialAsync("_Partial_Banner_Images",banneViews)
-        </ul>
+       
+        <div class="col-md-3 sidebar">
+            <img src="~/images/bn1.jpg" style="height:151px; width:280px" />
+            <div style="height:5px; background:white"></div>
+            <img src="~/images/bn2.png" style="height:151px" />
+        </div>
     </div>
-    <!-- ./Slider -->
-</div> <!-- End slider area -->
+</div>
+
 
 <div class="promo-area">
     <div class="zigzag-bottom"></div>
@@ -172,7 +186,7 @@
                     </div>
                 </div>
             </a>
-            <a href="~/">
+            <a href="/support.html">
                 <div class="col-md-3">
                     <div class="service-box">
                         <div class="icon-icon">

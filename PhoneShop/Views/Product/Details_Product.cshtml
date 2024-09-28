@@ -81,7 +81,7 @@
 
 
 
-<div class="single-product-area" style="padding-top:10px">
+<div class="single-product-area" style="padding-top:10px;padding-bottom:20px">
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row" style="background:white">
@@ -142,9 +142,9 @@
 
                                         <i class="fa fa-star filled"></i>
 
-                                        <a style="text-decoration:none">1/5</a>
+                                        <a style="text-decoration:none">/5</a>
 
-                                        <p class="detail-label">Đã bán: @IsEvaluate_Pro.Purchases</p>
+                                       
                                     }
                                     <p style="padding:0px 20px">|</p>
                                     <p class="detail-label" style="">Đã bán: @IsEvaluate_Pro.Purchases</p>
@@ -344,32 +344,55 @@
 
             <!-- Form bình luận  -->
             <form id="rating-form" asp-action="Review_Product" asp-controller="ProductReview" asp-route-id="@Model.Id" method="post" style="height: auto; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); padding: 20px;">
-                <h3 style="text-transform: capitalize;" class="title_rw mb-0">Đánh giá sản phẩm</h3>
+                <P  style="text-transform: capitalize;font-size: 2.125rem;" class="title_rw mb-0">ĐÁNH GIÁ SẢN PHẨM</P>
                 <div style="display: flex; flex-direction: column; align-items: center;">
-                    <div class="rating-container" style="margin-top: 10px; direction: rtl;">
-                        <input type="radio" id="rating-5" name="rating" value="5" />
-                        <label for="rating-5">&#9733;</label>5
-                        <input type="radio" id="rating-4" name="rating" value="4" />
-                        <label for="rating-4">&#9733;</label>4
-                        <input type="radio" id="rating-3" name="rating" value="3" />
-                        <label for="rating-3">&#9733;</label>3
-                        <input type="radio" id="rating-2" name="rating" value="2" />
-                        <label for="rating-2">&#9733;</label>2
-                        <input type="radio" id="rating-1" name="rating" value="1" />
-                        <label for="rating-1">&#9733;</label>1
+                    
+
+
+                    <div class="container" >
+                        <div class="row">
+       
+                            <div class="col-md-3 main-content" style="display: flex;width:19%">
+                                  <div class="rating-container" style="margin-top: 10px; direction: rtl;">
+                                        <input type="radio" id="rating-5" name="rating" value="5" />
+                                        <label for="rating-5">&#9733;</label>5
+                                        <input type="radio" id="rating-4" name="rating" value="4" />
+                                        <label for="rating-4">&#9733;</label>4
+                                        <input type="radio" id="rating-3" name="rating" value="3" />
+                                        <label for="rating-3">&#9733;</label>3
+                                        <input type="radio" id="rating-2" name="rating" value="2" />
+                                        <label for="rating-2">&#9733;</label>2
+                                        <input type="radio" id="rating-1" name="rating" value="1" />
+                                        <label for="rating-1">&#9733;</label>1
+                                    </div>
+                            </div>
+
+       
+                            <div class="col-md-9 sidebar" style="display: flex;width:81%">
+                                 <textarea id="comment" name="content" placeholder="Nhập đánh giá của bạn..." style="width: 80%; height: 50px;resize: none; margin-top: 10px;" required></textarea>
+                                  @if (User.IsInRole("Seller") || User.IsInRole("User"))
+                                    {
+                                        <input class="btn btn-success" style="color:white; margin-top:10px" type="submit" value="Gửi">
+                                    }
+                                    else
+                                    {
+                                        <a href="/Login.html" class="btn btn-success" style="color:white; margin-top:10px">Cần đăng nhập</a>
+                                    }
+                            </div>
+                    
+                        
+                        </div>
+
+
+
+
                     </div>
-                    <textarea id="comment" name="content" placeholder="Nhập đánh giá của bạn..." style="width: 80%; height: 80px;resize: none; margin-top: 10px;" required></textarea>
-                    @if (User.IsInRole("Seller") || User.IsInRole("User"))
-                    {
-                        <input class="btn btn-success" style="color:white; margin-top:10px" type="submit" value="Gửi">
-                    }
-                    else
-                    {
-                        <a href="/Login.html" class="btn btn-success" style="color:white; margin-top:10px">Cần đăng nhập</a>
-                    }
+
+
+                   
                 </div>
             </form>
-            <div id="comment-section" style="height:400px;background:white">
+                             <div id="comment-section" style="min-height:300px;background:white">
 
                 <div class="card mb-4 border-0 bg-light">
                 </div>
@@ -383,21 +406,41 @@
 
             <!-- Form bình luận -->
             <form id="comment-form" asp-action="Review_Product" asp-controller="Product" asp-route-id="@Model.Id" method="post" style="height: auto;">
-                <h3 style="text-transform: capitalize;padding:10px;" class="title_rw mb-0">Hỏi và Đáp</h3>
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <textarea id="comment" name="content" placeholder="Nhập bình luận của bạn..." style="width: 80%; height: 80px;resize: none;" required></textarea>
+                <p  style="text-transform: capitalize;padding:10px;font-size: 2.125rem;" class="title_rw mb-0">HỎI VÀ ĐÁP</P>
 
-                    @if (User.IsInRole("Seller") || User.IsInRole("User"))
-                    {
-                        <input class="btn btn-success" style="color:white; margin-top:10px" type="submit" value="Gửi">
-                    }
-                    else
-                    {
-                        <a href="/Login.html" class="btn btn-success" style="color:white; margin-top:10px">Cần đăng nhập</a>
-                    }
-                </div>
+
+                
+                 <div class="container" >
+                        <div class="row">
+       
+                            
+
+       
+                            <div class="col-md-12 sidebar" style="display: flex;width:81%">
+                                  <textarea id="comment" name="content" placeholder="Nhập bình luận của bạn..." style="width: 80%; height: 50px;resize: none;" required></textarea>
+
+                                @if (User.IsInRole("Seller") || User.IsInRole("User"))
+                                {
+                                    <input class="btn btn-success" style="color:white; margin-top:10px" type="submit" value="Gửi">
+                                }
+                                else
+                                {
+                                    <a href="/Login.html" class="btn btn-success" style="color:white; margin-top:10px">Cần đăng nhập</a>
+                                }
+
+                            </div>
+                    
+                        
+                        </div>
+
+
+
+
+                    </div>
+
+
             </form>
-            <div id="comment-section" style="height:400px;">
+            <div id="comment-section" style="min-height:300px;">
 
                 <div class="card mb-4 border-0 bg-light">
                 </div>

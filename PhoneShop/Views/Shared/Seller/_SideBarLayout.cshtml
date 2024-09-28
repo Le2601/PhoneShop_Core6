@@ -19,7 +19,7 @@
             
             <li class="nav-item">
                 <a href="/Home_Seller/Index" class="nav-link active">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-info-circle"></i>
                     <p>
                        Thông tin
                         @*<i class="right fas fa-angle-left"></i>*@
@@ -30,7 +30,7 @@
 
             <li class="nav-item">
                 <a href="/Statistics_Seller/index" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-chart-bar"></i>
                     <p>
                         Quản lý thống kê
                         <i class="right fas fa-angle-left"></i>
@@ -108,7 +108,7 @@
             </li>
             <li class="nav-item">
                 <a href="/Category" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-pager"></i>
                     <p>
                         Quản lý đơn hàng
                         <i class="right fas fa-angle-left"></i>
@@ -132,7 +132,7 @@
 
             <li class="nav-item">
                 <a href="/Category" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fab fa-product-hunt"></i>
                     <p>
                         Quản lý sản phẩm
                         <i class="right fas fa-angle-left"></i>
@@ -156,7 +156,7 @@
             </li>
             <li class="nav-item">
                 <a href="/Category" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-house-user"></i>
                     <p>
                        Chăm sóc khách hàng
                         <i class="right fas fa-angle-left"></i>
@@ -193,7 +193,7 @@
             </li>
             <li class="nav-item">
                 <a href="/Category" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-bullhorn"></i>
                     <p>
                         Kênh Marketing
                         <i class="right fas fa-angle-left"></i>
@@ -218,7 +218,7 @@
            
             <li class="nav-item">
                 <a href="/Category" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-landmark"></i>
                     <p>
                         Tài chính
                         <i class="right fas fa-angle-left"></i>
@@ -248,7 +248,7 @@
             </li>
             <li class="nav-item">
                 <a href="/Setting_Seller/Settings" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-wrench"></i>
                     <p>
                         Cài đặt
                         @*<i class="right fas fa-angle-left"></i>*@
@@ -258,7 +258,7 @@
             </li>
             <li class="nav-item">
                 <a href="/" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
+                    <i class="fas fa-laptop-house"></i>
                     <p>
                        Trở về Website
                     </p>
@@ -274,15 +274,5 @@
     <!-- /.sidebar-menu -->
 </div>
 <!-- /.sidebar -->
-@*@if (Request.IsAuthenticated)
-{
-<div style="display:none">
-    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
-    {
-    @Html.AntiForgeryToken()
-    }
 
-</div>
-}
-*@
 

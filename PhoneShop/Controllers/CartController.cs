@@ -174,7 +174,7 @@ namespace PhoneShop.Controllers
 
 
 
-            var ListVoucherByBooth = _dbContext.Vouchers.Where(x => x.BoothId == CheckProductInCart.Booth_InformationId).ToList();
+            var ListVoucherByBooth = _dbContext.Vouchers.Where(x => x.BoothId == CheckProductInCart.Booth_InformationId).Include(x => x.Booth_Information).ToList();
 
 
             ViewBag.CheckProductInCart = CheckProductInCart.Id;
@@ -592,6 +592,9 @@ namespace PhoneShop.Controllers
             //End check auth cookie and AccountId Session
 
 
+            decimal priceShippingFee = 15000;
+            var CheckApply = "";
+
             var Get_Quantity_Product_Order = 0;
 
 
@@ -699,6 +702,8 @@ namespace PhoneShop.Controllers
             //thanh toan MoMo
             if (PaymentMethod == 3)
             {
+
+
                 //lu du luw vao order
                 var newOrderr = new Data.OrderData
                 {
@@ -798,7 +803,18 @@ namespace PhoneShop.Controllers
             //xu ly thanh toan Vnpay
             if (PaymentMethod == 2)
             {
+                //check freeship //xu ly cong tein ship vao don hang
+                priceShippingFee = 15000;
+                CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
+                if (CheckApply != null)
+                {
+                    var VaVoucher = _dbContext.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault();
+                    if (VaVoucher != null)
+                    {
+                        priceShippingFee = VaVoucher.DiscountAmount;
+                    }
 
+                }
 
                 //lu du luw vao order
                 var newOrderr = new Data.OrderData
@@ -807,7 +823,7 @@ namespace PhoneShop.Controllers
                     PaymentMethod = 2,
                     Order_Status = 0,
                     Order_Date = DateTime.Now,
-                    Total_Order = cartVMM.OrderTotal,
+                    Total_Order = cartVMM.OrderTotal + priceShippingFee,
                     Profit = cartVMM.GrandTotal - cartVMM.Profit,
                     AccountId = AccountId,
 
@@ -890,8 +906,8 @@ namespace PhoneShop.Controllers
 
 
             //check freeship //xu ly cong tein ship vao don hang
-            decimal priceShippingFee = 15000;
-            var CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
+             priceShippingFee = 15000;
+             CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
 
             if (CheckApply != null)
             {
@@ -977,19 +993,7 @@ namespace PhoneShop.Controllers
             //ap dung voucher thanh cong xu ly giam so luong va luu db shippingfee
             if (CheckApply != null)
             {
-                var VaVoucher = _dbContext.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault()!;
-
-                var CreateShippingFree = new ShippingFees
-                {
-                    OrderId = Order_Id,
-                    VoucherId = VaVoucher.Id,
-                    FeeMount = VaVoucher.DiscountAmount
-
-
-                };
-
-                _dbContext.ShippingFees.Add(CreateShippingFree);
-                _dbContext.SaveChanges();
+                Comfirm_Shippingfee_Voucher(_dbContext, CheckApply, Order_Id);
 
 
 
@@ -1000,7 +1004,8 @@ namespace PhoneShop.Controllers
 
             _dbContext.SaveChanges();
 
-
+            
+            HttpContext.Session.Remove("DiscountAmount");
             HttpContext.Session.Remove("getIdVoucher");
 
             CartItems.Clear();
@@ -1114,6 +1119,26 @@ namespace PhoneShop.Controllers
             HttpContext.Session.Remove("DiscountAmount");
 
             return Json(new { success = true });
+        }
+
+        public void Comfirm_Shippingfee_Voucher(ShopPhoneDbContext _dbContext, string CheckApply, string Order_Id)
+        {
+
+            var VaVoucher = _dbContext.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault()!;
+
+            var CreateShippingFree = new ShippingFees
+            {
+                OrderId = Order_Id,
+                VoucherId = VaVoucher.Id,
+                FeeMount = VaVoucher.DiscountAmount
+
+
+            };
+
+            _dbContext.ShippingFees.Add(CreateShippingFree);
+            _dbContext.SaveChanges();
+
+
         }
 
 

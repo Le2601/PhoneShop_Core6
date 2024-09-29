@@ -17,52 +17,76 @@
         margin: 0 auto;
     }
 
-        .coupon h2 {
-            color: #ff6b6b;
-            font-size: 24px;
-            margin-bottom: 10px;
+      
+
+
+
+
+
+    .card-vcbooth {
+        background: white;
+        border: 2px dashed #ccc;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        max-width: 400px;
+        margin: auto;
+    }
+
+    .header-vcbooth {
+        background-color: #ff5722;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        position: relative;
+    }
+
+        .header-vcbooth img {
+            width: 50px;
+            border-radius: 50%;
+            position: absolute;
+            left: 10px;
+            top: 5px;
         }
 
-        .coupon p {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
+    .content-vcbooth {
+        padding: 20px;
+    }
 
-        .coupon .discount {
-            font-weight: bold;
-            font-size: 20px;
-            color: #2ecc71;
-        }
+    .discount-vcbooth {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #d9534f;
+    }
 
-        .coupon .min-order {
-            font-size: 14px;
-            color: #7f8c8d;
-        }
+    .min-order-vcbooth {
+        color: #555;
+    }
 
-        .coupon .expiration {
-            font-size: 14px;
-            color: #7f8c8d;
-        }
+    .expiration-vcbooth {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #777;
+    }
 
-        .coupon .conditions {
-            font-size: 14px;
-            color: #7f8c8d;
-        }
+    .button-vcbooth {
+        background-color: #ff5722;
+        color: white;
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        
+    }
 
-        .coupon button {
-            background-color: #2980b9;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-top: 20px;
-        }
-
-            .coupon button:hover {
-                background-color: #3498db;
-            }
+    .footer-vcbooth {
+        background-color: #ffeb3b;
+        padding: 10px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #333;
+        border-top: 1px solid #ccc;
+    }
 
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -107,30 +131,45 @@
     {
       
 
-        <div class="coupon">
-            <h2>@item.Description</h2>
-            <p class="discount">Giảm @Extension.ToVnd((double)item.DiscountProduct)</p>
-            <p class="min-order">Đơn Tối Thiểu @Extension.ToVnd((double)item.DiscountConditions)</p>
-            <p class="expiration">HSD: @item.ExpiryDate.ToString("dd/MM/yyyy")</p>
-            <p class="conditions">Số lượng: @item.Quantity</p>
-            
-            <form asp-action="Apply_VoucherByProduct" asp-controller="Cart" method="post">
-                <input hidden type="text" value="@item.Id" name="VoucherId">
-                <input hidden type="text" value="@ViewBag.CheckProductInCart" name="ProductId">
+  
 
-                <input type="submit" style="width:80px" class="btn-use-voucher" value="Sử dụng">
-            </form>
+        <div class="card-vcbooth">
+            <div class="header-vcbooth">
+                <img src="~/images/AvatarBooth/@item.Booth_Information.Avatar" alt="Logo" style="width:50px">
+                <span>@item.Booth_Information.ShopName</span>
+            </div>
+            <div class="content-vcbooth">
+                <div class="discount-vcbooth">Giảm @Extension.ToVnd((double)item.DiscountProduct)</div>
+                <div class="min-order-vcbooth">Đơn Tối Thiểu @Extension.ToVnd((double)item.DiscountConditions)</div>
+                <div class="expiration-vcbooth">Còn lại: @item.Quantity, HSD: @item.ExpiryDate.ToString("dd/MM/yyyy")</div>
+               
+                <form asp-action="Apply_VoucherByProduct" asp-controller="Cart" method="post">
+                    <input hidden type="text" value="@item.Id" name="VoucherId">
+                    <input hidden type="text" value="@ViewBag.CheckProductInCart" name="ProductId">
+
+                    <input type="submit" style="width:80px" class="button-vcbooth" value="Sử dụng">
+                </form>
+            </div>
+          
         </div>
+
+
     }
+    <div class="footer-vcbooth">
+        Vui lòng mua hàng trên ứng dụng Shopee để sử dụng ưu đãi.
+    </div>
     <div class="coupon">
-        <h2>Không sử dụng phiếu giảm giá</h2>
+       
         <form asp-action="Apply_VoucherByProduct" asp-controller="Cart" method="post">
             <input hidden type="text" value="@ViewBag.CheckProductInCart" name="NoApplyVoucher">
-           
 
-            <input type="submit" style="width:80px" class="btn-use-voucher" value="Sử dụng">
+
+            <input type="submit" style="width:100px" class="btn-use-voucher" value="Hủy áp dụng">
         </form>
     </div>
+
+
+   
    
 
 

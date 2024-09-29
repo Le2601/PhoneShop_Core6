@@ -115,6 +115,29 @@ namespace PhoneShop.Controllers
         }
 
 
+        public static decimal CheckFreeShip(ShopPhoneDbContext _context,decimal priceShippingFeeModel, string? CheckApplyModel)
+        {
+            decimal priceShippingFee = priceShippingFeeModel;
+            var CheckApply = CheckApplyModel!;
+
+            if (CheckApply != null)
+            {
+                var VaVoucher = _context.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault();
+                if (VaVoucher != null)
+                {
+                    priceShippingFee = VaVoucher.DiscountAmount;
+                }
+            }
+
+
+
+            return priceShippingFee;
+        } 
+
+
+       
+
+
 
 
 

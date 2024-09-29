@@ -151,8 +151,6 @@
 </style>
 <br />
 
-
-
 <div class="single-product-area" style="padding-top:0px">
     <div class="container" style="background:white">
         <nav aria-label="breadcrumb">
@@ -247,7 +245,7 @@
                                                     <label class="" for="billing_first_name">
                                                         Tên người đặt hàng <abbr title="required" class="required">*</abbr>
                                                     </label>
-                                                    <input type="text" value="" placeholder="Tên người nhận" id="billing_first_name" name="Order_Name" class="input-text ">
+                                                    <input type="text"  value="" placeholder="Tên người nhận" id="billing_first_name" name="Order_Name" class="input-text ">
                                                 </p>
 
                                                 <p id="billing_first_name_field" class="form-row form-row-first validate-required">
@@ -475,6 +473,22 @@
 
         });
     </script>
+
+    @if (TempData["CheckOrderInfo"] != null)
+    {
+
+        <script>
+
+            swal({
+                title: "Thông báo",
+                text: "@Html.Raw(TempData["CheckOrderInfo"])",
+                icon: "success",
+                button: "OK",
+            }).then(() => {
+                location.reload();
+            });
+        </script>
+    }
 
 }
 

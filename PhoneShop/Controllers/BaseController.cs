@@ -135,6 +135,29 @@ namespace PhoneShop.Controllers
         } 
 
 
+        public static int CheckOrderInfo(string Order_Name,string Address, string Phone, string AddressType, string Description, string Email)
+        {
+
+            
+            if (string.IsNullOrWhiteSpace(Order_Name) ||
+                string.IsNullOrWhiteSpace(Address) ||
+                string.IsNullOrWhiteSpace(Phone) ||
+                string.IsNullOrWhiteSpace(AddressType) ||
+                string.IsNullOrWhiteSpace(Description) ||
+                string.IsNullOrWhiteSpace(Email))
+            {
+                return 0; 
+            }
+
+            return 1; 
+
+
+
+
+            
+        }
+
+
        
 
 

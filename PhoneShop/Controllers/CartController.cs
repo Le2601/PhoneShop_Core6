@@ -620,6 +620,7 @@ namespace PhoneShop.Controllers
             }
             else
             {
+                
                 Order_Name = form["Order_Name"];
                 Address = form["Address"];
                 Phone = form["Phone"];
@@ -627,6 +628,18 @@ namespace PhoneShop.Controllers
                 AddressType = form["AddressType"];
                 Description = form["Description"];
                 Email = form["Email"];
+
+                //if(Order_Name.Length == 0)
+
+                int CheckOrderInfo =  BaseController.CheckOrderInfo(Order_Name, Address, Phone, AddressType, Description, Email);
+                if(CheckOrderInfo == 0)
+                {
+                    TempData["CheckOrderInfo"] = "Lỗi, bổ sung thiếu thông tin nhận hàng!";
+                    return RedirectToAction("CheckOut");
+                }
+
+
+
 
             }
 
@@ -703,6 +716,20 @@ namespace PhoneShop.Controllers
             if (PaymentMethod == 3)
             {
 
+                //check freeship //xu ly cong tein ship vao don hang
+                priceShippingFee = 15000;
+                CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
+
+                if (CheckApply != null)
+                {
+                    var VaVoucher = _dbContext.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault();
+                    if (VaVoucher != null)
+                    {
+                        priceShippingFee = VaVoucher.DiscountAmount;
+                    }
+                }
+
+
 
                 //lu du luw vao order
                 var newOrderr = new Data.OrderData
@@ -711,7 +738,7 @@ namespace PhoneShop.Controllers
                     PaymentMethod = 3,
                     Order_Status = 0,
                     Order_Date = DateTime.Now,
-                    Total_Order = cartVMM.OrderTotal,
+                    Total_Order = cartVMM.OrderTotal + priceShippingFee,
                     Profit = cartVMM.GrandTotal - cartVMM.Profit,
                     AccountId = AccountId,
 
@@ -755,11 +782,16 @@ namespace PhoneShop.Controllers
 
                 }
 
-                if (HttpContext.Session.GetString("getIdVoucher") != null)
+                //ap dung voucher thanh cong xu ly giam so luong va luu db shippingfee
+                if (CheckApply != null)
                 {
+                    Comfirm_Shippingfee_Voucher(_dbContext, CheckApply, Order_Id);
+
+
+
                     handleVoucher();
                 }
-
+                HttpContext.Session.Remove("DiscountAmount");
                 _order_UserRepository.SaveChanges();
                 HttpContext.Session.Remove("getIdVoucher");
 
@@ -769,7 +801,7 @@ namespace PhoneShop.Controllers
                     FullName = model.OrderType,
                     OrderId = Order_Id,
                     OrderInfo = Order_Name + "- đã đặt hàng Momo với đơn hàng: " + Order_Id,
-                    Amount = (double)cartVMM.OrderTotal
+                    Amount = (double)newOrderr.Total_Order
 
                 };
                 var response = await _momoService.CreatePaymentAsync(OrderInfoModel);
@@ -806,6 +838,7 @@ namespace PhoneShop.Controllers
                 //check freeship //xu ly cong tein ship vao don hang
                 priceShippingFee = 15000;
                 CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
+
                 if (CheckApply != null)
                 {
                     var VaVoucher = _dbContext.Vouchers.Where(x => x.Id == int.Parse(CheckApply)).FirstOrDefault();
@@ -813,7 +846,6 @@ namespace PhoneShop.Controllers
                     {
                         priceShippingFee = VaVoucher.DiscountAmount;
                     }
-
                 }
 
                 //lu du luw vao order
@@ -868,21 +900,32 @@ namespace PhoneShop.Controllers
 
                 }
 
-                if (HttpContext.Session.GetString("getIdVoucher") != null)
-                {
-                    handleVoucher();
-                }
+              
 
                 _order_UserRepository.SaveChanges();
-                HttpContext.Session.Remove("getIdVoucher");
+                
 
 
 
                 model.OrderType = Order_Id;
-                model.Amount = (double)cartVMM.OrderTotal;
+                model.Amount = (double)newOrderr.Total_Order;
                 model.OrderDescription ="Đã đặt hàng VnPay với đơn hàng: " + Order_Id;
                 model.Name = Order_Name;
                 var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
+
+
+                //ap dung voucher thanh cong xu ly giam so luong va luu db shippingfee
+                if (CheckApply != null)
+                {
+                    Comfirm_Shippingfee_Voucher(_dbContext, CheckApply, Order_Id);
+
+
+
+                    handleVoucher();
+                }
+                HttpContext.Session.Remove("DiscountAmount");
+                HttpContext.Session.Remove("getIdVoucher");
+
 
                 return Redirect(url);
 
@@ -905,7 +948,7 @@ namespace PhoneShop.Controllers
             //XU LY thanh toan khi nhan hang 
 
 
-            //check freeship //xu ly cong tein ship vao don hang
+            //check freeship //xu ly cong tien ship vao don hang
              priceShippingFee = 15000;
              CheckApply = HttpContext.Session.GetString("getIdVoucher")!;
 

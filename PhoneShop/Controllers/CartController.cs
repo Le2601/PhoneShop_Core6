@@ -542,7 +542,7 @@ namespace PhoneShop.Controllers
             CartItemViewModel cartVM = new()
             {
                 CartItems = CartItems,
-                GrandTotal = CartItems.Sum(x => x.Quantity * x.Total)
+                GrandTotal = CartItems.Sum(x =>x.Total)
             };
 
             ViewBag.GrandTotal = cartVM.GrandTotal;

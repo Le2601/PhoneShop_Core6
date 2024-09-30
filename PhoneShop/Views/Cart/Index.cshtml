@@ -24,7 +24,40 @@
 <link href="~/user/custom/voucher.css" rel="stylesheet" />
 <style>
 
+    .quantity.buttons_added {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 200px;
+        margin: auto;
+    }
 
+        .quantity.buttons_added a {
+            display: inline-block;
+            text-decoration: none;
+            color: #333;
+            font-size: 12px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #f5f5f5;
+            transition: background-color 0.3s ease;
+        }
+
+            .quantity.buttons_added a:hover {
+                background-color: #e6e6e6;
+            }
+
+        .quantity.buttons_added input.qty {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin: 0 10px;
+            padding: 0;
+        }
     
     .close-btn {
         position: absolute;
@@ -183,12 +216,9 @@
                                                 <td colspan="3">
                                                     @if (item.Discount_Product > 0)
                                                     {
-                                                        <p style="color:blue">Đã giảm @Extension.ToVnd((double)item.Discount_Product)</p>
+                                                        <p style="color:rgb(43 172 155)"><i class="fas fa-tag fa-1x" style="color: #FFA500;"></i>Đã giảm @Extension.ToVnd((double)item.Discount_Product)</p>
                                                     }
-                                                    else
-                                                    {
-                                                        <p style="color:red">Hiện chưa sử dụng phiếu giảm giá</p>
-                                                    }
+                                                    
                                                 </td>
 
 
@@ -238,7 +268,7 @@
                         <a href="/voucher.html"> Xem khuyến mãi dành cho bạn</a>
                         <div class="coupon">
                             <form method="post" asp-action="ApplyVoucher" asp-controller="Cart">
-                                <label style="text-transform: capitalize;" for="coupon_code">Áp dụng khuyến mãi:</label>
+                                <label style="text-transform: capitalize;font-weight:normal;color:#ee4d2d" for="coupon_code">Áp dụng khuyến mãi:</label>
                                 <input type="text" placeholder="Nhập mã giảm giá" value="" id="coupon_code" class="input-text" name="Voucher_code">
                                
                                 <input type="submit" value="Áp dụng" name="áp dụng" style="background: #5a88ca;color:white" class="btn btn-info active">

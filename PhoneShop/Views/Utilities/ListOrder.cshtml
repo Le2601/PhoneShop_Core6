@@ -213,10 +213,11 @@
         </div>
 
         <div id="orders" class="content" style="display: block;min-height:500px">
-            @if (Model != null)
+            @if (ListOrder != null)
             {
             foreach (var item in ListOrder)
                 {
+                   
                     <div class="order-card" id="trow_@item.Id">
                         <div class="order-header">
 
@@ -237,11 +238,11 @@
                         <div class="order-footer">
                             @if (item.Status_OrderDetail == 1)
                             {
-                                <div class="order-status" style="color:#4d94ff">Đơn hàng đã được xác nhận</div>
+                                <div class="order-status" style="color:#4d94ff;font-weight:normal">Đơn hàng đã được xác nhận</div>
                             }
                             else
                             {
-                                <div class="order-status" style="color:red">Đơn hàng chưa được xác nhận</div>
+                                <div class="order-status" style="color:red;font-weight:normal">Đơn hàng chưa được xác nhận</div>
                             }
 
                             <div class="total-price">Thành tiền: @PhoneShop.Extension.Extension.ToVnd((double)item.FinalAmount)</div>
@@ -344,6 +345,7 @@
                     </div>
                 }
             }
+           
            
         </div>
         <div id="shipping" class="content" style="min-height:500px">

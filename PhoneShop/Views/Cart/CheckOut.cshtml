@@ -151,7 +151,7 @@
 </style>
 <br />
 
-<div class="single-product-area" style="padding-top:0px">
+<div class="single-product-area" style="padding-top:0px;padding-bottom:50px" >
     <div class="container" style="background:white">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb" style="background:white;padding:10px">
@@ -232,7 +232,7 @@
                                             else
                                             {
                                                 <div class="input-group">
-                                                    <label>Sử dụng địa chỉ mặc định </label>
+                                                    <b>Sử dụng địa chỉ mặc định </b>
                                                     <select style="padding: 8px" name="OptionAddress" class="form-control" onchange="toggleAddressFields()">
                                                         <option value="1">Có</option>
                                                         <option value="0">Không</option>
@@ -341,7 +341,7 @@
                                         <tfoot>
 
                                              <tr class="cart-subtotal">
-                                                   <th>Tổng đơn hàng</th>
+                                                <th style="font-weight:normal">Tổng đơn hàng</th>
                                             <td>
                                                     <span class="amount">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.GrandTotal)</span>
                                             </td>
@@ -349,7 +349,7 @@
 
 
                                             <tr class="shipping">
-                                            <th>Phí vận chuyển</th>
+                                                <th style="font-weight:normal">Phí vận chuyển</th>
                                             <td>
                                                    
                                                     <p>Phí vận chuyển 15.000đ</p>
@@ -361,9 +361,9 @@
                                                     @if (ViewBag.ShippingFee  != null)
 
                                                     {
-                                                        <p>Áp dụng voucher:  @ViewBag.ShippingFee đ</p>
-                                                        <p style="color:red">Tổng phí vận chuyện: @(TotalShippingFee = (int)ViewBag.ShippingFee - 15000)</p>
-                                                        <a class="btn btn-success RemoveApplyFreeShip">Hủy bỏ áp dụng miễn phí vận chuyển</a>
+                                                        <p>Giảm:  @PhoneShop.Extension.Extension.ToVnd((double)ViewBag.ShippingFee) </p>
+                                                       
+                                                        <a class=" RemoveApplyFreeShip">Hủy bỏ áp dụng miễn phí vận chuyển</a>
                                                     }
                                                     <input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]">
                                             </td>
@@ -371,7 +371,7 @@
 
 
                                             <tr class="order-total">
-                                                <th>Tổng đơn hàng</th>
+                                                <th style="font-weight:normal">Tổng đơn hàng</th>
                                                 <td>
                                                     <strong>
                                                         <span class="amount" style="color:red">
@@ -400,7 +400,7 @@
                                    
                                 </div>
 
-                                <div class="form-row place-order">
+                                <div class="form-row place-order" style="float:right; padding: 0px 10px 10px 0px">
 
                                     <input type="submit" data-value="Place order" value="Đặt hàng" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
 

@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\User\User\js\1.13.2jquery-ui.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\User\User\js\1.13.2jquery-ui.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="EPPlus" Version="7.0.10" />
     <PackageReference Include="MailKit" Version="4.4.0" />
@@ -45,6 +53,10 @@
     <Folder Include="wwwroot\images\Banner\" />
     <Folder Include="wwwroot\images\Category\" />
     <Folder Include="wwwroot\images\Product\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\User\User\js\1.13.2jquery-ui.js" />
   </ItemGroup>
 
 </Project>

@@ -51,6 +51,11 @@
 
 
 <style>
+
+
+
+
+
     .star-container {
         font-size: 24px;
     }
@@ -254,7 +259,7 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="single-product" style="padding-bottom:10px">
                             <div class="product-f-image" style="display: flex; justify-content: center; align-items: center; position: relative;">
-                                <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
+                                <img src="~/images/Product/@item.ImageDefaultName" style="height:221px; width:221px" />
                                 @* tinh % giam gia *@
                                 @if(item.Discount > 0)
                                 {
@@ -270,8 +275,8 @@
                                 @* tinh % giam gia *@
 
                                 <div class="product-hover">
-                                    <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
-                                    <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                                    <a class="add-to-cart-link confirmAdd" style="font-size:11px" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                    <a href="/chi-tiet/@item.Alias-@item.Id" style="font-size:11px" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
                                 </div>
                             </div>
 
@@ -363,7 +368,7 @@
                         <div class="single-product" style="padding-top:30px">
                             <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
                                 @*                                         <img src="~/User/img/product-1.jpg" alt="">
-                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
+                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:221px; width:221px" />
                                 @* tinh % giam gia *@
                                 @if (item.Discount > 0)
                                 {
@@ -378,8 +383,8 @@
                                 }
                                 @* tinh % giam gia *@
                                 <div class="product-hover">
-                                    <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
-                                    <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                                    <a class="add-to-cart-link confirmAdd" style="font-size:11px" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                    <a href="/chi-tiet/@item.Alias-@item.Id" style="font-size:11px" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
                                 </div>
                             </div>
                             <div style="height:45px">  <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2></div>

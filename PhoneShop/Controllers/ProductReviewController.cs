@@ -111,8 +111,17 @@ namespace PhoneShop.Controllers
                 //loi
             }
 
+            if (form["rating"].Count == 0 || form["content"].Count == 0)
+            {
+                TempData["CheckNotNullRw"] = "Phải có đủ điểm đánh giá và nội dung!";
+                //giu nguyen trang
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
             string content = form["content"];
             int rating = int.Parse(form["rating"]);
+
+           
 
 
             var newReviewProduct = new Review_Product

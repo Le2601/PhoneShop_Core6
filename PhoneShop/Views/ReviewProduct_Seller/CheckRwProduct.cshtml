@@ -1,10 +1,12 @@
 ﻿@model PhoneShop.Data.Product_ReviewData
 @{
     ViewData["Title"] = "CheckRwProduct";
-    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
 }
 
 <div class="container">
-    <p>@Model.Rate @Model.Content @Model.UserName @Model.TitleProduct</p>
+    <b>Nội dung đánh giá</b>
+    <p>@Model.CreateAt.ToString("dd/MM/yyyy hh:MM:ss")</p>
+    <p>@Model.Content</p>
 </div>
 

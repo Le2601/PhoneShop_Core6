@@ -23,6 +23,8 @@
 
         public string UserEmail { get; set; }
 
+        public int Rating { get; set; }
+
 
 
     }

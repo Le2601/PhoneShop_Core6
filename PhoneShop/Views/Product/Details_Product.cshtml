@@ -473,6 +473,21 @@
             });
         </script>
     }
+     @if (TempData["CheckNotNullRw"] != null)
+    {
+        
+        <script>
+           
+            swal({
+                title: "Thông báo",
+                text: "@Html.Raw(TempData["CheckNotNullRw"])",
+                icon: "success",
+                button: "OK",
+            }).then(() => {
+                location.reload();
+            });
+        </script>
+    }
     <script>
         $(document).ready(function () {
             $('#addToCartForm').on('submit', function (e) {

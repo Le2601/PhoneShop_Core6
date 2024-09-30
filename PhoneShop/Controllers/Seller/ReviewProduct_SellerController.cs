@@ -32,28 +32,30 @@ namespace PhoneShop.Controllers.Seller
                           {
                               IdProduct = p.Id,
                               TitleProduct = p.Title,
-                              ImageProdct = p.ImageDefaultName,
+                              Rating = rw.Rate,
                               //
                               IdRwProduct = rw.Id,
                               Content = rw.Comments,
                               CreateAt = rw.Create_At,
                               //
                               UserName = a.FullName,
-                              UserEmail = a.Email
+                              UserEmail = a.Email,
+
 
 
                           }
-                ).ToList();
+                ).OrderByDescending(x=> x.CreateAt).ToList();
             return View(items);
         }
 
-        public IActionResult CheckRwProduct(int Id)
+        
+        public IActionResult CheckRwProduct(int IdRwProduct)
         {
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
 
 
             var items = (from p in _context.Products.Where(x => x.Create_Id == AccountId)
-                         join rw in _context.Review_Products.Where(x=> x.Id == Id) on p.Id equals rw.ProductId
+                         join rw in _context.Review_Products.Where(x=> x.Id == IdRwProduct) on p.Id equals rw.ProductId
                          join a in _context.Accounts on rw.AccountId equals a.Id
                          select new Product_ReviewData
                          {

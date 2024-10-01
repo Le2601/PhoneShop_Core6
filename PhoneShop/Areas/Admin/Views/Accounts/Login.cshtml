@@ -35,9 +35,9 @@
         <div class="col-7">
             <div class="icheck-primary">
                 @*@Html.CheckBoxFor(x =>x.RememberMe)*@
-                <label for="remember">
-                    Ghi nhớ tài khoản
-                </label>
+                <p class="mb-1">
+                    <a href="/">Trang người dùng</a>
+                </p>
             </div>
         </div>
         <!-- /.col -->
@@ -47,7 +47,7 @@
         <!-- /.col -->
     </div>
 
-    <div>@ViewBag.Error</div>
+    <div style="color:red">@ViewBag.Error</div>
 </form>
 
 

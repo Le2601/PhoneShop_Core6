@@ -139,6 +139,18 @@ namespace PhoneShop.Areas.Admin.Controllers
 
                 _context.Delete_Booths.Remove(item);
                 _context.Booth_Information.Remove(CheckBooth);
+
+                //thay doi role
+                var CheckAccount = _context.Accounts.Where(x => x.Id == CheckBooth.AccountId).FirstOrDefault()!;
+                if(CheckAccount.RoleId == 3)
+                {
+                    return Json(new { success = false });
+                }
+                CheckAccount.RoleId = 3;
+                _context.Accounts.Update(CheckAccount);
+
+
+
                 _context.SaveChanges();
                 return Json(new { success = true });
             }

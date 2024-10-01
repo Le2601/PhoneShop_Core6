@@ -51,10 +51,24 @@
         line-height: 1.5;
     }
 </style>
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý sản phẩm</a>
+        </li>
+    </ul>
+}
 
 <section class="content">
 
-    <div class="col-12">
+    
         <div class="card">
 
             <!-- Content Wrapper. Contains page content -->
@@ -192,13 +206,12 @@
 
 
 
-        </div>
+        
     </div>
 </section>
 
 @section scripts{
     <!-- AdminLTE App -->
-    <script src="~/clients/dist/js/adminlte.min.js"></script>
 
     <script>
         $(document).ready(function () {

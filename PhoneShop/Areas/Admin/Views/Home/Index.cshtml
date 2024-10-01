@@ -57,28 +57,43 @@
 <section class="content-header">
     <div class="container-fluid">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1>Chào quản trị viên @ViewBag.NameLogin</h1>
+            <p style="font-size:20px;font-weight:bold">Thông Báo Phê Duyệt</p>
+            
+            @if (ViewBag.CheckProductIsApproved == 0 && ViewBag.checkDelBooth == 0)
+            {
+                <p style="color:red">Chưa có yêu cầu nào cần phê duyệt</p>
+            }
+           
+            @if (@ViewBag.CheckProductIsApproved > 0)
+            {
+                <div class="row">
+                    <p>Có @ViewBag.CheckProductIsApproved sản phẩm cần phê duyệt <i class="fas fa-lightbulb fa-pulse" style="color: yellow;"></i></p>
+                    <a class="btn-app" href="/Admin/Product/Index">
+                        <span class="icon">✏️</span> Tiến hành
+                    </a>
                 </div>
-            </div>
+            }
+           
 
-            <div class="row">
-                <p>Có @ViewBag.CheckProductIsApproved sản phẩm cần phê duyệt</p>
-                <a class="btn-app" href="/Admin/Product/Index">
-                    <span class="icon">✏️</span> Tiến hành
-                </a>
-            </div>
 
-            <div class="row">
-                <p>Có @ViewBag.checkDelBooth yêu cầu xóa gian hàng cần phê duyệt</p>
-                <a class="btn-app" href="/Admin/Booth/List_DelBooth">
-                    <span class="icon">✏️</span> Tiến hành
-                </a>
-            </div>
+            @if(@ViewBag.checkDelBooth > 0){
+                <div class="row">
+                    <p>Có <span style="color:red">@ViewBag.checkDelBooth</span> yêu cầu xóa gian hàng cần phê duyệt <i class="fas fa-lightbulb fa-pulse" style="color: yellow;"></i></p>
+                    <a class="btn-app" href="/Admin/Booth/List_DelBooth">
+                        <span class="icon">✏️</span> Tiến hành
+                    </a>
+                </div>
+            }
+          
+
+           
         </div>
 
     </div><!-- /.container-fluid -->
+    <div class="callout callout-info  container">
+        <h5><i class="fas fa-info"></i> Note:</h5>
+        Hôm nay có <span style="color:blue">@ViewBag.CheckOrToday</span> đơn hàng mới
+    </div>
 </section>
 
 

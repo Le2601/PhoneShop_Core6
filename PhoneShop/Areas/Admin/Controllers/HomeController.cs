@@ -58,6 +58,15 @@ namespace PhoneShop.Areas.Admin.Controllers
             ViewBag.checkDelBooth = checkDelBooth;
 
 
+            //check order today
+
+            var GetDate = DateTime.Today ;
+           
+
+            ViewBag.CheckOrToday = _context.Orders.Where(x=> x.Order_Date.Date == GetDate.Date).Count();
+
+
+
 
 
 

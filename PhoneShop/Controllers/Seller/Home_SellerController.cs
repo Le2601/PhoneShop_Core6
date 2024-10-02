@@ -33,6 +33,11 @@ namespace PhoneShop.Controllers.Seller
             string DateNow = DateTime.Now.ToString("yyyy-MM-dd");
             var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountId);
 
+            //var demo = _context.Booth_Information.Where(x => x.AccountId == AccountId).FirstOrDefault();
+            //demo.Creare_At = DateTime.Now;
+            //_context.Booth_Information.Update(demo);
+            //_context.SaveChanges();
+
 
             //thong bao don hang
             ViewBag.OrderNotifi = (

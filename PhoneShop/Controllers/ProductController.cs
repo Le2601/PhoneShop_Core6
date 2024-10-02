@@ -131,7 +131,8 @@ namespace PhoneShop.Controllers
                         Total_Sold = t.Total_Sold,
                         Followers = t.Followers,
                         Total_Comment = t.Total_Comments,
-                        Avatar = b.Avatar
+                        Avatar = b.Avatar,
+                        Create_Booth = b.Creare_At
 
 
                     }

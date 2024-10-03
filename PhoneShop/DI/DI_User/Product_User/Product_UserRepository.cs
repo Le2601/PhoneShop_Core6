@@ -17,7 +17,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> RandomProduct()
         {
-            var items = await _context.Products.Where(x=> x.IsApproved == true).Select(x => new ProductViewModel
+            var items = await _context.Products.Where(x=> x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,

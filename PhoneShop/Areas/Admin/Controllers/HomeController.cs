@@ -58,6 +58,11 @@ namespace PhoneShop.Areas.Admin.Controllers
             ViewBag.checkDelBooth = checkDelBooth;
 
 
+            //kiem tra phe duyet tao gian hang
+
+            ViewBag.CheckIsApproved = _context.Booth_Information.Where(x=> x.IsApproved == false).ToList().Count();
+
+
             //check order today
 
             var GetDate = DateTime.Today ;

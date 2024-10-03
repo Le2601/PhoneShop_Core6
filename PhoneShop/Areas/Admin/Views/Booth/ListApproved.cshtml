@@ -1,0 +1,184 @@
+﻿@model List<PhoneShop.Models.Booth_Information>
+@{
+    ViewData["Title"] = "List_DelBooth";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+
+}
+
+<style>
+    tr th {
+        text-align: center;
+    }
+</style>
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Quản lý gian hàng</a>
+        </li>
+    </ul>
+}
+
+
+
+
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách gian hàng</h3>
+
+
+        </div>
+        <div class="card-body" style="min-height:700px">
+
+            <table id="example12" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+
+                        <th>
+                            Tên gian hàng
+                        </th>
+
+                        <th>Ngày tạo gian hàng</th>
+
+                        <th>Xem thông tin</th>
+                        <th></th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr id="trow_@item.Id">
+
+
+
+
+                            <td style="width:200px">
+                                <p>@item.ShopName</p>
+
+                            </td>
+                            <td style="max-width:500px">
+                                @item.Creare_At.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td style="width:200px">
+                                <a class="btn btn-danger" href="/admin/Booth/Detail_Booth/@item.Id">Xem</a>
+                            </td>
+
+
+
+
+
+
+
+
+
+
+                            <td style="width:200px">
+                                <a class="btn btn-danger comfirmbooth" data-id="@item.Id">Xác nhận</a>
+                                <a class="btn btn-success refusebooth " data-id="@item.Id">Từ chối</a>
+                            </td>
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+
+
+
+        </div>
+
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+@section scripts{
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!-- jQuery -->
+
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.comfirmbooth', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xác nhận phê duyệt gian hàng đưa vào hoạt động");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Booth/Comfirm_Booth',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi không thể xóa");
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.refusebooth', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Từ chối phê duyệt, xóa gian hàng !");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Booth/Refuse_Booth',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi không thể xóa");
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+}
+
+

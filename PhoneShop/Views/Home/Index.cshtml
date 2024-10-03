@@ -492,6 +492,21 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    
+    @if (TempData["CheckIsApproved"] != null)
+    {
 
+        <script>
+
+            swal({
+                title: "Thông báo",
+                text: "@Html.Raw(TempData["CheckIsApproved"])",
+                icon: "success",
+                button: "OK",
+            }).then(() => {
+                location.reload();
+            });
+        </script>
+    }
 
 }

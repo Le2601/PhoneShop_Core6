@@ -109,6 +109,15 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(items);
         }
 
+        public IActionResult ListApproved()
+        {
+
+            var items = _context.Booth_Information.Where(x => x.IsApproved == false).ToList();
+
+            return View(items);
+
+        }
+
         [HttpPost]
         public IActionResult Comfirm_DelBooth(int Id)
         {
@@ -161,9 +170,45 @@ namespace PhoneShop.Areas.Admin.Controllers
             return Json(new { success = false });
         }
 
+        [HttpPost]
+        public IActionResult Comfirm_Booth(int Id)
+        {
+            var item = _context.Booth_Information.Where(x => x.Id == Id).FirstOrDefault()!;
+
+            if(item == null)
+            {
+                return Json(new { success = false });
+            }
+
+            item.IsApproved = true;
+
+            _context.Booth_Information.Update(item);
+            _context.SaveChanges();
+
+            return Json(new { success = true });
+
+        }
+        
+        [HttpPost]
+        public IActionResult Refuse_Booth(int Id)
+        {
+            var item = _context.Booth_Information.Where(x => x.Id == Id).FirstOrDefault()!;
+
+            if (item == null)
+            {
+                return Json(new { success = false });
+            }
+
+            
+
+            _context.Booth_Information.Remove(item);
+            _context.SaveChanges();
+
+            return Json(new { success = true });
 
 
 
+        }
 
         public List<BoothData> BoothData()
         {

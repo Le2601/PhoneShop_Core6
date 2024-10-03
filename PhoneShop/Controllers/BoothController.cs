@@ -30,7 +30,7 @@ namespace PhoneShop.Controllers
         {
            
                 var items = (
-                    from b in _context.Booth_Information
+                    from b in _context.Booth_Information.Where(x=> x.IsActive == true && x.IsApproved == true)
                     join t in _context.Booth_Trackings on b.Id equals t.BoothId
                     select new BoothData
                     {

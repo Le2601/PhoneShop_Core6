@@ -30,6 +30,15 @@ namespace PhoneShop.Controllers.Seller
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             //End check auth cookie and AccountId Session
 
+            //kiem tra kiem duyet
+            int CheckIsApproved = Public_MethodController.CheckIsApproved(_context, AccountId);
+            if(CheckIsApproved == 0)
+            {
+                TempData["CheckIsApproved"] = "Gian hàng đã được tạo - Chờ quản trị viên xác nhận yêu cầu tạo gian hàng của bạn !";
+                return RedirectToAction("Index", "Home");
+            }
+
+
             string DateNow = DateTime.Now.ToString("yyyy-MM-dd");
             var ListProduct_Purchase = Public_MethodController.ListProduct_Purchase(_context, AccountId);
 

@@ -84,6 +84,15 @@
                     </a>
                 </div>
             }
+            @if(ViewBag.CheckIsApproved > 0)
+            {
+                <div class="row">
+                    <p>Có <span style="color:red">@ViewBag.CheckIsApproved</span> yêu cầu phê duyệt tạo gian hàng <i class="fas fa-lightbulb fa-pulse" style="color: yellow;"></i></p>
+                    <a class="btn-app" href="/Admin/Booth/ListApproved">
+                        <span class="icon">✏️</span> Tiến hành
+                    </a>
+                </div>
+            }
           
 
            

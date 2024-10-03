@@ -19,6 +19,22 @@ namespace PhoneShop.Controllers.Seller
             _context = context;         
         }
 
+        public static int CheckIsApproved(ShopPhoneDbContext context, int IdAccount)
+        {
+            var CheckIsApproved = context.Booth_Information.Where(x => x.AccountId == IdAccount).FirstOrDefault();
+            if (CheckIsApproved == null)
+            {
+                return 0;
+            }
+            if (CheckIsApproved.IsApproved == false) 
+            {
+                return 0;
+            }
+
+
+            return 1;
+        }
+
         public static int GetAccountId(HttpContext HttpContext)
         {
             //check auth cookie and AccountId Session

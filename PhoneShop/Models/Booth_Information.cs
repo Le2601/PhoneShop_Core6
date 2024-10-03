@@ -27,7 +27,13 @@ namespace PhoneShop.Models
 
          public DateTime Creare_At { get; set; }
 
-         public int AccountId { get; set; }
+        //hoat dong
+        public Boolean IsActive { get; set; }
+
+        //kiem duyet
+        public Boolean IsApproved { get; set; }
+
+        public int AccountId { get; set; }
 
 
         public virtual ICollection<Product> Products { get; set; }

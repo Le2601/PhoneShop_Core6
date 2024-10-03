@@ -104,6 +104,48 @@ namespace PhoneShop.Controllers.Seller
            
         }
 
+        [HttpPost]
+        public IActionResult HiddenBooth(int Id)
+        {
+            var checkitem = _context.Booth_Information.Where(x => x.Id == Id).FirstOrDefault()!;
+            var checkproduct = _context.Products.Where(x => x.Booth_InformationId == checkitem.Id).ToList();
+            if (checkitem == null)
+            {
+                return Json(new { success = false });
+            }
+            //an sp neu gian hang an
+            foreach (var item in checkproduct)
+            {
+                if(item.IsActive == true)
+                {
+                    item.IsActive = false;
+                }
+                _context.Products.Update(item);
+            }
+
+
+            checkitem.IsActive = false;
+            _context.Booth_Information.Update(checkitem);
+            _context.SaveChanges();
+
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public IActionResult PublicBooth(int Id)
+        {
+            var checkitem = _context.Booth_Information.Where(x => x.Id == Id).FirstOrDefault()!;
+            if (checkitem == null)
+            {
+                return Json(new { success = false });
+            }
+
+            checkitem.IsActive = true;
+            _context.Booth_Information.Update(checkitem);
+            _context.SaveChanges();
+
+            return Json(new { success = true });
+        }
+
 
 
     }

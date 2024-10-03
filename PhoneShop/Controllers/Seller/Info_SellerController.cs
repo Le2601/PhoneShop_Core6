@@ -29,6 +29,11 @@ namespace PhoneShop.Controllers.Seller
             var Check_Seller = _context.Booth_Information.Where(x=> x.AccountId == AccountId).FirstOrDefault();
             if (Check_Seller != null)
             {
+                if(Check_Seller.IsApproved == false)
+                {
+                    TempData["CheckIsApproved"] = "Gian hàng đã được tạo - Chờ quản trị viên xác nhận yêu cầu tạo gian hàng của bạn !";
+                    return RedirectToAction("Index", "Home");
+                }
                 return RedirectToAction("Index","Home_Seller");
             }  
 
@@ -100,7 +105,9 @@ namespace PhoneShop.Controllers.Seller
                 Creare_At = DateTimeCreate,
                 AccountId = AccountId,  
                 Code_Info = randomNumber_Id,
-                Avatar = avatar
+                Avatar = avatar,
+                IsActive = false,
+                IsApproved = false,
             };
            
             _context.Booth_Information.Add(item_Booth_Information);
@@ -154,7 +161,9 @@ namespace PhoneShop.Controllers.Seller
 
             if(get_Booth_Information != null)
             {
-                return RedirectToAction("Index", "Home_Seller");
+
+                TempData["CheckIsApproved"] = "Gian hàng đã được tạo - Chờ quản trị viên xác nhận yêu cầu tạo gian hàng của bạn !";
+                return RedirectToAction("Index", "Home");
             }
 
             return View(form);

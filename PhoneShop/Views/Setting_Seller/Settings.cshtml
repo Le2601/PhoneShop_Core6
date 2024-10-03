@@ -78,7 +78,47 @@
                         </div>
                         <hr />
                     </div>
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="container mt-4">
+                            <h5>Ẩn gian hàng</h5>
+                            <p style="font-size:12px;margin-bottom:0px">
+                                Trạng thái hiện tại: 
+
+                                @if (Model.IsActive == true)
+                                {
+                                    <span style="color:blue">Đang hoạt động</span>
+                                }
+                                else
+                                {
+                                    <span style="color:red">Ẩn</span>
+                                }
+
+                            </p>
+                            <div class="d-flex align-items-center">
+                                <i style="font-size:12px" class="mr-2">Ẩn gian hàng, không hiển thị sản phẩm cho người dùng và ẩn cả những thông tin về gian hàng.</i>
+                               
+
+
+                            </div>
+                            @if (Model.IsActive == true)
+                            {
+                                <button class="btn btn-danger hiddenbooth" data-id="@Model.Id">Ẩn</button>
+
+                               
+                            }
+                            else
+                            {
+                                
+
+                                    <a class="btn btn-success publicbooth" data-id="@Model.Id">Hoạt động</a>
+                               
+
+                            }
+
+
+                        </div>
+                        <hr />
+                    </div>
                
             </div>
             
@@ -127,6 +167,71 @@
             });
         });
     </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.hiddenbooth', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xác nhận ẩn hoạt động gian hàng");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Setting_Seller/HiddenBooth',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi");
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.publicbooth', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Xác nhận hoạt động gian hàng");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Setting_Seller/PublicBooth',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi");
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+
+
+
 
 
 

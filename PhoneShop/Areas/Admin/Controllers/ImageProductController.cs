@@ -32,59 +32,8 @@ namespace PhoneShop.Areas.Admin.Controllers
             _context = context;
 
         }
-        [AllowAnonymous]
-        public IActionResult Index(int? id)
-        {
-            var items = _imageProductRepository.GetListByIdProduct(id);
-            return View(items);
-        }
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult GetListImage(int id)
-        {
-            var items = _imageProductRepository.GetListByIdProduct(id);
 
-
-
-            if(items != null)
-            {
-                return Json(new { Data =  items, success = true, smg = "Hình ảnh của sản phẩm hiện có" });
-            }
-
-            return Json(new { Data = items, success = true, smg = "Không có hình ảnh" });
-
-        }
-
-        [Route("/delete_Image/{Id}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> DelImage( int Id)
-        {
-            var item = _imageProductRepository.GetById(Id);
-
-            if(item == null)
-            {
-
-                return RedirectToAction("NotFoundApp","Home");
-            }
-
-            string pathimg = "/Product/" + item.DataName;
-            //xoa hinh anh trong folder
-            string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Product/" + item.DataName);
-            if (System.IO.File.Exists(pathFile))
-            {
-                // Xóa hình ảnh
-                System.IO.File.Delete(pathFile);
-
-            }
-
-            _imageProductRepository.DeleteImage(item.Id);
-           
-
-
-            //giu nguyen trang
-            return Redirect(Request.Headers["Referer"].ToString());
-        }
-
+       
        
 
 

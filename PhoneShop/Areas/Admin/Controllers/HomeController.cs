@@ -7,6 +7,8 @@ using PhoneShop.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using PhoneShop.DI.Account;
+using PhoneShop.DI.Product;
+using PhoneShop.DI.ImageProduct;
 
 namespace PhoneShop.Areas.Admin.Controllers
 {
@@ -17,11 +19,12 @@ namespace PhoneShop.Areas.Admin.Controllers
         private readonly ShopPhoneDbContext _context;
 
         private readonly IAccountRepository _accountRepository;
-
+       
         public HomeController(ShopPhoneDbContext context, IAccountRepository accountRepository)
-        {
+        { 
             _context = context;
             _accountRepository = accountRepository;
+           
 
         }
 
@@ -66,7 +69,10 @@ namespace PhoneShop.Areas.Admin.Controllers
             //check order today
 
             var GetDate = DateTime.Today ;
-           
+
+            ViewBag.DateNow = GetDate;
+
+
 
             ViewBag.CheckOrToday = _context.Orders.Where(x=> x.Order_Date.Date == GetDate.Date).Count();
 
@@ -77,6 +83,8 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             return View();
         }
+
+       
 
         public IActionResult NotFoundApp()
         {

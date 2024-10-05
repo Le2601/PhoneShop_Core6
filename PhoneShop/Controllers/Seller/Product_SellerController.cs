@@ -423,7 +423,7 @@ namespace PhoneShop.Controllers.Seller
             var item = _productRepository.GetByIdVM(id);
             if (item == null)
             {
-                return Json(new { success = false, msg = "San pham khong ton tai" });
+                return Json(new { success = false, msg = "Xóa thất bại" });
 
             }
             var Del_Image = _imageProductRepository.GetListByIdProduct(item.Id);
@@ -449,7 +449,7 @@ namespace PhoneShop.Controllers.Seller
 
             _productRepository.DeleteProduct(item.Id);
 
-            return Json(new { success = true, msg = "Xoa thanh cong" });
+            return Json(new { success = true, msg = "Xóa thành công" });
 
 
         }

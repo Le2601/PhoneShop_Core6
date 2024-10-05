@@ -86,12 +86,14 @@
                         <th>
                            Danh Mục
                         </th>
-                        <th>
-                            Phê Duyệt
-                        </th>
+                       
                         <th>
                            Gian hàng
                         </th>
+                        <th>
+                            Phê Duyệt
+                        </th>
+                        <th></th>
                        
                     </tr>
                 </thead>
@@ -131,6 +133,26 @@
 
                                 </td>
                                 <td>
+                                    @if (item.Create_Id == 6)
+                                    {
+                                        <p> Quản trị viên</p>
+
+                                    }
+                                    else
+                                    {
+                                        @foreach (var iBooth in GetBooth)
+                                        {
+                                            if (item.BoothId == iBooth.Id)
+                                            {
+                                                <a href="/admin/Booth/Detail_Booth/@iBooth.Id">@iBooth.ShopName</a>
+
+                                            }
+
+                                        }
+
+                                    }
+                                </td>
+                                <td>
                                     @if(item.IsApproved == true)
                                     {
                                         <p>Đã duyệt</p>
@@ -143,25 +165,12 @@
                                     }
                                 </td>
                                 <td>
-                                    @if(item.Create_Id == 6)
-                                    {
-                                        <p> Quản trị viên</p>
-                                       
-                                    }
-                                    else
-                                    {
-                                        @foreach (var iBooth in GetBooth)
-                                        {
-                                            if (item.BoothId == iBooth.Id)
-                                            {
-                                                <a href="/admin/Booth/Detail_Booth/@iBooth.Id">@iBooth.ShopName</a>
-                                                   
-                                            }
-
-                                        }
-                                        
-                                    }
+                                    <a class="btnDelete" data-id="@item.Id">
+                                        <i class="far fa-trash-alt fa-lg" style="color: #f70808;"></i>
+                                    </a>
+                                    
                                 </td>
+                               
                                 
                             </tr>
                         }
@@ -200,7 +209,7 @@
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("ban muoon xoa chua");
+                var conf = confirm("Xác nhận xóa sản phẩm");
 
                 if (conf == true) {
 
@@ -291,58 +300,7 @@
 
    
 
-    <script>
-        $(document).ready(function () {
-
-            //dialog anh
-
-            $("#dialog").dialog({
-                autoOpen: false,
-                show: "fade",
-                hide: "fade",
-                modal: true,
-                height: '600',
-                width: '700',
-                resizable: true,
-                title: 'Quản lý ảnh sản phẩm',
-                close: function () {
-                    window.location.reload();
-                }
-            });
-            $('body').on('click', '.imgproduct', function () {
-
-                var proid = $(this).attr("data-id");
-                $("#dialog #myiframe").attr("src", "/admin/ImageProduct/Index?id=" + proid);
-                $("#dialog").dialog('open');
-                return false;
-
-            });
-
-
-
-           
-
-
-
-           
-            
-
-
-
-
-
-           
-
-           
-
-            
-
-
-
-
-        });
-
-    </script>
+    
 
  
    

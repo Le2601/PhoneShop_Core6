@@ -136,5 +136,41 @@ namespace PhoneShop.Areas.Admin.Controllers
 
             return Json(new { success = true });
         }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = _productRepository.GetByIdVM(id);
+            if (item == null)
+            {
+                return Json(new { success = false, msg = "Xooa thất bại" });
+
+            }
+            var Del_Image = _imageProductRepository.GetListByIdProduct(item.Id);
+
+            if (Del_Image.Count > 0)
+            {
+                foreach (var img in Del_Image)
+                {
+                    string pathimg = "/Product/" + img.DataName;
+                    //xoa hinh anh trong folder
+                    string pathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Product/" + img.DataName);
+                    if (System.IO.File.Exists(pathFile))
+                    {
+                        // Xóa hình ảnh
+                        System.IO.File.Delete(pathFile);
+
+                    }
+
+                    _imageProductRepository.DeleteImage(img.Id);
+
+                }
+            }
+
+            _productRepository.DeleteProduct(item.Id);
+
+            return Json(new { success = true, msg = "Xoa thành công" });
+
+
+        }
     }
 }

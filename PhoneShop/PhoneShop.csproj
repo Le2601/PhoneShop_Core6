@@ -49,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Views\ImageProduct\" />
     <Folder Include="DI\DI_User\Cart_User\" />
     <Folder Include="wwwroot\images\Banner\" />
     <Folder Include="wwwroot\images\Category\" />

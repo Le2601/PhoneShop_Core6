@@ -70,7 +70,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
         {
-            var items = await _context.Products.Where(x => x.CategoryId == IdCategory && x.IsApproved == true).Select(x => new ProductViewModel
+            var items = await _context.Products.Where(x => x.CategoryId == IdCategory && x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 Title = x.Title,
@@ -87,7 +87,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         public List<ProductViewModel> GetList_Selling()
         {
             var item_Model = (
-                   from p in _context.Products.Where(x=> x.IsApproved == true)
+                   from p in _context.Products.Where(x=> x.IsApproved == true && x.IsActive == true)
                    join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases) on p.Id equals e.ProductId
                    select new PhoneShop.ModelViews.ProductViewModel
                    {
@@ -122,7 +122,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> GetProduct_RecentPosts()
         {
-            var items = await _context.Products.Where(x=> x.IsApproved == true).OrderBy(x => x.Create_at).Select(x=> new ProductViewModel
+            var items = await _context.Products.Where(x=> x.IsApproved == true && x.IsActive == true).OrderBy(x => x.Create_at).Select(x=> new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -171,7 +171,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> Get_Search_Product()
         {
-            var items = await _context.Products.Where(x=> x.IsApproved == true).Select(x => new ProductViewModel
+            var items = await _context.Products.Where(x=> x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -203,7 +203,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
 
 
-            var items = await _context.Products.Where(x => x.IsApproved == true).Select(x => new ProductViewModel
+            var items = await _context.Products.Where(x => x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -236,7 +236,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         public async Task<List<ProductViewModel>> ProductByCategory(int categoryId)
         {
 
-            var item_Model = _context.Products.Where(x => x.CategoryId == categoryId).Select(x => new ProductViewModel
+            var item_Model = _context.Products.Where(x => x.CategoryId == categoryId && x.IsActive == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 Title = x.Title,
@@ -254,7 +254,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<ProductViewModel> ProductById(string? alias, int id)
         {
-            var item = await _context.Products.Where(x => x.Id == id || x.Alias == alias && x.IsApproved == true).FirstOrDefaultAsync();
+            var item = await _context.Products.Where(x => x.Id == id || x.Alias == alias && x.IsApproved == true && x.IsActive == true).FirstOrDefaultAsync();
 
             ProductViewModel newProduct = new ProductViewModel
             {
@@ -273,7 +273,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         }
         public async Task<ProductViewModel> ProductById( int id)
         {
-            var item = await _context.Products.Where(x => x.Id == id && x.IsApproved == true).FirstOrDefaultAsync();
+            var item = await _context.Products.Where(x => x.Id == id && x.IsApproved == true && x.IsActive == true).FirstOrDefaultAsync();
 
             ProductViewModel newProduct = new ProductViewModel
             {
@@ -293,7 +293,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<Models.Product> ProductById_Model(int id)
         {
-            var item = await _context.Products.Where(x=> x.Id == id && x.IsApproved == true).FirstAsync();
+            var item = await _context.Products.Where(x=> x.Id == id && x.IsApproved == true && x.IsActive == true).FirstAsync();
 
             return item;
         }
@@ -310,7 +310,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> Search_Product(string value_search)
         {
-            var items =await _context.Products.Where(x => x.Title.Contains(value_search) && x.IsApproved == true ).Select(x=> new ProductViewModel
+            var items =await _context.Products.Where(x => x.Title.Contains(value_search) && x.IsApproved == true && x.IsActive == true).Select(x=> new ProductViewModel
             {
                 Id=x.Id,
                 Title = x.Title,
@@ -325,7 +325,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> Selling_Products()
         {        
-            var items = await _context.Products.Join(_context.Evaluate_Products,
+            var items = await _context.Products.Where(x=> x.IsActive == true).Join(_context.Evaluate_Products,
                 p => p.Id,
                 e => e.ProductId,
                 (p,e) => new { Product = p, Evaluate_Product = e })
@@ -353,7 +353,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public List<ProductViewModel> ListDiscountProduct()
         {
-            var items =  _context.Products
+            var items =  _context.Products.Where(x=> x.IsActive == true)
                   .Where(x => x.Discount > 0)
                   .Select(x => new ProductViewModel
                   {
@@ -385,7 +385,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public List<ProductViewModel> ListProductByBooth_All(int IdBooth)
         {
-            var items = _context.Products.Where(x => x.Booth_InformationId == IdBooth && x.IsApproved == true).Select(x => new ProductViewModel
+            var items = _context.Products.Where(x => x.Booth_InformationId == IdBooth && x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 CategoryId = x.CategoryId,
@@ -407,7 +407,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public List<ProductViewModel> ListProductByBooth_BestSelling(int IdBooth)
         {
-            var items = _context.Products.Where(x=> x.Booth_InformationId == IdBooth && x.IsApproved == true)
+            var items = _context.Products.Where(x=> x.Booth_InformationId == IdBooth && x.IsApproved == true && x.IsActive == true)
                 .Join(_context.Evaluate_Products,
                  p => p.Id,
                  e => e.ProductId,

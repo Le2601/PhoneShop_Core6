@@ -42,7 +42,7 @@ namespace PhoneShop.Controllers
 
                 })
                 .OrderByDescending(x=> x.Score)
-                .Select(x=> _context.Products.Find(x.ProductId)).ToList();
+                .Select(x=> _context.Products.Find(x.ProductId)).Where(x=> x.IsActive == true && x.IsApproved == true).ToList();
 
             var itemm = recommendations.Select(x => new Product
             {

@@ -121,17 +121,19 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4" >
-                <button class="button-89 imgproduct" data-id="@ViewBag.AccountInt" role="button">Xem địa chỉ của bạn</button>
+                <button class="btn btn-success imgproduct" data-id="@ViewBag.AccountInt" style="background:#5a88ca;color:white">Xem địa chỉ của bạn</button>
                 @if (MyAddress.FullName == "null")
                 {
                     <div>Hiện chưa có địa chỉ</div>
                 }
                 else
                 {
-                    <div>Tên người nhận: @MyAddress.FullName</div>
-                    <div>Email: @MyAddress.Email</div>
-                    <div>Địa chỉ:  @MyAddress.Description - @MyAddress.WardName - @MyAddress.DistrictName - @MyAddress.CityName</div>
-                    <div style="color:red">Mặc Định</div>
+                    <div style="border:1px solid;padding:5px;margin-top:10px">
+                        <div>Tên người nhận: @MyAddress.FullName</div>
+                        <div>Email: @MyAddress.Email</div>
+                        <div>Địa chỉ:  @MyAddress.Description - @MyAddress.WardName - @MyAddress.DistrictName - @MyAddress.CityName</div>
+                        <div class="btn btn-primary" >Mặc Định</div>
+                    </div>
                 }
               
 

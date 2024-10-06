@@ -126,6 +126,27 @@
             background-color: #0056b3;
         }
 
+
+    .container_ac {
+        display: flex;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .label_ac {
+        margin-right: 10px;
+        color: #666;
+    }
+
+    .input-box_ac {
+        width: 300px;
+        height: 30px;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+
+
+
     
 </style>
 
@@ -143,13 +164,17 @@
         </div>
     }
    
-    <p class="profile-info">Email/Tên Đăng Nhập: @Model.Email</p>
-    <p class="profile-info">Ngày tạo: @Model.CreateDate</p>
+   
+    <div class="ctn-info" style="margin-left: 20px;">
+        <p class="profile-info">Email/Tên Đăng Nhập: @Model.Email</p>
+        <p class="profile-info">Ngày tạo: @Model.CreateDate</p>
+    </div>
+
     <div class="change-password-section">
-        <button class="button-37 btn" style="font-size:12px; background:#5a88ca" role="button" id="change-password-btn">Đổi mật khẩu</button>
+        <a style="color:red;font-size:13px;padding:5px;margin-left: 15px;" role="button" id="change-password-btn">Đổi mật khẩu</a>
 
         <div id="change-password-form" style="display: none;">
-            <form id="myForm" >
+            <form id="myForm">
                 <div class="form-group">
                     <label for="current-password">Mật khẩu hiện tại</label>
                     <input type="password" id="Password" name="Password" placeholder="Nhập mật khẩu hiện tại" required>
@@ -166,25 +191,29 @@
             </form>
         </div>
     </div>
-    
     <form asp-action="Update" asp-controller="Account" method="post">
         <input type="hidden" asp-for="Id">
-        <div class="profile-form-group">
-            <label for="name" class="profile-label">Tên:</label>
-            <input type="text" asp-for="FullName" class="profile-input" placeholder="Nhập họ và tên" required>
+
+
+
+        <div class="container_ac">
+            <div class="label_ac">Tên</div>
+            <input type="text" asp-for="FullName" class="input-box_ac" placeholder="Nhập họ và tên" required>
         </div>
-        <div class="profile-form-group">
-            <label for="Phone" class="profile-label">Số điện thoại:</label>
-            <input type="text" asp-for="Phone" class="profile-input" placeholder="Nhập số điện thoại" required>
+        <div class="container_ac">
+            <div class="label_ac">SDT</div>
+            <input type="text" asp-for="Phone" class="input-box_ac" placeholder="Nhập số điện thoại" required>
         </div>
 
-        <div class="profile-form-group profile-button-group">
-            <button class="button-37" role="button" type="submit" style="font-size:12px">Lưu</button>
+
+        <div class="container">
+            <button class="button-37" role="button" type="submit" style="font-size:12px;padding:10px">Lưu</button>
         </div>
         
     </form>
    
    
+
 </div>
 
 

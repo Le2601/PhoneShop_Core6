@@ -118,7 +118,14 @@
 
 /*         /////////////////
  */
-
+    .store-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ddd;
+        margin-bottom: 15px;
+    }
 
 </style>
 @await Component.InvokeAsync("MenuUtilities")
@@ -129,16 +136,19 @@
         @foreach (var item in Model)
         {
             <a style="text-decoration: none;" href="/detail_booth/@item.BoothId">
-            <li class="booth-item">
-               
-                <h3 class="booth-name">@item.BoothName</h3>
-                <p class="booth-description">Đánh giá: @item.Total_Comment</p>
+                <li class="booth-item">
+                <img src="~/images/AvatarBooth/@item.Avatar" alt="Store Image" class="store-image">
 
-                <div class="booth-details">
-                    <span>Sản phẩm: @item.Quantity_Product</span>
-                    <span>Người theo dõi: @item.Followers</span>
-                </div>
-            </li>
+                    <h3 class="booth-name">@item.BoothName</h3>
+               
+
+                    <div class="booth-details">
+                        <span>Sản phẩm: @item.Quantity_Product</span>
+                        <span>Người theo dõi: @item.Followers</span>
+                    </div>
+               
+                </li>
+
             </a>
         }
 
@@ -148,5 +158,6 @@
     
    
 </div>
+
 
 

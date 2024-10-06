@@ -58,7 +58,7 @@
 
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <label>Tên phân quyền</label>
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
@@ -85,14 +85,14 @@
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->
                         <div class="form-group">
-                            <input type="submit" value="Add" />
+                            <input type="submit" value="Cập nhật" />
                         </div>
                     </div>
 
                 </form>
 
                 <div>
-                    @Html.ActionLink("Back to List", "Index")
+                    @Html.ActionLink("Trở về", "Index")
                 </div>
 
             </div>

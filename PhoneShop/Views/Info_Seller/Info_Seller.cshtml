@@ -99,13 +99,13 @@
         @TempData["CheckShopName"]
     </div>
 }
-<form id="regForm" asp-action="Create" asp-controller="Info_Seller" method="post" enctype="multipart/form-data">
+<form id="regForm" asp-action="Create" asp-controller="Info_Seller" style="padding-top:10px" method="post" enctype="multipart/form-data">
 
-    <h1 style="text-align:center">Đăng ký gian hàng:</h1>
+    <h1 style="text-align:center">Đăng ký gian hàng</h1>
 
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
-        <p> Thông tin shop:</p>
+        <h3> Thông tin shop:</h3>
        @*  <p><input type="text" placeholder="Tên gian hàng..." name="ShopName" oninput="this.className = ''"></p>
         <p><input type="text" placeholder="Email..." name="Email" oninput="this.className = ''"></p>
         <p><input type="text" placeholder="Số điện thoại..." name="Phone" oninput="this.className = ''"></p> *@
@@ -113,20 +113,20 @@
 
         <div class="form-group">
             <input type="text" id="FullName" required placeholder=" " name="ShopName" oninput="this.className = ''">
-            <label style="color:#c1c1d7" for="FullName">Tên gian hàng... *</label>
+            <label style="color:#c1c1d7" for="FullName"><span style="color:black">Tên gian hàng</span><span style="color:red"> *</span></label>
         </div>
         <div class="form-group">
             <input type="text" id="FullName" required placeholder=" " name="Email" oninput="this.className = ''">
-            <label style="color:#c1c1d7" for="FullName">Email... *</label>
+            <label style="color:#c1c1d7" for="FullName"><span style="color:black">Email</span><span style="color:red"> *</span></label>
         </div>
 
         <div class="form-group">
             <input type="text" id="FullName" required placeholder=" " name="Phone" oninput="this.className = ''">
-            <label style="color:#c1c1d7" for="FullName">Phone... *</label>
+            <label style="color:#c1c1d7" for="FullName"><span style="color:black">Số điện thoại</span><span style="color:red"> *</span></label>
         </div>
 
         <div class="avatar-upload-container">
-            <h5>Ảnh đại diện</h5>
+            <h3>Ảnh đại diện<span style="color:red"> *</span></h3>
 
             <!-- Avatar Preview -->
             <img id="avatarPreview" class="avatar-preview" src="/images/default-avatar.png" />
@@ -140,21 +140,22 @@
 
 
     </div>
+    <br />
 
     <div class="tab">
         <p> Địa chỉ lấy hàng:</p>
 
         <div class="form-group">
             <input type="text" id="FullName" required placeholder=" " name="FullName" oninput="this.className = ''">
-            <label style="color:#c1c1d7" for="FullName">Tên người đại diện... *</label>
+            <label style="color:#c1c1d7" for="FullName"><span style="color:black">Tên người đại diện</span><span style="color:red"> *</span></label>
         </div>
         <div class="form-group">
             <input type="text" id="FullName" required placeholder=" " name="Address" oninput="this.className = ''">
-            <label style="color:#c1c1d7" for="FullName">Địa chỉ... *</label>
+            <label style="color:#c1c1d7" for="FullName"><span style="color:black">Địa chỉ</span><span style="color:red"> *</span></label>
         </div>
         <div class="form-group">
             <input type="text" id="FullName" required placeholder=" " name="Address_Detail" oninput="this.className = ''">
-            <label style="color:#c1c1d7" for="FullName">Địa chỉ chi tiết...*</label>
+            <label style="color:#c1c1d7" for="FullName"><span style="color:black">Địa chỉ chi tiết</span><span style="color:red"> *</span></label>
         </div>
 
 

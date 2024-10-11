@@ -15,6 +15,54 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="~/clients/dist/css/adminlte.min.css">
 
+<style>
+    .ui-dialog-titlebar-close {
+        float:right;
+        border:1px solid;
+        padding:5px;
+    }
+    /* Thêm vào file CSS hoặc trong style tag */
+    .ui-dialog {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        background-color: #fff;
+    }
+
+    .ui-dialog-titlebar {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 10px 10px 0 0;
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    .ui-dialog-titlebar-close {
+        color: white;
+    }
+
+    .ui-dialog-content {
+        padding: 15px;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+</style>
+
 @section naviheader{
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -120,7 +168,8 @@
         </div>
     </div>
 </section>
-<div id="dialog">
+<div id="dialog" style="border:1px solid">
+
     <iframe id="myiframe" style="border:0;width:100%;height:100%"></iframe>
 </div>
 @section scripts_SellerHome{
@@ -181,10 +230,11 @@
                 show: "fade",
                 hide: "fade",
                 modal: true,
-                height: '600',
-                width: '700',
+                height: '400',
+                width: '500',
                 resizable: true,
-                title: '          ',
+                title: 'Cập nhật ảnh sản phẩm',
+               
                 close: function () {
                     window.location.reload();
                 }
@@ -201,12 +251,13 @@
         });
 
     </script>
+    
     <script>
         $(document).ready(function () {
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');
 
-                var conf = confirm("ban muoon xoa chua");
+                var conf = confirm("Xác nhận xóa sản phẩm");
 
                 if (conf == true) {
 

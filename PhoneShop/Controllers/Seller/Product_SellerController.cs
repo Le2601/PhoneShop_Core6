@@ -236,11 +236,7 @@ namespace PhoneShop.Controllers.Seller
 
         }
 
-        public IActionResult GetListImage(int? id)
-        {
-            var items = _imageProductRepository.GetListByIdProduct(id);
-            return View(items);
-        }
+       
         public IActionResult Edit(int id)
         {
 
@@ -509,6 +505,14 @@ namespace PhoneShop.Controllers.Seller
 
 
             return Json(new { success = true });
+        }
+
+
+        //hinh anh
+        public IActionResult GetListImage(int? id)
+        {
+            var items = _imageProductRepository.GetListByIdProduct(id);
+            return View(items);
         }
 
         public static int ValidatePrice(decimal PriceInput, decimal Price, decimal Discount)

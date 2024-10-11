@@ -1,7 +1,7 @@
 ﻿@model List<PhoneShop.ModelViews.ImageProductViewModel>
 @{
     ViewData["Title"] = "GetListImage";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+    Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
 }
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -10,6 +10,11 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .main-footer{
+        display:none;
+    }
+</style>
 
  @if (Model != null)
 {
@@ -18,8 +23,20 @@
         
              <div id="trow_@item.Id">
 
-            <img src="~/images/Product/@item.DataName" width="200px" height="200px" style="border: solid 1px " />
-            <a href="~/delete_Image/@item.Id" class="btn btn-success" >Xoa</a>
+            <img src="~/images/Product/@item.DataName" width="100px" height="100px" style="padding-bottom:3px" />
+            
+            
+
+            @if (item.IsDefault == true)
+            {
+                <span style="color:blue">Mặc định</span>
+            }
+            @if (item.IsDefault == false)
+            {
+                <a href="~/delete_Image/@item.Id" class="btn btn-success" style="background:red">Xóa</a>
+                <a href="#" class="btn btn-success isdefault" data-id="@item.Id" style="background:#DEB887">Chọn làm mặc định</a>
+
+            }
 
 
             
@@ -33,4 +50,42 @@
 
     }
 }
+
+<div>
+    <h5>Thêm ảnh</h5>
+    <form>
+        <input type="file" name="image" required  />
+        <input type="submit" value="Thêm" />
+    </form>
+</div>
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '.isdefault', function () {
+            var id = $(this).data('id');
+
+            var conf = confirm("Xác nhận thay đổi ảnh mặc định");
+
+            if (conf == true) {
+
+                $.ajax({
+
+                    url: '/ImageProduct_Seller/ChangeDefault',
+                    type: 'post',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            $('trow_' + id).remove();
+                            location.reload();
+                        }
+                    }
+
+                });
+
+            }
+        });
+    });
+</script>
 

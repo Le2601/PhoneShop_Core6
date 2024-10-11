@@ -3,7 +3,6 @@
     ViewData["Title"] = "GetListImage";
     Layout = "~/Views/Shared/Seller/_SellerLayout.cshtml";
 }
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <!-- Thêm file JavaScript của Bootstrap -->
@@ -15,7 +14,12 @@
         display:none;
     }
 </style>
-
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
  @if (Model != null)
 {
     foreach (var item in Model)
@@ -33,7 +37,7 @@
             }
             @if (item.IsDefault == false)
             {
-                <a href="~/delete_Image/@item.Id" class="btn btn-success" style="background:red">Xóa</a>
+                <a href="#" class="btn btn-success DeleteImage" data-id="@item.Id" style="background:red">Xóa</a>
                 <a href="#" class="btn btn-success isdefault" data-id="@item.Id" style="background:#DEB887">Chọn làm mặc định</a>
 
             }
@@ -53,8 +57,9 @@
 
 <div>
     <h5>Thêm ảnh</h5>
-    <form>
+    <form asp-controller="ImageProduct_Seller" asp-action="AddImage" method="post" enctype="multipart/form-data">
         <input type="file" name="image" required  />
+        <input type="text" hidden value="@ViewBag.IdProduct" name="idproduct" />
         <input type="submit" value="Thêm" />
     </form>
 </div>
@@ -78,6 +83,11 @@
                     success: function (rs) {
                         if (rs.success) {
                             $('trow_' + id).remove();
+                            alert(rs.ms);
+                            location.reload();
+                        }
+                        else {
+                            alert(rs.ms);
                             location.reload();
                         }
                     }
@@ -88,4 +98,39 @@
         });
     });
 </script>
+
+
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '.DeleteImage', function () {
+            var id = $(this).data('id');
+
+            var conf = confirm("Xác nhận xóa hình ảnh");
+
+            if (conf == true) {
+
+                $.ajax({
+
+                    url: '/ImageProduct_Seller/DeleteImage',
+                    type: 'post',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            $('trow_' + id).remove();
+                            alert(rs.ms);
+                            location.reload();
+                        }
+                        else {
+                            alert(rs.ms);
+                            location.reload();
+                        }
+                    }
+
+                });
+
+            }
+        });
+    });
+</script>
+
 

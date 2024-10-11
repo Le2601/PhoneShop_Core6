@@ -512,6 +512,7 @@ namespace PhoneShop.Controllers.Seller
         public IActionResult GetListImage(int? id)
         {
             var items = _imageProductRepository.GetListByIdProduct(id);
+            ViewBag.IdProduct = id;
             return View(items);
         }
 

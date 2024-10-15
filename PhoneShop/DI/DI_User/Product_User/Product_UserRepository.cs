@@ -115,7 +115,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                     Discount = g.First().Discount,
                     Quantity_Purchase = g.Sum(o => o.Quantity_Purchase),
                     Rating = g.First().Rating
-                }).Take(4).OrderByDescending(g=> g.Quantity_Purchase).ToList();
+                }).Take(5).OrderByDescending(g=> g.Quantity_Purchase).ToList();
 
             return GetData;
         }
@@ -302,6 +302,12 @@ namespace PhoneShop.DI.DI_User.Product_User
         {
             var Reduced_In_Stock = _context.Products.Where(x => x.Id == Id_Product && x.IsApproved == true).FirstOrDefault()!;
             Reduced_In_Stock.Quantity = Reduced_In_Stock.Quantity - Get_Quantity_Product_Order;
+
+            if(Reduced_In_Stock.Quantity <= 0)
+            {
+                Reduced_In_Stock.IsActive = false;
+            }
+
             _context.Products.Update(Reduced_In_Stock);
             _context.SaveChanges();
             

@@ -73,7 +73,7 @@ namespace PhoneShop.Controllers
             {
                 AccountIdFeedBack = AccountId,
                 UserNameFeedBack = GetUserNameFeedBack,
-                RwProductId = RwProductId,
+                QuesProductId = RwProductId,
                 Content = Content,
                 Create_At = DateTime.Now,
 

@@ -115,7 +115,7 @@ namespace PhoneShop.Controllers.Seller
             //get review 
             var GetReview = _context.ProductQuestions.Where(x=> x.Id == Id).First();
 
-            ViewBag.GetListFeedBack = _context.feedBackComments.Where(x=> x.RwProductId == Id).ToList();
+            ViewBag.GetListFeedBack = _context.feedBackComments.Where(x=> x.QuesProductId == Id).ToList();
 
 
             return View(GetReview);
@@ -136,7 +136,7 @@ namespace PhoneShop.Controllers.Seller
             {
                 AccountIdFeedBack = AccountId,
                 UserNameFeedBack = GetUserNameFeedBack,
-                RwProductId = RwProductId,
+                QuesProductId = RwProductId,
                 Content = Content,
                 Create_At = DateTime.Now,
                 

@@ -306,7 +306,7 @@ namespace PhoneShop.Models
             modelBuilder.Entity<FeedBackComment>()
               .HasOne(p => p.ProductQuestions)
               .WithMany(p => p.FeedBackComments)
-              .HasForeignKey(p => p.RwProductId);
+              .HasForeignKey(p => p.QuesProductId);
 
             modelBuilder.Entity<Review_Product>()
               .HasOne(p => p.Product)

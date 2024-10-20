@@ -9,7 +9,7 @@ namespace PhoneShop.Models
         [Key]
         public int Id { get; set; }
 
-        public int RwProductId { get; set; }
+        public int QuesProductId { get; set; }
 
         public int AccountIdFeedBack { get; set; }
 

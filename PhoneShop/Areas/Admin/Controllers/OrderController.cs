@@ -108,6 +108,7 @@ namespace PhoneShop.Areas.Admin.Controllers
                                        //info booth
                                        BoothName = b.ShopName,
                                        BoothId = b.Id,
+                                       Id = od.Id,
 
 
 
@@ -177,6 +178,19 @@ namespace PhoneShop.Areas.Admin.Controllers
             _orderRepository.Delete_Order(item_Order);
 
             return Json(new {success = true});
+        }
+
+        public IActionResult ViewStatusOrD(int id)
+        {
+            var items = _context.DeliveryProcesses.Where(x => x.Order_Detail_Id == id).FirstOrDefault();
+
+            
+
+
+
+
+
+            return View(items);
         }
 
         

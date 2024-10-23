@@ -25,6 +25,7 @@
 
    
 }
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 @section naviheader{
     <!-- Left navbar links -->
@@ -42,22 +43,7 @@
 }
 
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Quản lý đơn hàng</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Đơn hàng</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
+
 
 <!-- Main content -->
 <section class="content">
@@ -166,7 +152,14 @@
 
                             @if(item.Status_OrderDetail == 1)
                             {
-                                <td>Đã xác nhận</td>
+                                <td>
+                                    <p style="color:blue">Đã xác nhận</p>
+
+
+                                    <a href="/admin/order/ViewStatusOrD/@item.Id" class="statusOr" data-id="@item.Id" style="color:#FF8C00">Xem quá trình giao hàng</a>
+
+                                </td>
+                               
                             }
                             else
                             {
@@ -200,5 +193,56 @@
     <a href="@Url.Action("Index")" class="btn btn-primary">
         <i class="fa fa-arrow-left"></i> Trở về
     </a>
+
+    <div id="dialog">
+        <button class="close-btn" onclick="closeModal()">X</button>
+        <iframe id="myiframe" style="border:0;width:500px;height:100%"></iframe>
+    </div>
 </section>
 
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+
+            //dialog anh
+
+            $("#dialog").dialog({
+                autoOpen: false,
+                show: "fade",
+                hide: "fade",
+                modal: true,
+                height: '600',
+                width: '0',
+                resizable: true,
+                title: '',
+                close: function () {
+                    window.location.reload();
+                }
+            });
+            $('body').on('click', '.statusOr', function () {
+
+                var proid = $(this).attr("data-id");
+                $("#dialog #myiframe").attr("src", "/admin/Order/ViewStatusOrD?id=" + proid);
+                $("#dialog").dialog('open');
+                return false;
+
+            });
+
+
+
+
+        });
+
+
+    </script>
+
+    <script>
+        function closeModal() {
+            document.getElementById("dialog").style.display = "none"; // Ẩn modal
+            window.location.reload();
+        }
+
+
+    </script>
+}

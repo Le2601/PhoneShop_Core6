@@ -147,7 +147,6 @@ namespace PhoneShop.Controllers
             //partial View Banner
             ViewBag.ListBanner =await _bannerRepository.GetAll();
 
-            
 
 
            

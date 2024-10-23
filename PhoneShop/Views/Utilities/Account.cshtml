@@ -166,12 +166,12 @@
    
    
     <div class="ctn-info" style="margin-left: 20px;">
-        <p class="profile-info">Email/Tên Đăng Nhập: @Model.Email</p>
-        <p class="profile-info">Ngày tạo: @Model.CreateDate</p>
+        <p class="profile-info"><span> <i>Email/Tên Đăng Nhập</i></span>: @Model.Email</p>
+        <p class="profile-info"><span> <i>Ngày tạo</i></span>: @Model.CreateDate?.ToString("dd/MM/yyyy")</p>
     </div>
 
     <div class="change-password-section">
-        <a style="color:red;font-size:13px;padding:5px;margin-left: 15px;" role="button" id="change-password-btn">Đổi mật khẩu</a>
+        <a style="color:red;font-size:15px;padding:5px;margin-left: 15px;" role="button" id="change-password-btn">Đổi mật khẩu</a>
 
         <div id="change-password-form" style="display: none;">
             <form id="myForm">

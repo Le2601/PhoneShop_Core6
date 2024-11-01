@@ -78,7 +78,16 @@
                                 <td>
                                     @item.ShopName
                                 </td>
-                                <td>@item.IsActive</td>
+                                <td>
+                                @if (@item.IsActive)
+                                {
+                                    <p style="color:blue">Hoạt động</p>
+                                }
+                                else
+                                {
+                                    <p>Ẩn</p>
+                                }
+                            </td>
 
 
 

@@ -308,6 +308,8 @@ namespace PhoneShop.Controllers
                         HttpContext.Session.SetString("AccountId", kh.Id.ToString());
 
                         HttpContext.Session.SetString("AccountName", kh.FullName);
+
+
                         //edentity
 
                         var userClaims = new List<Claim>

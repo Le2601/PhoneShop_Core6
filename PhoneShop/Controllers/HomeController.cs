@@ -295,10 +295,7 @@ namespace PhoneShop.Controllers
 
 
        
-        public IActionResult demoChat_RealTime()
-        {
-            return View();
-        }
+       
 
         public int DeleteOrder_Payment_Fail(string id)
         {
@@ -324,6 +321,14 @@ namespace PhoneShop.Controllers
             _dbContext.SaveChanges();
             return 1;
 
+        }
+
+
+        [Route("gioi-thieu.html")]
+        public IActionResult InfoW()
+        {
+            var item = _dbContext.Introduces.FirstOrDefault();
+            return View(item);
         }
 
 

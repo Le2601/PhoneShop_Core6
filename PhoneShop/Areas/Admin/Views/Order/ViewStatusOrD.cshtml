@@ -4,5 +4,32 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
 }
 
-<h1>@Model.DeliveryStatus</h1>
+
+
+    @if (Model.DeliveryStatus == 1)
+    {
+    <p> Đang xử lý</p>
+    }
+else if (Model.DeliveryStatus == 2)
+    {
+    <p> Chuẩn bị hàng</p>
+
+}
+else if (Model.DeliveryStatus == 3)
+{
+    <p>Đang giao hàng</p>
+
+}
+else if (Model.DeliveryStatus == 4)
+{
+    <p>Đã giao hàng</p>
+}
+else
+{
+    <p>Đơn hàng đã hủy</p>
+
+}
+
+
+
 

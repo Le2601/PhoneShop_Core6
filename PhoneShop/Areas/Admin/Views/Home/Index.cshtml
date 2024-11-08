@@ -78,7 +78,7 @@
             @if (@ViewBag.CheckProductIsApproved > 0)
             {
                 <div class="row">
-                    <p>Có @ViewBag.CheckProductIsApproved sản phẩm cần phê duyệt <i class="fas fa-lightbulb fa-pulse" style="color: yellow;"></i></p>
+                    <p>Có @ViewBag.CheckProductIsApproved sản phẩm cần phê duyệt <i class="fas fa-lightbulb fa-pulse" style="color: red;"></i></p>
                     <a class="btn-app" href="/Admin/Product/Index">
                         <span class="icon">✏️</span> Tiến hành
                     </a>
@@ -89,7 +89,7 @@
 
             @if(@ViewBag.checkDelBooth > 0){
                 <div class="row">
-                    <p>Có <span style="color:red">@ViewBag.checkDelBooth</span> yêu cầu xóa gian hàng cần phê duyệt <i class="fas fa-lightbulb fa-pulse" style="color: yellow;"></i></p>
+                    <p>Có <span style="color:red">@ViewBag.checkDelBooth</span> yêu cầu xóa gian hàng cần phê duyệt <i class="fas fa-lightbulb fa-pulse" style="color: red;"></i></p>
                     <a class="btn-app" href="/Admin/Booth/List_DelBooth">
                         <span class="icon">✏️</span> Tiến hành
                     </a>

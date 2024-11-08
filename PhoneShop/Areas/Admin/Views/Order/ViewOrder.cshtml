@@ -88,6 +88,9 @@
                         <p style="color:red">Đã áp dụng voucher miễn phí vận chuyển, mã voucher: @CheckShipping.VoucherId với đơn hàng @CheckShipping.OrderId</p>
 
                     }
+                    <a class="btnDelete btn btn-success" data-id="@Model.OrderId">
+                       Xóa đơn hàng
+                    </a>
 
                    
                 </div>
@@ -156,7 +159,7 @@
                                     <p style="color:blue">Đã xác nhận</p>
 
 
-                                    <a href="/admin/order/ViewStatusOrD/@item.Id" class="statusOr" data-id="@item.Id" style="color:#FF8C00">Xem quá trình giao hàng</a>
+                                    <a  class="statusOr" data-id="@item.Id" style="color:#FF8C00">Xem quá trình giao hàng</a>
 
                                 </td>
                                
@@ -195,13 +198,12 @@
     </a>
 
     <div id="dialog">
-        <button class="close-btn" onclick="closeModal()">X</button>
-        <iframe id="myiframe" style="border:0;width:500px;height:100%"></iframe>
+        <iframe id="myiframe" style="border:0;width:100px   ;height:50px"></iframe>
     </div>
 </section>
 
 @section scripts{
-
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -212,8 +214,8 @@
                 show: "fade",
                 hide: "fade",
                 modal: true,
-                height: '600',
-                width: '0',
+                height: '200',
+                width: '200',
                 resizable: true,
                 title: '',
                 close: function () {
@@ -245,4 +247,5 @@
 
 
     </script>
+
 }

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var i = 0;
 }
 
 @section naviheader{
@@ -37,9 +38,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>
-                            Sản phẩm liên quan
-                        </th>
+                       
                         <th>
                             Vị trí
                         </th>
@@ -56,18 +55,6 @@
                         {
                             <tr id="trow_@item.Id">
                                 
-                                    @{
-                                        if (item.ProductId == null)
-                                        {
-                                        <td style="color:red">Không có sản phẩm liên kết</td>
-                                    }
-                                    else
-                                    {
-                                        <td>@item.ProductId</td>
-                                    }
-
-                                        
-                                      }
 
                                  
                                 

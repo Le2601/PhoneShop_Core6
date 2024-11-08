@@ -1,4 +1,8 @@
-﻿1 . kiểm tra sau khi login rồi tắt trình duyệt khi chưa logout vần còn lưu auth cookie trên trình duyệt
+﻿- Đăng nhập: Khi người dùng đăng nhập, bạn tạo các claims, bao gồm cả claim cho vai trò.
+- Tạo ClaimsPrincipal: Claims này được gán cho ClaimsPrincipal, đại diện cho người dùng trong phiên làm việc.
+- Kiểm tra quyền truy cập: Khi người dùng cố gắng truy cập vào một action được bảo vệ bằng [Authorize(Roles = "Admin")], ASP.NET Core sẽ kiểm tra claims của họ. Nếu claim ClaimTypes.Role chứa "Admin", người dùng sẽ được phép truy cập.
+
+1 . kiểm tra sau khi login rồi tắt trình duyệt khi chưa logout vần còn lưu auth cookie trên trình duyệt
     lấy ra auth cookie đó
         *
 

@@ -47,6 +47,8 @@
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Đơn hàng</a></li>
                     <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Áp dụng voucher freeship</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ddax</a></li>
+
                 </ul>
             </div><!-- /.card-header -->
             <div class="card-body">
@@ -109,7 +111,6 @@
 
                                                     <td>
                                                         <a class="" href="/admin/Order/ViewOrder/@item.Id_Order"><i class="fas fa-eye fa-lg" style="color: #74C0FC;"></i></a>
-                                                        <a class="btnDelete" data-id="@item.Id_Order" href="#"><i class="fas fa-backspace fa-lg" style="color: #ba1c1c;"></i></a>
                                                     </td>
                                                 </tr>
                                             }
@@ -266,37 +267,7 @@
         });
     </script>
 
-    <script>
-        $(document).ready(function () {
-           
-
-            $('body').on('click', '.btnDelete', function () {
-                var id = $(this).data('id');
-
-                var conf = confirm("Bạn muốn xóa chứ ");
-
-                if (conf == true) {
-
-                    $.ajax({
-
-                        url: '/admin/Order/delete',
-                        type: 'post',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                                $('trow_' + id).remove();
-                                location.reload();
-                            }
-                        }
-
-                    });
-
-                }
-            });
-            
-        });
-    </script>
-
+   
 
 }
 

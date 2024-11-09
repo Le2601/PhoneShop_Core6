@@ -91,7 +91,8 @@
                     <a class="btnDelete btn btn-success" data-id="@Model.OrderId">
                        Xóa đơn hàng
                     </a>
-
+                    
+                    <a href="/admin/Order/CheckDelOrder/@Model.OrderId">CheckDelOrder</a>
                    
                 </div>
                 <div style="flex: 1; text-align: right;">
@@ -204,6 +205,50 @@
 
 @section scripts{
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+
+              
+
+                    $.ajax({
+
+                        url: '/admin/Order/CheckDelOrder',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            // if (rs.success) {
+                            //     // $('trow_' + id).remove();
+                            //     location.reload();
+                            // }
+                            var comfirm = confirm(rs.msg);
+                            if (comfirm) {
+                            $.ajax({
+
+                                url: '/admin/Order/delete',
+                                type: 'post',
+                                data: { id: id },
+                                success: function (respon) {
+                                    alert(respon.msg);
+                                    window.location.href = '/admin/Order';
+                                }
+
+                            })
+                            }
+                           
+
+                        }
+
+                    });
+
+                
+            });
+
+        });
+    </script>
     <script>
         $(document).ready(function () {
 

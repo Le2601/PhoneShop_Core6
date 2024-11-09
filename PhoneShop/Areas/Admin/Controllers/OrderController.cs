@@ -139,45 +139,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(item);
         }
         
-        public async Task<IActionResult> delete(string id)
-        {
-            var item_Order = _orderRepository.GetById_Data(id);
-
-            if (item_Order == null)
-            {
-                return Json(new { success = false });
-            }
-
-            var item_Order_Details = _orderRepository.GetOrderDetailByOrderId(id);
-            var item_PaymentResponses = await _orderRepository.GetRepositoryPaymentById(id);
-
-            if(item_Order_Details.Count() == 0 )
-            {
-                _orderRepository.Delete_Order(item_Order);
-                //_context.Orders.Remove(item_Order);
-                //_context.SaveChanges();
-            }
-
-           
-
-            foreach (var item in item_Order_Details)
-            {
-
-                _orderRepository.Delete_OrderDetails(item);
-                
-
-            }
-
-            if(item_PaymentResponses != null)
-            {
-
-               _orderRepository.Delete_RepositoryPayment(item_PaymentResponses);
-            }
-
-            _orderRepository.Delete_Order(item_Order);
-
-            return Json(new {success = true});
-        }
+       
 
         public IActionResult ViewStatusOrD(int id)
         {
@@ -192,8 +154,89 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(items);
         }
 
-        
+        [HttpPost]
+        public IActionResult CheckDelOrder(string id)
+        {
 
+     
+
+
+            var msgg = "";
+
+            var CountItem = _context.DeliveryProcesses.Where(x => x.Order_Id == id).ToList();
+
+            var items = _context.DeliveryProcesses.Where(x => x.Order_Id == id && x.DeliveryStatus == 4).ToList(); 
+
+            if (CountItem.Count == items.Count) {
+
+                msgg = "Xác nhận xóa đơn hàng";
+
+            }
+            else
+            {
+                msgg = "Xác nhận xóa đơn hàng khi có sản phẩm chưa được giao thành công";
+            }
+
+
+
+
+
+
+
+            return Json(new { msg = msgg });
+        }
+
+        public async Task<IActionResult> delete(string id)
+        {
+            //var item_Order = _orderRepository.GetById_Data(id);
+
+            //if (item_Order == null)
+            //{
+            //    return Json(new { success = false });
+            //}
+
+            //var item_Order_Details = _orderRepository.GetOrderDetailByOrderId(id);
+            //var item_PaymentResponses = await _orderRepository.GetRepositoryPaymentById(id);
+
+            //if (item_Order_Details.Count() == 0)
+            //{
+            //    _orderRepository.Delete_Order(item_Order);
+            //    //_context.Orders.Remove(item_Order);
+            //    //_context.SaveChanges();
+            //}
+
+
+
+            //foreach (var item in item_Order_Details)
+            //{
+
+            //    _orderRepository.Delete_OrderDetails(item);
+
+
+            //}
+
+            //if (item_PaymentResponses != null)
+            //{
+
+            //    _orderRepository.Delete_RepositoryPayment(item_PaymentResponses);
+            //}
+
+            //_orderRepository.Delete_Order(item_Order);
+
+            var item = await _context.Orders.Where(x => x.Id_Order == id).FirstOrDefaultAsync();
+            if (item == null)
+            {
+                return Json(new { success = false, msg = "Lỗi không thể xóa" });
+
+            }
+            _context.Orders.Remove(item);
+            await _context.SaveChangesAsync();
+
+
+
+            return Json(new { success = true, msg = "Xóa đơn hàng thành công" });
+
+        }
 
 
 

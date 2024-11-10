@@ -88,11 +88,8 @@
                         <p style="color:red">Đã áp dụng voucher miễn phí vận chuyển, mã voucher: @CheckShipping.VoucherId với đơn hàng @CheckShipping.OrderId</p>
 
                     }
-                    <a class="btnDelete btn btn-success" data-id="@Model.OrderId">
-                       Xóa đơn hàng
-                    </a>
+                   
                     
-                    <a href="/admin/Order/CheckDelOrder/@Model.OrderId">CheckDelOrder</a>
                    
                 </div>
                 <div style="flex: 1; text-align: right;">
@@ -183,8 +180,10 @@
                     
                 </tbody>
             </table>
-          
 
+            <a class="btnDelete btn btn-success" style="background:red" data-id="@Model.OrderId">
+                Xóa đơn hàng
+            </a>
 
 
         </div>

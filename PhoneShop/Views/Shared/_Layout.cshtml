@@ -127,6 +127,28 @@
 
 
        
+        .zalo-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin:50px     
+        }
+
+            .zalo-icon:hover {
+                transform: scale(1.1); /* Zoom effect on hover */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            .zalo-icon img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
        
 
@@ -140,6 +162,9 @@
    
 
     <button class="scroll-to-top" id="scrollToTopBtn">▲ Lên đầu</button>
+    <a href="https://zalo.me/YOUR_ZALO_ID" target="_blank" class="zalo-icon">
+        <img src="~/images/zalo.png" />
+    </a>
 
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="header-area ">
@@ -202,6 +227,12 @@
         </div>
     </div> <!-- End footer top area -->
 
+    <script>
+        document.querySelector('.zalo-icon').addEventListener('click', function () {
+            alert("Chat with us on Zalo!");
+        });
+
+    </script>
 
     <!-- Latest jQuery form server -->
     @* <script src="https://code.jquery.com/jquery.min.js"></script> *@

@@ -236,7 +236,7 @@ namespace PhoneShop.DI.DI_User.Product_User
         public async Task<List<ProductViewModel>> ProductByCategory(int categoryId)
         {
 
-            var item_Model = _context.Products.Where(x => x.CategoryId == categoryId && x.IsActive == true).Select(x => new ProductViewModel
+            var item_Model = _context.Products.Where(x => x.CategoryId == categoryId && x.IsActive == true && x.IsApproved == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
                 Title = x.Title,
@@ -331,7 +331,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public async Task<List<ProductViewModel>> Selling_Products()
         {        
-            var items = await _context.Products.Where(x=> x.IsActive == true).Join(_context.Evaluate_Products,
+            var items = await _context.Products.Where(x=> x.IsActive == true && x.IsApproved == true).Join(_context.Evaluate_Products,
                 p => p.Id,
                 e => e.ProductId,
                 (p,e) => new { Product = p, Evaluate_Product = e })
@@ -359,7 +359,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public List<ProductViewModel> ListDiscountProduct()
         {
-            var items =  _context.Products.Where(x=> x.IsActive == true)
+            var items =  _context.Products.Where(x=> x.IsActive == true && x.IsApproved == true)
                   .Where(x => x.Discount > 0)
                   .Select(x => new ProductViewModel
                   {

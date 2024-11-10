@@ -221,7 +221,7 @@ namespace PhoneShop.Controllers
 
 
             //map du lieu
-            var itemModels = _context.Products.Select(x => new PhoneShop.Extension.Algorithm.Product_Search_Trie
+            var itemModels = _context.Products.Where(x=> x.IsActive == true && x.IsApproved == true).Select(x => new PhoneShop.Extension.Algorithm.Product_Search_Trie
             {
                 Id = x.Id,
                 Title = x.Title,

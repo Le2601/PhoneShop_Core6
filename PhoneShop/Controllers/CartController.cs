@@ -33,6 +33,7 @@ using System.Threading.Tasks;
 
 namespace PhoneShop.Controllers
 {
+    [Authorize(Roles ="User")]
     public class CartController : Controller
     {
 

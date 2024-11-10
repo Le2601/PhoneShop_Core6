@@ -38,7 +38,7 @@ namespace PhoneShop.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var ListAccountUser = _context.Accounts.Where(x => x.RoleId == 3).ToList();
+            var ListAccountUser = await _context.Accounts.Where(x => x.RoleId == 3).ToListAsync();
 
             ViewBag.ListAccountSeller = _context.Accounts.Where(x => x.RoleId == 14).ToList();
 
@@ -46,10 +46,8 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(ListAccountUser);
         }
 
-        // GET: Admin/Accounts/Details/5
 
 
-        // GET: Admin/Accounts/Create
         public IActionResult Create()
         {
             //ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Id");
@@ -59,9 +57,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/Accounts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Account model)
@@ -85,7 +81,6 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(model);
         }
 
-        // GET: Admin/Accounts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -102,9 +97,7 @@ namespace PhoneShop.Areas.Admin.Controllers
             return View(account);
         }
 
-        // POST: Admin/Accounts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Account model)

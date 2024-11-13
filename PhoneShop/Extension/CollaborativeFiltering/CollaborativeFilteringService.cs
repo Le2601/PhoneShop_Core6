@@ -29,7 +29,7 @@ namespace PhoneShop.Extension.CollaborativeFiltering
                 {
 
                     ProductId = l.Key,
-                    Score = l.Average(x => x.Purchases) //luot mua
+                    Score = l.Average(x => x.Purchases) //tinh tb luot mua
 
                 })
                 .OrderByDescending(x => x.Score)

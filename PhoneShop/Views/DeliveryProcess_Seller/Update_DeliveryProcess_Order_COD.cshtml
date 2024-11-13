@@ -131,11 +131,11 @@
             <input type="date" name="DeliveryDate" required placeholder="Ngày nhận hàng dự kiến" />
             @if (IsDeliveryProcess != null)
             {
-                <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@IsDeliveryProcess.DeliveryAddress" />
+                <input hidden type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@IsDeliveryProcess.DeliveryAddress" />
             }
             else
             {
-                <input type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@ViewBag.Address_Order" />
+                <input hidden type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@ViewBag.Address_Order" />
             }
             <input type="submit" value="Xác nhận">
         </form>

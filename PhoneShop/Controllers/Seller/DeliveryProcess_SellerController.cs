@@ -101,6 +101,20 @@ namespace PhoneShop.Controllers.Seller
                     //add Evaluate or update
                     var GetOrdInDeli = _context.DeliveryProcesses.Where(x => x.Order_Detail_Id == int.Parse(Order_Detail_Id))
                         .Include(x => x.Order_Details).ThenInclude(x => x.Order).FirstOrDefault()!;
+
+
+
+                    //kiem tra so luong sp
+                    if(CheckQuantityProduct(GetOrdInDeli.Order_Details.ProductId) == 0)
+                    {
+                        TempData["CheckQuantityProduct"] = "Sản phẩm trong kho đã hết - hãy hủy đơn hàng";
+
+                        return RedirectToAction("Info_Order_Address", "Order_Seller", new { id = int.Parse(Order_Detail_Id) });
+                    }
+
+
+
+
                     _evaluate_ProductRepository.Check_Evaluate_Insert_Db(GetOrdInDeli.Order_Details.ProductId, GetOrdInDeli.Order_Details.Quantity, GetOrdInDeli.Order_Details.Order.AccountId);
 
                     var Update_DeliveryProcess = new DeliveryProcessData
@@ -154,6 +168,20 @@ namespace PhoneShop.Controllers.Seller
 
             return RedirectToAction("Info_Order_Address", "Order_Seller",new {id = int.Parse(Order_Detail_Id) });
 
+        }
+
+
+        public int CheckQuantityProduct(int IdProduct)
+        {
+
+            var item = _context.Products.Where(x => x.Id == IdProduct).FirstOrDefault()!;
+
+            if(item.Quantity  <= 0 )
+            {
+                return 0;
+            }
+
+            return 1;
         }
     }
 }

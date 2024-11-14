@@ -68,7 +68,12 @@
 
     <div class="col-12">
 
-
+        @if (TempData["CheckQuantityProduct"] != null)
+        {
+            <div class="alert alert-success" style="background:red"> 
+                @TempData["CheckQuantityProduct"]
+            </div>
+        }
        
 
         <!-- Main content -->
@@ -376,6 +381,9 @@
             });
         });
     </script>
+
+
+   
 
 
 }

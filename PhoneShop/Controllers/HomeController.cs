@@ -34,6 +34,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using PhoneShop.Controllers.Seller;
 using Microsoft.ML;
+using PhoneShop.Services.Collaborative_Filterning;
 
 namespace PhoneShop.Controllers
 {
@@ -68,6 +69,9 @@ namespace PhoneShop.Controllers
         private readonly CollaborativeFiltering_Service_ByRating _collaborativeFiltering_Service_ByRating;
 
 
+        private readonly ICollaborativeF _collaborativeF;
+
+
 
 
        
@@ -79,7 +83,7 @@ namespace PhoneShop.Controllers
             IImageProduct_UserRepository imageProduct_UserRepository,
             ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository,
             IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository
-            , CollaborativeFilteringService collaborativeFilteringService, CollaborativeFiltering_Service_ByRating collaborativeFiltering_Service_ByRating)
+            , CollaborativeFilteringService collaborativeFilteringService, CollaborativeFiltering_Service_ByRating collaborativeFiltering_Service_ByRating, ICollaborativeF collaborativeF)
         {
             _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
@@ -94,6 +98,8 @@ namespace PhoneShop.Controllers
             _evaluate_ProductRepository = evaluate_ProductRepository;
             _collaborativeFilteringService = collaborativeFilteringService;
             _collaborativeFiltering_Service_ByRating = collaborativeFiltering_Service_ByRating;
+
+            _collaborativeF = collaborativeF;
 
 
 
@@ -329,6 +335,21 @@ namespace PhoneShop.Controllers
         {
             var item = _dbContext.Introduces.FirstOrDefault();
             return View(item);
+        }
+
+        [Route("lepro")]
+
+        public async Task<IActionResult> demo()
+        {
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+            //End check auth cookie and AccountId Session
+
+
+            var list = await _collaborativeF.GetRecommended(AccountId);
+
+            return Json(list);
         }
 
 

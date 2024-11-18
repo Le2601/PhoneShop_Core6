@@ -2,12 +2,12 @@
 using SQLitePCL;
 using Stripe;
 
-namespace PhoneShop.Extension.CollaborativeFiltering
+namespace PhoneShop.Extension.Recommend
 {
-    public class CollaborativeFilteringService
+    public class Recommend
     {
         public readonly ShopPhoneDbContext _context;
-        public CollaborativeFilteringService(ShopPhoneDbContext context) {
+        public Recommend(ShopPhoneDbContext context) {
 
             _context = context;
         

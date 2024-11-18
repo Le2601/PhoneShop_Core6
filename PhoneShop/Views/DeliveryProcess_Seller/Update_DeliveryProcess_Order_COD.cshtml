@@ -137,7 +137,7 @@
             {
                 <input hidden type="text" style="width:400px" required name="DeliveryAddress" placeholder="Địa chỉ nhận hàng" value="@ViewBag.Address_Order" />
             }
-            <input type="submit" value="Xác nhận">
+            <input type="submit" style="width: 100px;margin-right:11px" value="Xác nhận">
         </form>
     }
     else
@@ -145,39 +145,40 @@
         <h3 style="color:blue;text-align:center; font-size:20px">Hoàn tất giao hàng - không thể cập nhật</h3>
     }
 
-    <p style="text-align:center; font-size:20px">Trạng thái giao hàng hiện tại</p>
     <div class="order-status">
+        <p style="text-align:left; font-size:20px">Trạng thái giao hàng hiện tại</p>
+
         @if (IsDeliveryProcess != null && ViewBag.Comfirm_item == 1)
         {
             @if (IsDeliveryProcess.DeliveryStatus == 1)
             {
-                <h5 class="coler_title">Trạng thái đơn hàng: Đang xử lý</h5>
+                <h6 class="coler_title">Trạng thái: Đang xử lý</h6>
             }
             else if (IsDeliveryProcess.DeliveryStatus == 2)
             {
-                <h5 class="coler_title">Trạng thái đơn hàng: Chuẩn bị hàng</h5>
+                <h6 class="coler_title">Trạng thái: Chuẩn bị hàng</h6>
             }
             else if (IsDeliveryProcess.DeliveryStatus == 3)
             {
-                <h5 class="coler_title">Trạng thái đơn hàng: Đang giao hàng</h5>
+                <h6 class="coler_title">Trạng thái: Đang giao hàng</h6>
             }
             else if (IsDeliveryProcess.DeliveryStatus == 4)
             {
-                <h5 class="coler_title">Trạng thái đơn hàng: Đã giao hàng</h5>
+                <h6 class="coler_title">Trạng thái: Đã giao hàng</h6>
             }
             else if (IsDeliveryProcess.DeliveryStatus == 5)
             {
-                <h5 class="coler_title">Trạng thái đơn hàng: Hủy đơn hàng</h5>
+                <h6 class="coler_title">Trạng thái: Hủy đơn hàng</h6>
             }
-
-            <h5>Ngày giao hàng dự kiến: @IsDeliveryProcess.DeliveryDate</h5>
-            <h5>Địa chỉ nhận hàng: @IsDeliveryProcess.DeliveryAddress</h5>
+            <h6>Mã hàng: <a href="~/Order_Seller/Info_Order_Address/@Model.Id">@Model.Id</a> || Mã đơn hàng: @Model.OrderId</h6>
+            <h6>Ngày giao hàng dự kiến: @IsDeliveryProcess.DeliveryDate</h6>
+            <h6>Địa chỉ nhận hàng: @IsDeliveryProcess.DeliveryAddress</h6>
         }
         else
         {
             <h5>Hiện tại chưa có thông tin giao hàng</h5>
         }
     </div>
-
+   
 
 </section>

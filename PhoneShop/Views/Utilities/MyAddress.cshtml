@@ -146,13 +146,13 @@
                 <div >
                     <form method="post" action="/MyAddress/Create">
                         <div class="input-group">
-                            <label>Tên người nhận</label>
-                            <input name="FullName" type="text">
+                            <label>Tên người nhận<span style="color:red">*</span></label>
+                            <input name="FullName" type="text" required>
                         </div>
 
                         <div class="input-group">
-                            <label>Tỉnh</label>
-                            <select name="City" class="form-control tinh">
+                            <label>Tỉnh<span style="color:red">*</span></label>
+                            <select name="City" class="form-control tinh" required>
                                 <option value="" selected>Lựa chọn</option>
                                 @foreach (var i in Model)
                                 {
@@ -162,26 +162,26 @@
                         </div>
 
                         <div class="input-group">
-                            <label>Quận</label>
+                            <label>Quận<span style="color:red">*</span></label>
                             <select name="District" class="form-control quan">
                                 <option value="" selected>Lựa quận</option>
                             </select>
                         </div>
 
                         <div class="input-group">
-                            <label>Phường</label>
+                            <label>Phường<span style="color:red">*</span></label>
                             <select name="Ward" class="form-control phuong">
                                 <option value="" selected>Lựa phường</option>
                             </select>
                         </div>
 
                         <div class="input-group">
-                            <label>Địa chỉ chi tiết (số nhà,...)</label>
-                            <input name="Description" type="text">
+                            <label>Địa chỉ chi tiết (số nhà,...)<span style="color:red">*</span></label>
+                            <input name="Description" type="text" required>
                         </div>
 
                         <div class="input-group">
-                            <label>Loại địa chỉ</label>
+                            <label>Loại địa chỉ<span style="color:red">*</span></label>
                             <select name="AddressType" class="form-control tinh">
                                 <option value="1">Chỗ ở cá nhân</option>
                                 <option value="2">Nơi làm việc</option>
@@ -190,13 +190,13 @@
                         </div>
 
                         <div class="input-group">
-                            <label>Email</label>
-                            <input name="Email" type="text">
+                            <label>Email<span style="color:red">*</span></label>
+                            <input name="Email" type="text" required>
                         </div>
 
                         <div class="input-group">
-                            <label>Số điện thoại</label>
-                            <input name="Phone" type="text">
+                            <label>Số điện thoại<span style="color:red">*</span></label>
+                            <input name="Phone" type="text" required>
                         </div>
 
                        

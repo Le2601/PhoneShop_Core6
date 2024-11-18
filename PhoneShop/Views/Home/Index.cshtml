@@ -12,7 +12,6 @@
 
     List<CategoryModelView> ListLogo = ViewBag.ListLogo;
 
-    List<ImageProductViewModel> IsCourseContents = ViewBag.imageproduct;
 
     List<BannerViewModel> banneViews = ViewBag.ListBanner;
 
@@ -27,12 +26,13 @@
     List<ProductViewModel> New_Product = ViewBag.New_Product;
 
     List<Product> List_CollaborativeFiltering = new List<Product>();
-    List<CollaborativeFiltering_DataProduct> List_CollaborativeFiltering_Rating = new List<CollaborativeFiltering_DataProduct>();
+    List<Product> Recommend = new List<Product>();
+
     if (ViewBag.CheckAccount == 1)
     {
         List_CollaborativeFiltering = ViewBag.CollaborativeFiltering_List;
 
-        List_CollaborativeFiltering_Rating = ViewBag.CollaborativeFiltering_List_Rating;
+        Recommend = ViewBag.Recommend;
     }
 
 
@@ -232,7 +232,7 @@
 {
     @await Html.PartialAsync("_Partial_CollaborativeFiltering",List_CollaborativeFiltering)
 
-    @await Html.PartialAsync("_Partial_CollaborativeFiltering_Rating",List_CollaborativeFiltering_Rating)
+    @await Html.PartialAsync("_Partial_Recommend",Recommend)
 }
 
 

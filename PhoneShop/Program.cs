@@ -30,7 +30,6 @@ using PhoneShop.DI.SupportContent;
 using PhoneShop.DI.SupportDirectory;
 using PhoneShop.DI.Voucher;
 using PhoneShop.Extension;
-using PhoneShop.Extension.CollaborativeFiltering;
 using PhoneShop.Libraries;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
@@ -44,6 +43,7 @@ using System.Configuration;
 using Twilio.Clients;
 using PhoneShop.Services.MoMo;
 using PhoneShop.Services.Collaborative_Filterning;
+using PhoneShop.Extension.Recommend;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,12 +107,11 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
 
         builder.Services.AddScoped<IEvaluate_ProductRepository, Evaluate_ProductRepository>();
 
-        //thuat toan goi y
-        builder.Services.AddScoped<CollaborativeFilteringService>();
+        // goi y
+        builder.Services.AddScoped<Recommend>();
 
-        builder.Services.AddScoped<CollaborativeFiltering_Service_ByRating>();
 
-        // update goi y
+        // collaborative f
 
         builder.Services.AddScoped<ICollaborativeF, CollaborativeF>();
 

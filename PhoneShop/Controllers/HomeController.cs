@@ -29,12 +29,12 @@ using System.Threading.Tasks;
 using PagedList;
 using PagedList.Core;
 using PhoneShop.Extension;
-using PhoneShop.Extension.CollaborativeFiltering;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using PhoneShop.Controllers.Seller;
 using Microsoft.ML;
 using PhoneShop.Services.Collaborative_Filterning;
+using PhoneShop.Extension.Recommend;
 
 namespace PhoneShop.Controllers
 {
@@ -64,9 +64,8 @@ namespace PhoneShop.Controllers
 
         private readonly IEvaluate_ProductRepository _evaluate_ProductRepository;
 
-        private readonly CollaborativeFilteringService _collaborativeFilteringService;
+        private readonly Recommend _recommend;
 
-        private readonly CollaborativeFiltering_Service_ByRating _collaborativeFiltering_Service_ByRating;
 
 
         private readonly ICollaborativeF _collaborativeF;
@@ -83,7 +82,7 @@ namespace PhoneShop.Controllers
             IImageProduct_UserRepository imageProduct_UserRepository,
             ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository,
             IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository
-            , CollaborativeFilteringService collaborativeFilteringService, CollaborativeFiltering_Service_ByRating collaborativeFiltering_Service_ByRating, ICollaborativeF collaborativeF)
+            , Recommend recommend, ICollaborativeF collaborativeF)
         {
             _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
@@ -96,9 +95,9 @@ namespace PhoneShop.Controllers
             _voucher_UserRepository = voucher_UserRepository;
             _order_userRepository = order_UserRepository;
             _evaluate_ProductRepository = evaluate_ProductRepository;
-            _collaborativeFilteringService = collaborativeFilteringService;
-            _collaborativeFiltering_Service_ByRating = collaborativeFiltering_Service_ByRating;
 
+            //
+            _recommend = recommend;
             _collaborativeF = collaborativeF;
 
 
@@ -117,60 +116,42 @@ namespace PhoneShop.Controllers
         public async Task<IActionResult> Index()
         {
 
-            //get cookie auth
-            //neu đăng nhập r mà tắt tab thì sẽ còn lưu auth cookie 
-            //lấy idaccount  auth cookie được tạo khi login  lưu vào session
-           
+            //get cookie auth        
 
-            //check auth cookie and AccountId Session
+           //check auth cookie and AccountId Session
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
             var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            //End check auth cookie and AccountId Session
+                   
 
-
-            //danh sach sp
-            //goi y hom nay  //ramdom product 
-
+                //get list
                 var Random_Product =await _productRepository.RandomProduct();          
-
 
                 ViewBag.New_Product = await _productRepository.LatestProducts();
 
-                //selling take 4     
+                  
                 ViewBag.ListSelling = _productRepository.GetList_Selling();
 
-            //discount
-            ViewBag.ListDiscountProduct = _productRepository.ListDiscountProduct();
+            
+                ViewBag.ListDiscountProduct = _productRepository.ListDiscountProduct();
+           
 
-            //danh sach sp
-
-
-
-            ViewBag.imageproduct =await _imageProduct_UserRepository.ImageProducts();
+            //
 
             ViewBag.ListLogo =await _categoryRepository.CategoryProducts();
 
-            //partial View Banner
             ViewBag.ListBanner =await _bannerRepository.GetAll();
-
-
-
-           
-
-
 
 
             if (taikhoanID != null)
             {
-                
-                var CollaborativeFiltering_List = _collaborativeFilteringService.CollaborativeFiltering(AccountId);
-                var CollaborativeFiltering_List_Rating = _collaborativeFiltering_Service_ByRating.CollaborativeFiltering(AccountId);
                 ViewBag.CheckAccount = 1;
 
+                var CollaborativeFiltering_List = await _collaborativeF.GetRecommended(AccountId);
+                var Recommend = _recommend.CollaborativeFiltering(AccountId);
+
+
                 ViewBag.CollaborativeFiltering_List = CollaborativeFiltering_List;
-                ViewBag.CollaborativeFiltering_List_Rating = CollaborativeFiltering_List_Rating;
-
-
+                ViewBag.Recommend = Recommend;
 
 
             }

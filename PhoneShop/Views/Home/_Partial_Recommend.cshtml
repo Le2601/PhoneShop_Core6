@@ -1,4 +1,4 @@
-﻿@model List<PhoneShop.Data.CollaborativeFiltering_DataProduct>
+﻿@model List<PhoneShop.Models.Product>
 @{
     int tienO = 0;
 }
@@ -12,7 +12,7 @@
                 <div class="latest-product">
                     <br />
                     <div class="product-section-title">
-                        <b style="font-size:2rem">GỢI Ý THEO ĐÁNH GIÁ</b>
+                        <b style="font-size:2rem">DÀNH CHO BẠN</b>
                         <div class="divborder"></div>
                         <p style="font-size:1,25rem">Mua Sắm Thả Ga - Không Lo Về Giá!</p>
                     </div>
@@ -46,28 +46,14 @@
                                         </div>
                                     </div>
 
-                                    <div style="height:50px">
+                                    <div style="height:45px">
                                         <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
                                     </div>
-                                   
-                                    <div id="stars-container">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            if (i <= Math.Floor(item.Rating))
-                                            {
-                                                <i class="fa fa-star filled"></i> <!-- Sao đầy -->
-                                            }
-                                            else if (i == Math.Ceiling(item.Rating))
-                                            {
-                                                <i class="fa fa-star-half-o half-filled"></i> <!-- Sao nửa -->
-                                            }
-                                            else
-                                            {
-                                                <i class="fa fa-star-o"></i> <!-- Sao rỗng -->
-                                            }
-                                        }
-                                    </div>
-                                  
+
+                                    <h2 class="blink-text" style="margin:0px;font-size: 12px;color: #5a88ca">Còn @item.Quantity suất</h2>
+
+
+
                                     <div class="product-carousel-price">
 
 

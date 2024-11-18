@@ -30,6 +30,7 @@ namespace PhoneShop.Services.Collaborative_Filterning
 
             //do tuong dong user voi tung nguoi
             var Point_UserAndIndiUser = new List<(int IndiUser_Id, double Point)>();
+
             foreach (var group in GroupedUsers)
             {
 

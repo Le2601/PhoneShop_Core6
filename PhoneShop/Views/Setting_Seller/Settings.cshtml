@@ -67,7 +67,7 @@
                                     <form asp-action="DeleteBooth" asp-controller="Setting_Seller" method="post" onsubmit="return confirmDeletion();">
                                         <input name="boothid" value="@Model.Id" hidden />
                                         <input name="accountid" value="@Model.AccountId" hidden />
-                                        <input placeholder="Nhập" type="text" name="content" />
+                                        <textarea name="content" placeholder="Nhập..." rows="4" cols="50"></textarea>
                                         <button class="btn btn-primary">Gửi</button>
                                     </form>
 

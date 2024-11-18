@@ -40,6 +40,35 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
+      .coupon-detail {
+            display: inline-block;
+            background-color: #f69113;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            padding: 5px;
+            border-radius: 5px;
+            position: relative;
+        }
+        .coupon-detail:before, .coupon-detail:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            background-color: #fdecec;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        .coupon-detail:before {
+            left: -5px;
+        }
+        .coupon-detail:after {
+            right: -5px;
+        }
+
+
+
     .title_detail{
         background: rgba(0, 0, 0, .02);
         color: rgba(0, 0, 0, .87);
@@ -224,8 +253,23 @@
                                     </div>
                                     <p class="detail-label">Hãng: <a style="color:#5a88ca">@ViewBag.getCategoryTitle</a></p>
                                     <br />
+                                    @if(Model.Discount > 0)
+                                    {
+                                       
+                                          //format discount
+                                            decimal discount = 0;
+                                            discount = (Model.Price - Model.Discount) / Model.Price * 100;
+                                            discount = Math.Round(discount);
+                                            //format discount
+                                        
+                                             <p class="detail-label">Giảm giá: <span  class="coupon-detail">@discount%</span></p>
+                                           
+                                             
+                                    }
                                    
-                                     <p class="detail-label"><i class="fas fa-shipping-fast" style="color: #74C0FC;"></i>Vận chuyển: <a href="/voucher.html" style="color:#5a88ca">Miễn phí vận chuyển</a></p>
+
+                                         <br />
+                                    <p class="detail-label">Màu: @Ispecifi.Color</p>
 
                                         <br />
                                        
@@ -293,22 +337,55 @@
                      @await Html.PartialAsync("_PartialBoothInfor",GetBooth)
                     <div class="row" style="min-height:500px;background:white;padding:10px">
                         <div class="col-sm-5">
-                            <p class="title_detail">THÔNG SỐ SẢN PHẨM</p>
-                            <p><strong style="color:black">Camera:</strong> @Ispecifi.Camera</p>
-                            <p><strong style="color:black">Bộ xử lý:</strong> @Ispecifi.Processor</p>
-                            <p><strong style="color:black">Pin:</strong> @Ispecifi.Battery</p>
-                            <p><strong style="color:black">Kết nối:</strong> @Ispecifi.Connectivity</p>
-                            <p><strong style="color:black">Kích thước:</strong> @Ispecifi.DimensionsAndeight</p>
-                            <p><strong style="color:black">Thiết kế:</strong> @Ispecifi.Display</p>
-                            <p><strong style="color:black">Lưu trữ:</strong> @Ispecifi.InternalStorage</p>
-                            <p><strong style="color:black">Hệ điều hành:</strong> @Ispecifi.OperatingSystem</p>
-                            <p><strong style="color:black">Chống nước:</strong> @Ispecifi.WaterResistance</p>
+                            <p class="title_detail">THÔNG SỐ SẢN PHẨM</p>                          
+                             <table class="table table-bordered">                               
+                                <tbody>
+                                    <tr>
+                                        <td>Camera</td>
+                                        <td>@Ispecifi.Camera</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bộ xử lý</td>
+                                        <td>@Ispecifi.Processor</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pin</td>
+                                        <td>@Ispecifi.Battery</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kết nối</td>
+                                        <td>@Ispecifi.Connectivity</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kích thước</td>
+                                        <td>@Ispecifi.DimensionsAndeight</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thiết kế</td>
+                                        <td>@Ispecifi.Display</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lưu trữ</td>
+                                        <td>@Ispecifi.InternalStorage</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hệ điều hành</td>
+                                        <td>@Ispecifi.OperatingSystem</td>
+                                    </tr>
+                                     <tr>
+                                        <td>Chống nước</td>
+                                        <td>@Ispecifi.WaterResistance</td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                         </div>
                         <div class="col-sm-7" style="max-height: 500px;overflow-y: auto;">
                             <p class="title_detail">MÔ TẢ</p>
                             <p>@Html.Raw(Model.Description)</p>
                         </div>
+
+
                     </div>
                             
                     

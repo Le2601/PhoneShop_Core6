@@ -38,7 +38,7 @@
             <h3 class="card-title">Danh sách voucher</h3>
 
             <div class="card-tools">
-                <a href="/admin/VoucherAd/Create" class="btn btn-danger">Thêm mới</a>
+                <a href="/admin/VoucherAd/Create" ><i class="fas fa-folder-plus fa-lg" style="color: #046df6;"></i></a>
             </div>
         </div>
 
@@ -98,9 +98,15 @@
                                 @Html.DisplayFor(modelItem => item.IsActive)
                             </td>
                             <td>
-                                <a class="btn btn-success" asp-action="Update" asp-route-id="@item.Id">Chỉnh sửa</a> |
+                                <a class="btn btn-success" asp-action="Update" asp-route-id="@item.Id">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                </a>
 
-                                <a href="#" data-id="@item.Id" class="btnDelete btn btn-success">Xóa</a>
+                                <a href="#" data-id="@item.Id" class="btnDelete btn btn-danger">
+                                    <i class="fas fa-trash">
+                                    </i>
+                                </a>
                             </td>
                         </tr>
                     }

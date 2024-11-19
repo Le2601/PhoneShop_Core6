@@ -100,14 +100,14 @@
                                                 Số điện thoại
                                             </th>
                                             <th>
-                                                Email
+                                                Email/Tài khoản
                                             </th>
                                             <th>
                                                 Ngày tạo
                                             </th>
 
 
-                                            </th>
+                                            
                                            
                                             <th></th>
                                         </tr>
@@ -132,7 +132,10 @@
 
                                              
                                                 <td>
-                                                   
+                                                    <a href="/admin/Accounts/ViewAccount/@item.Id"><i class="fas fa-eye fa-lg" style="color: #74C0FC;"></i></a>
+                                                    <a class="btnDeletee" data-id="@item.Id"> 
+                                                        <i class="fas fa-backspace" style="color: #e22712;"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         }
@@ -225,9 +228,41 @@
 
 
 <!-- /.content -->
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDeletee', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("bạn muốn xóa chứ");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/admin/Accounts/DeleteAccount',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else {
+                                alert("Xóa thất bại - tài khoản đang mua hàng")
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
 
 
-
+}
 
 
 

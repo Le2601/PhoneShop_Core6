@@ -280,21 +280,39 @@ namespace PhoneShop.Areas.Admin.Controllers
         }
 
 
-        
-        //public IActionResult DelAll()
-        //{
-        //    var items = _context.Accounts.Where(x=> x.RoleId == 3 || x.RoleId == 14).ToList();
+        public IActionResult ViewAccount(int Id)
+        {
 
-        //    foreach (var item in items)
-        //    {
-        //        _context.Accounts.Remove(item);
+            var item = _context.Accounts.Where(x => x.Id == Id).FirstOrDefault();
 
-        //    }
-        //    _context.SaveChanges();
+            ViewBag.ListOrder = _context.Orders.Where(x=> x.AccountId == Id).ToList();
+
+            return View(item);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteAccount(int id)
+        {
+
+            var CheckOrder = _context.Orders.Where(x => x.AccountId == id).ToList().Count();
+
+            if(CheckOrder == 0)
+            {
+                var GetAccount = _context.Accounts.Where(x => x.Id == id).FirstOrDefault()!;
+
+                _context.Accounts.Remove(GetAccount);
+                _context.SaveChanges();
 
 
-        //    return Json(items);
-        //}
+                return Json(new { success = true });
+
+            }
+
+
+
+
+            return Json( new { success = false });
+        }
 
     }
 }

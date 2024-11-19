@@ -94,11 +94,16 @@
                                                     @{
                                                         if (item.PaymentMethod == 2)
                                                         {
-                                                            <td>Thanh toán trực tuyến</td>
+                                                            <td>VnPay</td>
+                                                        }
+                                                        else if (item.PaymentMethod == 1)
+                                                        {
+                                                            <td>COD</td>
                                                         }
                                                         else
                                                         {
-                                                            <td>COD</td>
+                                                            <td>Momo</td>
+
                                                         }
                                                     }
 

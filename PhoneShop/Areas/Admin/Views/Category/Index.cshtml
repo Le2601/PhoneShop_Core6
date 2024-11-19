@@ -34,7 +34,7 @@
             <h3 class="card-title">Danh sách danh mục</h3>
 
             <div class="card-tools">
-                <a href="/admin/Category/Create" class="btn btn-danger">Thêm mới</a>
+                <a href="/admin/Category/Create"><i class="fas fa-folder-plus fa-lg" style="color: #046df6;"></i></a>
             </div>
         </div>
         <div class="card-body">
@@ -67,8 +67,14 @@
                                     <img style="width:270px; height: 120px" src="~/images/Category/@item.Image">
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" href="/admin/Category/Edit/@item.Id">Sửa</a>
-                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">Xóa</a>
+                                    <a class="btn btn-danger" href="/admin/Category/Edit/@item.Id">
+                                        <i class="fas fa-pencil-alt">
+                                        </i>
+                                    </a>
+                                    <a class="btn btn-outline-primary btnDelete" data-id="@item.Id" href="#">
+                                        <i class="fas fa-trash">
+                                        </i>
+                                    </a>
                                 </td>
                             </tr>
                         }

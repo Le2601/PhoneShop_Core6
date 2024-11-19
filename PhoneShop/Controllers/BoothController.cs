@@ -22,8 +22,9 @@ namespace PhoneShop.Controllers
 
             _userRepository = product_UserRepository;
         }
-       
-        
+
+        [AllowAnonymous]
+
         [Route("/gian-hang.html")]
         
         public IActionResult Index()
@@ -51,7 +52,7 @@ namespace PhoneShop.Controllers
 
         }
 
-
+        [AllowAnonymous]
         [Route("/detail_booth/{Id}")]
 
         public IActionResult BoothInfo(int Id)

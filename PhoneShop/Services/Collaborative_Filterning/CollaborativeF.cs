@@ -65,7 +65,7 @@ namespace PhoneShop.Services.Collaborative_Filterning
                 .Distinct() // bo trung nhau
                 .ToListAsync();
 
-            var RecommendedProducts = await _context.Products.Where(x => RecommendedProductIds.Contains(x.Id)).ToListAsync();
+            var RecommendedProducts = await _context.Products.Where(x => RecommendedProductIds.Contains(x.Id) && x.IsActive == true && x.IsApproved == true).ToListAsync();
 
             return RecommendedProducts;
 

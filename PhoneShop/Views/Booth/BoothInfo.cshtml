@@ -218,9 +218,8 @@
             </div>
            
 
-           
-
-
+            @if(ViewBag.CheckSeller == 0)
+            {
                 @if (ViewBag.CheckFollow == 0)
                 {
                     <div class="follow-btn-container">
@@ -232,12 +231,24 @@
                 else
                 {
                     <div class="follow-btn-container">
-                    <a href="/Booth/UnFollowBooth/@Booth.BoothId" style="text-decoration: none;" class="follow-btn">
+                        <a href="/Booth/UnFollowBooth/@Booth.BoothId" style="text-decoration: none;" class="follow-btn">
                             <i class="fas fa-plus"></i> Đang theo dõi
                         </a>
                     </div>
                 }
 
+            }
+            else
+            {
+                <div class="follow-btn-container">
+                    <a href="/kenh-nguoi-ban.html" style="text-decoration: none;" class="follow-btn">
+                        Gian hàng của bạn
+                    </a>
+                </div>
+            }
+
+
+               
             
 
            

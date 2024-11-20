@@ -1,4 +1,6 @@
-﻿@model IEnumerable<PhoneShop.Models.Product>
+﻿﻿@using PagedList.Core.Mvc
+@using System.Globalization;
+@model PagedList.Core.IPagedList<PhoneShop.Models.Product>
 @{
     ViewData["Title"] = "ListProductFollow";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -134,17 +136,16 @@
 <div class="profile-container">
     <h1 class="profile-header">Sản phẩm theo dõi</h1>
 
-    <div class="row">
+    <div class="row" >
         
            @foreach (var item in Model)
             {
-                <div class="col-md-4 col-sm-6 mb-4">
+                <div class="col-md-4 col-sm-6 mb-4" >
 
-                <div class="card">
+                <div class="card" style="text-align:center;padding-bottom:5px">
                     <img src="~/images/Product/@item.ImageDefaultName" style="height:221px; width:221px" />
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>
-                        <p class="card-text">Mô tả sản phẩm 1</p>
                         <div class="product-carousel-price">
                             @{
                                 if (item.Discount == 0 || item.Discount == null || item.Discount is string)
@@ -177,14 +178,21 @@
                             }
                         </div>
                         <a href="#" class="btn btn-primary">Mua Ngay</a>
+                        <a href="#" class="btn btn-primary">Xem chi tiết</a>
+
                     </div>
                 </div>
                 </div>
             }
+
        
-
-    
     </div>
-
+    @*  note *@
+    <div aria-label="Page navigation example">
+        <ul class="pagination">
+            <pager class="pager-container" list="@Model" asp-controller="Utilities" asp-action="ListProductFollow" />
+        </ul>
+    </div>
+    @*  note *@
 
 </div>

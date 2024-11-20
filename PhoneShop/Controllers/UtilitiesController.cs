@@ -9,6 +9,7 @@ using PhoneShop.DI.DI_User.Voucher_User;
 using PhoneShop.Models;
 using PhoneShop.ModelViews;
 using System.Security.Claims;
+using PagedList.Core;
 
 namespace PhoneShop.Controllers
 {
@@ -221,7 +222,7 @@ namespace PhoneShop.Controllers
         }
 
 
-        public IActionResult ListProductFollow()
+        public async Task<ActionResult<IEnumerable<Product>>> ListProductFollow(int? page)
         {
             //check auth cookie and AccountId Session
             int AccountId = Public_MethodController.GetAccountId(HttpContext);
@@ -233,12 +234,17 @@ namespace PhoneShop.Controllers
 
 
 
-            var GetListP = _dbContext.Products.Where(x => CheckFollow.Contains(x.Booth_InformationId) && x.IsActive == true && x.IsApproved == true).ToList();
+            var GetListP = _dbContext.Products.Where(x => CheckFollow.Contains(x.Booth_InformationId) && x.IsActive == true && x.IsApproved == true);
 
 
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+
+            var pageSize = 6;
+
+            PagedList<Product> models = new PagedList<Product>(GetListP, pageNumber, pageSize);
 
 
-            return View(GetListP);
+            return View(models);
 
 
 

@@ -62,6 +62,19 @@ namespace PhoneShop.Controllers
             //End check auth cookie and AccountId Session
 
 
+
+
+            ViewBag.CheckSeller = 0;
+
+            var CheckSeller = _context.Booth_Information.Where(x => x.Id == Id && x.AccountId == AccountId ).FirstOrDefault() ;
+            if(CheckSeller != null)
+            {
+                ViewBag.CheckSeller = 1;
+            }
+
+
+
+
             ViewBag.Booth = (
                from b in _context.Booth_Information.Where(x => x.Id == Id)
                join t in _context.Booth_Trackings on b.Id equals t.BoothId

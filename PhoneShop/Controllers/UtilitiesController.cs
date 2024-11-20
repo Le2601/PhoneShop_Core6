@@ -219,6 +219,31 @@ namespace PhoneShop.Controllers
 
             return View(items);
         }
+
+
+        public IActionResult ListProductFollow()
+        {
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
+
+
+            var CheckFollow = _dbContext.UserFollows.Where(x => x.UserID == AccountId).Select(x=> x.BoothID).ToHashSet();
+
+
+
+            var GetListP = _dbContext.Products.Where(x => CheckFollow.Contains(x.Booth_InformationId) && x.IsActive == true && x.IsApproved == true).ToList();
+
+
+
+
+            return View(GetListP);
+
+
+
+        }
+
         public IActionResult GetDistricts(int id)
         {
             var iCity = _dbContext.Districts.Where(x => x.IdCity == id).ToList();

@@ -150,7 +150,9 @@
 
             <b class="fas fa-dollar-sign fa-lg pulse" style="color: #d41111; margin-bottom: 10px;"></b></b><span><b>Doanh Thu Hôm Nay:</b> <span style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)@TotalPrice_SelectDate.TotalRevenue)</span></span> <br />
             <b class="fas fa-dollar-sign fa-lg pulse" style="color: #d41111;margin-bottom:10px"></b><span><b>Tổng Doanh Thu:</b> <span style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.TotalRevenue)</span></span> <br />
+            <b class="fas fa-dollar-sign fa-lg pulse" style="color: #d41111;margin-bottom:10px"></b><span><b>Tổng Lợi nhuận:</b> <span style="color:red">@PhoneShop.Extension.Extension.ToVnd((double)ViewBag.TotalProfit)</span></span> <br />
 
+            
 @*             <p style="color:#d41111;margin-bottom:10px">Hôm Nay Có 3 Đơn Hàng Mới</p>
  *@            @if (ViewBag.OrderNotifi > 0)
             {

@@ -11,7 +11,7 @@
     var tienO = 0;
 
     List<ProductViewModel> BestSellings = ViewBag.BestSelling;
-
+    List<ProductViewModel> Outstanding = ViewBag.Outstanding;
     List<Voucher> ListVoucher = ViewBag.ListVoucher;
 
 
@@ -295,6 +295,8 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#" class="menu-item" data-target="#home">Tất Cả Sản Phẩm</a></li>
         <li><a href="#" class="menu-item" data-target="#about">Bán Chạy</a></li>
+        <li><a href="#" class="menu-item" data-target="#noibat">Nổi Bật</a></li>
+
       
     </ul>
 
@@ -440,6 +442,103 @@
                                     }
                                 }
                             </div>
+                            <div class="product-carousel-price">
+
+
+                                @{
+                                    if (item.Discount == 0 || item.Discount == null || item.Discount is string)
+                                    {
+                                        <ins>
+                                            @{
+
+
+
+
+
+
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                    else
+                                    {
+                                        <ins>
+                                            @{
+
+
+
+
+
+                                                string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
+
+
+                                            }
+                                            @formattedPrice
+                                        </ins>
+                                    }
+                                }
+
+                                <del>
+                                    @{
+                                        string formattedPrice2;
+                                        if (item.Discount > 0)
+                                        {
+
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                        }
+                                        else
+                                        {
+
+
+                                            formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)tienO);
+                                        }
+
+
+                                    }
+                                    @formattedPrice2
+
+
+
+
+                                </del>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            }
+
+            <!-- Các sản phẩm tiếp theo -->
+        </div>
+    </div>
+    <div id="noibat" class="content">
+        <div class="row" style="background:white">
+
+            <div style="margin-bottom: 10px;padding-left: 13px;" class="section-title">
+                <h3 style="text-align: left; padding:10px;">Sản Phẩm Nổi Bật </h3>
+            </div>
+
+
+            @if (Model != null)
+            {
+                foreach (var item in Outstanding)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" style="padding-bottom:10px">
+                        <div class="single-product">
+                            <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
+                                @*                                         <img src="~/User/img/product-1.jpg" alt="">
+                        *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:296px; width:220px" />
+
+                                <div class="product-hover">
+                                    <a class="add-to-cart-link confirmAdd" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                    <a href="/chi-tiet/@item.Alias-@item.Id" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                                </div>
+                            </div>
+                            <div style="height:45px">  <h2><a href="/chi-tiet/@item.Alias-@item.Id">@item.Title</a></h2></div>
+
+                           
                             <div class="product-carousel-price">
 
 

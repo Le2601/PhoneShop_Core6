@@ -104,6 +104,7 @@ namespace PhoneShop.Controllers
             //best selling
             ViewBag.BestSelling = _userRepository.ListProductByBooth_BestSelling(Id);
 
+            ViewBag.Outstanding = _userRepository.ListProductByBooth_Outstanding(Id);
 
             //check follow        
             var CheckFolow = _context.UserFollows.Where(x => x.BoothID == Id && x.UserID == AccountId).FirstOrDefault();

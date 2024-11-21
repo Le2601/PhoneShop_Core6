@@ -27,14 +27,14 @@ namespace PhoneShop.DI.DI_User.Product_User
 
 
 
-        public Task<List<ProductViewModel>> ProductByCategory(int categoryId);
+        public Task<IEnumerable<ProductViewModel>> ProductByCategory(int categoryId);
 
 
 
         public Task<List<ProductViewModel>> GetProduct_RecentPosts();
 
 
-        public Task<List<ProductViewModel>> Search_Product(string value_search);
+        public Task<IEnumerable<ProductViewModel>> Search_Product(string value_search);
 
 
        

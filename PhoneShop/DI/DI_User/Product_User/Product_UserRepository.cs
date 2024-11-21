@@ -233,7 +233,7 @@ namespace PhoneShop.DI.DI_User.Product_User
             return items;
         }
 
-        public async Task<List<ProductViewModel>> ProductByCategory(int categoryId)
+        public async Task<IEnumerable<ProductViewModel>> ProductByCategory(int categoryId)
         {
 
             var item_Model = _context.Products.Where(x => x.CategoryId == categoryId && x.IsActive == true && x.IsApproved == true).Select(x => new ProductViewModel
@@ -245,7 +245,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Price = x.Price,
                 Discount = x.Discount,
                
-            }).ToList();
+            });
 
             
 
@@ -314,9 +314,9 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         }
 
-        public async Task<List<ProductViewModel>> Search_Product(string value_search)
+        public async Task<IEnumerable<ProductViewModel>> Search_Product(string value_search)
         {
-            var items =await _context.Products.Where(x => x.Title.Contains(value_search) && x.IsApproved == true && x.IsActive == true).Select(x=> new ProductViewModel
+            var items =_context.Products.Where(x => x.Title.Contains(value_search) && x.IsApproved == true && x.IsActive == true).Select(x=> new ProductViewModel
             {
                 Id=x.Id,
                 Title = x.Title,
@@ -325,7 +325,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 ImageDefaultName = x.ImageDefaultName,
                 Alias = x.Alias,
                 Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
-            }).OrderBy(x => x.Id).ToListAsync();
+            }).OrderBy(x => x.Id);
             return items;
         }
 

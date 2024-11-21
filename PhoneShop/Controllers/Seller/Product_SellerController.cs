@@ -37,6 +37,23 @@ namespace PhoneShop.Controllers.Seller
             ViewBag.Category = new SelectList(_context.Categories.ToList(), "Id", "Title");
             return View(items);
         }
+
+        public IActionResult Product_Outstanding()
+        {
+
+            //check auth cookie and AccountId Session
+            int AccountId = Public_MethodController.GetAccountId(HttpContext);
+            //End check auth cookie and AccountId Session
+
+
+            //noi bat
+            var items = _context.Products.Where(x => x.Create_Id == AccountId && x.IsOutstanding == true).ToList();
+
+           
+
+            return View(items);
+
+        }
         public IActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Title");
@@ -501,6 +518,32 @@ namespace PhoneShop.Controllers.Seller
 
             }
             _context.Products.Update(checkActive);
+            _context.SaveChanges();
+
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult UpdateOutstanding(int id)
+        {
+            var checkOutstanding = _context.Products.Where(x => x.Id == id).First();
+
+            if (checkOutstanding == null)
+            {
+                return Json(new { success = false });
+            }
+            if (checkOutstanding.IsOutstanding == true)
+            {
+                checkOutstanding.IsOutstanding = false;
+
+            }
+            else
+            {
+                checkOutstanding.IsOutstanding = true;
+
+            }
+            _context.Products.Update(checkOutstanding);
             _context.SaveChanges();
 
 

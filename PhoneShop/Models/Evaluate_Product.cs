@@ -13,7 +13,6 @@ namespace PhoneShop.Models
         public  int Purchases { get; set; } = 0;
 
         //đánh giá sản phẩm theo điểm 
-        public double ScoreEvaluation { get; set; } = 0;
 
         public int ProductId { get; set; }
 

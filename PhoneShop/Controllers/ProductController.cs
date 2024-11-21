@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using PhoneShop.Controllers.Seller;
 using PhoneShop.Data;
 using PhoneShop.DI.DI_User.Category_User;
@@ -184,28 +185,43 @@ namespace PhoneShop.Controllers
 
 
         [Route("/{Alias}-{Id}")]
-        public async Task<IActionResult> ProductByCategory(string alias,int Id)
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> ProductByCategory(string alias,int Id, int? page)
         {
 
             ViewBag.GetAliasCategory =await _CategoryRepository.GetAliasCategoryId(Id);
 
             var item = await _userRepository.ProductByCategory(Id);
 
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
 
-            return View(item);
+            var pageSize = 10;
+
+            PagedList<ProductViewModel> models = new PagedList<ProductViewModel>(item, pageNumber, pageSize);
+
+
+            return View(models);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Search_Product(IFormCollection form)
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> Search_Product(IFormCollection form, int? page)
         {
             string search_value = form["search_value"];
 
             var check_value = await _userRepository.Search_Product(search_value);
 
+
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+
+            var pageSize = 10;
+
+            PagedList<ProductViewModel> models = new PagedList<ProductViewModel>(check_value, pageNumber, pageSize);
+
+
+
             ViewBag.count_value = check_value.Count();
             ViewBag.value_search_form = search_value;
-            return View(check_value);
+            return View(models);
 
 
 

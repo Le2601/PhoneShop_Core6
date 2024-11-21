@@ -32,6 +32,9 @@ namespace PhoneShop.Models
         //kiem duyet
         public Boolean IsApproved { get; set; }
 
+        //noi bat
+        public Boolean IsOutstanding { get; set; }
+
         [Display(Name = "Tiêu đề")]
         [Required(ErrorMessage = "Không thể bỏ trống")]
         public string Title { get; set; }

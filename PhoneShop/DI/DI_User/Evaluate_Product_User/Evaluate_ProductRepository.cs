@@ -62,7 +62,6 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
             {
                 Id = item.Id,
                 Purchases = item.Purchases,
-                ScoreEvaluation = item.ScoreEvaluation,
             };
             return IVM;
         }
@@ -73,7 +72,6 @@ namespace PhoneShop.DI.DI_User.Evaluate_Product_User
             {
                 Id = x.Id,
                 Purchases = x.Purchases,
-                ScoreEvaluation = x.ScoreEvaluation,
             }).ToListAsync();
             return items;
         }

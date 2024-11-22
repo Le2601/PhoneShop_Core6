@@ -188,6 +188,8 @@ namespace PhoneShop.Controllers
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> ProductByCategory(string alias,int Id, int? page)
         {
 
+            ViewBag.UrlView = Id;
+
             ViewBag.GetAliasCategory =await _CategoryRepository.GetAliasCategoryId(Id);
 
             var item = await _userRepository.ProductByCategory(Id);
@@ -201,6 +203,72 @@ namespace PhoneShop.Controllers
 
             return View(models);
         }
+        [Route("/s/{View}-{Id}")]
+        public async Task<IActionResult> ProductByCategory_View(string view, int Id)
+        {
+            ViewBag.UrlView = Id;
+
+            var itemModel = new List<ProductViewModel> { };
+
+            ViewBag.GetAliasCategory = await _CategoryRepository.GetAliasCategoryId(Id);
+
+           
+
+            //cao > thap
+            if (view == "desc")
+            {
+                itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true).OrderByDescending(x=> x.Price).Select(x => new ProductViewModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Alias = x.Alias,
+                    ImageDefaultName = x.ImageDefaultName,
+                    Price = x.Price,
+                    Discount = x.Discount,
+
+                }).ToList();
+
+            }
+            else if (view == "asc")
+            {
+                itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true).OrderBy(x => x.Price).Select(x => new ProductViewModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Alias = x.Alias,
+                    ImageDefaultName = x.ImageDefaultName,
+                    Price = x.Price,
+                    Discount = x.Discount,
+
+                }).ToList();
+
+            }
+            else
+            {
+                decimal PriceFormat = decimal.Parse(view);
+
+                 itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true && x.Price <= PriceFormat).Select(x => new ProductViewModel
+                 {
+                     Id = x.Id,
+                     Title = x.Title,
+                     Alias = x.Alias,
+                     ImageDefaultName = x.ImageDefaultName,
+                     Price = x.Price,
+                     Discount = x.Discount,
+
+                 }).ToList();
+
+
+            }
+
+
+            
+
+
+            return View(itemModel);
+        }
+
+
 
 
         [HttpPost]

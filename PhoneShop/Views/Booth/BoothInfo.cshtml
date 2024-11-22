@@ -308,7 +308,7 @@
             </div>
 
 
-            @if (Model != null)
+            @if (Model.Count > 0 )
             {
                 foreach (var item in Model)
                 {
@@ -393,8 +393,11 @@
                     </div>
                 }
             }
+            else
+            {
+                <div class="container" style="color:red">Hiện chưa có sản phẩm</div>
+            }
 
-            <!-- Các sản phẩm tiếp theo -->
         </div>
     </div>
 
@@ -406,7 +409,7 @@
             </div>
 
 
-            @if (Model != null)
+            @if (BestSellings.Count > 0)
             {
                 foreach (var item in BestSellings)
                 {
@@ -509,6 +512,10 @@
                     </div>
                 }
             }
+            else
+            {
+                <div class="container" style="color:red">Hiện chưa có sản phẩm</div>
+            }
 
             <!-- Các sản phẩm tiếp theo -->
         </div>
@@ -519,9 +526,9 @@
             <div style="margin-bottom: 10px;padding-left: 13px;" class="section-title">
                 <h3 style="text-align: left; padding:10px;">Sản Phẩm Nổi Bật </h3>
             </div>
+         
 
-
-            @if (Model != null)
+            @if (Outstanding.Count > 0)
             {
                 foreach (var item in Outstanding)
                 {
@@ -605,6 +612,10 @@
                         </div>
                     </div>
                 }
+            }
+            else
+            {
+                <div class="container" style="color:red">Hiện chưa có sản phẩm</div>
             }
 
             <!-- Các sản phẩm tiếp theo -->

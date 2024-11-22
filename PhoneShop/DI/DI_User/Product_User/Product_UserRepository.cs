@@ -15,6 +15,11 @@ namespace PhoneShop.DI.DI_User.Product_User
             _context = context;
         }
 
+
+
+
+
+        //get product home
         public async Task<List<ProductViewModel>> RandomProduct()
         {
             var items = await _context.Products.Where(x=> x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
@@ -35,63 +40,54 @@ namespace PhoneShop.DI.DI_User.Product_User
 
 
 
-            }).OrderBy(x => Guid.NewGuid()).Take(8).ToListAsync();
+            }).OrderBy(x => Guid.NewGuid()).Take(10).ToListAsync();
 
             return items;
         }
-
-        public int Check_Quantity_Product(List<CartItemModel> item)
+        //moi
+        public async Task<List<ProductViewModel>> LatestProducts()
         {
-            foreach (var i in item)
-            {
-
-                var IProductById = _context.Products.Where(x => x.Id == i.ProductId).FirstOrDefault()!;
-
-                if (i.Quantity > IProductById.Quantity)
-                {
-                    return 0;
-                }
 
 
-            }
-            return 1;
-        }
 
-        public void Delete_Product_Quantity_Zero(int Id_Product)
-        {
-            var Check_Product = _context.Products.Where(x=> x.Id ==  Id_Product).FirstOrDefault()!;
-            if(Check_Product.Quantity <= 0 )
-            {
-                _context.Products.Remove(Check_Product);
-                _context.SaveChanges();
-            }
-           
-        }
-
-        public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
-        {
-            var items = await _context.Products.Where(x => x.CategoryId == IdCategory && x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
+            var items = await _context.Products.Where(x => x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
             {
                 Id = x.Id,
+                CategoryId = x.CategoryId,
                 Title = x.Title,
+                Alias = x.Alias,
                 Price = x.Price,
                 Discount = x.Discount,
+                Quantity = x.Quantity,
+                Description = x.Description,
+                Create_at = x.Create_at,
+                Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
-                Alias = x.Alias,
                 Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
-            }).ToListAsync();
+
+
+
+
+
+            }).Take(10).OrderByDescending(x => x.Id).ToListAsync();
+
+
+
+
+
+
 
             return items;
         }
-
+        //ban chay
         public List<ProductViewModel> GetList_Selling()
         {
             var item_Model = (
-                   from p in _context.Products.Where(x=> x.IsApproved == true && x.IsActive == true)
+                   from p in _context.Products.Where(x => x.IsApproved == true && x.IsActive == true)
                    join e in _context.Evaluate_Products.OrderByDescending(x => x.Purchases) on p.Id equals e.ProductId
                    select new PhoneShop.ModelViews.ProductViewModel
                    {
-                       Id = p.Id,   
+                       Id = p.Id,
                        Title = p.Title,
                        Alias = p.Alias,
                        ImageDefaultName = p.ImageDefaultName,
@@ -115,10 +111,56 @@ namespace PhoneShop.DI.DI_User.Product_User
                     Discount = g.First().Discount,
                     Quantity_Purchase = g.Sum(o => o.Quantity_Purchase),
                     Rating = g.First().Rating
-                }).Take(5).OrderByDescending(g=> g.Quantity_Purchase).ToList();
+                }).Take(5).OrderByDescending(g => g.Quantity_Purchase).ToList();
 
             return GetData;
         }
+        //giam gia
+        public List<ProductViewModel> ListDiscountProduct()
+        {
+            var items = _context.Products.Where(x => x.IsActive == true && x.IsApproved == true)
+                  .Where(x => x.Discount > 0)
+                  .Select(x => new ProductViewModel
+                  {
+                      Id = x.Id,
+                      CategoryId = x.CategoryId,
+                      Title = x.Title,
+                      Alias = x.Alias,
+                      Price = x.Price,
+                      Discount = x.Discount,
+                      Quantity = x.Quantity,
+                      Description = x.Description,
+                      Create_at = x.Create_at,
+                      Update_at = x.Update_at,
+                      ImageDefaultName = x.ImageDefaultName,
+                      Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
+                  })
+                  .OrderByDescending(x => (x.Price - x.Discount) / x.Price * 100)
+                  .Take(10).ToList();
+
+            return items;
+        }
+
+        //
+
+
+     
+
+        public async Task<List<ProductViewModel>> GetListRelatedProduct(int IdCategory)
+        {
+            var items = await _context.Products.Where(x => x.CategoryId == IdCategory && x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Price = x.Price,
+                Discount = x.Discount,
+                ImageDefaultName = x.ImageDefaultName,
+                Alias = x.Alias,
+                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
+            }).ToListAsync();
+
+            return items;
+        }    
 
         public async Task<List<ProductViewModel>> GetProduct_RecentPosts()
         {
@@ -198,40 +240,8 @@ namespace PhoneShop.DI.DI_User.Product_User
             return items;
         }
 
-        public async Task<List<ProductViewModel>> LatestProducts()
-        {
 
-
-
-            var items = await _context.Products.Where(x => x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
-            {
-                Id = x.Id,
-                CategoryId = x.CategoryId,
-                Title = x.Title,
-                Alias = x.Alias,
-                Price = x.Price,
-                Discount = x.Discount,
-                Quantity = x.Quantity,
-                Description = x.Description,
-                Create_at = x.Create_at,
-                Update_at = x.Update_at,
-                ImageDefaultName = x.ImageDefaultName,
-                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
-                
-
-
-
-
-            }).Take(5).OrderByDescending(x => x.Id).ToListAsync();
-
-            
-
-
-            
-
-
-            return items;
-        }
+        
 
         public async Task<IEnumerable<ProductViewModel>> ProductByCategory(int categoryId)
         {
@@ -297,31 +307,14 @@ namespace PhoneShop.DI.DI_User.Product_User
 
             return item;
         }
-
-        public void Reduced_In_Stock(int Id_Product, int Get_Quantity_Product_Order)
-        {
-            var Reduced_In_Stock = _context.Products.Where(x => x.Id == Id_Product && x.IsApproved == true).FirstOrDefault()!;
-            Reduced_In_Stock.Quantity = Reduced_In_Stock.Quantity - Get_Quantity_Product_Order;
-
-            if(Reduced_In_Stock.Quantity <= 0)
-            {
-                Reduced_In_Stock.IsActive = false;
-            }
-
-            _context.Products.Update(Reduced_In_Stock);
-            _context.SaveChanges();
-            
-
-        }
-
         public async Task<IEnumerable<ProductViewModel>> Search_Product(string value_search)
         {
-            var items =_context.Products.Where(x => x.Title.Contains(value_search) && x.IsApproved == true && x.IsActive == true).Select(x=> new ProductViewModel
+            var items = _context.Products.Where(x => x.Title.Contains(value_search) && x.IsApproved == true && x.IsActive == true).Select(x => new ProductViewModel
             {
-                Id=x.Id,
+                Id = x.Id,
                 Title = x.Title,
-                Price=x.Price,
-                Discount=x.Discount,
+                Price = x.Price,
+                Discount = x.Discount,
                 ImageDefaultName = x.ImageDefaultName,
                 Alias = x.Alias,
                 Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
@@ -330,12 +323,12 @@ namespace PhoneShop.DI.DI_User.Product_User
         }
 
         public async Task<List<ProductViewModel>> Selling_Products()
-        {        
-            var items = await _context.Products.Where(x=> x.IsActive == true && x.IsApproved == true).Join(_context.Evaluate_Products,
+        {
+            var items = await _context.Products.Where(x => x.IsActive == true && x.IsApproved == true).Join(_context.Evaluate_Products,
                 p => p.Id,
                 e => e.ProductId,
-                (p,e) => new { Product = p, Evaluate_Product = e })
-            .OrderByDescending(x=> x.Evaluate_Product.Purchases)
+                (p, e) => new { Product = p, Evaluate_Product = e })
+            .OrderByDescending(x => x.Evaluate_Product.Purchases)
             .Select(x => new ProductViewModel
             {
                 Id = x.Product.Id,
@@ -357,30 +350,52 @@ namespace PhoneShop.DI.DI_User.Product_User
             return items;
         }
 
-        public List<ProductViewModel> ListDiscountProduct()
+        public void Reduced_In_Stock(int Id_Product, int Get_Quantity_Product_Order)
         {
-            var items =  _context.Products.Where(x=> x.IsActive == true && x.IsApproved == true)
-                  .Where(x => x.Discount > 0)
-                  .Select(x => new ProductViewModel
-                  {
-                      Id = x.Id,
-                      CategoryId = x.CategoryId,
-                      Title = x.Title,
-                      Alias = x.Alias,
-                      Price = x.Price,
-                      Discount = x.Discount,
-                      Quantity = x.Quantity,
-                      Description = x.Description,
-                      Create_at = x.Create_at,
-                      Update_at = x.Update_at,
-                      ImageDefaultName = x.ImageDefaultName,
-                      Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
-                  })
-                  .OrderByDescending(x => (x.Price - x.Discount) / x.Price * 100)
-                  .ToList();
+            var Reduced_In_Stock = _context.Products.Where(x => x.Id == Id_Product && x.IsApproved == true).FirstOrDefault()!;
+            Reduced_In_Stock.Quantity = Reduced_In_Stock.Quantity - Get_Quantity_Product_Order;
 
-            return items;
+            if(Reduced_In_Stock.Quantity <= 0)
+            {
+                Reduced_In_Stock.IsActive = false;
+            }
+
+            _context.Products.Update(Reduced_In_Stock);
+            _context.SaveChanges();
+            
+
         }
+        public int Check_Quantity_Product(List<CartItemModel> item)
+        {
+            foreach (var i in item)
+            {
+
+                var IProductById = _context.Products.Where(x => x.Id == i.ProductId).FirstOrDefault()!;
+
+                if (i.Quantity > IProductById.Quantity)
+                {
+                    return 0;
+                }
+
+
+            }
+            return 1;
+        }
+
+        public void Delete_Product_Quantity_Zero(int Id_Product)
+        {
+            var Check_Product = _context.Products.Where(x => x.Id == Id_Product).FirstOrDefault()!;
+            if (Check_Product.Quantity <= 0)
+            {
+                _context.Products.Remove(Check_Product);
+                _context.SaveChanges();
+            }
+
+        }
+
+      
+
+      
 
 
 

@@ -1,13 +1,12 @@
-﻿﻿@using PagedList.Core.Mvc
-@using System.Globalization;
-@model PagedList.Core.IPagedList<PhoneShop.ModelViews.ProductViewModel>
+﻿@model List<PhoneShop.ModelViews.ProductViewModel>
 @{
-    ViewData["Title"] = "ProductByCategory";
+    ViewData["Title"] = "ProductByCategory_View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @{
 
-   
+
 
     int tienO = 0;
 }
@@ -24,7 +23,7 @@
     }
 </style>
 
-@if (Model.PageCount > 0)
+@if (Model.Count > 0)
 {
 
 
@@ -57,7 +56,7 @@
                 <!-- Nút Khuyến Mãi Hot -->
                 <a class="btn btn-light border d-flex align-items-center" href="/s/3000000-@ViewBag.UrlView">
                     <i class="bi bi-percent me-2"></i>
-                   Dưới 3 triệu
+                    Dưới 3 triệu
                 </a>
                 <a class="btn btn-light border d-flex align-items-center" href="/s/6000000-@ViewBag.UrlView">
                     <i class="bi bi-percent me-2"></i>
@@ -72,7 +71,7 @@
                     Dưới 20 triệu
                 </a>
 
-             
+
             </div>
 
 
@@ -169,16 +168,7 @@
 
 
     </div>
-    <div style="background:white" class="container">
-        @*  note *@
-        <div aria-label="Page navigation example">
-            <ul class="pagination">
-                <pager class="pager-container" list="@Model" asp-controller="Product" asp-action="ProductByCategory" />
-            </ul>
-        </div>
-        @*  note *@
-    </div>
-
+   
 
 }
 else
@@ -232,6 +222,5 @@ else
         </div>
     </div>
 }
-
 
 

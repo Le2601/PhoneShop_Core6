@@ -52,6 +52,7 @@
             </nav>
 
 
+
             <div class="d-flex align-items-center gap-3 flex-wrap py-3 border-bottom">
                 <span style="padding-left:10px;color:black" class="fw-bold  text-primary">Sắp xếp theo</span>
 
@@ -62,19 +63,17 @@
                 <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/asc-@ViewBag.UrlView">
                     <i class="bi bi-sort-down me-2"></i> Giá Thấp - Cao
                 </a>
+                <select id="priceFilter" style="padding:6px 12px; border-radius: 8px;font-size: 12px;" class="form-select" onchange="location = this.value;">
+                    <option selected>Theo giá</option>
+                    <option value="/s/3000000-@ViewBag.UrlView"> Từ 3 triệu</option>
+                    <option value="/s/6000000-@ViewBag.UrlView">Từ 6 triệu</option>
+                    <option value="/s/10000000-@ViewBag.UrlView">Từ 10 triệu</option>
+                    <option value="/s/20000000-@ViewBag.UrlView">Từ 20 triệu</option>
+                </select>
 
-                <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/3000000-@ViewBag.UrlView">
-                    <i class="bi bi-percent me-2"></i> Dưới 3 triệu
-                </a>
-                <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/6000000-@ViewBag.UrlView">
-                    <i class="bi bi-percent me-2"></i> Dưới 6 triệu
-                </a>
-                <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/10000000-@ViewBag.UrlView">
-                    <i class="bi bi-percent me-2"></i> Dưới 10 triệu
-                </a>
-                <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/20000000-@ViewBag.UrlView">
-                    <i class="bi bi-percent me-2"></i> Dưới 20 triệu
-                </a>
+
+
+
             </div>
             <br>
 
@@ -194,6 +193,7 @@ else
                     <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">@ViewBag.GetAliasCategory</li>
                 </ol>
             </nav>
+
             <div class="d-flex align-items-center gap-3 flex-wrap py-3 border-bottom">
                 <span style="padding-left:10px;color:black" class="fw-bold  text-primary">Sắp xếp theo</span>
 
@@ -204,19 +204,17 @@ else
                 <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/asc-@ViewBag.UrlView">
                     <i class="bi bi-sort-down me-2"></i> Giá Thấp - Cao
                 </a>
+                <select id="priceFilter" style="padding:6px 12px; border-radius: 8px;font-size: 12px;" class="form-select" onchange="location = this.value;">
+                    <option selected>Theo giá</option>
+                    <option value="/s/3000000-@ViewBag.UrlView"> Từ 3 triệu</option>
+                    <option value="/s/6000000-@ViewBag.UrlView">Từ 6 triệu</option>
+                    <option value="/s/10000000-@ViewBag.UrlView">Từ 10 triệu</option>
+                    <option value="/s/20000000-@ViewBag.UrlView">Từ 20 triệu</option>
+                </select>
 
-                <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/3000000-@ViewBag.UrlView">
-                    <i class="bi bi-percent me-2"></i> Dưới 3 triệu
-                </a>
-                <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/6000000-@ViewBag.UrlView">
-                    <i class="bi bi-percent me-2"></i> Dưới 6 triệu
-                </a>
-                <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/10000000-@ViewBag.UrlView">
-                    <i class="bi bi-percent me-2"></i> Dưới 10 triệu
-                </a>
-                <a class="btn btn-custom d-flex align-items-center px-4 py-2 shadow-sm" href="/s/20000000-@ViewBag.UrlView">
-                    <i class="bi bi-percent me-2"></i> Dưới 20 triệu
-                </a>
+
+
+
             </div>
             <br>
 

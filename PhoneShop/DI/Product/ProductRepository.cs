@@ -144,7 +144,7 @@ namespace PhoneShop.DI.Product
                 
                 
 
-            }).OrderBy(x=> x.Id).ToList();
+            }).OrderBy(x=> x.Create_at).ToList();
 
             return items;
 

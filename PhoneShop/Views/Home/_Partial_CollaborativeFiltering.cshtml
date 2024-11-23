@@ -16,113 +16,123 @@
                         <div class="divborder"></div>
                         <p style="font-size:1,25rem">Mua Sắm Thả Ga - Không Lo Về Giá!</p>
                     </div>
-
-                    <div class="product-carousel">
-
-                        @if (Model != null)
+                      @if (Model.Count > 0)
                         {
-                            foreach (var item in Model)
-                            {
-                                <div class="single-product">
-                                    <div class="product-f-image">
-                                        @*                                         <img src="~/User/img/product-1.jpg" alt="">
+
+                        <div class="product-carousel">
+
+                           
+                                @foreach (var item in Model)
+                                {
+                                    <div class="single-product">
+                                        <div class="product-f-image">
+                                            @*                                         <img src="~/User/img/product-1.jpg" alt="">
                                 *@            <img src="~/images/Product/@item.ImageDefaultName" style="height:221px; width:221px" />
-                                        @* tinh % giam gia *@
-                                        @if (item.Discount > 0)
-                                        {
-                                            //format discount
-                                            decimal discount = 0;
-                                            discount = (item.Price - item.Discount) / item.Price * 100;
-                                            discount = Math.Round(discount);
-                                            //format discount
-                                            <div class="discount-label">
-                                                <span>Giảm @discount%</span>
+                                            @* tinh % giam gia *@
+                                            @if (item.Discount > 0)
+                                            {
+                                                //format discount
+                                                decimal discount = 0;
+                                                discount = (item.Price - item.Discount) / item.Price * 100;
+                                                discount = Math.Round(discount);
+                                                //format discount
+                                                <div class="discount-label">
+                                                    <span>Giảm @discount%</span>
+                                                </div>
+                                            }
+                                            @* tinh % giam gia *@
+                                            <div class="product-hover">
+                                                <a class="add-to-cart-link confirmAdd" style="font-size:11px" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                                <a href="/chi-tiet/@item.Alias-@item.Id" style="font-size:11px" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
                                             </div>
-                                        }
-                                        @* tinh % giam gia *@
-                                        <div class="product-hover">
-                                            <a class="add-to-cart-link confirmAdd" style="font-size:11px" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
-                                            <a href="/chi-tiet/@item.Alias-@item.Id" style="font-size:11px" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
                                         </div>
-                                    </div>
 
-                                    <div style="height:45px">
-                                        <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
-                                    </div>
+                                        <div style="height:45px">
+                                            <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
+                                        </div>
 
-                                    <h2 class="blink-text" style="margin:0px;font-size: 12px;color: #5a88ca">Còn @item.Quantity suất</h2>
-                                  
-                                    
-
-                                    <div class="product-carousel-price">
+                                        <h2 class="blink-text" style="margin:0px;font-size: 12px;color: #5a88ca">Còn @item.Quantity suất</h2>
 
 
-                                        @{
-                                            if (item.Discount == 0 || item.Discount == null || item.Discount is string)
-                                            {
-                                                <ins style="color:red">
-                                                    @{
 
+                                        <div class="product-carousel-price">
+
+
+                                            @{
+                                                if (item.Discount == 0 || item.Discount == null || item.Discount is string)
+                                                {
+                                                    <ins style="color:red">
+                                                        @{
 
 
 
 
 
-                                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
 
-                                                    }
-                                                    @formattedPrice
-                                                </ins>
-                                            }
-                                            else
-                                            {
-                                                <ins style="color:red">
-                                                    @{
+                                                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
 
-
-
+                                                        }
+                                                        @formattedPrice
+                                                    </ins>
+                                                }
+                                                else
+                                                {
+                                                    <ins style="color:red">
+                                                        @{
 
 
-                                                        string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
 
 
-                                                    }
-                                                    @formattedPrice
-                                                </ins>
-                                            }
-                                        }
 
-                                        @{
-                                            string formattedPrice2;
-                                            if (item.Discount > 0)
-                                            {
+                                                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
 
 
-                                                formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
-                                                <del>@formattedPrice2</del>
+                                                        }
+                                                        @formattedPrice
+                                                    </ins>
+                                                }
                                             }
 
+                                            @{
+                                                string formattedPrice2;
+                                                if (item.Discount > 0)
+                                                {
 
 
-                                        }
+                                                    formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                                    <del>@formattedPrice2</del>
+                                                }
+
+
+
+                                            }
 
 
 
 
 
+
+                                        </div>
 
                                     </div>
-
-                                </div>
-                            }
-                        }
+                                }
+                            
 
 
 
 
 
 
-                    </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <p style="text-align:center;color:red">Hiện tại chưa có sản phẩm nào!</p>
+
+                    }
+
+                   
                 </div>
             </div>
         </div>

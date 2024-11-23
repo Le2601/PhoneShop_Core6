@@ -207,6 +207,7 @@ namespace PhoneShop.Controllers
         public async Task<IActionResult> ProductByCategory_View(string view, int Id)
         {
             ViewBag.UrlView = Id;
+            ViewBag.TitleSort = "";
 
             var itemModel = new List<ProductViewModel> { };
 
@@ -217,6 +218,7 @@ namespace PhoneShop.Controllers
             //cao > thap
             if (view == "desc")
             {
+                ViewBag.TitleSort = "Sắp xếp giá từ cao đến thấp";
                 itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true).OrderByDescending(x=> x.Discount).Select(x => new ProductViewModel
                 {
                     Id = x.Id,
@@ -231,6 +233,8 @@ namespace PhoneShop.Controllers
             }
             else if (view == "asc")
             {
+                ViewBag.TitleSort = "Sắp xếp giá từ thấp đến cao";
+
                 itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true).OrderBy(x => x.Discount).Select(x => new ProductViewModel
                 {
                     Id = x.Id,
@@ -245,9 +249,11 @@ namespace PhoneShop.Controllers
             }
             else
             {
-                decimal PriceFormat = decimal.Parse(view);
 
-                 itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true && x.Discount <= PriceFormat).Select(x => new ProductViewModel
+                decimal PriceFormat = decimal.Parse(view);
+                ViewBag.TitleSort = "Sắp xếp giá từ " + Extension.Extension.ToVnd((double)PriceFormat);
+
+                itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true && x.Discount <= PriceFormat).Select(x => new ProductViewModel
                  {
                      Id = x.Id,
                      Title = x.Title,

@@ -217,7 +217,7 @@ namespace PhoneShop.Controllers
             //cao > thap
             if (view == "desc")
             {
-                itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true).OrderByDescending(x=> x.Price).Select(x => new ProductViewModel
+                itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true).OrderByDescending(x=> x.Discount).Select(x => new ProductViewModel
                 {
                     Id = x.Id,
                     Title = x.Title,
@@ -231,7 +231,7 @@ namespace PhoneShop.Controllers
             }
             else if (view == "asc")
             {
-                itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true).OrderBy(x => x.Price).Select(x => new ProductViewModel
+                itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true).OrderBy(x => x.Discount).Select(x => new ProductViewModel
                 {
                     Id = x.Id,
                     Title = x.Title,
@@ -247,7 +247,7 @@ namespace PhoneShop.Controllers
             {
                 decimal PriceFormat = decimal.Parse(view);
 
-                 itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true && x.Price <= PriceFormat).Select(x => new ProductViewModel
+                 itemModel = _context.Products.Where(x => x.CategoryId == Id && x.IsActive == true && x.IsApproved == true && x.Discount <= PriceFormat).Select(x => new ProductViewModel
                  {
                      Id = x.Id,
                      Title = x.Title,

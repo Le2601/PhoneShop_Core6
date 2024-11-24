@@ -569,7 +569,21 @@
             });
         </script>
     }
+    @if (TempData["CheckAccount"] != null)
+    {
 
+        <script>
+
+            swal({
+                title: "Thông báo",
+                text: "@Html.Raw(TempData["CheckAccount"])",
+                icon: "success",
+                button: "OK",
+            }).then(() => {
+                location.reload();
+            });
+        </script>
+    }
     
    
 

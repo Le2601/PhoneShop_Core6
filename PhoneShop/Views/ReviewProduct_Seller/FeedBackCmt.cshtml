@@ -52,7 +52,7 @@
             <div class="card-body" style="min-height:500px;">
 
                 
-                <p>@Model.Content</p>
+                <p style="color:blue">@Model.Content</p>
                 <p style="font-style: italic;">@Model.CreateAt</p>
 
                 <hr />
@@ -64,7 +64,7 @@
                     {
                         <div class="feedback-item">
                              @item.UserNameFeedBack <span style="color: #aaa;">|| @item.Create_At</span>
-                            <div><strong>Nội Dung:</strong> @item.Content</div>
+                            <div style="color:red"> @item.Content</div>
                             <hr />
                         </div>
                     }

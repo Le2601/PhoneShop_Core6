@@ -85,6 +85,21 @@ namespace PhoneShop.Controllers
             return 1;
         }
 
+        private int CheckAccount_Puchase(List<CartItemModel> items, int Account)
+        {
+            var GetIdBooth = _dbContext.Booth_Information.Where(x=> x.AccountId == Account).FirstOrDefault()!.Id;
+            foreach (var item in items)
+            {
+                if(item.BoothId == GetIdBooth)
+                {
+                    return 0;
+                }
+
+
+            }
+            return 1;
+            
+        }
 
 
 
@@ -528,6 +543,16 @@ namespace PhoneShop.Controllers
             //End check auth cookie and AccountId Session
 
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext);///gio hang khong co sp thi tra ve
+
+
+
+            var CheckAccount = CheckAccount_Puchase(CartItems, AccountId);
+            if (CheckAccount == 0)
+            {
+                TempData["CheckAccount"] = "Hiện tại trong giỏ hàng có sản phẩm thuộc gian hàng của bạn - không thể mua!";
+                return RedirectToRoute("Cart");
+            }
+
             if (Check_Quantity_Product(CartItems) == 0)
             {
                 TempData["Check_Quantity_Product"] = "Số lượng mua không thể lớn hơn số lượng trong kho!";
@@ -655,8 +680,9 @@ namespace PhoneShop.Controllers
             //session gio hang
             List<CartItemModel> CartItems = PhoneShop.Extension.SessionExtensions.GetListSessionCartItem("Cart", HttpContext); ///gio hang khong co sp thi tra ve
 
-            Check_Quantity_Product(CartItems);
 
+
+            Check_Quantity_Product(CartItems);
 
             //foreach (var i in CartItems)
             //{

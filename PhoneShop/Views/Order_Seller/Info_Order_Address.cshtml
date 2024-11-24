@@ -239,33 +239,33 @@
                         <table class="transaction-table">
                             <tr>
                                 <th class="key">Từ khóa</th>
-                                <th class="value text_size">Giá trị</th>
+                                <th class="value text_size" >Giá trị</th>
                             </tr>
-                            <tr>
+                           @*  <tr>
                                 <td class="key">Trạng thái</td>
                                 <td class="value text_size">Thành công</td>
-                            </tr>
+                            </tr> *@
                             <tr>
                                 <td class="key">Ghi chú</td>
-                                <td class="value text_size">@GetPaymentResponse.OrderDescription</td>
+                                <td class="value text_size" style="font-family: 'Segoe UI Symbol';color:black ">@GetPaymentResponse.OrderDescription</td>
                             </tr>
                             <tr>
                                 <td class="key">Token</td>
-                                <td class="value text_size">@GetPaymentResponse.Token</td>
+                                <td class="value text_size" style="font-family: 'Segoe UI Symbol';color:black ">@GetPaymentResponse.Token</td>
                             </tr>
                             <tr>
                                 <td class="key">Trạng thái thanh toán</td>
-                                <td class="value text_size">@GetPaymentResponse.VnPayResponseCode</td>
+                                <td class="value text_size" style="font-family: 'Segoe UI Symbol';color:black ">@GetPaymentResponse.VnPayResponseCode</td>
                             </tr>
                             <tr>
                                 <td class="key">Chú thích</td>
                                 <td class="value text_size">
                                     <ul>
-                                        <li>00: Giao dịch thành công.</li>
-                                        <li>01: Giao dịch đã tồn tại hoặc không hợp lệ.</li>
-                                        <li>02: Ngân hàng từ chối thanh toán.</li>
-                                        <li>99: Lỗi chưa xác định.</li>
-                                        <li>24: Hủy giao dịch.</li>
+                                        <li style="font-family: 'Segoe UI Symbol';color:black ">00: Giao dịch thành công.</li>
+                                        <li style="font-family: 'Segoe UI Symbol';color:black ">01: Giao dịch đã tồn tại hoặc không hợp lệ.</li>
+                                        <li style="font-family: 'Segoe UI Symbol';color:black ">02: Ngân hàng từ chối thanh toán.</li>
+                                        <li style="font-family: 'Segoe UI Symbol';color:black " >99: Lỗi chưa xác định.</li>
+                                        <li style="font-family: 'Segoe UI Symbol';color:black ">24: Hủy giao dịch.</li>
                                     </ul>
                                 </td>
                             </tr>
@@ -286,12 +286,12 @@
                             </tr>
                             <tr>
                                 <td class="key">Xác nhận thanh toán</td>
-                                <td class="value text_size">@GetPaymentMoMo.LocalMessage</td>
+                                <td class="value text_size" style="font-family: 'Segoe UI Symbol';color:black ">@GetPaymentMoMo.LocalMessage</td>
                             </tr>
                        
                             <tr>
                                 <td class="key">Chữ ký số xác nhận</td>
-                                <td class="value text_size">@GetPaymentMoMo.Signature</td>
+                                <td class="value text_size" style="font-family: 'Segoe UI Symbol';color:black ">@GetPaymentMoMo.Signature</td>
                             </tr>
                     
                         </table>

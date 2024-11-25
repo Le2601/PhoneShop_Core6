@@ -157,13 +157,14 @@
                                     }
                                 </td>
                                 <td>
+
                                     @if (i.IsOld == true)
                                     {
-                                        <p style="text-align:center"><i class="fas fa-check" style="color: #2268e2;"></i></p>
+                                        <a class="UpdateOld" data-id="@i.Id" style="text-align:center;"><i class="fas fa-check" style="color: #2268e2;"></i></a>
                                     }
                                     else
                                     {
-                                        <p style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></p>
+                                        <a class="UpdateOld" data-id="@i.Id" style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></a>
 
                                     }
                                 </td>
@@ -352,6 +353,37 @@
                     $.ajax({
 
                         url: '/Product_Seller/UpdateOutstanding',
+                        type: 'post',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('trow_' + id).remove();
+                                location.reload();
+                            }
+                            else {
+                                alert("Lỗi không thể xóa");
+                                location.reload();
+                            }
+                        }
+
+                    });
+
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.UpdateOld', function () {
+                var id = $(this).data('id');
+
+                var conf = confirm("Cập nhật trạng thái");
+
+                if (conf == true) {
+
+                    $.ajax({
+
+                        url: '/Product_Seller/UpdateOld',
                         type: 'post',
                         data: { id: id },
                         success: function (rs) {

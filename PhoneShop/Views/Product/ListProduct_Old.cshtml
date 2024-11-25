@@ -1,0 +1,179 @@
+﻿﻿@using PagedList.Core.Mvc
+@using System.Globalization;
+@model PagedList.Core.IPagedList<PhoneShop.ModelViews.ProductViewModel>
+@{
+    ViewData["Title"] = "ListProduct_Old";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn {
+        border-radius: 8px;
+        font-size: 12px;
+    }
+
+    .btn-outline-danger {
+        border: 2px solid #dc3545;
+    }
+
+    .btn-custom {
+        border: 1px solid #5a88ca;
+        color: #0d6efd;
+        transition: all 0.3s ease;
+    }
+
+        .btn-custom:hover {
+            background-color: #5a88ca;
+            color: #ffffff;
+            border-color: #5a88ca;
+        }
+
+</style>
+
+@if (Model.PageCount > 0)
+{
+
+
+
+    <div class="container" style="min-height:600px;background:white;padding-bottom:20px ">
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="background:white">
+                    <li class="breadcrumb-item" style="font-size: 18px;"><a href="~/">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Sản phẩm cũ</li>
+                </ol>
+            </nav>
+
+
+
+            
+
+
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3 col-sm-6" style="width: 20%;">
+                    <div class="single-product">
+                        <div class="product-f-image" style="display: flex; justify-content: center; align-items: center;">
+                            <img src="~/images/Product/@item.ImageDefaultName" style="height:221px; width:221px" />
+
+                            <div class="product-hover">
+                                <a class="add-to-cart-link confirmAdd" style="font-size:11px" data-id="@item.Id"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>
+                                <a href="/chi-tiet/@item.Alias-@item.Id" style="font-size:11px" class="view-details-link"><i class="fa fa-link"></i> Xem chi tiết</a>
+                            </div>
+                        </div>
+
+                        <div style="height:45px">
+                            <h2><a style="height:45px" href="/chi-tiet/@item.Alias-@item.Id">@item.Title </a></h2>
+                        </div>
+
+
+                        <div class="product-carousel-price">
+
+
+                            @{
+                                if (item.Discount == 0 || item.Discount == null || item.Discount is string)
+                                {
+                                    <ins style="color:red">
+                                        @{
+
+
+
+
+
+
+                                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+
+                                        }
+                                        @formattedPrice
+                                    </ins>
+                                }
+                                else
+                                {
+                                    <ins style="color:red">
+                                        @{
+
+
+
+
+
+                                            string formattedPrice = PhoneShop.Extension.Extension.ToVnd((double)item.Discount);
+
+
+                                        }
+                                        @formattedPrice
+                                    </ins>
+                                }
+                            }
+
+                            @{
+                                string formattedPrice2;
+                                if (item.Discount > 0)
+                                {
+
+
+                                    formattedPrice2 = PhoneShop.Extension.Extension.ToVnd((double)item.Price);
+                                    <del>@formattedPrice2</del>
+                                }
+
+
+
+                            }
+
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            }
+
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+    <div style="background:white" class="container">
+        @*  note *@
+        <div aria-label="Page navigation example">
+            <ul class="pagination">
+                <pager class="pager-container" list="@Model" asp-controller="Product" asp-action="ListProduct_Old" />
+            </ul>
+        </div>
+        @*  note *@
+    </div>
+
+
+}
+else
+{
+    <div class="container" style="min-height:600px;background:white;padding-bottom:20px ">
+        <div class="row" style="padding-top:10px">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="background:white">
+                    <li class="breadcrumb-item" style="font-size: 18px;"><a href="~/">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" style="font-size: 18px;" aria-current="page">Sản phẩm cũ</li>
+                </ol>
+            </nav>
+
+           
+
+            <p style="color:red; text-align:center;font-size:20px">Hiện chưa có sản phẩm</p>
+
+        </div>
+    </div>
+}
+
+
+
+
+

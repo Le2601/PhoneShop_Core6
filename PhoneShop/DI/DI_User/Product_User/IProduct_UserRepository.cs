@@ -11,6 +11,7 @@ namespace PhoneShop.DI.DI_User.Product_User
 
         public Task<List<ProductViewModel>> RandomProduct();
 
+        public Task<IEnumerable<ProductViewModel>> ListProduct_Old();
 
 
 

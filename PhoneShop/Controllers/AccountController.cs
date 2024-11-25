@@ -143,12 +143,12 @@ namespace PhoneShop.Controllers
 
 
 
-                //_context.Add(model);
-                //await _context.SaveChangesAsync();
+                _context.Add(RegisterAccount);
+                await _context.SaveChangesAsync();
 
-                return RedirectToAction("XacThucOTP", "Account");
+                //return RedirectToAction("XacThucOTP", "Account");
 
-                //return RedirectToRoute("Login-student");
+                return RedirectToRoute("Login-student");
             }
            
             return View(model);

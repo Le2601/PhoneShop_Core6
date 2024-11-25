@@ -484,5 +484,31 @@ namespace PhoneShop.DI.DI_User.Product_User
 
             return items;
         }
+
+        public async Task<IEnumerable<ProductViewModel>> ListProduct_Old()
+        {
+            var items = _context.Products.Where(x => x.IsApproved == true && x.IsActive == true && x.IsOld == true).Select(x => new ProductViewModel
+            {
+                Id = x.Id,
+                CategoryId = x.CategoryId,
+                Title = x.Title,
+                Alias = x.Alias,
+                Price = x.Price,
+                Discount = x.Discount,
+                Quantity = x.Quantity,
+                Description = x.Description,
+                Create_at = x.Create_at,
+                Update_at = x.Update_at,
+                ImageDefaultName = x.ImageDefaultName,
+                Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
+                IsOld = x.IsOld
+
+
+
+
+            });
+
+            return items;
+        }
     }
 }

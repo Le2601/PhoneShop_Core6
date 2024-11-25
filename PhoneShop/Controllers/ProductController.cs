@@ -81,7 +81,7 @@ namespace PhoneShop.Controllers
             ViewBag.GetSpecifi =await _userRepository.GetSpeciByIdProduct(item.Id);
             ViewBag.ListAsk = ListAsk;
             //partial related product
-            ViewBag.SellingProduct = await _userRepository.Selling_Products();
+            ViewBag.SellingProduct = await _userRepository.LatestProducts();
 
 
 
@@ -377,6 +377,23 @@ namespace PhoneShop.Controllers
 
 
 
+        }
+
+        [Route("/san-pham-cu.html")]
+        public async Task<IActionResult> ListProduct_Old(int? page)
+        {
+            
+
+            var item = await _userRepository.ListProduct_Old();
+
+            var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+
+            var pageSize = 10;
+
+            PagedList<ProductViewModel> models = new PagedList<ProductViewModel>(item, pageNumber, pageSize);
+
+
+            return View(models);
         }
        
 

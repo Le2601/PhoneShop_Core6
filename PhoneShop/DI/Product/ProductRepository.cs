@@ -38,6 +38,7 @@ namespace PhoneShop.DI.Product
                 InputPrice = x.InputPrice,
                 Create_Id = x.Create_Id,
                 IsActive = x.IsActive,
+                IsOld = x.IsOld,
                 Booth_InformationId = x.Booth_InformationId
 
             };
@@ -112,6 +113,7 @@ namespace PhoneShop.DI.Product
             item.Update_at = model.Update_at;
             item.ImageDefaultName = model.ImageDefaultName;
             item.IsActive = model.IsActive;
+            item.IsOld = model.IsOld;
 
             _context.SaveChanges();
 

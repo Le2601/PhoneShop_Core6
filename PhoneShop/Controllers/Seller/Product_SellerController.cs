@@ -549,6 +549,32 @@ namespace PhoneShop.Controllers.Seller
 
             return Json(new { success = true });
         }
+        [HttpPost]
+        public IActionResult UpdateOld(int id)
+        {
+
+            var checkOld = _context.Products.Where(x => x.Id == id).First();
+
+            if (checkOld == null)
+            {
+                return Json(new { success = false });
+            }
+            if (checkOld.IsOld == true)
+            {
+                checkOld.IsOld = false;
+
+            }
+            else
+            {
+                checkOld.IsOld = true;
+
+            }
+            _context.Products.Update(checkOld);
+            _context.SaveChanges();
+
+
+            return Json(new { success = true });
+        }
 
 
         //hinh anh

@@ -87,10 +87,14 @@ namespace PhoneShop.Controllers
 
         private int CheckAccount_Puchase(List<CartItemModel> items, int Account)
         {
-            var GetIdBooth = _dbContext.Booth_Information.Where(x=> x.AccountId == Account).FirstOrDefault()!.Id;
+            var GetIdBooth = _dbContext.Booth_Information.Where(x=> x.AccountId == Account).FirstOrDefault();
+            if( GetIdBooth == null)
+            {
+                return 1;
+            }
             foreach (var item in items)
             {
-                if(item.BoothId == GetIdBooth)
+                if(item.BoothId == GetIdBooth.Id)
                 {
                     return 0;
                 }

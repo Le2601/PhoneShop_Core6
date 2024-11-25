@@ -100,8 +100,10 @@
                             <th>#</th>
                             <th>Tên sản phẩm</th>
                             <th style="padding-right:0px">Trạng thái</th>
-                            <th style="padding-right:0px">Kiểm duyệt</th>
                             <th style="padding-right:0px">Nổi bật</th>
+                            <th style="padding-right:0px">Kiểm duyệt</th>
+                            <th style="padding-right:0px">Sản phẩm cũ</th>
+
 
                             <th>Hình ảnh</th>
                             <th>Giá bán</th>
@@ -130,6 +132,19 @@
                                         
                                     }
                                 </td>
+                              
+                                <td>
+                                    
+                                    @if (i.IsOutstanding == true)
+                                    {
+                                        <a class="UpdateOutstanding" data-id="@i.Id" style="text-align:center;"><i class="fas fa-check" style="color: #2268e2;"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a class="UpdateOutstanding" data-id="@i.Id" style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></a>
+
+                                    }
+                                </td>
                                 <td>
                                     @if (i.IsApproved == true)
                                     {
@@ -142,14 +157,13 @@
                                     }
                                 </td>
                                 <td>
-                                    
-                                    @if (i.IsOutstanding == true)
+                                    @if (i.IsOld == true)
                                     {
-                                        <a class="UpdateOutstanding" data-id="@i.Id" style="text-align:center;"><i class="fas fa-check" style="color: #2268e2;"></i></a>
+                                        <p style="text-align:center"><i class="fas fa-check" style="color: #2268e2;"></i></p>
                                     }
                                     else
                                     {
-                                        <a class="UpdateOutstanding" data-id="@i.Id" style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></a>
+                                        <p style="text-align:center"><i class="fas fa-times" style="color: #e11428;"></i></p>
 
                                     }
                                 </td>

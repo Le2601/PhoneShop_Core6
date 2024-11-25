@@ -43,7 +43,7 @@
                 <ul class="list-unstyled list-inline">
                     @if (ViewBag.GetNameLogin != null)
                     {
-                        <li class="dropdown dropdown-small" style="height:30px">
+                        <li class="dropdown dropdown-small" style="height:30px;padding-left: 100px;">
                             <a class="dropbtn navbar-brand font-size" style="font-size: 13px;color:white"><i class="fa fa-user-o" aria-hidden="true"></i>@ViewBag.GetNameLogin<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/Utilities/ListOrder" class=" text-color">Đơn hàng của tôi</a></li>
@@ -53,8 +53,9 @@
                         </li>
                     }else{
                         <li class="dropdown dropdown-small" style="height:30px">
-                            <a class="dropbtn navbar-brand font-size" href="Account/Index" style="font-size: 13px;color:white">Đăng Ký</a>
                             <a class="dropbtn navbar-brand font-size  text-color" href="/Login.html" style="font-size: 13px;color:white">Đăng Nhập</a>
+
+                            <a class="dropbtn navbar-brand font-size" href="Account/Index" style="font-size: 13px;color:white">Đăng Ký</a>
                             
                         </li>
 

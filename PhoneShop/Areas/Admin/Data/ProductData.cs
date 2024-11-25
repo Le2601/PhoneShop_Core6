@@ -23,6 +23,8 @@ namespace PhoneShop.Areas.Admin.Data
 
 
         public Boolean IsApproved { get; set; }
+        public Boolean IsOld { get; set; }
+
 
         [Display(Name = "Tiêu đề")]
         [Required(ErrorMessage = "Không thể bỏ trống")]

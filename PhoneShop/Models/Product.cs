@@ -35,6 +35,9 @@ namespace PhoneShop.Models
         //noi bat
         public Boolean IsOutstanding { get; set; }
 
+
+        public Boolean IsOld { get; set; }
+
         [Display(Name = "Tiêu đề")]
         [Required(ErrorMessage = "Không thể bỏ trống")]
         public string Title { get; set; }

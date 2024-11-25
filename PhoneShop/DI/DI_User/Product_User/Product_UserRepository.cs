@@ -36,6 +36,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
                 Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
+                IsOld = x.IsOld
 
 
 
@@ -64,7 +65,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                 Update_at = x.Update_at,
                 ImageDefaultName = x.ImageDefaultName,
                 Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
-
+                IsOld = x.IsOld
 
 
 
@@ -95,7 +96,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                        Discount = p.Discount,
                        Quantity_Purchase = e.Purchases,
                        Rating = p.review_Products.Any() ? p.review_Products.Average(r => r.Rate) : 1,
-
+                       IsOld = p.IsOld
 
                    }
                ).ToList();
@@ -110,7 +111,9 @@ namespace PhoneShop.DI.DI_User.Product_User
                     Price = g.First().Price,
                     Discount = g.First().Discount,
                     Quantity_Purchase = g.Sum(o => o.Quantity_Purchase),
-                    Rating = g.First().Rating
+                    Rating = g.First().Rating,
+                    IsOld= g.First().IsOld
+                    
                 }).Take(5).OrderByDescending(g => g.Quantity_Purchase).ToList();
 
             return GetData;
@@ -134,6 +137,7 @@ namespace PhoneShop.DI.DI_User.Product_User
                       Update_at = x.Update_at,
                       ImageDefaultName = x.ImageDefaultName,
                       Rating = x.review_Products.Any() ? x.review_Products.Average(r => r.Rate) : 1,
+                      IsOld = x.IsOld
                   })
                   .OrderByDescending(x => (x.Price - x.Discount) / x.Price * 100)
                   .Take(10).ToList();

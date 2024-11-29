@@ -35,6 +35,7 @@ using PhoneShop.Controllers.Seller;
 using Microsoft.ML;
 using PhoneShop.Services.Collaborative_Filterning;
 using PhoneShop.Extension.Recommend;
+using PhoneShop.Services.Collaborative_Filterning_New;
 
 namespace PhoneShop.Controllers
 {
@@ -71,6 +72,9 @@ namespace PhoneShop.Controllers
         private readonly ICollaborativeF _collaborativeF;
 
 
+        private readonly Services.Collaborative_Filterning_New.RecommendationService _recommend_new;
+
+
 
 
        
@@ -82,7 +86,7 @@ namespace PhoneShop.Controllers
             IImageProduct_UserRepository imageProduct_UserRepository,
             ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository,
             IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository
-            , Recommend recommend, ICollaborativeF collaborativeF)
+            , Recommend recommend, ICollaborativeF collaborativeF,RecommendationService _recommendd)
         {
             _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
@@ -99,6 +103,7 @@ namespace PhoneShop.Controllers
             //
             _recommend = recommend;
             _collaborativeF = collaborativeF;
+            _recommend_new = _recommendd;
 
 
 
@@ -108,9 +113,7 @@ namespace PhoneShop.Controllers
 
 
 
-
-
-
+       
        
 
         public async Task<IActionResult> Index()
@@ -150,8 +153,16 @@ namespace PhoneShop.Controllers
                 var Recommend = _recommend.CollaborativeFiltering(AccountId);
 
 
-                ViewBag.CollaborativeFiltering_List = CollaborativeFiltering_List;
+
+
+             
                 ViewBag.Recommend = Recommend;
+
+
+                var Recommenddd = _recommend_new.GetRecommendations(AccountId);
+
+
+                ViewBag.CollaborativeFiltering_List = Recommenddd;
 
 
             }
@@ -168,7 +179,18 @@ namespace PhoneShop.Controllers
             return View(Random_Product);
         }
 
-       
+        [Route("xoa-fl.html")]
+        public IActionResult Xoaflow()
+        {
+            var items = _dbContext.Review_Products.ToList();
+            foreach (var item in items)
+            {
+                _dbContext.Review_Products.Remove(item);
+            }
+            _dbContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
 
         //DEMO EXPORT FILE
 

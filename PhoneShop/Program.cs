@@ -111,10 +111,15 @@ builder.WebHost.ConfigureAppConfiguration((hostingContext, config) =>
         builder.Services.AddScoped<Recommend>();
 
 
+
+
         // collaborative f
 
         builder.Services.AddScoped<ICollaborativeF, CollaborativeF>();
 
+
+        //goi y moi nhat
+        builder.Services.AddScoped<PhoneShop.Services.Collaborative_Filterning_New.RecommendationService>();
 
 
 

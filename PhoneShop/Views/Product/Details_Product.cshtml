@@ -534,6 +534,21 @@
             });
         </script>
     }
+    @if (TempData["CheckPurchase"] != null)
+    {
+        
+        <script>
+           
+            swal({
+                title: "Thông báo",
+                text: "@Html.Raw(TempData["CheckPurchase"])",
+                icon: "success",
+                button: "OK",
+            }).then(() => {
+                location.reload();
+            });
+        </script>
+    }
      @if (TempData["CheckNotNullRw"] != null)
     {
         

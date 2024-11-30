@@ -98,6 +98,18 @@ namespace PhoneShop.Controllers
             var IAccount = await _context.Accounts.Where(x => x.Id == AccountId).FirstOrDefaultAsync();
 
            var CheckCmt = _context.Review_Products.Where(x=> x.ProductId == iProduct.Id && x.AccountId == AccountId).FirstOrDefault();
+
+
+            //kiem tra nguoi dung da mua sp chua
+            var CheckPurchase = _context.Evaluate_Products.Where(x => x.ProductId == id && x.AccountId == AccountId).FirstOrDefault();
+            if(CheckPurchase == null)
+            {
+                TempData["CheckPurchase"] = "Hãy mua sản phẩm trước khi đánh giá!";
+                //giu nguyen trang
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+
             if (CheckCmt != null)
             {
 

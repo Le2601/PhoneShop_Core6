@@ -74,33 +74,6 @@ namespace PhoneShop.Services.Collaborative_Filterning_New
             var data = Recommendations.OrderByDescending(x => x.Value)
            .Select(x => _context.Products.Find(x.Key)).ToList();
 
-
-
-
-            var itemm = data.Select(x => new Models.Product
-            {
-                Id = x.Id,
-                Title = x.Title,
-                ImageDefaultName = x.ImageDefaultName,
-                Price = x.Price,
-                Discount = x.Discount,
-                Alias = x.Alias,
-                evaluate_Products = x.evaluate_Products,
-                Quantity = x.Quantity
-
-
-            }).ToList();
-
-
-
-
-
-
-
-
-
-
-
             return data;
         }
          

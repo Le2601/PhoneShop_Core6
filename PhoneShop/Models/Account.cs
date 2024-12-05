@@ -33,5 +33,8 @@ namespace PhoneShop.Models
 
         public ICollection<MyAddress> myAddresses { get; set; }
 
+        public ICollection<Order> Orders { get; set; }
+
+
     }
 }

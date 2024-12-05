@@ -21,7 +21,6 @@ namespace PhoneShop.Services.Collaborative_Filterning_New
 
             var UserRatings = _context.Review_Products.Where(x => x.AccountId == AccountId).ToList();
 
-            //lay ra sp mà nguoi dung co de lai danh gia
              var AllUser = _context.Review_Products.Where(x=> x.AccountId != AccountId).Select(x=> x.AccountId).Distinct().ToList();
 
             foreach (var OtherId in AllUser)
@@ -41,11 +40,12 @@ namespace PhoneShop.Services.Collaborative_Filterning_New
                 Similarities[OtherId] = Similarity;
 
             }
-                //goi y sp 
 
+                //goi y sp 
                 var Recommendations = new Dictionary<int, double>();
                 foreach (var SimilarUser in Similarities.Keys.OrderByDescending(x=> Similarities[x]) ) {
 
+                    //danh gia nguoi dung tuong tu
                     var SimilarUserRatings = _context.Review_Products.Where(x => x.AccountId == SimilarUser).ToList();
 
 
@@ -53,15 +53,16 @@ namespace PhoneShop.Services.Collaborative_Filterning_New
 
                     foreach (var rating in SimilarUserRatings)
                     {
+                        //nguoi dung chua danh gia
                         if (!UserRatings.Any(x => x.ProductId == rating.ProductId)){
-
+                            
                             if (!Recommendations.ContainsKey(rating.ProductId))
                             {
                                 Recommendations[rating.ProductId] = 0;
 
                             }
 
-                             Recommendations[rating.ProductId] += Similarities[SimilarUser] * rating.Rate; // loi khi danh gia roi hien thi loi ko ton tai khoa
+                             Recommendations[rating.ProductId] += Similarities[SimilarUser] * rating.Rate; 
 
                          }
 
@@ -71,13 +72,15 @@ namespace PhoneShop.Services.Collaborative_Filterning_New
 
                 }
 
+
+
+            
             var data = Recommendations.OrderByDescending(x => x.Value)
            .Select(x => _context.Products.Find(x.Key)).ToList();
 
             return data;
         }
          
-        //tinh su tuong duong giua nguoi dung va nguoi dung khac Consine
         private double CosineSimilarity(List<Review_Product> UserRatings, List<Review_Product> OtherUserRatings)
         {
 
@@ -89,7 +92,7 @@ namespace PhoneShop.Services.Collaborative_Filterning_New
 
 
             double DotProduct = 0.0; //vo huong
-            double UserMagnitude = 0.0; //binh phuong
+            double UserMagnitude = 0.0; // do lon vector
             double OtherUserMagnitude = 0.0;
 
             //sp user danh gia
@@ -98,6 +101,7 @@ namespace PhoneShop.Services.Collaborative_Filterning_New
                 
                 if(OtherUserRatingDict.ContainsKey(ProductId))
                 {
+                    // (rateuser1 * rateuser2) + ...
                     DotProduct += UserRatingDict[ProductId] * OtherUserRatingDict[ProductId];
 
                 }

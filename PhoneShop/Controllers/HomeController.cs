@@ -69,7 +69,7 @@ namespace PhoneShop.Controllers
 
 
 
-        private readonly ICollaborativeF _collaborativeF;
+        //private readonly ICollaborativeF _collaborativeF;
 
 
         private readonly Services.Collaborative_Filterning_New.RecommendationService _recommend_new;
@@ -86,7 +86,7 @@ namespace PhoneShop.Controllers
             IImageProduct_UserRepository imageProduct_UserRepository,
             ICategory_UserRepository category_UserRepository, IVoucher_UserRepository voucher_UserRepository,
             IIntroduceRepository introduceRepository,IOrder_UserRepository order_UserRepository, IEvaluate_ProductRepository evaluate_ProductRepository
-            , Recommend recommend, ICollaborativeF collaborativeF,RecommendationService _recommendd)
+            , Recommend recommend,RecommendationService _recommendd)
         {
             _introduceRepository = introduceRepository;
             _categoryRepository = category_UserRepository;
@@ -102,7 +102,8 @@ namespace PhoneShop.Controllers
 
             //
             _recommend = recommend;
-            _collaborativeF = collaborativeF;
+
+            //nay dung
             _recommend_new = _recommendd;
 
 
@@ -149,7 +150,6 @@ namespace PhoneShop.Controllers
             {
                 ViewBag.CheckAccount = 1;
 
-                var CollaborativeFiltering_List = await _collaborativeF.GetRecommended(AccountId);
                 var Recommend = _recommend.CollaborativeFiltering(AccountId);
 
 
@@ -157,6 +157,9 @@ namespace PhoneShop.Controllers
 
              
                 ViewBag.Recommend = Recommend;
+
+
+
 
 
                 var Recommenddd = _recommend_new.GetRecommendations(AccountId);
@@ -340,20 +343,20 @@ namespace PhoneShop.Controllers
             return View(item);
         }
 
-        [Route("lepro")]
+        //[Route("lepro")]
 
-        public async Task<IActionResult> demo()
-        {
-            //check auth cookie and AccountId Session
-            int AccountId = Public_MethodController.GetAccountId(HttpContext);
-            var taikhoanID = HttpContext.Session.GetString("AccountId")!;
-            //End check auth cookie and AccountId Session
+        //public async Task<IActionResult> demo()
+        //{
+        //    //check auth cookie and AccountId Session
+        //    int AccountId = Public_MethodController.GetAccountId(HttpContext);
+        //    var taikhoanID = HttpContext.Session.GetString("AccountId")!;
+        //    //End check auth cookie and AccountId Session
 
 
-            var list = await _collaborativeF.GetRecommended(AccountId);
+        //    var list = await _collaborativeF.GetRecommended(AccountId);
 
-            return Json(list);
-        }
+        //    return Json(list);
+        //}
 
 
     }
